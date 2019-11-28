@@ -1,3 +1,12 @@
+<?php
+include('connection.php');
+include('adminsession.php');
+
+
+
+?>
+
+
 <!-- HEADER DESKTOP-->
             <header class="header-desktop">
                 <div class="section__content section__content--p30">
@@ -16,7 +25,7 @@
                                             <img src="images/icon/avatar-dan.jpg" alt="profile" />
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#">Dan Astillero</a>
+                                            <a class="js-acc-btn" href="#"><?php echo $lname." , ".$fname?></a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
@@ -27,9 +36,9 @@
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#">Dan Astillero</a>
+                                                        <a href="#"><?php echo $lname.",".$fname?></a>
                                                     </h5>
-                                                    <span class="email">danastillero@example.com</span>
+                                                    <span class="email"><?php echo $logacc; ?></span>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__body">    
@@ -39,7 +48,7 @@
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__footer">
-                                                <a href="#">
+                                                <a href="logout.php">
                                                     <i class="zmdi zmdi-power"></i>Logout</a>
                                             </div>
                                         </div>

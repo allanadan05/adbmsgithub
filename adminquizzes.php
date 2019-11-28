@@ -1,3 +1,11 @@
+<?php
+include('connection.php');
+include('adminsession.php');
+include('functions.php');
+
+
+
+?>
 <!DOCTYPE html>
 <php lang="en">
 

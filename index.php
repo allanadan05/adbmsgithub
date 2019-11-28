@@ -1,3 +1,8 @@
+<?php
+include('connection.php');
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,7 +52,7 @@
                             </a>
                         </div>
                         <div class="login-form">
-                            <form action="" method="post">
+                            <form action="login.php" method="post">
                                 <div class="form-group">
                                     <label>Email Address</label>
                                     <input class="au-input au-input--full" type="email" name="email" placeholder="Email">

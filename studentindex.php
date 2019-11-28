@@ -1,3 +1,9 @@
+<?php
+include('connection.php');
+include('session.php');
+include('functions.php');
+
+?>
 <!DOCTYPE html>
 <php lang="en">
 
@@ -165,7 +171,7 @@
                                     <div class="card-body">
                                         <div class="mx-auto d-block">
                                             <img class="rounded-circle mx-auto d-block" style="width:50%;" src="images/icon/avatar-dan.jpg" alt="Card image cap">
-                                            <h5 class="text-sm-center mt-2 mb-1"> Admin Admin</h5>
+                                            <h5 class="text-sm-center mt-2 mb-1"><?php echo getname($id);?></h5>
                                             <div class="location text-sm-center">
                                                 <i class="fa fa-groups"></i>Section: BSIT-3B1</div>
                                         </div>
@@ -196,19 +202,19 @@
                                             
                                             <div class="form-group">
                                                 <label for="exampleInputName2" class="pr-1  form-control-label">Userid</label><br>
-                                                <input type="text" id="name" placeholder="" required="" value="Admin Admin" readonly class="form-control">
+                                                <input type="text" id="name" placeholder="" required="" value=<?php echo getuserid($id);?> readonly class="form-control">
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputEmail2" class="px-1  form-control-label">FirstName</label><br>
-                                                <input type="email" id="email" placeholder="" required="" value="allanadan1999@gmail.com" readonly class="form-control">
+                                                <input type="email" id="email" placeholder="" required="" value=<?php echo getfname($id);?> readonly class="form-control">
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputName2" class="pr-1  form-control-label">Lastname</label><br>
-                                                <input type="text" id="name" placeholder="" required="" value="Admin Admin" readonly class="form-control">
+                                                <input type="text" id="name" placeholder="" required="" value=<?php echo getlname($id);?> readonly class="form-control">
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputEmail2" class="px-1  form-control-label">Middlename</label><br>
-                                                <input type="email" id="email" placeholder="" required="" value="allanadan1999@gmail.com" readonly class="form-control">
+                                                <input type="email" id="email" placeholder="" required="" value=<?php echo getmname($id);?> readonly class="form-control">
                                             </div>
                                             
                                         </form>
