@@ -102,12 +102,20 @@ include('functions.php');
                                                 <th>name</th>
                                                 <th>email</th>
                                                 <th>Department</th>
-                                                <th>username</th>
                                                 <th>#OfStudents</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        <?php
+                                     
+
+                                        $sql=" SELECT concat(teacherstbl.lname , teacherstbl.fname) as 'fullname',teacherstbl.email,departmenttbl.departmentname,count(teacherstbl.teachersid) as 'number of students' from teacherstbl join departmenttbl on teacherstbl.deptid=departmenttbl.deptid group by departmenttbl.departmentname  ";
+                                        $result=mysqli_query($con, $sql);
+
+                                        if(mysqli_num_rows($result)){
+                                        while($row = mysqli_fetch_array($result))
+                                        { ?>
                                             <tr class="tr-shadow">
                                                 <td>
                                                     <label class="au-checkbox">
@@ -115,15 +123,11 @@ include('functions.php');
                                                         <span class="au-checkmark"></span>
                                                     </label>
                                                 </td>
-                                                <td>Dan Astillero</td>
-                                                <td>
-                                                    <span class="block-email">danastillero@example.com</span>
-                                                </td>
-                                                <td class="desc">IIT</td>
-                                                <td>danastillero</td>
-                                                <td>
-                                                    <span class="status--process">108</span>
-                                                </td>
+                                              <?php  echo "<td>".$row['fullname']."</td>"; ?>
+                                              <?php  echo "<td>".$row['email']."</td>"; ?>
+                                              <?php  echo "<td>".$row['departmentname']."</td>"; ?>
+                                             <?php  echo "<td>".$row['number of students']."</td>";  ?>
+                                                
                                                 <td>
                                                     <div class="table-data-feature">
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Send Notifications">
@@ -141,105 +145,9 @@ include('functions.php');
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr class="tr-shadow">
-                                                <td>
-                                                    <label class="au-checkbox">
-                                                        <input type="checkbox">
-                                                        <span class="au-checkmark"></span>
-                                                    </label>
-                                                </td>
-                                                <td>Dan Astillero</td>
-                                                <td>
-                                                    <span class="block-email">danastillero@example.com</span>
-                                                </td>
-                                                <td class="desc">IIT</td>
-                                                <td>danastillero</td>
-                                                <td>
-                                                    <span class="status--process">108</span>
-                                                </td>
-                                                <td>
-                                                    <div class="table-data-feature">
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send Notifications">
-                                                            <i class="zmdi zmdi-mail-send"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                            <i class="zmdi zmdi-edit"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                            <i class="zmdi zmdi-delete"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                                            <i class="zmdi zmdi-more"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="tr-shadow">
-                                                <td>
-                                                    <label class="au-checkbox">
-                                                        <input type="checkbox">
-                                                        <span class="au-checkmark"></span>
-                                                    </label>
-                                                </td>
-                                                <td>Dan Astillero</td>
-                                                <td>
-                                                    <span class="block-email">danastillero@example.com</span>
-                                                </td>
-                                                <td class="desc">IIT</td>
-                                                <td>danastillero</td>
-                                                <td>
-                                                    <span class="status--process">108</span>
-                                                </td>
-                                                <td>
-                                                    <div class="table-data-feature">
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send Notifications">
-                                                            <i class="zmdi zmdi-mail-send"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                            <i class="zmdi zmdi-edit"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                            <i class="zmdi zmdi-delete"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                                            <i class="zmdi zmdi-more"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="tr-shadow">
-                                                <td>
-                                                    <label class="au-checkbox">
-                                                        <input type="checkbox">
-                                                        <span class="au-checkmark"></span>
-                                                    </label>
-                                                </td>
-                                                <td>Dan Astillero</td>
-                                                <td>
-                                                    <span class="block-email">danastillero@example.com</span>
-                                                </td>
-                                                <td class="desc">IIT</td>
-                                                <td>danastillero</td>
-                                                <td>
-                                                    <span class="status--process">108</span>
-                                                </td>
-                                                <td>
-                                                    <div class="table-data-feature">
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send Notifications">
-                                                            <i class="zmdi zmdi-mail-send"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                            <i class="zmdi zmdi-edit"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                            <i class="zmdi zmdi-delete"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                                            <i class="zmdi zmdi-more"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            <?php }
+                                            }?>
+                                                
                                            
                                         </tbody>
                                     </table>
@@ -275,28 +183,41 @@ include('functions.php');
                     <!-- Modal body -->
                     <div class="modal-body">
                         
-                        <form action="addteachers.php" method="POST">
-                            <input type="email"  name="email" placeholder="Email">
-                            <input type="password" name="password" placeholder="Password">
-                            <input type="text"  name="fname" placeholder="Firstname">
-                            <input type="text"  name="lname" placeholder="Lastname">
-                            <input type="text"  name="mname" placeholder="Middlename">
+                    <form action="addteachers.php" method="POST">
+                    <input type="email"  name="email" placeholder="Email">
+                    <input type="password" name="password" placeholder="Password">
+                    <input type="text"  name="fname" placeholder="Firstname">
+                    <input type="text"  name="lname" placeholder="Lastname">
+                    <input type="text"  name="mname" placeholder="Middlename">
+                   <select name="deptid">
+                   <?php 
+                   $sql="SELECT * from departmenttbl";
+                   $result=mysqli_query($con, $sql);
+                   if(mysqli_num_rows($result)){
+                    while($row = mysqli_fetch_array($result))
+                    { 
+                   ?>
+                    <option value="<?php echo $row['deptid'] ?>"><?php echo $row['departmentname'] ?></option>
+                    <?php }
+                    }?>
+                    </select>
+                   
+             
                     
-                            
 
-                            
-                            
-
-                        
-                        
                     
-                    </div>
+                    
 
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="submit" id="" class="btn btn-success" >Submit</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        </form>
+                
+                
+            
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="submit" id="" class="btn btn-success" >Submit</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </form>
                         
                         
                     </div>

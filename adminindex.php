@@ -2,13 +2,11 @@
 include('connection.php');
 include('adminsession.php');
 include('functions.php');
-
-
-
 ?>
 
 <!DOCTYPE html>
 <php lang="en">
+    
 
 <head>
     <!-- Required meta tags-->
@@ -39,6 +37,19 @@ include('functions.php');
     <!-- Main CSS-->
     <link href="css/theme.css" rel="stylesheet" media="all">
 
+
+    <script>
+        function showone(){
+        var cat = document.getElementById("select0").value;
+        if(cat=="section"){
+        document.getElementById("select1").style.display="inline";
+        document.getElementById("select2").style.display="none";
+        }else{
+            document.getElementById("select1").style.display="none";
+            document.getElementById("select2").style.display="inline";
+        }
+        }
+    </script>
 </head>
 
 <body class="animsition">
@@ -67,27 +78,24 @@ include('functions.php');
                                         </button>
                                     </div>
                                     <div class="card-body">
+                                    <?php
+
+
+                                    $sql="SELECT * FROM announcementtbl ORDER BY dateposted desc  ";
+                                    $result=mysqli_query($con, $sql);
+
+                                    if(mysqli_num_rows($result)){
+                                    while($row = mysqli_fetch_array($result))
+                                    { ?>
                                         <div style="background-color: whitesmoke;">
-                                        <h4>Announcement Title<h4>
-                                        <h6>November 28, 2019 | Teacher's name</h6>
-                                        <p>Announcement details here...</p>
+                                        <h4><?php echo $row['antitle']?><h4>
+                                        <h6><?php echo $row['dateposted']?> | <?php echo $row['anfrom']?></h6>
+                                        <p><?php echo $row['andetails'] ?></p>
                                         </div>
-
                                         <br>
-
-                                        <div style="background-color: whitesmoke">
-                                        <h4>Announcement Title<h4>
-                                        <h6>November 28, 2019 | Teacher's name</h6>
-                                        <p>Announcement details here...</p>
-                                        </div>
-
-                                        <br>
-
-                                        <div style="background-color: whitesmoke">
-                                        <h4>Announcement Title<h4>
-                                        <h6>November 28, 2019 | Teacher's name</h6>
-                                        <p>Announcement details here...</p>
-                                        </div>
+                                    <?php }
+                                    }
+                                 ?>
                                     </div>
                                 </div>
                             </div>
@@ -187,27 +195,75 @@ include('functions.php');
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="mediumModalLabel">Medium Modal</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                        <form action="announcement.php" method="POST">
+                            <h5 class="modal-title" id="mediumModalLabel"><input type="text" name="antitle" placeholder="Title"></h5>
+                            
+                        <input type="text" name="anfrom" value="<?php echo teachersgetname($id);?>" style="display:none;">
+                        <input type="date" name="dateposted" value="<?php echo date('Y-m-d'); ?>" style="display:none;" />
                         </div>
                         <div class="modal-body">
-                            <p>
-                                There are three species of zebras: the plains zebra, the mountain zebra and the Grévy's zebra. The plains zebra and the mountain
-                                zebra belong to the subgenus Hippotigris, but Grévy's zebra is the sole species of subgenus Dolichohippus. The latter
-                                resembles an ass, to which it is closely related, while the former two are more horse-like. All three belong to the
-                                genus Equus, along with other living equids.
-                            </p>
+                        <textarea rows="5" cols="90" name="andetails" placeholder="message goes here!"></textarea>
                         </div>
                         <div class="modal-footer">
+                            
+                            <select name="sectionid" id="select0" onchange="showone()">
+                            <option value="section">Per Section</option>
+                            <option value="subject">Per Subject</option>
+                            </select>
+                            <select name="sectionid" id="select1" style="display:none;" >
+                            <option value="" selected disabled>--Choose Section--</option>
+                            <?php 
+                            $category="sections";
+                            if($category=="sections"){
+                                $sql="select * from sectiontbl";
+                                $result=mysqli_query($con, $sql);
+                                if(mysqli_num_rows($result)){
+                                    while($row = mysqli_fetch_array($result))
+                                    { 
+                            ?>
+                                        <option value="<?php echo $row['sectionid'];  ?>"><?php echo $row['sectionname'];  ?></option>
+
+                            <?php
+                                    }
+                                }
+                            }
+                            ?>
+                            </select>
+
+                            <select name="subjectid" id="select2" style="display:none;">
+                            <option value="" selected disabled>--Per Subject--</option>
+                            <?php 
+                            $category="subject";
+                            if($category=="subject"){
+                                $sql="select * from subjecttbl";
+                                $result=mysqli_query($con, $sql);
+                                if(mysqli_num_rows($result)){
+                                    while($row = mysqli_fetch_array($result))
+                                    { 
+                            ?>
+                                        <option value="<?php echo $row['subjectid'];  ?>"><?php echo $row['subjectname'];  ?></option>
+
+                            <?php
+                                    }
+                                }
+                            }
+                            ?>
+
+                            </select>
+                            
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary">Confirm</button>
+                            <button type="submit" class="btn btn-primary" >Confirm</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- end modal medium -->
+
+            <script>
+         
+            
+            </script>
 
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>

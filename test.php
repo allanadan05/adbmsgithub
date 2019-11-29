@@ -12,17 +12,19 @@
 			
 		</tr>
 <?php
-include('connection.php');
 
-$sql="SELECT sectiontbl.sectionname,count(userstbl.userid) as 'number of students' from userstbl join sectiontbl on userstbl.sectionid=sectiontbl.sectionid group by sectiontbl.sectionname ";
+
+$sql="SELECT * FROM announcementtbl";
 $result=mysqli_query($con, $sql);
 
 if(mysqli_num_rows($result)){
  while($row = mysqli_fetch_array($result))
  {
     echo "<tr>";
-	echo "<td>".$row['sectionname']."</td>";
-	echo "<td>".$row['number of students']."</td>";
+	echo "<td>".$row['antitle']."</td>";
+	echo "<td>".$row['andetails']."</td>";
+	echo "<td>".$row['dateposted']."</td>";
+	echo "<td>".$row['anfrom']."</td>";
     echo "</tr>";
 
  }

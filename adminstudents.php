@@ -143,7 +143,7 @@ include('adminsession.php');
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Send Notifications">
                                                             <i class="zmdi zmdi-mail-send"></i>
                                                         </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                        <button class="item" data-placement="top" title="Edit" data-toggle="modal" data-target="#edit">
                                                             <i class="zmdi zmdi-edit"></i>
                                                         </button>
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
@@ -194,12 +194,74 @@ include('adminsession.php');
             <!-- Modal body -->
             <div class="modal-body">
                 
-                <form action=" .php" method="POST">
+                <form action="adduser.php" method="POST">
                     <input type="email"  name="email" placeholder="Email">
                     <input type="password" name="password" placeholder="Password">
                     <input type="text"  name="fname" placeholder="Firstname">
                     <input type="text"  name="lname" placeholder="Lastname">
                     <input type="text"  name="mname" placeholder="Middlename">
+                   <select name="sectionid">
+                   <?php 
+                   $sql="SELECT * from sectiontbl";
+                   $result=mysqli_query($con, $sql);
+                   if(mysqli_num_rows($result)){
+                    while($row = mysqli_fetch_array($result))
+                    { 
+                   ?>
+                    <option value="<?php echo $row['sectionid'] ?>"><?php echo $row['sectionname'] ?></option>
+                    <?php }
+                    }?>
+                    </select>
+                   
+             
+                    
+
+                    
+                    
+
+                
+                
+            
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="submit" id="" class="btn btn-success" >Submit</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </form>
+                
+                
+            </div>
+        </div>
+    </div>
+ </div>
+</div>
+<!-- /MODAL ADD -->
+
+<!-- MODAL ADD -->
+<div class="add-user-modal">
+ <div class="modal" id="edit">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h6 class="modal-title">Edit Student</h6>
+                
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <?php  $id=$_GET['userid']; $query="SELECT * FROM userstbl where userid=$userid";
+                $result=mysqli_query($con, $sql);
+                
+                ?>
+                <form action="editusers.php" method="POST">
+                    <input type="hidden" name="userid" value="<?php echo $fetch['userid']?>">
+                    <input type="email"  name="email" placeholder="Email" value="<?php echo $fetch['email']?>">
+                    <input type="password" name="password" placeholder="Password" value="<?php echo $fetch['password']?>">
+                    <input type="text"  name="fname" placeholder="Firstname" value="<?php echo $fetch['fname']?>">
+                    <input type="text"  name="lname" placeholder="Lastname" value="<?php echo $fetch['lname']?>">
+                    <input type="text"  name="mname" placeholder="Middlename" value="<?php echo $fetch['mname']?>">
                    <select name="sectionid">
                    <?php 
                    $sql="SELECT * from sectiontbl";

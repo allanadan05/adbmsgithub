@@ -47,6 +47,7 @@ include('functions.php');
         height: 30px;
         font-size: 12px;
         border-radius: 5px;
+        color: white;
        
     }
     #update{
@@ -55,6 +56,7 @@ include('functions.php');
         height: 30px;
         font-size: 12px;
         border-radius: 5px;
+        color: black;
     }
     
     

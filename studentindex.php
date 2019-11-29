@@ -60,29 +60,27 @@ include('functions.php');
                                 <div class="card">
                                     <div class="card-header">
                                         <strong class="card-title mb-3">Announcements</strong>
+                                       
                                     </div>
                                     <div class="card-body">
+                                    <?php
+
+
+                                    $sql="SELECT * FROM announcementtbl join userstbl on announcementtbl.sectionid=userstbl.sectionid WHERE userstbl.userid='$id'  ";
+                                    $result=mysqli_query($con, $sql);
+
+                                    if(mysqli_num_rows($result)){
+                                    while($row = mysqli_fetch_array($result))
+                                    { ?>
                                         <div style="background-color: whitesmoke;">
-                                        <h4>Announcement Title<h4>
-                                        <h6>November 28, 2019 | Teacher's name</h6>
-                                        <p>Announcement details here...</p>
+                                        <h4><?php echo $row['antitle']?><h4>
+                                        <h6><?php echo $row['dateposted']?> | <?php echo $row['anfrom']?></h6>
+                                        <p><?php echo $row['andetails'] ?></p>
                                         </div>
-
                                         <br>
-
-                                        <div style="background-color: whitesmoke">
-                                        <h4>Announcement Title<h4>
-                                        <h6>November 28, 2019 | Teacher's name</h6>
-                                        <p>Announcement details here...</p>
-                                        </div>
-
-                                        <br>
-
-                                        <div style="background-color: whitesmoke">
-                                        <h4>Announcement Title<h4>
-                                        <h6>November 28, 2019 | Teacher's name</h6>
-                                        <p>Announcement details here...</p>
-                                        </div>
+                                    <?php }
+                                    }
+                                 ?>
                                     </div>
                                 </div>
                                 <!-- END of ANOUNCEMENTS -->
