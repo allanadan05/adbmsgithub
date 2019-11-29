@@ -64,32 +64,37 @@ include('functions.php');
                             </div>
                         <div class="row">
                             <div class="col-md-4">
+                                <form action="addsub.php" method="POST">
                                     <div class="card">
                                      <div class="card-header">
-                                         <strong class="card-title"><a href="#"> <input type="text" name="newsubject" placeholder="Enter Subject Title" autofocus="autofocus"> </a>
+                                         <strong class="card-title"> <input type="text" name="subjectname" placeholder="Enter Subject Title" autofocus="autofocus"> </a>
                                         </strong>
                                      </div>
                                     <div class="card-body">
-                                        <p class="card-text"><a href="#"> <input type="text" name="newsubjectdesc" placeholder="Type description here..."> </a>
+                                        <p class="card-text"> <input type="text" name="subjectdesc" placeholder="Type description here..."> </a>
                                         </p>
                                     </div>
                                     <div class="card-footer">
-                                        <button class="btn btn-primary" style="float:right;"><i class="fas fa-plus"></i>ADD</button>
+                                        <button class="btn btn-primary" style="float:right;" type="submit"><i class="fas fa-plus"></i>ADD</button>
                                     </div>
                                 </div> 
+                                </form>
                             </div>
 
                             <div class="col-md-4">
+                                <?php 
+                    
+                                for($x=0;$x<3;$x++){?>
                                     <div class="card">
                                      <div class="card-header">
-                                         <strong class="card-title"><a href="#"> Mathematics </a>
+                                         <strong class="card-title"><a href="#"><?php echo getsubname(3);?></a>
                                             <small>
                                                 <span class="badge badge-success float-right mt-1">3</span>
                                            </small>
                                         </strong>
                                      </div>
                                     <div class="card-body">
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
+                                        <p class="card-text"><?php echo getsubdesc(3);?>
                                         </p>
                                     </div>
                                     <div class="card-footer">
@@ -99,6 +104,7 @@ include('functions.php');
                                          </div>
                                     </div>
                                 </div> 
+                                <?php }?>
                             </div>
 
                             <div class="col-md-4">

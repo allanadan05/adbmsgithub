@@ -1,9 +1,7 @@
 <?php
 include('connection.php');
-include('adminsession.php');
 include('functions.php');
-
-
+include('adminsession.php');
 
 ?>
 <!DOCTYPE html>
@@ -85,7 +83,7 @@ include('functions.php');
                                             <i class="zmdi zmdi-filter-list"></i>Filters</button>                                       
                                     </div>
                                     <div class="table-data__tool-right">
-                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#add">
                                             <i class="zmdi zmdi-plus"></i>Add Student</button>
                                         <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
                                             <select class="js-select2" name="type">
@@ -98,7 +96,8 @@ include('functions.php');
                                     </div>
                                 </div>
                                 <div class="table-responsive table-responsive-data2">
-                                    <table class="table table-data2">
+
+                                  <table class="table table-data2">
                                         <thead>
                                             <tr>
                                                 <th>
@@ -110,12 +109,21 @@ include('functions.php');
                                                 <th>name</th>
                                                 <th>email</th>
                                                 <th>Section</th>
-                                                <th>username</th>
+                                              
                                                 <th>Average Score</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        <?php
+                                        include('connection.php');
+
+                                        $sql="SELECT userstbl.lname,userstbl.fname,userstbl.email,sectiontbl.sectionname from userstbl join sectiontbl on userstbl.userid=sectiontbl.sectionid";
+                                        $result=mysqli_query($con, $sql);
+
+                                        if(mysqli_num_rows($result)){
+                                        while($row = mysqli_fetch_array($result))
+                                        {?>
                                             <tr class="tr-shadow">
                                                 <td>
                                                     <label class="au-checkbox">
@@ -123,12 +131,10 @@ include('functions.php');
                                                         <span class="au-checkmark"></span>
                                                     </label>
                                                 </td>
-                                                <td>Dan Astillero</td>
-                                                <td>
-                                                    <span class="block-email">danastillero@example.com</span>
-                                                </td>
-                                                <td class="desc">BSIT-3B1</td>
-                                                <td>danastillero</td>
+                                               <?php echo "<td>".$row['lname']." ".$row['fname']."</td>"; ?>
+                                               <?php echo "<td>".$row['email']."</td>";?>
+                                               <?php echo "<td>".$row['sectionname']."</td>";?>
+                                                
                                                 <td>
                                                     <span class="status--process">98% PASSED</span>
                                                 </td>
@@ -149,108 +155,12 @@ include('functions.php');
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr class="tr-shadow">
-                                                <td>
-                                                    <label class="au-checkbox">
-                                                        <input type="checkbox">
-                                                        <span class="au-checkmark"></span>
-                                                    </label>
-                                                </td>
-                                                <td>Dan Astillero</td>
-                                                <td>
-                                                    <span class="block-email">danastillero@example.com</span>
-                                                </td>
-                                                <td class="desc">BSIT-3B1</td>
-                                                <td>danastillero</td>
-                                                <td>
-                                                    <span class="status--process">98% PASSED</span>
-                                                </td>
-                                                <td>
-                                                    <div class="table-data-feature">
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send Notifications">
-                                                            <i class="zmdi zmdi-mail-send"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                            <i class="zmdi zmdi-edit"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                            <i class="zmdi zmdi-delete"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                                            <i class="zmdi zmdi-more"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="tr-shadow">
-                                                <td>
-                                                    <label class="au-checkbox">
-                                                        <input type="checkbox">
-                                                        <span class="au-checkmark"></span>
-                                                    </label>
-                                                </td>
-                                                <td>Dan Astillero</td>
-                                                <td>
-                                                    <span class="block-email">danastillero@example.com</span>
-                                                </td>
-                                                <td class="desc">BSIT-3B1</td>
-                                                <td>danastillero</td>
-                                                <td>
-                                                    <span class="status--process">98% PASSED</span>
-                                                </td>
-                                                <td>
-                                                    <div class="table-data-feature">
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send Notifications">
-                                                            <i class="zmdi zmdi-mail-send"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                            <i class="zmdi zmdi-edit"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                            <i class="zmdi zmdi-delete"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                                            <i class="zmdi zmdi-more"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="tr-shadow">
-                                                <td>
-                                                    <label class="au-checkbox">
-                                                        <input type="checkbox">
-                                                        <span class="au-checkmark"></span>
-                                                    </label>
-                                                </td>
-                                                <td>Dan Astillero</td>
-                                                <td>
-                                                    <span class="block-email">danastillero@example.com</span>
-                                                </td>
-                                                <td class="desc">BSIT-3B1</td>
-                                                <td>danastillero</td>
-                                                <td>
-                                                    <span class="status--process">98% PASSED</span>
-                                                </td>
-                                                <td>
-                                                    <div class="table-data-feature">
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send Notifications">
-                                                            <i class="zmdi zmdi-mail-send"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                            <i class="zmdi zmdi-edit"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                            <i class="zmdi zmdi-delete"></i>
-                                                        </button>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                                            <i class="zmdi zmdi-more"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                        <?php      }
+                                    } ?>
                                         </tbody>
                                     </table>
                                 </div>
+                          
                                 <!-- END DATA TABLE -->
                             </div>
                         </div>
@@ -270,6 +180,51 @@ include('functions.php');
         </div>
 
     </div>
+<!-- MODAL ADD -->
+<div class="add-user-modal">
+ <div class="modal" id="add">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h6 class="modal-title">Add Student</h6>
+                
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                
+                <form action="adduser.php" method="POST">
+                    <input type="email"  name="email" placeholder="Email">
+                    <input type="password" name="password" placeholder="Password">
+                    <input type="text"  name="fname" placeholder="Firstname">
+                    <input type="text"  name="lname" placeholder="Lastname">
+                    <input type="text"  name="mname" placeholder="Middlename">
+                    <input type="text"  name="sectionid" placeholder="Section">
+             
+                    
+
+                    
+                    
+
+                
+                
+            
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="submit" id="" class="btn btn-success" >Submit</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </form>
+                
+                
+            </div>
+        </div>
+    </div>
+ </div>
+</div>
+<!-- /MODAL ADD -->
 
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>

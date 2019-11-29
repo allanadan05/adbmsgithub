@@ -77,7 +77,7 @@ include('functions.php');
                                             <i class="zmdi zmdi-filter-list"></i>Filters</button>                                       
                                     </div>
                                     <div class="table-data__tool-right">
-                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#add">
                                             <i class="zmdi zmdi-plus"></i>Add Teacher</button>
                                         <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
                                             <select class="js-select2" name="type">
@@ -261,6 +261,50 @@ include('functions.php');
             <!-- END MAIN CONTENT-->
             <!-- END PAGE CONTAINER-->
         </div>
+<!-- MODAL ADD -->
+        <div class="add-user-modal">
+        <div class="modal" id="add">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h6 class="modal-title">Add Teacher</h6>
+                        
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        
+                        <form action="addteachers.php" method="POST">
+                            <input type="email"  name="email" placeholder="Email">
+                            <input type="password" name="password" placeholder="Password">
+                            <input type="text"  name="fname" placeholder="Firstname">
+                            <input type="text"  name="lname" placeholder="Lastname">
+                            <input type="text"  name="mname" placeholder="Middlename">
+                    
+                            
+
+                            
+                            
+
+                        
+                        
+                    
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="submit" id="" class="btn btn-success" >Submit</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </form>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+<!-- /MODAL ADD -->
 
     </div>
 

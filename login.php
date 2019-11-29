@@ -18,6 +18,7 @@ $sql="SELECT * FROM userstbl WHERE email='$email' AND password='$password'";
 $insert=mysqli_query($con, $sql);
 $result = mysqli_fetch_array($insert);
     if($result['email'] == $email && $result['password']== $password){
+        
         $_SESSION['userid']=$userid;
         $_SESSION['email']=$email;
         $_SESSION['lname']=$lname;

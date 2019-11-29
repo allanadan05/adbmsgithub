@@ -149,7 +149,54 @@ function teachergetmname($id){
     return $ibalik;
 }
 
+function getsubid($id){
+    include('connection.php');	
 
+    $sql="SELECT * FROM subjecttbl where subjectid=".$id;
+    $executeQuery=mysqli_query($con, $sql);
 
+    while($result=mysqli_fetch_array($executeQuery)){
+        $ibalik=$result['subjectid'];
+    }
+
+    return $ibalik;
+}
+
+function getsubname($id){
+    include('connection.php');	
+
+    $sql="SELECT * FROM subjecttbl where subjectid=".$id;
+    $executeQuery=mysqli_query($con, $sql);
+
+    while($result=mysqli_fetch_array($executeQuery)){
+        $ibalik=$result['subjectname'];
+    }
+
+    return $ibalik;
+}
+
+function getsubdesc($id){
+    include('connection.php');	
+
+    $sql="SELECT * FROM subjecttbl where subjectid=".$id;
+    $executeQuery=mysqli_query($con, $sql);
+
+    while($result=mysqli_fetch_array($executeQuery)){
+        $ibalik=$result['subjectdesc'];
+    }
+
+    return $ibalik;
+}
+function countsub(){
+    include('connection.php');	
+
+    $sql="SELECT COUNT(subjectid) FROM subjecttbl";
+    $executeQuery=mysqli_query($con, $sql);
+    while($result=mysqli_fetch_array($executeQuery)){
+        $ibalik=$result;
+    }
+    return $ibalik;
+}
 
 ?>
+

@@ -62,35 +62,39 @@ include('functions.php');
                         <div class="row">
 
                             <div class="col-md-4">
+                                   <form action="addsection.php" method="POST">
                                     <div class="card">
                                      <div class="card-header">
-                                         <strong class="card-title"><a href="#"> ADD SECTION </a>
+                                         <strong class="card-title"><a href=""> ADD SECTION </a>
                                         </strong>
                                      </div>
                                     <div class="card-body">
-                                        <strong class="card-title"><a href="#"> <input type="text" name="newsection" placeholder="Enter Section name" autofocus="autofocus"> </a>
+                                        <strong class="card-title"><input type="text" name="sectionname" placeholder="Enter Section name" >
                                         </strong>
                                     </div>
                                     <div class="card-footer">
-                                        <button class="btn btn-primary" style="float:right;"><i class="fas fa-plus"></i>ADD</button>
+                                        <button class="btn btn-primary" style="float:right;" type="submit"><i class="fas fa-plus"></i>ADD</button>
                                     </div>
                                 </div> 
+                            </form>
                             </div>
 
                             <div class="col-md-4">
+                                    <form action="adddept.php" method="POST">
                                     <div class="card">
                                      <div class="card-header">
                                          <strong class="card-title"><a href="#"> ADD DEPARTMENT </a>
                                         </strong>
                                      </div>
                                     <div class="card-body">
-                                        <strong class="card-title"><a href="#"> <input type="text" name="newdepartment" placeholder="Enter deaprtment name" autofocus="autofocus"> </a>
+                                        <strong class="card-title"> <input type="text" name="departmentname" placeholder="Enter deaprtment name" autofocus="autofocus"> </a>
                                         </strong>
                                     </div>
                                     <div class="card-footer">
-                                        <button class="btn btn-primary" style="float:right;"><i class="fas fa-plus"></i>ADD</button>
+                                        <button class="btn btn-primary" style="float:right;" type="submit"><i class="fas fa-plus"></i>ADD</button>
                                     </div>
                                 </div> 
+                                    </form>
                             </div>
                         </div>
 
