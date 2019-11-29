@@ -37,6 +37,29 @@ include('functions.php');
 
     <!-- Main CSS-->
     <link href="css/theme.css" rel="stylesheet" media="all">
+    <style>
+    i{
+        font-size: 12px;
+    }
+    #del{
+        background-color:#f54242;
+        width: 60px;
+        height: 30px;
+        font-size: 12px;
+        border-radius: 5px;
+       
+    }
+    #update{
+        background-color: #fcf003;
+        width: 60px;
+        height: 30px;
+        font-size: 12px;
+        border-radius: 5px;
+    }
+    
+    
+    
+    </style>
 
 </head>
 
@@ -107,28 +130,28 @@ include('functions.php');
                                         <table class="table table-top-campaign">
                                             <tbody>
                                                 <tr>
-                                                    <td>Section name</td>
-                                                    <td># of population</td>
-                                                    <td colspan="2" style="text-align: left;">Actions</td>
+                                                    <th>Section name</th>
+                                                    <th># of population</th>
+                                                    <th colspan="2" style="text-align: left;">Actions</th>
                                                 </tr>
+                                                <?php
+                                                
+
+                                                $sql="SELECT sectiontbl.sectionname,count(userstbl.userid) as 'number of students' from userstbl join sectiontbl on userstbl.sectionid=sectiontbl.sectionid group by sectiontbl.sectionname ";
+                                                $result=mysqli_query($con, $sql);
+
+                                                if(mysqli_num_rows($result)){
+                                                while($row = mysqli_fetch_array($result))
+                                                {?>
+                                                   
                                                 <tr>
-                                                    <td>BSIT 1A1</td>
-                                                    <td>45</td>
-                                                    <td><button class="btn btn-warning"><i class="fas fa-pencil-square-o"></i>EDIT</button></td>
-                                                    <td><button class="btn btn-danger"><i class="fas fa-trash"></i>DELETE</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>BSIT 1A2</td>
-                                                    <td>50</td>
-                                                    <td><button class="btn btn-warning"><i class="fas fa-pencil-square-o"></i>EDIT</button></td>
-                                                    <td><button class="btn btn-danger"><i class="fas fa-trash"></i>DELETE</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>BSIT 2A1</td>
-                                                    <td>40</td>
-                                                    <td><button class="btn btn-warning"><i class="fas fa-pencil-square-o"></i>EDIT</button></td>
-                                                    <td><button class="btn btn-danger"><i class="fas fa-trash"></i>DELETE</button></td>
-                                                </tr>                                                
+                                              <?php  echo "<td>".$row['sectionname']."</td>"; ?>
+                                              <?php  echo "<td>".$row['number of students']."</td>"; ?>
+                                                    <td><button id="update"><i class="fas fa-pencil-square-o"></i>EDIT</button></td>
+                                                    <td><button id="del"><i class="fas fa-trash"></i>DELETE</button></td>
+                                                </tr>         
+                                                <?php }
+                                            }?>                         
                                             </tbody>
                                         </table>
                                     </div>
@@ -143,28 +166,29 @@ include('functions.php');
                                         <table class="table table-top-campaign">
                                             <tbody>
                                                 <tr>
-                                                    <td>Deoartment name</td>
-                                                    <td># of population</td>
-                                                    <td colspan="2" style="text-align: left;">Actions</td>
+                                                    <th>Department Name</th>
+                                                    <th># of population</th>
+                                                    <th>Actions</th>
                                                 </tr>
+                                                
+                                            <?php
+                                           
+
+                                           $sql="SELECT departmenttbl.departmentname,count(teacherstbl.teachersid) as 'number of students' from teacherstbl join departmenttbl on teacherstbl.deptid=departmenttbl.deptid group by departmenttbl.departmentname ";
+                                            $result=mysqli_query($con, $sql);
+
+                                            if(mysqli_num_rows($result)){
+                                            while($row = mysqli_fetch_array($result))
+                                            {?>
                                                 <tr>
-                                                    <td>IIT</td>
-                                                    <td>25</td>
-                                                    <td><button class="btn btn-warning"><i class="fas fa-pencil-square-o"></i>EDIT</button></td>
-                                                    <td><button class="btn btn-danger"><i class="fas fa-trash"></i>DELETE</button></td>
+                                              <?php  echo "<td>".$row['departmentname']."</td>"; ?>
+                                                <?php  echo "<td>".$row['number of students']."</td>"; ?>
+                                                    <td><button id="update"><i class="fas fa-pencil-square-o"></i>EDIT</button></td>
+                                                    <td><button id="del"><i class="fas fa-trash"></i>DELETE</button></td>
                                                 </tr>
-                                                <tr>
-                                                    <td>BA</td>
-                                                    <td>25</td>
-                                                    <td><button class="btn btn-warning"><i class="fas fa-pencil-square-o"></i>EDIT</button></td>
-                                                    <td><button class="btn btn-danger"><i class="fas fa-trash"></i>DELETE</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>GATE</td>
-                                                    <td>40</td>
-                                                    <td><button class="btn btn-warning"><i class="fas fa-pencil-square-o"></i>EDIT</button></td>
-                                                    <td><button class="btn btn-danger"><i class="fas fa-trash"></i>DELETE</button></td>
-                                                </tr>                                                
+                                            <?php }
+                                            }  
+                                             ?>                                           
                                             </tbody>
                                         </table>
                                     </div>

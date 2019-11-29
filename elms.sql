@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2019 at 11:40 AM
+-- Generation Time: Nov 29, 2019 at 02:58 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -181,7 +181,8 @@ INSERT INTO `sectiontbl` (`sectionid`, `sectionname`) VALUES
 (1, 'BSIT 3B1'),
 (2, 'BSIT 3A1'),
 (3, 'BSIT 3A2'),
-(4, 'BSIT 4A1');
+(4, 'BSIT 4A1'),
+(5, 'IIT 3A1');
 
 -- --------------------------------------------------------
 
@@ -224,7 +225,8 @@ CREATE TABLE `teacherstbl` (
   `password` varchar(100) NOT NULL,
   `fname` varchar(100) NOT NULL,
   `lname` varchar(100) NOT NULL,
-  `mname` varchar(100) NOT NULL
+  `mname` varchar(100) NOT NULL,
+  `deptid` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -236,10 +238,10 @@ TRUNCATE TABLE `teacherstbl`;
 -- Dumping data for table `teacherstbl`
 --
 
-INSERT INTO `teacherstbl` (`teachersid`, `email`, `password`, `fname`, `lname`, `mname`) VALUES
-(1, 'angel.decano8@gmail.com', '1234', 'rye angelica', 'decano', 't'),
-(2, 'espencer@gmail.com', '123123', 'pencer', 'bulate', 'halfmoon'),
-(3, '123123@gmail.com', '123123', '123123', '123123', '123123');
+INSERT INTO `teacherstbl` (`teachersid`, `email`, `password`, `fname`, `lname`, `mname`, `deptid`) VALUES
+(1, 'angel.decano8@gmail.com', '1234', 'rye angelica', 'decano', 't', 1),
+(2, 'espencer@gmail.com', '123123', 'pencer', 'bulate', 'halfmoon', 2),
+(3, '123123@gmail.com', '123123', '123123', '123123', '123123', 3);
 
 -- --------------------------------------------------------
 
@@ -254,7 +256,7 @@ CREATE TABLE `userstbl` (
   `fname` varchar(100) NOT NULL,
   `lname` varchar(100) NOT NULL,
   `mname` varchar(100) NOT NULL,
-  `sectionid` varchar(100) NOT NULL
+  `sectionid` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -267,16 +269,19 @@ TRUNCATE TABLE `userstbl`;
 --
 
 INSERT INTO `userstbl` (`userid`, `email`, `password`, `fname`, `lname`, `mname`, `sectionid`) VALUES
-(1, 'DanAstillero@gmail.com', '123123', 'dan', 'adan', 'astillero', ''),
-(2, 'stevenigop@gmail.com', 'steven', 'steven', 'francisco', 'gabriel', ''),
-(3, 'jekdeleon@gmail.com', 'jekjek', 'jek', 'deleon', 'burat', ''),
-(4, 'stevenigop@gmail.com', '123', 'steven', 'francisco', 'gabriel', ''),
-(5, 'jek@gmail.com', '123', 'jek', 'deleon', 'lion', ''),
-(6, 'stevenigop@gmail.com', 'steven', 'steven', 'francisco', 'gabriel', ''),
-(7, 'jr@gmail.com', '123123', 'jr', 'jr', 'jr', ''),
-(8, 'kong@gmail.com', '123', 'angelico', 'gomez', 'lopez', ''),
-(16, 'apol@gmail.com', '123', 'apple', 'lansones', 'mandirigma', ''),
-(17, 'jari@gmail.com', '123', 'jari', 'cruz', 'jaru', '');
+(1, 'DanAstillero@gmail.com', '123123', 'dan', 'adan', 'astillero', 1),
+(2, 'stevenigop@gmail.com', 'steven', 'steven', 'francisco', 'gabriel', 2),
+(3, 'jekdeleon@gmail.com', 'jekjek', 'jek', 'deleon', 'burat', 3),
+(4, 'stevenigop@gmail.com', '123', 'steven', 'francisco', 'gabriel', 4),
+(5, 'jek@gmail.com', '123', 'jek', 'deleon', 'lion', 1),
+(6, 'stevenigop@gmail.com', 'steven', 'steven', 'francisco', 'gabriel', 2),
+(7, 'jr@gmail.com', '123123', 'jr', 'jr', 'jr', 3),
+(8, 'kong@gmail.com', '123', 'angelico', 'gomez', 'lopez', 4),
+(16, 'apol@gmail.com', '123', 'apple', 'lansones', 'mandirigma', 1),
+(17, 'jari@gmail.com', '123', 'jari', 'cruz', 'jaru', 2),
+(18, 'sheenakatrinaf@yahoo.com', '1234', 'sheena', 'francisco', 'gabriel', 3),
+(19, 'sheryl@gmail.com', '123', 'sheryl', 'francisco', 'gabriel', 4),
+(20, 'asdasd@asdasd', '123', 'asd', 'asda', 'asdas', 5);
 
 --
 -- Indexes for dumped tables
@@ -401,7 +406,7 @@ ALTER TABLE `teacherstbl`
 -- AUTO_INCREMENT for table `userstbl`
 --
 ALTER TABLE `userstbl`
-  MODIFY `userid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `userid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

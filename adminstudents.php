@@ -118,7 +118,7 @@ include('adminsession.php');
                                         <?php
                                         include('connection.php');
 
-                                        $sql="SELECT userstbl.lname,userstbl.fname,userstbl.email,sectiontbl.sectionname from userstbl join sectiontbl on userstbl.userid=sectiontbl.sectionid";
+                                        $sql="SELECT userstbl.lname,userstbl.fname,userstbl.email,sectiontbl.sectionname from userstbl join sectiontbl on userstbl.sectionid=sectiontbl.sectionid  order by userstbl.lname";
                                         $result=mysqli_query($con, $sql);
 
                                         if(mysqli_num_rows($result)){
@@ -194,13 +194,25 @@ include('adminsession.php');
             <!-- Modal body -->
             <div class="modal-body">
                 
-                <form action="adduser.php" method="POST">
+                <form action=" .php" method="POST">
                     <input type="email"  name="email" placeholder="Email">
                     <input type="password" name="password" placeholder="Password">
                     <input type="text"  name="fname" placeholder="Firstname">
                     <input type="text"  name="lname" placeholder="Lastname">
                     <input type="text"  name="mname" placeholder="Middlename">
-                    <input type="text"  name="sectionid" placeholder="Section">
+                   <select name="sectionid">
+                   <?php 
+                   $sql="SELECT * from sectiontbl";
+                   $result=mysqli_query($con, $sql);
+                   if(mysqli_num_rows($result)){
+                    while($row = mysqli_fetch_array($result))
+                    { 
+                   ?>
+                    <option value="<?php echo $row['sectionid'] ?>"><?php echo $row['sectionname'] ?></option>
+                    <?php }
+                    }?>
+                    </select>
+                   
              
                     
 
