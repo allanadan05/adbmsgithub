@@ -38,6 +38,8 @@ $query=mysqli_query($con, $sql);
     <!-- Main CSS-->
     <link href="css/theme.css" rel="stylesheet" media="all">
 
+    <script src="functions.js"></script>
+
 </head>
 
 <body class="animsition">
@@ -62,6 +64,7 @@ $query=mysqli_query($con, $sql);
                             <div>
                                 <h2>Subjects</h2><hr/>
                             </div>
+                            <div id="response"></div>
                             <?php 
                             if(isset($_GET['addsubresult'])){
                                 $addsubresult=$_GET['addsubresult'];
@@ -71,32 +74,47 @@ $query=mysqli_query($con, $sql);
                                 }
                                 if($addsubresult=="failed"){
                                 echo "<div class='alert alert-danger' role='alert'> New subject cannot be added :( </div>";
+                                } 
+                            }
+                            if(isset($_GET['editsubresult'])){
+                                $editsubresult=$_GET['editsubresult'];
+                                if($editsubresult=="success"){
+                                echo "<div class='alert alert-primary' role='alert'>"  .$_GET['subname']. " has been updated  :) </div>";
+                                }
+                                if($editsubresult=="failed"){
+                                echo "<div class='alert alert-danger' role='alert'>"  .$_GET['subname']. " cannot be updated  :( </div>";
                                 }
                             }
+
+                             
                             ?>
                           <div class="row">
                             <div class="col-md-4">
                                 <form action="addsub.php" method="POST">
                                     <div class="card">
                                      <div class="card-header">
-                                         <strong class="card-title"> <input type="text" name="subjectname" placeholder="Enter Subject Title" autofocus="autofocus"> </a>
+                                         <strong class="card-title"> 
+                                            <input type="text" name="subjectname" id="subname" placeholder="Enter Subject Title" autofocus="autofocus"> 
+                                            <input type="hidden" name="uId" id="uId">
                                         </strong>
                                      </div>
                                     <div class="card-body">
-                                        <p class="card-text"> <input type="text" name="subjectdesc" placeholder="Type description here..."> </a>
+                                        <p class="card-text"> <input type="text" name="subjectdesc" id="subdes"  placeholder="Type description here..."> 
                                         </p>
                                     </div>
                                     <div class="card-footer">
-                                        <button class="btn btn-primary" style="float:right;" type="submit" name="submitnewsubject"><i class="fas fa-plus"></i>ADD</button>
+                                        <button type="submit" class="btn btn-primary" style="float:right; display: inline;"  id="addsubj" name="submitnewsubject"><i class="fas fa-plus"></i> ADD</button>
+                                        <button type="submit" class="btn btn-primary" style="float:right; display: none;"  name="editnewsubject" id="updatesubj"><i class="fas fa-save"></i> SAVE</button>
                                     </div>
                                 </form>
+
                                </div> 
                             </div>
                             <?php  while ($row=mysqli_fetch_assoc($query)) {  ?>
                             <div class="col-md-4">
                                     <div class="card">
                                      <div class="card-header">
-                                         <strong class="card-title"><a href="#"><?php echo $row['subjectname'] ?></a>
+                                         <strong class="card-title"><a href="<?php echo $row['subjectid'] ?>"><?php echo $row['subjectname'] ?></a>
                                             <small>
                                                 <span class="badge badge-success float-right mt-1">3</span>
                                            </small>
@@ -108,8 +126,8 @@ $query=mysqli_query($con, $sql);
                                     </div>
                                     <div class="card-footer">
                                         <div class="row">
-                                            <button class="btn btn-warning"><i class="fas fa-pencil-square-o"></i>EDIT</button> &nbsp&nbsp&nbsp
-                                             <button class="btn btn-danger"><i class="fas fa-trash"></i>DELETE</button>
+                                            <button class="btn btn-warning" onclick="editsubject(<?php echo $row['subjectid']; ?>)"><i class="fas fa-pencil-square-o"></i>EDIT</button> &nbsp&nbsp&nbsp
+                                             <button class="btn btn-danger"><i class="fas fa-trash" onclick="deletesubject(<?php echo $row['subjectid'] ?>)"></i>DELETE</button>
                                          </div>
                                     </div>
                                 </div> 
@@ -124,6 +142,8 @@ $query=mysqli_query($con, $sql);
         </div>
 
     </div>
+
+
 
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
