@@ -1,9 +1,9 @@
 <?php
 include('connection.php');
 include('adminsession.php');
-include('functions.php');
 
-
+$sql="SELECT * FROM subjecttbl";
+$query=mysqli_query($con, $sql);
 
 ?>
 <!DOCTYPE html>
@@ -60,9 +60,21 @@ include('functions.php');
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                             <div>
-                                <h2>Subjects</h2><hr/><br/>
+                                <h2>Subjects</h2><hr/>
                             </div>
-                        <div class="row">
+                            <?php 
+                            if(isset($_GET['addsubresult'])){
+                                $addsubresult=$_GET['addsubresult'];
+
+                                if($addsubresult=="success"){
+                                echo "<div class='alert alert-primary' role='alert'> New subject has been added :) </div>";
+                                }
+                                if($addsubresult=="failed"){
+                                echo "<div class='alert alert-danger' role='alert'> New subject cannot be added :( </div>";
+                                }
+                            }
+                            ?>
+                          <div class="row">
                             <div class="col-md-4">
                                 <form action="addsub.php" method="POST">
                                     <div class="card">
@@ -75,49 +87,23 @@ include('functions.php');
                                         </p>
                                     </div>
                                     <div class="card-footer">
-                                        <button class="btn btn-primary" style="float:right;" type="submit"><i class="fas fa-plus"></i>ADD</button>
+                                        <button class="btn btn-primary" style="float:right;" type="submit" name="submitnewsubject"><i class="fas fa-plus"></i>ADD</button>
                                     </div>
-                                </div> 
                                 </form>
+                               </div> 
                             </div>
-
+                            <?php  while ($row=mysqli_fetch_assoc($query)) {  ?>
                             <div class="col-md-4">
-                                <?php 
-                    
-                                for($x=0;$x<3;$x++){?>
                                     <div class="card">
                                      <div class="card-header">
-                                         <strong class="card-title"><a href="#"><?php echo getsubname(3);?></a>
+                                         <strong class="card-title"><a href="#"><?php echo $row['subjectname'] ?></a>
                                             <small>
                                                 <span class="badge badge-success float-right mt-1">3</span>
                                            </small>
                                         </strong>
                                      </div>
                                     <div class="card-body">
-                                        <p class="card-text"><?php echo getsubdesc(3);?>
-                                        </p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="row">
-                                            <button class="btn btn-warning"><i class="fas fa-pencil-square-o"></i>EDIT</button> &nbsp&nbsp&nbsp
-                                             <button class="btn btn-danger"><i class="fas fa-trash"></i>DELETE</button>
-                                         </div>
-                                    </div>
-                                </div> 
-                                <?php }?>
-                            </div>
-
-                            <div class="col-md-4">
-                                    <div class="card">
-                                     <div class="card-header">
-                                         <strong class="card-title"><a href="#"> Biology </a>
-                                            <small>
-                                                <span class="badge badge-success float-right mt-1">3</span>
-                                           </small>
-                                        </strong>
-                                     </div>
-                                    <div class="card-body">
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
+                                        <p class="card-text"><?php echo $row['subjectdesc'] ?>
                                         </p>
                                     </div>
                                     <div class="card-footer">
@@ -128,6 +114,7 @@ include('functions.php');
                                     </div>
                                 </div> 
                             </div>
+                        <?php } ?>
                         </div> <!-- row -->
                     </div> <!-- section__content -->
                 </div><!-- container Fluid -->
