@@ -67,43 +67,68 @@ include('functions.php');
                                     <div class="card">
                                      <div class="card-header">
                                         <div class="row">
-                                            <select class="js-select2" name="subjects" style="width: 50%";>
-                                                <option selected="selected">Subjects</option>
-                                                <option value="">Mathematics</option>
-                                                <option value="">Science</option>
+                                        <form action="addlesson.php" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                                            <select name="subjectid">
+                                            <option selected disabled>Select Subject</option>
+                                            <?php 
+                                            $sql="SELECT * from subjecttbl";
+                                            $result=mysqli_query($con, $sql);
+                                            if(mysqli_num_rows($result)){
+                                                while($row = mysqli_fetch_array($result))
+                                                { 
+                                            ?>
+                                             <option value="<?php echo $row['subjectid'] ?>"><?php echo $row['subjectname'] ?></option>
+                                                <?php }
+                                         }?>
                                             </select>
-                                            <div class="dropDownSelect2"></div>
-                                             <strong class="card-title"><a href="#"> <input type="text" name="newsubject" placeholder="Enter Lesson Title" autofocus="autofocus" style="width: 50%";> </a>
+                    
+        
+                                             <strong class="card-title"> <input type="text" name="lessontitle" placeholder="Enter Lesson Title" autofocus="autofocus" style="width: 50%";> 
                                             </strong>
                                         </div>
                                      </div>
                                     <div class="card-body">
-                                        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                       
                                             
                                             <div class="row form-group">
-                                                <textarea name="textarea-input" id="textarea-input" rows="9" placeholder="Enter Lesson Description..." class="form-control"></textarea>
+                                                <textarea name="lessondetail" id="textarea-input" rows="9" placeholder="Enter Lesson Description..." class="form-control"></textarea>
                                             </div>
                                             
                                             <div class="row form-group">
                                                 <label for="file-input" class=" form-control-label">Upload File</label><br>
-                                                <input type="file" id="file-input" name="file-input" class="form-control-file">
+                                                <input type="file" id="file-input" name="lessonpdf" class="form-control-file" accept="applications/pdf">
                                             </div>
-                                        </form>
+                                        
                                     </div>
                                     <div class="card-footer">
-                                        <button class="btn btn-primary" style="float:right;"><i class="fas fa-plus"></i>ADD</button>
+                                        <button class="btn btn-primary" style="float:right;" type="submit"><i class="fas fa-plus" ></i>ADD</button>
                                     </div>
+                                    </form>
                                 </div> 
                             </div>
+
+                            <?php
+                                     
+
+                                 $sql="SELECT subjecttbl.subjectname,lessontbl.lessontitle,lessontbl.lessondetail,lessontbl.lessonpdf from lessontbl join subjecttbl on lessontbl.subjectid=subjecttbl.subjectid ";
+                                   $result=mysqli_query($con, $sql);
+         
+                                 if(mysqli_num_rows($result)){
+                                 while($row = mysqli_fetch_array($result))
+                                 { ?>
+                           
 
                             <div class="col-md-4">
                                     <div class="card">
                                      <div class="card-header">
-                                         <strong class="card-title"><a href="#"> Mathematics <i class="fas fa-link"></i></a></strong><br>
-                                         <p>Lesson 1</p>
+                                    
+                                         <strong class="card-title"><a href="#">  <?php  echo "<td>".$row['subjectname']."</td>"; ?> <i class="fas fa-link"></i></a></strong><br>
+                                         <p> <?php  echo "<td>".$row['lessontitle']."</td>"; ?></p>
                                      </div>
                                     <div class="card-body">
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
+                                        <p class="card-text"> <?php  echo "<td>".$row['lessondetail']."</td>"; ?>
+                                        </p>
+                                        <p class="card-text"><a href="" download="newfilename"><?php  echo "<td>".$row['lessonpdf']."</td>"; ?></a>
                                         </p>
                                     </div>
                                     <div class="card-footer">
@@ -115,81 +140,13 @@ include('functions.php');
                                 </div> 
                             </div>
 
-                             <div class="col-md-4">
-                                    <div class="card">
-                                     <div class="card-header">
-                                         <strong class="card-title"><a href="#"> Mathematics <i class="fas fa-link"></i></a></strong><br>
-                                         <p>Lesson 1</p>
-                                     </div>
-                                    <div class="card-body">
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
-                                        </p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="row">
-                                            <button class="btn btn-warning"><i class="fas fa-pencil-square-o"></i>EDIT</button> &nbsp&nbsp&nbsp
-                                             <button class="btn btn-danger"><i class="fas fa-trash"></i>DELETE</button>
-                                         </div>
-                                    </div>
-                                </div> 
-                            </div>
+                         
+                  <?php }
+                            }?>
+                        
 
-                             <div class="col-md-4">
-                                    <div class="card">
-                                     <div class="card-header">
-                                         <strong class="card-title"><a href="#"> Mathematics <i class="fas fa-link"></i></a></strong><br>
-                                         <p>Lesson 1</p>
-                                     </div>
-                                    <div class="card-body">
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
-                                        </p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="row">
-                                            <button class="btn btn-warning"><i class="fas fa-pencil-square-o"></i>EDIT</button> &nbsp&nbsp&nbsp
-                                             <button class="btn btn-danger"><i class="fas fa-trash"></i>DELETE</button>
-                                         </div>
-                                    </div>
-                                </div> 
-                            </div>
+                          
 
-                             <div class="col-md-4">
-                                    <div class="card">
-                                     <div class="card-header">
-                                         <strong class="card-title"><a href="#"> Mathematics <i class="fas fa-link"></i></a></strong><br>
-                                         <p>Lesson 1</p>
-                                     </div>
-                                    <div class="card-body">
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
-                                        </p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="row">
-                                            <button class="btn btn-warning"><i class="fas fa-pencil-square-o"></i>EDIT</button> &nbsp&nbsp&nbsp
-                                             <button class="btn btn-danger"><i class="fas fa-trash"></i>DELETE</button>
-                                         </div>
-                                    </div>
-                                </div> 
-                            </div>
-
-                             <div class="col-md-4">
-                                    <div class="card">
-                                     <div class="card-header">
-                                         <strong class="card-title"><a href="#"> Mathematics <i class="fas fa-link"></i></a></strong><br>
-                                         <p>Lesson 1</p>
-                                     </div>
-                                    <div class="card-body">
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
-                                        </p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="row">
-                                            <button class="btn btn-warning"><i class="fas fa-pencil-square-o"></i>EDIT</button> &nbsp&nbsp&nbsp
-                                             <button class="btn btn-danger"><i class="fas fa-trash"></i>DELETE</button>
-                                         </div>
-                                    </div>
-                                </div> 
-                            </div>
 
 
                             
