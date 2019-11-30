@@ -26,35 +26,35 @@ include('connection.php');
         }
 
 
-if(isset($_POST['editnewsubject'])){
-    $subname=$_POST['subjectname'];
-    $subdesc=$_POST['subjectdesc'];
+if(isset($_POST['editnewlesson'])){
+    $lessontit=$_POST['lessontitle'];
+    $lessondet=$_POST['lessondetail'];
     $id=$_POST['uId'];
      
-   $q = "UPDATE subjecttbl SET subjectname='$subname', subjectdesc='$subdesc' WHERE subjectid='$id' ";
+   $q = "UPDATE lessontbl SET lessontitle='$lessontit', lessondetail='$lessondet' WHERE lessonid='$id' ";
    $u = mysqli_query($con , $q);
     if($u)
         {
-            header("location: adminsubjects.php?editsubresult=success&subname=".$subname);
+            header("location: adminlessons.php?editlessonresult=success&lessontit=".$lessontit);
         }
         else
         {
-            header("location: adminsubjects.php?editsubresult=failed&subname=".$subname);
+            header("location: adminlessons.php?editlessonresult=failed&lessondet=".$lessondet);
         }
 }
 
-if(isset($_GET['deletesubject'])){
+if(isset($_GET['deletelesson'])){
     $id=$_GET['id'];
      
-   $q = "DELETE FROM subjecttbl WHERE subjectid='$id' ";
+   $q = "DELETE FROM lessontbl WHERE lessonid='$id' ";
    $u = mysqli_query($con , $q);
     if($u)
         {
-            header("location: adminsubjects.php?deletesubresult=success");
+            header("location: adminlessons.php?deletesubresult=success");
         }
         else
         {
-            header("location: adminsubjects.php?deletesubresult=failed");
+            header("location: adminlessons.php?deletesubresult=failed");
         }
 }
 
