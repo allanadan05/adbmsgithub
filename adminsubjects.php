@@ -86,6 +86,17 @@ $query=mysqli_query($con, $sql);
                                 }
                             }
 
+                            if(isset($_GET['deletesubresult'])){
+                                $deletesubresult=$_GET['deletesubresult'];
+                                if($deletesubresult=="success"){
+                                echo "<div class='alert alert-primary' role='alert'> Deleted successfully  :) </div>";
+                                }
+                                if($deletesubresult=="failed"){
+                                echo "<div class='alert alert-danger' role='alert'> Sorry, cannot be deleted  :( </div>";
+                                }
+                            }
+
+
                              
                             ?>
                           <div class="row">
@@ -127,7 +138,7 @@ $query=mysqli_query($con, $sql);
                                     <div class="card-footer">
                                         <div class="row">
                                             <button class="btn btn-warning" onclick="editsubject(<?php echo $row['subjectid']; ?>)"><i class="fas fa-pencil-square-o"></i>EDIT</button> &nbsp&nbsp&nbsp
-                                             <button class="btn btn-danger"><i class="fas fa-trash" onclick="location.href='addsub.php?deletesubject=1&id='.$row['subjectid'].'"></i>DELETE</button>
+                                             <a href="<?php echo "addsub.php?deletesubject=1&id=".$row['subjectid'] ?>"><button class="btn btn-danger"><i class="fas fa-trash"></i>DELETE</button></a>
                                          </div>
                                     </div>
                                 </div> 

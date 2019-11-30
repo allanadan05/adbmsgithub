@@ -33,20 +33,18 @@ if(isset($_POST['editnewsubject'])){
         }
 }
 
-if(isset($GET['deletesubject'])){
-    $subname=$_POST['subjectname'];
-    $subdesc=$_POST['subjectdesc'];
-    $id=$_POST['uId'];
+if(isset($_GET['deletesubject'])){
+    $id=$_GET['id'];
      
-   $q = "UPDATE subjecttbl SET subjectname='$subname', subjectdesc='$subdesc' WHERE subjectid='$id' ";
+   $q = "DELETE FROM subjecttbl WHERE subjectid='$id' ";
    $u = mysqli_query($con , $q);
     if($u)
         {
-            header("location: adminsubjects.php?editsubresult=success&subname=".$subname);
+            header("location: adminsubjects.php?deletesubresult=success");
         }
         else
         {
-            header("location: adminsubjects.php?editsubresult=failed&subname=".$subname);
+            header("location: adminsubjects.php?deletesubresult=failed");
         }
 }
 
