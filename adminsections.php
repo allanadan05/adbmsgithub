@@ -10,6 +10,50 @@ include('functions.php');
 <php lang="en">
 
 <head>
+
+    <script>
+        function editsection(id){
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4 && xhttp.status == 200) { 
+                    var buongObject=JSON.parse(this.responseText);
+                    //document.getElementById("response").innerHTML = buongObject.sname;
+                    document.getElementById("addsecname").value = buongObject.secname;
+                    document.getElementById("hiddenid").value = forwardedid;
+                    document.getElementById("addsecbtn").style.display="none";
+                    document.getElementById("editsecbtn").style.display="inline";
+            }
+          };
+  
+        var forwardedid = id;
+        //document.write(forwardedid);
+        var palatandaan = "editsection";
+        xhttp.open("GET", "process2.php?forwardedid="+forwardedid+"&palatandaan="+palatandaan, true);
+        xhttp.send(); 
+        }
+
+        function editdept(id){
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4 && xhttp.status == 200) { 
+                    var buongObject=JSON.parse(this.responseText);
+                    //document.getElementById("response").innerHTML = buongObject.sname;
+                    document.getElementById("adddeptname").value = buongObject.deptname;
+                    document.getElementById("hiddendeptid").value = forwardedid;
+                    document.getElementById("adddeptbtn").style.display="none";
+                    document.getElementById("editdeptbtn").style.display="inline";
+            }
+          };
+  
+        var forwardedid = id;
+        //document.write(forwardedid);
+        var palatandaan = "editdept";
+        xhttp.open("GET", "process2.php?forwardedid="+forwardedid+"&palatandaan="+palatandaan, true);
+        xhttp.send(); 
+        }
+
+    </script>
+
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -103,6 +147,45 @@ include('functions.php');
                                 echo "<div class='alert alert-danger' role='alert'> New department: ".$_GET['secname']." cannot be added :(  <br>NOTE: New departments are not official until you populate record atleast one.</div>";
                                 } 
                             }
+                            
+                            if(isset($_GET['editsecresult'])){
+                                $editsecresult=$_GET['editsecresult'];
+                                if($editsecresult=="success"){
+                                echo "<div class='alert alert-primary' role='alert'> Section name: ".$_GET['secname']." has been updated :) <br>NOTE: New departments are not official until you populate record atleast one.</div>";
+                                }
+                                if($editsecresult=="failed"){
+                                echo "<div class='alert alert-danger' role='alert'> Section name: ".$_GET['secname']." cannot be updated :(  <br>NOTE: New departments are not official until you populate record atleast one.</div>";
+                                } 
+                            }
+                            if(isset($_GET['editdeptresult'])){
+                                $editdeptresult=$_GET['editdeptresult'];
+                                if($editdeptresult=="success"){
+                                echo "<div class='alert alert-primary' role='alert'> Department name: ".$_GET['deptname']." has been updated :) <br>NOTE: New departments are not official until you populate record atleast one.</div>";
+                                }
+                                if($editdeptresult=="failed"){
+                                echo "<div class='alert alert-danger' role='alert'> Department name: ".$_GET['deptname']." cannot be updated :(  <br>NOTE: New departments are not official until you populate record atleast one.</div>";
+                                } 
+                            }
+                            if(isset($_GET['deletesecresult'])){
+                                $deletesecresult=$_GET['deletesecresult'];
+                                if($deletesecresult=="success"){
+                                echo "<div class='alert alert-primary' role='alert'>Deleted successfully!</div>";
+                                }
+                                if($deletesecresult=="failed"){
+                                echo "<div class='alert alert-danger' role='alert'> Sorry, cannot be deleted. </div>";
+                                } 
+                            }
+                            
+                            if(isset($_GET['deletedeptresultdeletedeptresult'])){
+                                $deletedeptresult=$_GET['deletedeptresult'];
+                                if($deletedeptresult=="success"){
+                                echo "<div class='alert alert-primary' role='alert'>Deleted successfully!</div>";
+                                }
+                                if($deletedeptresult=="failed"){
+                                echo "<div class='alert alert-danger' role='alert'> Sorry, cannot be deleted. </div>";
+                                } 
+                            }
+                            
                             ?>
                         </div>
                         <div class="row">
@@ -115,11 +198,13 @@ include('functions.php');
                                         </strong>
                                      </div>
                                     <div class="card-body">
-                                        <strong class="card-title"><input type="text" name="newsectionname" placeholder="Enter Section name" >
+                                        <strong class="card-title"><input type="text" name="newsectionname" id="addsecname" placeholder="Enter Section name" >
+                                        <input type="hidden" name="hiddenname" id="hiddenid">
                                         </strong>
                                     </div>
                                     <div class="card-footer">
-                                        <button class="btn btn-primary" style="float:right;" name="addsection" type="submit"><i class="fas fa-plus"></i>ADD</button>
+                                        <button class="btn btn-primary" style="float:right; display: inline;" name="addsection" id="addsecbtn" type="submit"><i class="fas fa-plus"></i>ADD</button>
+                                        <button type="submit" class="btn btn-warning" style="float:right; display: none;" name="editsecsubmit" id="editsecbtn"><i class="fas fa-save"></i> SAVE</button>
                                     </div>
                                 </div> 
                             </form>
@@ -133,11 +218,13 @@ include('functions.php');
                                         </strong>
                                      </div>
                                     <div class="card-body">
-                                        <strong class="card-title"> <input type="text" name="newdeptname" placeholder="Enter deaprtment name" autofocus="autofocus"> </a>
+                                        <strong class="card-title"> <input type="text" name="newdeptname" id="adddeptname" placeholder="Enter deaprtment name" autofocus="autofocus"> </a>
+                                        <input type="hidden" name="hiddendeptname" id="hiddendeptid">
                                         </strong>
                                     </div>
                                     <div class="card-footer">
-                                        <button class="btn btn-primary" style="float:right;" type="submit" name="adddept"><i class="fas fa-plus"></i>ADD</button>
+                                        <button class="btn btn-primary" style="float:right; display: inline;" type="submit" name="adddept" id="adddeptbtn"><i class="fas fa-plus"></i>ADD</button>
+                                         <button type="submit" class="btn btn-warning" style="float:right; display: none;"  name="editdeptsubmit" id="editdeptbtn"><i class="fas fa-save"></i> SAVE</button>
                                     </div>
                                 </div> 
                                     </form>
@@ -160,7 +247,7 @@ include('functions.php');
                                                 <?php
                                                 
 
-                                                $sql="SELECT sectiontbl.sectionname,count(userstbl.userid) as 'number of students' from userstbl join sectiontbl on userstbl.sectionid=sectiontbl.sectionid group by sectiontbl.sectionname ";
+                                                $sql="SELECT sectiontbl.sectionid, sectiontbl.sectionname,count(userstbl.userid) as 'number of students' from userstbl join sectiontbl on userstbl.sectionid=sectiontbl.sectionid group by sectiontbl.sectionname ";
                                                 $result=mysqli_query($con, $sql);
 
                                                 if(mysqli_num_rows($result)){
@@ -170,8 +257,8 @@ include('functions.php');
                                                 <tr>
                                               <?php  echo "<td>".$row['sectionname']."</td>"; ?>
                                               <?php  echo "<td>".$row['number of students']."</td>"; ?>
-                                                    <td><button id="update"><i class="fas fa-pencil-square-o"></i>EDIT</button></td>
-                                                    <td><button id="del"><i class="fas fa-trash"></i>DELETE</button></td>
+                                                    <td><button class="btn btn-sm btn-warning" id="updatesec" onclick="editsection(<?php echo $row['sectionid']; ?>)"><i class="fas fa-pencil-square-o"></i>EDIT</button></td>
+                                                    <td><a href="<?php echo "process2.php?deletesection=1&id=".$row['sectionid'] ?>"><button class="btn btn-sm btn-danger" id="delsec"><i class="fas fa-trash"></i>DELETE</button></a></td>
                                                 </tr>         
                                                 <?php }
                                             }?>                         
@@ -197,7 +284,7 @@ include('functions.php');
                                             <?php
                                            
 
-                                           $sql="SELECT departmenttbl.departmentname,count(teacherstbl.teachersid) as 'number of students' from teacherstbl join departmenttbl on teacherstbl.deptid=departmenttbl.deptid group by departmenttbl.departmentname ";
+                                           $sql="SELECT departmenttbl.deptid,departmenttbl.departmentname,count(teacherstbl.teachersid) as 'number of students' from teacherstbl join departmenttbl on teacherstbl.deptid=departmenttbl.deptid group by departmenttbl.departmentname ";
                                             $result=mysqli_query($con, $sql);
 
                                             if(mysqli_num_rows($result)){
@@ -206,8 +293,8 @@ include('functions.php');
                                                 <tr>
                                               <?php  echo "<td>".$row['departmentname']."</td>"; ?>
                                                 <?php  echo "<td>".$row['number of students']."</td>"; ?>
-                                                    <td><button id="update"><i class="fas fa-pencil-square-o"></i>EDIT</button></td>
-                                                    <td><button id="del"><i class="fas fa-trash"></i>DELETE</button></td>
+                                                    <td><button class="btn  btn-sm btn-warning" id="updatedept" type="button" onclick="editdept(<?php echo $row['deptid']; ?>)"><i class="fas fa-pencil-square-o"></i>EDIT</button></td>
+                                                    <td><a href="<?php echo "process2.php?deletedept=1&id=".$row['deptid'] ?>"><button class="btn  btn-sm btn-danger" id="deldept"><i class="fas fa-trash"></i>DELETE</button></td>
                                                 </tr>
                                             <?php }
                                             }  
