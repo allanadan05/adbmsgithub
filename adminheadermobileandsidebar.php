@@ -27,7 +27,7 @@
                         </li>
                         <li>
                             <a href="adminsections.php">
-                                <i class="fas  fa-bookmark"></i>Sections</a>
+                                <i class="fas  fa-bookmark"></i>Sections/Departments</a>
                         </li>
                         <li>
                             <a href="adminstudents.php">
@@ -79,7 +79,7 @@
                         </li>
                         <li>
                             <a href="adminsections.php">
-                                <i class="fas  fa-bookmark"></i>Sections</a>
+                                <i class="fas  fa-bookmark"></i>Sections/Departments</a>
                         </li>
                         <li>
                             <a href="adminstudents.php">

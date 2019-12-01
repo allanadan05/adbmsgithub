@@ -62,7 +62,6 @@ include('functions.php');
     
     
     </style>
-
 </head>
 
 <body class="animsition">
@@ -83,40 +82,62 @@ include('functions.php');
                     <div class="container-fluid">
                         <div>
                             <h2>Sections</h2><hr/><br/>
+                            <?php 
+                            if(isset($_GET['addsecresult'])){
+                                $addsecresult=$_GET['addsecresult'];
+
+                                if($addsecresult=="success"){
+                                echo "<div class='alert alert-primary' role='alert'> New section: ".$_GET['secname']." has been added :) <br>NOTE: New sections are not official until you populate record atleast one.</div>";
+                                }
+                                if($addsecresult=="failed"){
+                                echo "<div class='alert alert-danger' role='alert'> New section: ".$_GET['secname']." cannot be added :(  <br>NOTE: New sections are not official until you populate record atleast one.</div>";
+                                } 
+                            }
+                            if(isset($_GET['adddeptresult'])){
+                                $adddeptresult=$_GET['adddeptresult'];
+
+                                if($adddeptresult=="success"){
+                                echo "<div class='alert alert-primary' role='alert'> New department: ".$_GET['secname']." has been added :) <br>NOTE: New departments are not official until you populate record atleast one.</div>";
+                                }
+                                if($adddeptresult=="failed"){
+                                echo "<div class='alert alert-danger' role='alert'> New department: ".$_GET['secname']." cannot be added :(  <br>NOTE: New departments are not official until you populate record atleast one.</div>";
+                                } 
+                            }
+                            ?>
                         </div>
                         <div class="row">
 
                             <div class="col-md-4">
-                                   <form action="addsection.php" method="POST">
+                                   <form action="process2.php" method="POST">
                                     <div class="card">
                                      <div class="card-header">
                                          <strong class="card-title"><a href=""> ADD SECTION </a>
                                         </strong>
                                      </div>
                                     <div class="card-body">
-                                        <strong class="card-title"><input type="text" name="sectionname" placeholder="Enter Section name" >
+                                        <strong class="card-title"><input type="text" name="newsectionname" placeholder="Enter Section name" >
                                         </strong>
                                     </div>
                                     <div class="card-footer">
-                                        <button class="btn btn-primary" style="float:right;" type="submit"><i class="fas fa-plus"></i>ADD</button>
+                                        <button class="btn btn-primary" style="float:right;" name="addsection" type="submit"><i class="fas fa-plus"></i>ADD</button>
                                     </div>
                                 </div> 
                             </form>
                             </div>
 
                             <div class="col-md-4">
-                                    <form action="adddept.php" method="POST">
+                                    <form action="process2.php" method="POST">
                                     <div class="card">
                                      <div class="card-header">
                                          <strong class="card-title"><a href="#"> ADD DEPARTMENT </a>
                                         </strong>
                                      </div>
                                     <div class="card-body">
-                                        <strong class="card-title"> <input type="text" name="departmentname" placeholder="Enter deaprtment name" autofocus="autofocus"> </a>
+                                        <strong class="card-title"> <input type="text" name="newdeptname" placeholder="Enter deaprtment name" autofocus="autofocus"> </a>
                                         </strong>
                                     </div>
                                     <div class="card-footer">
-                                        <button class="btn btn-primary" style="float:right;" type="submit"><i class="fas fa-plus"></i>ADD</button>
+                                        <button class="btn btn-primary" style="float:right;" type="submit" name="adddept"><i class="fas fa-plus"></i>ADD</button>
                                     </div>
                                 </div> 
                                     </form>

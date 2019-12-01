@@ -3,6 +3,8 @@ include('connection.php');
 
 $palatandaan =  $_GET['palatandaan'];
 
+
+
 if($palatandaan =="edit"){
 	$id=$_GET['forIpinasa'];
 	$querySaDatabase = "SELECT * FROM subjecttbl WHERE subjectid='$id' ";

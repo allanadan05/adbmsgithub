@@ -34,3 +34,5 @@ function saved(){
 	xhttp.open("GET", "process.php?subname="+f+"&subdes="+u+"&palatandaan="+palatandaan+"&uId="+uid, true);
     xhttp.send(); 
 }
+
+
