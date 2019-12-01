@@ -103,7 +103,7 @@ include('functions.php');
                                         
                                     </div>
                                     <div class="card-footer">
-                                        <button class="btn btn-primary" style="float:right;" type="submit" id="addlesson"><i class="fas fa-plus" ></i>ADD</button>
+                                        <button class="btn btn-primary" style="float:right;" type="submit" name="addlesson" id="addlesson"><i class="fas fa-plus" ></i>ADD</button>
                                         <button type="submit" class="btn btn-primary" style="float:right; display: none;"  name="editnewlesson" id="updatelesson"><i class="fas fa-save"></i> SAVE</button>
                                     </div>
                                     </form>

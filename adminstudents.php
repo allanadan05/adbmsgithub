@@ -8,6 +8,37 @@ include('adminsession.php');
 <php lang="en">
 
 <head>
+    
+    <script>
+        function changedsections(){
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) { 
+                document.getElementById("response").innerHTML = this.responseText;
+        }
+      };
+            var secid=document.getElementById('secid').value;
+            //document.write(forIpinasa);
+            var palatandaan = "changedsec";
+            xhttp.open("GET", "process2.php?secid="+secid+"&palatandaan="+palatandaan, true);
+            xhttp.send(); 
+        }
+
+        function searchstudent(){
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) { 
+                document.getElementById("response").innerHTML = this.responseText;
+        }
+      };
+            var tosearch=document.getElementById('searchstudent').value;
+            //document.write(forIpinasa);
+            var palatandaan = "searchstudent";
+            xhttp.open("GET", "process2.php?tosearch="+tosearch+"&palatandaan="+palatandaan, true);
+            xhttp.send(); 
+        }
+    </script>
+
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -60,22 +91,19 @@ include('adminsession.php');
                         <div class="row">
                             <div class="col-md-10">
                                 <!-- DATA TABLE -->
-                            <h3 class="title-5 m-b-35"><input type="Search" name="searchstudent" placeholder="Search here..."></h3>
+                            <h3 class="title-5 m-b-35" style="background-color: whitesmoke;"><input style="width:95%; min-height:50px;" type="Search" id="searchstudent" onkeyup="searchstudent()" placeholder="Search here..."><i class="fas fa-search"></i></h3>
                                 <div class="table-data__tool">
                                     <div class="table-data__tool-left">
                                         <div class="rs-select2--light rs-select2--md">
-                                            <select class="js-select2" name="property">
-                                                <option selected="selected">All Sections</option>
-                                                <option value="">BSIT 1A1</option>
-                                                <option value="">BSIT 1A2</option>
-                                            </select>
-                                            <div class="dropDownSelect2"></div>
-                                        </div>
-                                        <div class="rs-select2--light rs-select2--sm">
-                                            <select class="js-select2" name="time">
-                                                <option selected="selected">No Remarks</option>
-                                                <option value="">Passed</option>
-                                                <option value="">Failed</option>
+                                           <select class="js-select2" name="sections" id="secid" onchange="changedsections()">
+                                                <option selected="selected" disabled>All Sections</option>
+                                                <?php 
+                                                   $sqlstring="SELECT * FROM sectiontbl";
+                                                   $querystring=mysqli_query($con, $sqlstring);
+                                                   while($row=mysqli_fetch_array($querystring)){
+                                                ?>
+                                                <option value="<?php echo $row['sectionid']; ?>"><?php echo $row['sectionname']; ?></option>
+                                                <?php } ?>
                                             </select>
                                             <div class="dropDownSelect2"></div>
                                         </div>
@@ -114,13 +142,10 @@ include('adminsession.php');
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="response">
                                         <?php
-                                        include('connection.php');
-
-                                        $sql="SELECT userstbl.lname,userstbl.fname,userstbl.email,sectiontbl.sectionname from userstbl join sectiontbl on userstbl.sectionid=sectiontbl.sectionid  order by userstbl.lname";
+                                        $sql="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname, (SELECT averagescore FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS AverageScore,(SELECT remarks FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS Remarks from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid  order by userstbl.lname";
                                         $result=mysqli_query($con, $sql);
-
                                         if(mysqli_num_rows($result)){
                                         while($row = mysqli_fetch_array($result))
                                         {?>
@@ -131,19 +156,26 @@ include('adminsession.php');
                                                         <span class="au-checkmark"></span>
                                                     </label>
                                                 </td>
-                                               <?php echo "<td>".$row['lname']." ".$row['fname']."</td>"; ?>
+                                               <?php echo "<td>".$row['lname'].", ".$row['fname']."</td>"; ?>
                                                <?php echo "<td>".$row['email']."</td>";?>
                                                <?php echo "<td>".$row['sectionname']."</td>";?>
                                                 
                                                 <td>
-                                                    <span class="status--process">98% PASSED</span>
+                                                    <span <?php 
+                                                    if($row['Remarks']=='PASSED'){
+                                                        echo 'class="status--process"'; } 
+                                                     else{
+                                                        echo 'class="status--denied"';
+                                                     }
+                                                     ?> >
+                                                     <?php echo $row['AverageScore']; ?>% <?php echo $row['Remarks']; ?></span>
                                                 </td>
                                                 <td>
                                                     <div class="table-data-feature">
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Send Notifications">
                                                             <i class="zmdi zmdi-mail-send"></i>
                                                         </button>
-                                                        <button class="item" data-placement="top" title="Edit" data-toggle="modal" data-target="#edit">
+                                                        <button type="button" onclick="editstudent(<?php echo $row['userid']; ?>)" class="item" data-placement="top" title="Edit"  data-toggle="modal" data-target="#edit">
                                                             <i class="zmdi zmdi-edit"></i>
                                                         </button>
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
@@ -155,8 +187,15 @@ include('adminsession.php');
                                                     </div>
                                                 </td>
                                             </tr>
-                                        <?php      }
-                                    } ?>
+                                        <?php      
+
+                                        }
+                                    }else{
+                                        echo "<tr><td></td><td></td><td>No data Found</td><td></td><td></td><td></td>
+                                        </tr>";
+                                    }
+
+                                    ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -195,12 +234,13 @@ include('adminsession.php');
             <div class="modal-body">
                 
                 <form action="adduser.php" method="POST">
-                    <input type="email"  name="email" placeholder="Email">
-                    <input type="password" name="password" placeholder="Password">
-                    <input type="text"  name="fname" placeholder="Firstname">
-                    <input type="text"  name="lname" placeholder="Lastname">
+                    <input type="email"  name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <input type="text"  name="fname" placeholder="Firstname" required>
+                    <input type="text"  name="lname" placeholder="Lastname" required>
                     <input type="text"  name="mname" placeholder="Middlename">
-                   <select name="sectionid">
+                   <select name="sectionid" required>
+                     <option selected disabled>Choose Section</option>
                    <?php 
                    $sql="SELECT * from sectiontbl";
                    $result=mysqli_query($con, $sql);
@@ -212,16 +252,6 @@ include('adminsession.php');
                     <?php }
                     }?>
                     </select>
-                   
-             
-                    
-
-                    
-                    
-
-                
-                
-            
             </div>
 
             <!-- Modal footer -->

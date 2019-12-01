@@ -5,31 +5,142 @@ if(isset($_GET['palatandaan'])){
 
 $palatandaan =  $_GET['palatandaan'];
 
-if($palatandaan =="editsection"){
-	$id=$_GET['forwardedid'];
-	$querySaDatabase = "SELECT * FROM sectiontbl WHERE sectionid='$id' ";
-	$executeQuery = mysqli_query($con, $querySaDatabase);
-		$pambato = array();
-		while($row = mysqli_fetch_array($executeQuery)){
-			$pambato['secid'] = $row['sectionid'];
-			$pambato['secname'] = $row['sectionname'];
+		if($palatandaan =="editsection"){
+			$id=$_GET['forwardedid'];
+			$querySaDatabase = "SELECT * FROM sectiontbl WHERE sectionid='$id' ";
+			$executeQuery = mysqli_query($con, $querySaDatabase);
+				$pambato = array();
+				while($row = mysqli_fetch_array($executeQuery)){
+					$pambato['secid'] = $row['sectionid'];
+					$pambato['secname'] = $row['sectionname'];
+				}
+				echo json_encode($pambato);
 		}
-		echo json_encode($pambato);
-}
 
-if($palatandaan =="editdept"){
-	$id=$_GET['forwardedid'];
-	$querySaDatabase = "SELECT * FROM departmenttbl WHERE deptid='$id' ";
-	$executeQuery = mysqli_query($con, $querySaDatabase);
-		$pambato = array();
-		while($row = mysqli_fetch_array($executeQuery)){
-			$pambato['deptid'] = $row['deptid'];
-			$pambato['deptname'] = $row['departmentname'];
+		if($palatandaan =="editdept"){
+			$id=$_GET['forwardedid'];
+			$querySaDatabase = "SELECT * FROM departmenttbl WHERE deptid='$id' ";
+			$executeQuery = mysqli_query($con, $querySaDatabase);
+				$pambato = array();
+				while($row = mysqli_fetch_array($executeQuery)){
+					$pambato['deptid'] = $row['deptid'];
+					$pambato['deptname'] = $row['departmentname'];
+				}
+				echo json_encode($pambato);
 		}
-		echo json_encode($pambato);
-}
 
-}
+		if($palatandaan=="changedsec"){
+			$secid=$_GET['secid'];
+
+		     $sql="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname, (SELECT averagescore FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS AverageScore,(SELECT remarks FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS Remarks from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid WHERE userstbl.sectionid='$secid' order by userstbl.lname";
+		     $result=mysqli_query($con, $sql);
+		        if(mysqli_num_rows($result)){
+		             while($row = mysqli_fetch_array($result)){
+		             	echo "<tr class='tr-shadow'>
+		                        <td>
+		                            <label class='au-checkbox'>
+		                                <input type='checkbox'>
+		                                <span class='au-checkmark'></span>
+		                            </label>
+		                        </td>";
+		                echo "<td>".$row['lname'].", ".$row['fname']."</td>";
+		                echo "<td>".$row['email']."</td>";
+		                echo "<td>".$row['sectionname']."</td>";
+		                echo "<td>
+		                        <span "; 
+		                        if($row['Remarks']=='PASSED'){
+		                            echo 'class="status--process"'; } 
+		                         else{
+		                            echo 'class="status--denied"';
+		                         }
+		                         echo ">";
+		                         echo $row['AverageScore']."% ".$row['Remarks'];
+		                         echo "
+									</span>
+		                       </td>";
+		                  echo "
+		                                <td>
+		                                    <div class='table-data-feature'>
+		                                        <button class='item' data-toggle='tooltip' data-placement='top' title='Send Notifications'>
+		                                            <i class='zmdi zmdi-mail-send'></i>
+		                                        </button>
+		                                        <button class='item' data-placement='top' title='Edit' data-toggle='modal' data-target='#edit'>
+		                                            <i class='zmdi zmdi-edit'></i>
+		                                        </button>
+		                                        <button class='item' data-toggle='tooltip' data-placement='top' title='Delete'>
+		                                            <i class='zmdi zmdi-delete'></i>
+		                                        </button>
+		                                        <button class='item' data-toggle='tooltip' data-placement='top' title='More'>
+		                                            <i class='zmdi zmdi-more'></i>
+		                                        </button>
+		                                    </div>
+		                                </td>
+		                         ";
+		                         echo "</tr>";
+		        }
+		    }else{
+		        	 echo "<tr><td></td><td></td><td>No data Found</td><td></td><td></td><td></td>
+		                   </tr>";
+		        }
+		                
+		} //end if palatandaan==changedsec
+		if($palatandaan=="searchstudent"){
+			$tosearch=$_GET['tosearch'];
+
+		     $qu="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname, (SELECT averagescore FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS AverageScore,(SELECT remarks FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS Remarks from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid WHERE lname  LIKE '%$tosearch%' OR userid  LIKE '%$tosearch%' OR fname LIKE '%$tosearch%' OR email LIKE '%$tosearch%' OR sectionname LIKE '%$tosearch%' order by userstbl.lname";
+		     $re=mysqli_query($con, $qu);
+		        if(mysqli_num_rows($re)){
+		             while($row = mysqli_fetch_array($re)){
+		             	echo "<tr class='tr-shadow'>
+		                        <td>
+		                            <label class='au-checkbox'>
+		                                <input type='checkbox'>
+		                                <span class='au-checkmark'></span>
+		                            </label>
+		                        </td>";
+		                echo "<td>".$row['lname'].", ".$row['fname']."</td>";
+		                echo "<td>".$row['email']."</td>";
+		                echo "<td>".$row['sectionname']."</td>";
+		                echo "<td>
+		                        <span "; 
+		                        if($row['Remarks']=='PASSED'){
+		                            echo 'class="status--process"'; } 
+		                         else{
+		                            echo 'class="status--denied"';
+		                         }
+		                         echo ">";
+		                         echo $row['AverageScore']."% ".$row['Remarks'];
+		                         echo "
+									</span>
+		                       </td>";
+		                  echo "
+		                                <td>
+		                                    <div class='table-data-feature'>
+		                                        <button class='item' data-toggle='tooltip' data-placement='top' title='Send Notifications'>
+		                                            <i class='zmdi zmdi-mail-send'></i>
+		                                        </button>
+		                                        <button class='item' data-placement='top' title='Edit' data-toggle='modal' data-target='#edit'>
+		                                            <i class='zmdi zmdi-edit'></i>
+		                                        </button>
+		                                        <button class='item' data-toggle='tooltip' data-placement='top' title='Delete'>
+		                                            <i class='zmdi zmdi-delete'></i>
+		                                        </button>
+		                                        <button class='item' data-toggle='tooltip' data-placement='top' title='More'>
+		                                            <i class='zmdi zmdi-more'></i>
+		                                        </button>
+		                                    </div>
+		                                </td>
+		                         ";
+		                         echo "</tr>";
+		        }
+		    }else{
+		        	 echo "<tr><td></td><td></td><td>No data Found</td><td></td><td></td><td></td>
+		                   </tr>";
+		        }
+		                
+		} //end if palatandaan==searchstudent
+
+}//end if isset palatandaan
 
 if(isset($_POST['addsection'])){
 			//echo $_POST['addsection'] ." POST addsection <br>";
@@ -119,6 +230,7 @@ if(isset($_GET['deletedept'])){
             header("location: adminsubjects.php?deletedeptresult=failed");
         }
 }
+
 
 
 ?>
