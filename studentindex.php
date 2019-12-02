@@ -5,7 +5,7 @@ include('functions.php');
 
 ?>
 <!DOCTYPE html>
-<php lang="en">
+<html lang="en">
 
 <head>
     <!-- Required meta tags-->
@@ -51,6 +51,16 @@ include('functions.php');
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
+                        <?php 
+                            if(isset($_GET['login'])){
+                                $login=$_GET['login'];
+                                $name=$_GET['fname'];
+
+                                if($login=="s"){
+                                echo "<div class='alert alert-success' role='alert'> Welcome ". $name ."! </div>";
+                                }
+                            }
+                            ?>
 
                         <!-- ANNOUNCEMENTS -->
                         <div class="row">
@@ -66,7 +76,8 @@ include('functions.php');
                                     <?php
 
 
-                                    $sql="SELECT * FROM announcementtbl join userstbl on announcementtbl.sectionid=userstbl.sectionid WHERE userstbl.userid='$id'  ";
+                                    $sql="SELECT * FROM announcementtbl join userstbl on announcementtbl.sectionid=userstbl.sectionid OR announcementtbl.userid=userstbl.userid WHERE userstbl.userid='$id'  ";
+                                    // userstbl.userid='$id' 
                                     $result=mysqli_query($con, $sql);
 
                                     if(mysqli_num_rows($result)){
@@ -279,5 +290,5 @@ include('functions.php');
 
 </body>
 
-</php>
+</html>
 <!-- end document-->

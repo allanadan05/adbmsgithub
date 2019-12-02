@@ -64,12 +64,13 @@ $palatandaan =  $_GET['palatandaan'];
 		                                        <button class='item' data-toggle='tooltip' data-placement='top' title='Send Notifications'>
 		                                            <i class='zmdi zmdi-mail-send'></i>
 		                                        </button>
-		                                        <button class='item' data-placement='top' title='Edit' data-toggle='modal' data-target='#edit'>
+		                                       <button type='button' onclick='editstudent(".$row['userid'].")' class='item' data-placement='top' title='Edit' data-toggle='modal' data-target='#add'>
 		                                            <i class='zmdi zmdi-edit'></i>
 		                                        </button>
+		                                         <a href='process2.php?deletestudent=1&id=".$row['userid']."'>
 		                                        <button class='item' data-toggle='tooltip' data-placement='top' title='Delete'>
 		                                            <i class='zmdi zmdi-delete'></i>
-		                                        </button>
+		                                        </button></a>
 		                                        <button class='item' data-toggle='tooltip' data-placement='top' title='More'>
 		                                            <i class='zmdi zmdi-more'></i>
 		                                        </button>
@@ -119,12 +120,13 @@ $palatandaan =  $_GET['palatandaan'];
 		                                        <button class='item' data-toggle='tooltip' data-placement='top' title='Send Notifications'>
 		                                            <i class='zmdi zmdi-mail-send'></i>
 		                                        </button>
-		                                        <button class='item' data-placement='top' title='Edit' data-toggle='modal' data-target='#edit'>
+		                                        <button type='button' onclick='editstudent(".$row['userid'].")' class='item' data-placement='top' title='Edit' data-toggle='modal' data-target='#add'>
 		                                            <i class='zmdi zmdi-edit'></i>
 		                                        </button>
+		                                         <a href='process2.php?deletestudent=1&id=".$row['userid']."'>
 		                                        <button class='item' data-toggle='tooltip' data-placement='top' title='Delete'>
 		                                            <i class='zmdi zmdi-delete'></i>
-		                                        </button>
+		                                        </button></a>
 		                                        <button class='item' data-toggle='tooltip' data-placement='top' title='More'>
 		                                            <i class='zmdi zmdi-more'></i>
 		                                        </button>
@@ -139,6 +141,30 @@ $palatandaan =  $_GET['palatandaan'];
 		        }
 		                
 		} //end if palatandaan==searchstudent
+
+		if($palatandaan =="editstudent"){
+			$id=$_GET['forwardedid'];
+			$querySaDatabase = "SELECT * FROM userstbl WHERE userid='$id' ";
+			$executeQuery = mysqli_query($con, $querySaDatabase);
+				$pambato = array();
+				while($row = mysqli_fetch_array($executeQuery)){
+					$pambato['userid'] = $row['userid'];
+					$pambato['email'] = $row['email'];
+					$pambato['password'] = $row['password'];
+					$pambato['fname'] = $row['fname'];
+					$pambato['lname'] = $row['lname'];
+					$sec=$row['sectionid'];
+					$qq = "SELECT * FROM sectiontbl WHERE sectionid='$sec' ";
+					$ee = mysqli_query($con, $qq);
+					while ($rr = mysqli_fetch_array($ee)){
+					$pambato['sectionname'] = $rr['sectionname'] ;	
+					$pambato['sectionid'] = $rr['sectionid'] ;	
+					}
+					
+
+				}
+				echo json_encode($pambato);
+		}
 
 }//end if isset palatandaan
 
@@ -231,6 +257,20 @@ if(isset($_GET['deletedept'])){
         }
 }
 
+if(isset($_GET['deletestudent'])){
+    $id=$_GET['id'];
+     
+   $query = "DELETE FROM userstbl WHERE userid='$id' ";
+   $check = mysqli_query($con , $query) or die('Query error');
+    if($check)
+        {
+            header("location: adminstudents.php?deletestudentresult=success");
+        }
+        else
+        {
+            header("location: adminstudents.php?deletestudentresult=failed");
+        }
+}
 
 
 ?>

@@ -2,6 +2,9 @@
 include('connection.php');
 include('adminsession.php');
 include('functions.php');
+
+
+$teacher=teachersgetname($id);
 ?>
 
 <!DOCTYPE html>
@@ -68,6 +71,16 @@ include('functions.php');
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
+                        <?php 
+                            if(isset($_GET['login'])){
+                                $login=$_GET['login'];
+                                $name=$_GET['fname'];
+
+                                if($login=="s"){
+                                echo "<div class='alert alert-success' role='alert'> Welcome ". $name ."! </div>";
+                                }
+                            }
+                            ?>
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="card">
@@ -81,7 +94,7 @@ include('functions.php');
                                     <?php
 
 
-                                    $sql="SELECT * FROM announcementtbl ORDER BY dateposted desc  ";
+                                    $sql="SELECT * FROM announcementtbl WHERE anfrom='$teacher' ORDER BY dateposted desc  ";
                                     $result=mysqli_query($con, $sql);
 
                                     if(mysqli_num_rows($result)){
@@ -191,74 +204,74 @@ include('functions.php');
     <!-- MODALs Here -->
 
     <!-- modal medium -->
-            <div class="modal fade" id="addAnnouncement" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                        <form action="announcement.php" method="POST">
-                            <h5 class="modal-title" id="mediumModalLabel"><input type="text" name="antitle" placeholder="Title"></h5>
-                            
-                        <input type="text" name="anfrom" value="<?php echo teachersgetname($id);?>" style="display:none;">
-                        <input type="date" name="dateposted" value="<?php echo date('Y-m-d'); ?>" style="display:none;" />
-                        </div>
-                        <div class="modal-body">
-                        <textarea rows="5" cols="90" name="andetails" placeholder="message goes here!"></textarea>
-                        </div>
-                        <div class="modal-footer">
-                            
-                            <select name="sectionid" id="select0" onchange="showone()">
-                            <option value="section">Per Section</option>
-                            <option value="subject">Per Subject</option>
-                            </select>
-                            <select name="sectionid" id="select1" style="display:none;" >
-                            <option value="" selected disabled>--Choose Section--</option>
-                            <?php 
-                            $category="sections";
-                            if($category=="sections"){
-                                $sql="select * from sectiontbl";
-                                $result=mysqli_query($con, $sql);
-                                if(mysqli_num_rows($result)){
-                                    while($row = mysqli_fetch_array($result))
-                                    { 
-                            ?>
-                                        <option value="<?php echo $row['sectionid'];  ?>"><?php echo $row['sectionname'];  ?></option>
+    <div class="modal fade" id="addAnnouncement" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <form action="announcement.php" method="POST">
+                    <h5 class="modal-title" id="mediumModalLabel"><input type="text" name="antitle" placeholder="Title"></h5>
+                    
+                <input type="text" name="anfrom" value="<?php echo teachersgetname($id);?>" style="display:none;">
+                <input type="date" name="dateposted" value="<?php echo date('Y-m-d'); ?>" style="display:none;" />
+                </div>
+                <div class="modal-body">
+                <textarea rows="5" cols="90" name="andetails" placeholder="message goes here!"></textarea>
+                </div>
+                <div class="modal-footer">
+                    
+                    <select name="sectionid" id="select0" onchange="showone()">
+                    <option value="section">Per Section</option>
+                    <option value="subject">Per Subject</option>
+                    </select>
+                    <select name="sectionid" id="select1" style="display:none;" >
+                    <option value="" selected disabled>--Choose Section--</option>
+                    <?php 
+                    $category="sections";
+                    if($category=="sections"){
+                        $sql="select * from sectiontbl";
+                        $result=mysqli_query($con, $sql);
+                        if(mysqli_num_rows($result)){
+                            while($row = mysqli_fetch_array($result))
+                            { 
+                    ?>
+                                <option value="<?php echo $row['sectionid'];  ?>"><?php echo $row['sectionname'];  ?></option>
 
-                            <?php
-                                    }
-                                }
+                    <?php
                             }
-                            ?>
-                            </select>
+                        }
+                    }
+                    ?>
+                    </select>
 
-                            <select name="subjectid" id="select2" style="display:none;">
-                            <option value="" selected disabled>--Per Subject--</option>
-                            <?php 
-                            $category="subject";
-                            if($category=="subject"){
-                                $sql="select * from subjecttbl";
-                                $result=mysqli_query($con, $sql);
-                                if(mysqli_num_rows($result)){
-                                    while($row = mysqli_fetch_array($result))
-                                    { 
-                            ?>
-                                        <option value="<?php echo $row['subjectid'];  ?>"><?php echo $row['subjectname'];  ?></option>
+                    <select name="subjectid" id="select2" style="display:none;">
+                    <option value="" selected disabled>--Per Subject--</option>
+                    <?php 
+                    $category="subject";
+                    if($category=="subject"){
+                        $sql="select * from subjecttbl";
+                        $result=mysqli_query($con, $sql);
+                        if(mysqli_num_rows($result)){
+                            while($row = mysqli_fetch_array($result))
+                            { 
+                    ?>
+                                <option value="<?php echo $row['subjectid'];  ?>"><?php echo $row['subjectname'];  ?></option>
 
-                            <?php
-                                    }
-                                }
+                    <?php
                             }
-                            ?>
+                        }
+                    }
+                    ?>
 
-                            </select>
-                            
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary" >Confirm</button>
-                            </form>
-                        </div>
-                    </div>
+                    </select>
+                    
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" name="addAnnPerSubOrSec" class="btn btn-primary" >Send</button>
+                    </form>
                 </div>
             </div>
-            <!-- end modal medium -->
+        </div>
+    </div>
+    <!-- end modal medium -->
 
             <script>
          

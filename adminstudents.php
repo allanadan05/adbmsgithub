@@ -1,7 +1,7 @@
 <?php
 include('connection.php');
-include('functions.php');
 include('adminsession.php');
+include('functions.php');
 
 ?>
 <!DOCTYPE html>
@@ -37,6 +37,38 @@ include('adminsession.php');
             xhttp.open("GET", "process2.php?tosearch="+tosearch+"&palatandaan="+palatandaan, true);
             xhttp.send(); 
         }
+
+    function editstudent(id){
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) { 
+                var buongObject=JSON.parse(this.responseText);
+                //document.getElementById("response").innerHTML = buongObject.sname;
+                document.getElementById("email").value = buongObject.email;
+                document.getElementById("password").value = buongObject.password;
+                document.getElementById("lname").value = buongObject.lname;
+                document.getElementById("fname").value = buongObject.fname;
+                document.getElementById("mname").value = buongObject.mname;
+                document.getElementById("sectionselected").label = buongObject.sectionname;
+                document.getElementById("sectionselected").value = buongObject.sectionid;
+                document.getElementById("modaltitle").value = "EDIT Student";
+                document.getElementById("hiddenuserid").value = forwardedid;
+                document.getElementById("submitbtn").style.display="none";
+                document.getElementById("savebtn").style.display="inline";
+        }
+      };
+
+    var forwardedid = id;
+    //document.write(forwardedid);
+    var palatandaan = "editstudent";
+    xhttp.open("GET", "process2.php?forwardedid="+forwardedid+"&palatandaan="+palatandaan, true);
+    xhttp.send(); 
+    }
+
+    function setmodalid(id){
+        document.getElementById("hiddensendid").value=id;
+    }
+
     </script>
 
     <!-- Required meta tags-->
@@ -86,7 +118,38 @@ include('adminsession.php');
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div>
-                            <h2>Students</h2><hr/><br/>
+                            <h2>Students</h2><hr/>
+                            <?php
+                             if(isset($_GET['editstudentresult'])){
+                                $editstudentresult=$_GET['editstudentresult'];
+                                if($editstudentresult=="success"){
+                                echo "<div class='alert alert-primary' role='alert'> Profile: ".$_GET['lname'] .", " .$_GET['fname'] ." has been updated :) </div>";
+                                }
+                                if($editstudentresult=="failed"){
+                                echo "<div class='alert alert-danger' role='alert'>  Profile: ".$_GET['lname'] .", " .$_GET['fname'] ." cannot be updated :( </div>";
+                                } 
+                            }
+                            
+                            if(isset($_GET['deletestudentresult'])){
+                                $deletestudentresult=$_GET['deletestudentresult'];
+                                if($deletestudentresult=="success"){
+                                echo "<div class='alert alert-primary' role='alert'> Profile has been deleted :) </div>";
+                                }
+                                if($deletestudentresult=="failed"){
+                                echo "<div class='alert alert-danger' role='alert'>  Profile cannot be deleted :( </div>";
+                                } 
+                            }
+                            
+                            if(isset($_GET['notifsent'])){
+                                $notifsent=$_GET['notifsent'];
+                                if($notifsent=="success"){
+                                echo "<div class='alert alert-primary' role='alert'> Notification has been sent! :) </div>";
+                                }
+                                if($notifsent=="failed"){
+                                echo "<div class='alert alert-danger' role='alert'>  Notification cannot be sent! :( </div>";
+                                } 
+                            }
+                            ?>
                         </div>
                         <div class="row">
                             <div class="col-md-10">
@@ -172,15 +235,16 @@ include('adminsession.php');
                                                 </td>
                                                 <td>
                                                     <div class="table-data-feature">
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send Notifications">
+                                                        <button onclick="setmodalid(<?php echo $row['userid']; ?>)" class="item" data-toggle="modal" data-placement="top" title="Send Notification" type="button" data-target="#sendnotif">
                                                             <i class="zmdi zmdi-mail-send"></i>
                                                         </button>
-                                                        <button type="button" onclick="editstudent(<?php echo $row['userid']; ?>)" class="item" data-placement="top" title="Edit"  data-toggle="modal" data-target="#edit">
+                                                        <button type="button" onclick="editstudent(<?php echo $row['userid']; ?>)" class="item" data-placement="top" title="Edit"  data-toggle="modal" data-target="#add">
                                                             <i class="zmdi zmdi-edit"></i>
                                                         </button>
+                                                        <a href="<?php echo "process2.php?deletestudent=1&id=".$row['userid'] ?>">
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
                                                             <i class="zmdi zmdi-delete"></i>
-                                                        </button>
+                                                        </button></a>
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="More">
                                                             <i class="zmdi zmdi-more"></i>
                                                         </button>
@@ -226,7 +290,7 @@ include('adminsession.php');
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h6 class="modal-title">Add Student</h6>
+                <h6 class="modal-title" id="modaltitle">Add Student</h6>
                 
             </div>
 
@@ -234,29 +298,33 @@ include('adminsession.php');
             <div class="modal-body">
                 
                 <form action="adduser.php" method="POST">
-                    <input type="email"  name="email" placeholder="Email" required>
-                    <input type="password" name="password" placeholder="Password" required>
-                    <input type="text"  name="fname" placeholder="Firstname" required>
-                    <input type="text"  name="lname" placeholder="Lastname" required>
-                    <input type="text"  name="mname" placeholder="Middlename">
-                   <select name="sectionid" required>
-                     <option selected disabled>Choose Section</option>
-                   <?php 
-                   $sql="SELECT * from sectiontbl";
-                   $result=mysqli_query($con, $sql);
-                   if(mysqli_num_rows($result)){
-                    while($row = mysqli_fetch_array($result))
-                    { 
-                   ?>
-                    <option value="<?php echo $row['sectionid'] ?>"><?php echo $row['sectionname'] ?></option>
-                    <?php }
-                    }?>
-                    </select>
+                    <input type="hidden" name="hiddenuserid" id="hiddenuserid">
+                    <table border="0" style="border-collapse: collapse;">
+                    <tr><td>Email:</td><td><input type="email"  name="email" id="email" placeholder="Enter Email" required></td></tr>
+                    <tr><td>Password:</td><td><input type="password" name="password" id="password" placeholder="Enter Password " required></td></tr>
+                    <tr><td>Firstname:</td><td><input type="text"  name="fname" id="fname" placeholder="Enter Firstname" required></td></tr>
+                    <tr><td>Lastname:</td><td><input type="text"  name="lname" id="lname" placeholder="Enter Lastname" required></td></tr>
+                    <tr><td>Middlename: &nbsp&nbsp&nbsp</td><td><input type="text"  name="mname" id="mname" placeholder="Enter Middlename"></td></tr>
+                   <tr><td>Section:</td><td><select name="sectionid" id="sec" required>
+                        <option id="sectionselected" selected readonly>Choose Section</option>
+                           <?php 
+                           $sql="SELECT * from sectiontbl";
+                           $result=mysqli_query($con, $sql);
+                           if(mysqli_num_rows($result)){
+                            while($row = mysqli_fetch_array($result))
+                            { 
+                           ?>
+                            <option value="<?php echo $row['sectionid'] ?>"><?php echo $row['sectionname'] ?></option>
+                            <?php }
+                            }?>
+                    </select></td></tr>
+                  </table>
             </div>
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="submit" id="" class="btn btn-success" >Submit</button>
+                <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline" name="addstudentsubmit">Submit</button> &nbsp 
+                <button type="submit" id="savebtn" class="btn btn-warning" style="display: inline" name="editstudentsubmit">Save</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </form>
                 
@@ -268,67 +336,30 @@ include('adminsession.php');
 </div>
 <!-- /MODAL ADD -->
 
-<!-- MODAL ADD -->
-<div class="add-user-modal">
- <div class="modal" id="edit">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h6 class="modal-title">Edit Student</h6>
-                
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                <?php  $id=$_GET['userid']; $query="SELECT * FROM userstbl where userid=$userid";
-                $result=mysqli_query($con, $sql);
-                
-                ?>
-                <form action="editusers.php" method="POST">
-                    <input type="hidden" name="userid" value="<?php echo $fetch['userid']?>">
-                    <input type="email"  name="email" placeholder="Email" value="<?php echo $fetch['email']?>">
-                    <input type="password" name="password" placeholder="Password" value="<?php echo $fetch['password']?>">
-                    <input type="text"  name="fname" placeholder="Firstname" value="<?php echo $fetch['fname']?>">
-                    <input type="text"  name="lname" placeholder="Lastname" value="<?php echo $fetch['lname']?>">
-                    <input type="text"  name="mname" placeholder="Middlename" value="<?php echo $fetch['mname']?>">
-                   <select name="sectionid">
-                   <?php 
-                   $sql="SELECT * from sectiontbl";
-                   $result=mysqli_query($con, $sql);
-                   if(mysqli_num_rows($result)){
-                    while($row = mysqli_fetch_array($result))
-                    { 
-                   ?>
-                    <option value="<?php echo $row['sectionid'] ?>"><?php echo $row['sectionname'] ?></option>
-                    <?php }
-                    }?>
-                    </select>
-                   
-             
-                    
-
-                    
-                    
-
-                
-                
-            
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="submit" id="" class="btn btn-success" >Submit</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </form>
-                
-                
+ <!-- modal medium -->
+    <div class="modal fade" id="sendnotif" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <form action="announcement.php" method="POST">
+                    <input type="hidden" name="hiddensendid" id="hiddensendid">
+                    <input type="text" name="anfrom" value="<?php echo teachersgetname($id);?>" style="display:inline;" readonly>
+                    <input type="date" name="dateposted" value="<?php echo date("Y-m-d"); ?>" style="display:inline;" readonly>
+                    <h5 class="modal-title" id="mediumModalLabel"><input type="text" name="antitle" placeholder="Type Title here..."></h5>
+                </div>
+                <div class="modal-body">
+                <textarea rows="5" cols="90" name="andetails" placeholder="Type message here..."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" name="addAnnPerStudent" class="btn btn-primary" id="sendbtn">Send</button>
+                 </form>
+                </div>
             </div>
         </div>
     </div>
- </div>
-</div>
-<!-- /MODAL ADD -->
+    <!-- end modal medium -->
+
 
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
