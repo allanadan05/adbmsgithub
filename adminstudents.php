@@ -324,7 +324,7 @@ include('functions.php');
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline" name="addstudentsubmit">Submit</button> &nbsp 
-                <button type="submit" id="savebtn" class="btn btn-warning" style="display: inline" name="editstudentsubmit">Save</button>
+                <button type="submit" id="savebtn" class="btn btn-warning" style="display: none" name="editstudentsubmit">Save</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </form>
                 

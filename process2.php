@@ -61,7 +61,7 @@ $palatandaan =  $_GET['palatandaan'];
 		                  echo "
 		                                <td>
 		                                    <div class='table-data-feature'>
-		                                        <button class='item' data-toggle='tooltip' data-placement='top' title='Send Notifications'>
+		                                        <button onclick='setmodalid(".$row['userid'].")'  class='item' data-toggle='modal' data-placement='top' title='Send Notifications'  type='button' data-target='#sendnotif'>
 		                                            <i class='zmdi zmdi-mail-send'></i>
 		                                        </button>
 		                                       <button type='button' onclick='editstudent(".$row['userid'].")' class='item' data-placement='top' title='Edit' data-toggle='modal' data-target='#add'>
@@ -117,7 +117,7 @@ $palatandaan =  $_GET['palatandaan'];
 		                  echo "
 		                                <td>
 		                                    <div class='table-data-feature'>
-		                                        <button class='item' data-toggle='tooltip' data-placement='top' title='Send Notifications'>
+		                                        <button onclick='setmodalid(".$row['userid'].")'  class='item' data-toggle='modal' data-placement='top' title='Send Notifications'  type='button' data-target='#sendnotif'>
 		                                            <i class='zmdi zmdi-mail-send'></i>
 		                                        </button>
 		                                        <button type='button' onclick='editstudent(".$row['userid'].")' class='item' data-placement='top' title='Edit' data-toggle='modal' data-target='#add'>
