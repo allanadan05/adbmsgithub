@@ -122,6 +122,7 @@ include('functions.php');
                             <?php
                              if(isset($_GET['editstudentresult'])){
                                 $editstudentresult=$_GET['editstudentresult'];
+
                                 if($editstudentresult=="success"){
                                 echo "<div class='alert alert-primary' role='alert'> Profile: ".$_GET['lname'] .", " .$_GET['fname'] ." has been updated :) </div>";
                                 }
@@ -159,13 +160,13 @@ include('functions.php');
                                     <div class="table-data__tool-left">
                                         <div class="rs-select2--light rs-select2--md">
                                            <select class="js-select2" name="sections" id="secid" onchange="changedsections()">
-                                                <option selected="selected" disabled>All Sections</option>
+                                                <option selected="selected" disabled>All Departments</option>
                                                 <?php 
-                                                   $sqlstring="SELECT * FROM sectiontbl";
+                                                   $sqlstring="SELECT * FROM departmenttbl";
                                                    $querystring=mysqli_query($con, $sqlstring);
                                                    while($row=mysqli_fetch_array($querystring)){
                                                 ?>
-                                                <option value="<?php echo $row['sectionid']; ?>"><?php echo $row['sectionname']; ?></option>
+                                                <option value="<?php echo $row['deptidid']; ?>"><?php echo $row['departmentname']; ?></option>
                                                 <?php } ?>
                                             </select>
                                             <div class="dropDownSelect2"></div>
