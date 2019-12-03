@@ -13,17 +13,23 @@ $deptid=$_POST['deptid'];
 
 $sql = "INSERT INTO teacherstbl(email,password,fname,lname,mname,deptid) VALUES ('$email','$pword','$fname','$lname','$mname','$deptid')";
 if(mysqli_query($con,$sql))
-    {   
+    {   $last_id=mysqli_insert_id($con);
         $sectionid=$_POST['section'];
         $subjectid=$_POST['subject'];
         $sql="INSERT INTO sectionsubjecttbl(sectionid,subjectid) VALUES ('$sectionid','$subjectid')";
         $Excutequery=mysqli_query($con,$sql);
         if($Excutequery){
-        $subjectid=$_POST['subject'];
-        
-        header("location: adminteachers.php?addsubresult=success");
+        $sectionid=$_POST['section'];
+        $sql="INSERT INTO teachersectiontbl(sectionid,teachersid) VALUES ('$sectionid','$last_id')";
+        $Excutequery=mysqli_query($con,$sql);
+        if($Excutequery){
+            header("location: adminteachers.php?addsubresult=success");
+
         }
-    }
+        
+        
+        }
+    
         
     
     else
@@ -32,7 +38,27 @@ if(mysqli_query($con,$sql))
     }
 
 
+}
 
+if(isset($_POST['editteachersubmit'])){
+    $id=$_POST['hiddenuserid'];
+	$email=$_POST['email'];
+	$pword=$_POST['password'];
+	$fname=$_POST['fname'];
+	$lname=$_POST['lname'];
+	$mname=$_POST['mname'];
+	$sectionid=$_POST['sectionid'];
+
+	$sql = "UPDATE userstbl SET email='$email' ,password='$pword', fname='$fname',lname='$lname',mname='$mname',sectionid='$sectionid' WHERE userid='$id' ";
+	if(mysqli_query($con,$sql))
+	    {
+	        header("location: adminstudents.php?editstudentresult=success&lname=".$lname."&fname=".$fname);
+	    }
+	    else
+	    {
+	        header("location: adminstudents.php?editstudentresult=failed&lname=".$lname."&fname=".$fname);
+	    }
+}
 
 
 

@@ -1,6 +1,6 @@
 <?php
 include('connection.php');
-
+if(isset($_GET['palatandaan'])){
 $palatandaan =  $_GET['palatandaan'];
 
 
@@ -33,4 +33,33 @@ if($palatandaan=="update"){
 			}
 }	
 
+
+
+
+//edit teachers
+if($palatandaan =="editsteacher"){
+	$id=$_GET['forwardedid'];
+	$querySaDatabase = "SELECT * FROM teacherstbl WHERE teachersid='$id' ";
+	$executeQuery = mysqli_query($con, $querySaDatabase);
+		$pambato = array();
+		while($row = mysqli_fetch_array($executeQuery)){
+			$pambato['teachersid'] = $row['teachersid'];
+			$pambato['email'] = $row['email'];
+			$pambato['password'] = $row['password'];
+			$pambato['fname'] = $row['fname'];
+			$pambato['lname'] = $row['lname'];
+			$deptid=$row['deptid'];
+			$qq = "SELECT * FROM departmenttbl WHERE deptid='$deptid' ";
+			$ee = mysqli_query($con, $qq);
+			while ($rr = mysqli_fetch_array($ee)){
+			$pambato['departmentname'] = $rr['departmentname'] ;
+			$pambato['deptid'] = $rr['deptid'];
+			}
+			
+
+		}
+		echo json_encode($pambato);
+}
+
+}
 ?>

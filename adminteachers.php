@@ -38,7 +38,7 @@ include('functions.php');
             xhttp.send(); 
         }
 
-    function editstudent(id){
+    function editsteacher(id){
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) { 
@@ -49,9 +49,13 @@ include('functions.php');
                 document.getElementById("lname").value = buongObject.lname;
                 document.getElementById("fname").value = buongObject.fname;
                 document.getElementById("mname").value = buongObject.mname;
-                document.getElementById("sectionselected").label = buongObject.sectionname;
-                document.getElementById("sectionselected").value = buongObject.sectionid;
-                document.getElementById("modaltitle").value = "EDIT Student";
+                document.getElementById("sectionselected1").label = buongObject.departmentname;
+                document.getElementById("sectionselected1").value = buongObject.deptid;
+                document.getElementById("sectionselected2").label = buongObject.sectionname;
+                document.getElementById("sectionselected2").value = buongObject.sectionid;
+                document.getElementById("sectionselected3").label = buongObject.subjectname;
+                document.getElementById("sectionselected3").value = buongObject.subjectid;
+                document.getElementById("modaltitle").value = "EDIT Teacher";
                 document.getElementById("hiddenuserid").value = forwardedid;
                 document.getElementById("submitbtn").style.display="none";
                 document.getElementById("savebtn").style.display="inline";
@@ -60,8 +64,8 @@ include('functions.php');
 
     var forwardedid = id;
     //document.write(forwardedid);
-    var palatandaan = "editstudent";
-    xhttp.open("GET", "process2.php?forwardedid="+forwardedid+"&palatandaan="+palatandaan, true);
+    var palatandaan = "editsteacher";
+    xhttp.open("GET", "processj.php?forwardedid="+forwardedid+"&palatandaan="+palatandaan, true);
     xhttp.send(); 
     }
 
@@ -228,7 +232,7 @@ include('functions.php');
                                                         <button onclick="setmodalid(<?php echo $row['teachersid']; ?>)" class="item" data-toggle="modal" data-placement="top" title="Send Notification" type="button" data-target="#sendnotif">
                                                             <i class="zmdi zmdi-mail-send"></i>
                                                         </button>
-                                                        <button type="button" onclick="editstudent(<?php echo $row['teachersid']; ?>)" class="item" data-placement="top" title="Edit"  data-toggle="modal" data-target="#add">
+                                                        <button type="button" onclick="editsteacher(<?php echo $row['teachersid']; ?>)" class="item" data-placement="top" title="Edit"  data-toggle="modal" data-target="#add">
                                                             <i class="zmdi zmdi-edit"></i>
                                                         </button>
                                                         <a href="<?php echo "process2.php?deletestudent=1&id=".$row['teachersid'] ?>">
@@ -292,8 +296,8 @@ include('functions.php');
                     <tr><td>Firstname:</td><td><input type="text"  name="fname" id="fname" placeholder="Enter Firstname" required></td></tr>
                     <tr><td>Lastname:</td><td><input type="text"  name="lname" id="lname" placeholder="Enter Lastname" required></td></tr>
                     <tr><td>Middlename: &nbsp&nbsp&nbsp</td><td><input type="text"  name="mname" id="mname" placeholder="Enter Middlename"></td></tr>
-                    <tr><td>Department: &nbsp&nbsp&nbsp</td><td> <select name="deptid" id="sec" required>
-                    <option id="sectionselected" selected readonly>Choose Department</option>
+                    <tr><td>Department: &nbsp&nbsp&nbsp</td><td> <select name="deptid" id="dep" required>
+                    <option id="sectionselected1" selected readonly>Choose Department</option>
                            <?php 
                            $sql="SELECT * from departmenttbl";
                            $result=mysqli_query($con, $sql);
@@ -306,7 +310,7 @@ include('functions.php');
                             }?>
                     </select></td></tr>
                    <tr><td>Section:</td><td><select name="section" id="sec" required>
-                        <option id="sectionselected" selected readonly>Choose Section</option>
+                        <option id="sectionselected2" selected readonly>Choose Section</option>
                            <?php 
                            $sql="SELECT * from sectiontbl";
                            $result=mysqli_query($con, $sql);
@@ -318,8 +322,8 @@ include('functions.php');
                             <?php }
                             }?>
                     </select></td></tr>
-                    <tr><td>Subject:</td><td><select name="subject" id="sec" required>
-                        <option id="sectionselected" selected readonly>Choose Subject</option>
+                    <tr><td>Subject:</td><td><select name="subject" id="sub" required>
+                        <option id="sectionselected3" selected readonly>Choose Subject</option>
                            <?php 
                            $sql="SELECT * from subjecttbl";
                            $result=mysqli_query($con, $sql);
@@ -337,7 +341,7 @@ include('functions.php');
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline" name="addstudentsubmit">Submit</button> &nbsp 
-                <button type="submit" id="savebtn" class="btn btn-warning" style="display: none" name="editstudentsubmit">Save</button>
+                <button type="submit" id="savebtn" class="btn btn-warning" style="display: none" name="editteachersubmit">Save</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </form>
                 
@@ -367,7 +371,7 @@ include('functions.php');
                 </div>
                 <div class="modal-body">
                 <table>
-                    <tr><td>Subject:</td><td><select name="subject" id="sec" required>
+                    <tr><td>Subject:</td><td><select name="subject" id="sub" required>
                         <option id="sectionselected" selected readonly>Choose Subject</option>
                            <?php 
                            $sql="SELECT * from subjecttbl";
