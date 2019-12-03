@@ -10,6 +10,22 @@ include('functions.php');
 <php lang="en">
 
 <head>
+    
+    <script>
+        function stat(id){
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) { 
+                document.getElementById("response").innerHTML = this.responseText;
+        }
+      };
+            var forIpinasa=id;
+            var palatandaan = "stat";
+            xhttp.open("GET", "process2.php?forIpinasa="+forIpinasa+"&palatandaan="+palatandaan, true);
+            xhttp.send(); 
+        }
+    </script>
+
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -148,7 +164,7 @@ include('functions.php');
                                                 <th>ACTIONS</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="response">
                                             <?php
                                                 $sql="select quizid, quizname, (SELECT subjectname from subjecttbl WHERE subjectid=quiztbl.subjectid) AS subject, duration, status from quiztbl";
                                                 $result=mysqli_query($con, $sql);
@@ -177,7 +193,7 @@ include('functions.php');
                                                 </td>
                                                 <td>
                                                     <div class="table-data-feature">
-                                                        <button onclick="setmodalid(<?php echo $row['quizid']; ?>)" class="item" data-toggle="modal" data-placement="top" title="<?php echo $stat; ?>" type="button" data-target="#modalbox">
+                                                        <button onclick="stat(<?php echo $row['quizid']; ?>)" class="item" data-toggle="modal" data-placement="top" title="<?php echo $stat; ?>" type="button">
                                                             <i class="zmdi zmdi-power"></i>
                                                         </button>
                                                         <button type="button" onclick="editstudent(<?php echo $row['quizid']; ?>)" class="item" data-placement="top" title="Edit"  data-toggle="modal" data-target="#modalbox">
