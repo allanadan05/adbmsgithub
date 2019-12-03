@@ -6,6 +6,7 @@ function editlesson(ipinasa){
               //document.getElementById("response").innerHTML = buongObject.sname;
               document.getElementById("lessontit").value = buongObject.lessontitle;
               document.getElementById("lessondet").value = buongObject.lessondetail;
+              document.getElementById("file-input").value = buongObject.lessondpdf;
               document.getElementById("uId").value = forIpinasa;
               document.getElementById("addlesson").style.display="none";
               document.getElementById("updatelesson").style.display="inline";

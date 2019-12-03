@@ -11,7 +11,7 @@ include('functions.php');
 
 <head>
     <!-- Required meta tags-->
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Dan Astillero">
     <!-- Title Page-->
@@ -63,12 +63,15 @@ include('functions.php');
                             <div>
                                 <h2>Lessons</h2><hr/><br/>
                             </div>
+                          
+                            
+                    
                         <div class="row">
                             <div class="col-md-4">
                                     <div class="card">
                                      <div class="card-header">
                                         <div class="row">
-                                        <form action="addlesson.php" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                                        <form action="addlesson.php" method="POST" enctype="multipart/form-data">
                                             <select name="subjectid">
                                             
                                             <option selected disabled>Select Subject</option>
@@ -98,7 +101,7 @@ include('functions.php');
                                             
                                             <div class="row form-group">
                                                 <label for="file-input" class=" form-control-label">Upload File</label><br>
-                                                <input type="file" id="file-input" name="lessonpdf" class="form-control-file" accept="applications/pdf">
+                                                <input type="file" id="file-input" name="lessonpdf" class="form-control-file" accept="application/pdf">
                                             </div>
                                         
                                     </div>
@@ -113,15 +116,25 @@ include('functions.php');
                             <?php
                                      
 
-                                 $sql="SELECT subjecttbl.subjectname,lessontbl.lessonid,lessontbl.lessontitle,lessontbl.lessondetail,lessontbl.lessonpdf from lessontbl join subjecttbl on lessontbl.subjectid=subjecttbl.subjectid ";
+                                 $sql="SELECT subjecttbl.subjectname,lessontbl.lessonid,lessontbl.lessontitle,lessontbl.lessondetail,lessontbl.lessonpdf,lessontbl.path from lessontbl join subjecttbl on lessontbl.subjectid=subjecttbl.subjectid ";
                                    $result=mysqli_query($con, $sql);
          
                                  if(mysqli_num_rows($result)){
                                  while($row = mysqli_fetch_array($result))
-                                 { ?>
+                                 { 
+                                     
+                                     $tae = $row['path'];
+                                     $id = $row['lessonid'];
+                                     echo '<img src=""   '.$tae.'" width = "50px" height = "50px" />'
+                                     
+                                     
+                                     
+                                     
+                                     ?>
                            
 
                             <div class="col-md-4">
+                               
                                     <div class="card">
                                      <div class="card-header">
                                     
@@ -131,7 +144,8 @@ include('functions.php');
                                     <div class="card-body">
                                         <p class="card-text"> <?php  echo "<td>".$row['lessondetail']."</td>"; ?>
                                         </p>
-                                        <p class="card-text"><a href="" download="newfilename"><?php  echo "<td>".$row['lessonpdf']."</td>"; ?></a>
+                                        <p class="card-text"><a href="<?php  echo $row['lessonpdf']; ?>">View</a>
+                                        
                                         </p>
                                     </div>
                                     <div class="card-footer">
