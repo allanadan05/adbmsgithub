@@ -17,7 +17,7 @@ $teacher=teachersgetname($id);
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Admin Admin">
     <!-- Title Page-->
-    <title>Student Dashboard</title>
+    <title>Dashboard</title>
 
     <!-- Fontfaces CSS-->
     <link href="css/font-face.css" rel="stylesheet" media="all">
