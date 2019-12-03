@@ -272,5 +272,40 @@ if(isset($_GET['deletestudent'])){
         }
 }
 
+if(isset($_POST['submitquiz'])){
+    $chosensubject=$_POST['chosensubject']; 
+    $qtitle=$_POST['qtitle'];
+    $time=$_POST['time'];
+    $question=$_POST['question'];
+    $optiona=$_POST['optiona'];
+    $optionb=$_POST['optionb'];
+    $optionc=$_POST['optionc'];
+    $optiond=$_POST['optiond'];
+    $answer=$_POST['answer']; 
+    
+     
+    $sql = "INSERT INTO questiontbl(question) VALUES ('$question')";
+    if(mysqli_query($con,$sql))
+        {
+        	$questionid=mysqli_insert_id($con); 
+        	$sql = "INSERT INTO optionstbl(optiona,optionb, optionc, optiond) VALUES ('$optiona','$optionb', '$optionc', '$optiond')";
+        	if(mysqli_query($con,$sql)){
+        		$optionid=mysqli_insert_id($con); 
+        		$sql = "INSERT INTO answertbl(questionid,optionid, answer) VALUES ('$questionid','$optionid', '$answer')";
+        		if(mysqli_query($con,$sql)){
+        			$answerid=mysqli_insert_id($con); 
+        			$sql = "INSERT INTO quiztbl(quizname, subjectid, questionid, optionsid, answerid, duration, status) VALUES ('$qtitle','$chosensubject', '$questionid', '$optionid',  '$answerid', '$time', 'ACTIVATED')";
+        			if(mysqli_query($con,$sql)){
+        			header("location: adminquizzes.php?addquizresult=success");	
+        		    }
+        		}
+        	}
+        }
+        else
+        {
+            header("location: adminquizzes.php?addquizresult=failed");
+        }
+}
+
 
 ?>

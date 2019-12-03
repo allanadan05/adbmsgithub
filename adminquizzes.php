@@ -59,25 +59,46 @@ include('functions.php');
                     <div class="container-fluid">
                             <div>
                                 <h2>Quizzes</h2><hr/>
+                                <?php 
+                                   if(isset($_GET['addquizresult'])){
+                                    $addquizresult=$_GET['addquizresult'];
+                                        if($addquizresult=="success"){
+                                            echo "<div class='alert alert-primary' role='alert'> Quiz has been added :) </div>";
+                                        }
+                                        if($addquizresult=="failed"){
+                                            echo "<div class='alert alert-danger' role='alert'> Quiz cannot been added :) </div>";
+                                        }
+                                   }
+                                ?>
                             </div>
                         <div class="row">
                            
                              <div class="col-md-12">
                                 <div class="card border border-primary">
                                     <div class="card-header">
+                                        <form method="POST" action="process2.php">
                                         <div class="row">
                                         <strong class="card-title">Question for </strong>  &nbsp &nbsp
-                                        <select class="js-select2" name="property">
-                                                <option selected="selected">Mathematics</option>
-                                                <option value="">Science</option>
-                                                <option value="">Physics</option>
+                                        <select class="js-select2" name="chosensubject" required>
+                                                <option selected="selected" disabled>Choose Subject</option>
+                                                 <?php 
+                                                   $sqlstring="SELECT * FROM subjecttbl";
+                                                   $querystring=mysqli_query($con, $sqlstring);
+                                                   while($row=mysqli_fetch_array($querystring)){
+                                                ?>
+                                                <option value="<?php echo $row['subjectid']; ?>"><?php echo $row['subjectname']; ?></option>
+                                                <?php } ?>
                                         </select>
                                         <div class="dropDownSelect2"></div>
                                         </div>
-                                        Time Limit: &nbsp &nbsp <input type="time" name="time">
+                                        <strong>Quiz Title </strong>  &nbsp &nbsp
+                                        <input type="text" name="qtitle" placeholder="Type title here" required>
+                                        <br>
+                                        <strong>Duration:</strong> &nbsp &nbsp <input type="time" name="time" required>
                                     </div>
                                     <div class="card-body">
-                                        <p class="card-text"><input type="text" name="question" placeholder="Enter question here..." style="width:100%">
+                                        <strong>Question: &nbsp</strong><br>
+                                        <p class="card-text"><input type="text" name="question" placeholder="Enter question here..." style="width:100%" required>
                                         </p>
                                         <br/>
                                         <div class="row form-group">
@@ -86,40 +107,31 @@ include('functions.php');
                                                 </div>
                                                 <div class="col col-md-8">
                                                     <div class="form-check">
-                                                        <div class="radio">
-                                                            <label for="radio1" class="form-check-label ">
-                                                                <input type="radio" id="radio1" name="radios" value="option1" class="form-check-input"><input type="text" name="optiona" placeholder="Enter choice A" style="width:50%">
-                                                            </label>
-                                                        </div>
-                                                        <div class="radio">
-                                                            <label for="radio2" class="form-check-label ">
-                                                                <input type="radio" id="radio2" name="radios" value="option2" class="form-check-input"><input type="text" name="optionb" placeholder="Enter choice B" style="width:50%">
-                                                            </label>
-                                                        </div>
-                                                        <div class="radio">
-                                                            <label for="radio3" class="form-check-label ">
-                                                                <input type="radio" id="radio3" name="radios" value="option3" class="form-check-input"><input type="text" name="optionc" placeholder="Enter choice C" style="width:50%">
-                                                            </label>
-                                                        </div>
-                                                        <div class="radio">
-                                                            <label for="radio4" class="form-check-label ">
-                                                                <input type="radio" id="radio4" name="radios" value="option4" class="form-check-input"><input type="text" name="optiond" placeholder="Enter choice D" style="width:50%">
-                                                            </label>
-                                                        </div>
+                                                        <strong>A. &nbsp</strong>
+                                                        <input type="text" name="optiona" placeholder="Choice A" style="width:50%" required>
+                                                        <br><strong>B. &nbsp</strong>
+                                                        <input type="text" name="optionb" placeholder="Choice B" style="width:50%" required>
+                                                        <br><strong>C. &nbsp</strong>
+                                                        <input type="text" name="optionc" placeholder="Choice C" style="width:50%" required>
+                                                        <br><strong>D. &nbsp</strong>
+                                                        <input type="text" name="optiond" placeholder="Choice D" style="width:50%" required>
                                                     </div>
+                                                    <br>
+                                                  Answer: <input type="text" name="answer" maxlength="1" style="width: 100%" placeholder="Type the letter of the correct answer here... " required>
                                                 </div>
-                                            </div>
+                                        </div>
                                     </div>
                                     <div class="card-footer">
-                                        <button type="edit" class="btn btn-secondary btn-sm">
+                                        <!-- <button type="edit" class="btn btn-secondary btn-sm">
                                             <i class="fa fa-pencil-square-o"></i> Edit
-                                        </button>
+                                        </button> -->
                                         <button type="reset" class="btn btn-danger btn-sm">
                                             <i class="fa fa-ban"></i> Reset
                                         </button>
-                                        <button type="submit" class="btn btn-primary btn-sm">
+                                        <button type="submit" class="btn btn-primary btn-sm" name="submitquiz">
                                             <i class="fa fa-dot-circle-o"></i> Submit
                                         </button>
+                                    </form>
                                     </div>
                                 </div>
                             </div>
@@ -133,58 +145,52 @@ include('functions.php');
                                                 <th>Subject</th>
                                                 <th>Time</th>
                                                 <th>Status</th>
+                                                <th>ACTIONS</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <?php
+                                                $sql="select quizid, quizname, (SELECT subjectname from subjecttbl WHERE subjectid=quiztbl.subjectid) AS subject, duration, status from quiztbl";
+                                                $result=mysqli_query($con, $sql);
+                                                while($row=mysqli_fetch_array($result)){
+                                            ?>
                                             <tr>
-                                                <td>Quiz 1.1</td>
-                                                <td>Mathematics</td>
-                                                <td>10 mins</td>
-                                                <td style="color: red;">Deactivated <i class="fas fa-link"></i>
-                                                    <label class="switch switch-3d switch-danger mr-3">
+                                                <td><?php echo $row['quizname']; ?></td>
+                                                <td><?php echo $row['subject']; ?></td>
+                                                <td><?php echo $row['duration']; ?></td>
+                                                <?php 
+                                                $stat="";
+                                                if($row['status']=="ACTIVATED"){
+                                                    echo '<td style="color: green;">';
+                                                    $stat="Deactivate";
+                                                }else{
+                                                    echo '<td style="color: red;">';
+                                                    $stat="Activate";
+                                                }
+                                                ?>
+                                                <?php echo $row['status']; ?>
+<!--                                                     <label class="switch switch-3d switch-success mr-3">
                                                       <input type="checkbox" class="switch-input" checked="true">
                                                       <span class="switch-label"></span>
                                                       <span class="switch-handle"></span>
-                                                    </label>
+                                                    </label> -->
+                                                </td>
+                                                <td>
+                                                    <div class="table-data-feature">
+                                                        <button onclick="setmodalid(<?php echo $row['quizid']; ?>)" class="item" data-toggle="modal" data-placement="top" title="<?php echo $stat; ?>" type="button" data-target="#modalbox">
+                                                            <i class="zmdi zmdi-power"></i>
+                                                        </button>
+                                                        <button type="button" onclick="editstudent(<?php echo $row['quizid']; ?>)" class="item" data-placement="top" title="Edit"  data-toggle="modal" data-target="#modalbox">
+                                                            <i class="zmdi zmdi-edit"></i>
+                                                        </button>
+                                                        <a href="<?php echo "process2.php?deletestudent=1&id=".$row['quizid'] ?>">
+                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                            <i class="zmdi zmdi-delete"></i>
+                                                        </button></a>
+                                                    </div>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>Quiz 1.1</td>
-                                                <td>Mathematics</td>
-                                                <td>10 mins</td>
-                                                <td style="color: green;">Active <i class="fas fa-link"></i>
-                                                    <label class="switch switch-3d switch-success mr-3">
-                                                      <input type="checkbox" class="switch-input" checked="true">
-                                                      <span class="switch-label"></span>
-                                                      <span class="switch-handle"></span>
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Quiz 1.1</td>
-                                                <td>Mathematics</td>
-                                                <td>10 mins</td>
-                                                <td style="color: red;">Deactivated <i class="fas fa-link"></i>
-                                                    <label class="switch switch-3d switch-danger mr-3">
-                                                      <input type="checkbox" class="switch-input" checked="true">
-                                                      <span class="switch-label"></span>
-                                                      <span class="switch-handle"></span>
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Quiz 1.1</td>
-                                                <td>Mathematics</td>
-                                                <td>10 mins</td>
-                                                <td style="color: green;">Active <i class="fas fa-link"></i>
-                                                    <label class="switch switch-3d switch-success mr-3">
-                                                      <input type="checkbox" class="switch-input" checked="true">
-                                                      <span class="switch-label"></span>
-                                                      <span class="switch-handle"></span>
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            
+                                           <?php } ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -199,6 +205,31 @@ include('functions.php');
         </div>
 
     </div>
+
+
+    <!-- modal medium -->
+    <div class="modal fade" id="modalbox" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <form action="announcement.php" method="POST">
+                    <input type="hidden" name="hiddensendid" id="hiddensendid">
+                    <input type="text" name="anfrom" value="<?php echo teachersgetname($id);?>" style="display:inline;" readonly>
+                    <input type="date" name="dateposted" value="<?php echo date("Y-m-d"); ?>" style="display:inline;" readonly>
+                    <h5 class="modal-title" id="mediumModalLabel"><input type="text" name="antitle" placeholder="Type Title here..."></h5>
+                </div>
+                <div class="modal-body">
+                <textarea rows="5" cols="90" name="andetails" placeholder="Type message here..."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" name="addAnnPerStudent" class="btn btn-primary" id="sendbtn">Send</button>
+                 </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end modal medium -->
 
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
