@@ -200,15 +200,14 @@ include('functions.php');
                                                 </th>
                                                 <th>name</th>
                                                 <th>email</th>
-                                                <th>Section</th>
-                                              
-                                                <th>Average Score</th>
+                                                <th>department</th>
+                                                <th>#subjects enrolled</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody id="response">
                                         <?php
-                                        $sql="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname, (SELECT averagescore FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS AverageScore,(SELECT remarks FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS Remarks from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid  order by userstbl.lname";
+                                        $sql="select teachersid, concat(lname, ', ', fname , ' ', mname) AS name, email, (SELECT departmentname from departmenttbl WHERE deptid=teacherstbl.deptid) AS departmentname, (SELECT count(subjectid) from teachersubjecttbl where teachersid=teacherstbl.teachersid) AS NoOfSubject FROM teacherstbl";
                                         $result=mysqli_query($con, $sql);
                                         if(mysqli_num_rows($result)){
                                         while($row = mysqli_fetch_array($result))
@@ -220,34 +219,21 @@ include('functions.php');
                                                         <span class="au-checkmark"></span>
                                                     </label>
                                                 </td>
-                                               <?php echo "<td>".$row['lname'].", ".$row['fname']."</td>"; ?>
+                                                <?php echo "<td>".$row['name']."</td>";?>
                                                <?php echo "<td>".$row['email']."</td>";?>
-                                               <?php echo "<td>".$row['sectionname']."</td>";?>
-                                                
-                                                <td>
-                                                    <span <?php 
-                                                    if($row['Remarks']=='PASSED'){
-                                                        echo 'class="status--process"'; } 
-                                                     else{
-                                                        echo 'class="status--denied"';
-                                                     }
-                                                     ?> >
-                                                     <?php echo $row['AverageScore']; ?>% <?php echo $row['Remarks']; ?></span>
-                                                </td>
+                                               <?php echo "<td>".$row['departmentname']."</td>";?>
+                                                <?php echo "<td>".$row['NoOfSubject']."</td>";?>
                                                 <td>
                                                     <div class="table-data-feature">
-                                                        <button onclick="setmodalid(<?php echo $row['userid']; ?>)" class="item" data-toggle="modal" data-placement="top" title="Send Notification" type="button" data-target="#sendnotif">
+                                                        <button onclick="setmodalid(<?php echo $row['teachersid']; ?>)" class="item" data-toggle="modal" data-placement="top" title="Send Notification" type="button" data-target="#sendnotif">
                                                             <i class="zmdi zmdi-mail-send"></i>
                                                         </button>
-                                                        <button type="button" onclick="editstudent(<?php echo $row['userid']; ?>)" class="item" data-placement="top" title="Edit"  data-toggle="modal" data-target="#add">
+                                                        <button type="button" onclick="editstudent(<?php echo $row['teachersid']; ?>)" class="item" data-placement="top" title="Edit"  data-toggle="modal" data-target="#add">
                                                             <i class="zmdi zmdi-edit"></i>
                                                         </button>
-                                                        <a href="<?php echo "process2.php?deletestudent=1&id=".$row['userid'] ?>">
+                                                        <a href="<?php echo "process2.php?deletestudent=1&id=".$row['teachersid'] ?>">
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
                                                             <i class="zmdi zmdi-delete"></i>
-                                                        </button></a>
-                                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                                            <i class="zmdi zmdi-more"></i>
                                                         </button>
                                                     </div>
                                                 </td>
@@ -285,7 +271,7 @@ include('functions.php');
 
     </div>
 <!-- MODAL ADD -->
-<div class="add-user-modal">
+<div class="add-teacher-modal">
  <div class="modal" id="add">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -298,7 +284,7 @@ include('functions.php');
             <!-- Modal body -->
             <div class="modal-body">
                 
-                <form action="adduser.php" method="POST">
+                <form action="addteachers.php" method="POST">
                     <input type="hidden" name="hiddenuserid" id="hiddenuserid">
                     <table border="0" style="border-collapse: collapse;">
                     <tr><td>Email:</td><td><input type="email"  name="email" id="email" placeholder="Enter Email" required></td></tr>
@@ -306,7 +292,20 @@ include('functions.php');
                     <tr><td>Firstname:</td><td><input type="text"  name="fname" id="fname" placeholder="Enter Firstname" required></td></tr>
                     <tr><td>Lastname:</td><td><input type="text"  name="lname" id="lname" placeholder="Enter Lastname" required></td></tr>
                     <tr><td>Middlename: &nbsp&nbsp&nbsp</td><td><input type="text"  name="mname" id="mname" placeholder="Enter Middlename"></td></tr>
-                   <tr><td>Section:</td><td><select name="sectionid" id="sec" required>
+                    <tr><td>Department: &nbsp&nbsp&nbsp</td><td> <select name="deptid" id="sec" required>
+                    <option id="sectionselected" selected readonly>Choose Department</option>
+                           <?php 
+                           $sql="SELECT * from departmenttbl";
+                           $result=mysqli_query($con, $sql);
+                           if(mysqli_num_rows($result)){
+                            while($row = mysqli_fetch_array($result))
+                            { 
+                           ?>
+                            <option value="<?php echo $row['deptid'] ?>"><?php echo $row['departmentname'] ?></option>
+                            <?php }
+                            }?>
+                    </select></td></tr>
+                   <tr><td>Section:</td><td><select name="section" id="sec" required>
                         <option id="sectionselected" selected readonly>Choose Section</option>
                            <?php 
                            $sql="SELECT * from sectiontbl";
@@ -316,6 +315,19 @@ include('functions.php');
                             { 
                            ?>
                             <option value="<?php echo $row['sectionid'] ?>"><?php echo $row['sectionname'] ?></option>
+                            <?php }
+                            }?>
+                    </select></td></tr>
+                    <tr><td>Subject:</td><td><select name="subject" id="sec" required>
+                        <option id="sectionselected" selected readonly>Choose Subject</option>
+                           <?php 
+                           $sql="SELECT * from subjecttbl";
+                           $result=mysqli_query($con, $sql);
+                           if(mysqli_num_rows($result)){
+                            while($row = mysqli_fetch_array($result))
+                            { 
+                           ?>
+                            <option value="<?php echo $row['subjectid'] ?>"><?php echo $row['subjectname'] ?></option>
                             <?php }
                             }?>
                     </select></td></tr>
@@ -337,23 +349,43 @@ include('functions.php');
 </div>
 <!-- /MODAL ADD -->
 
+ 
+
+
  <!-- modal medium -->
     <div class="modal fade" id="sendnotif" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <form action="announcement.php" method="POST">
+                <form action="addsub.php" method="POST">
                     <input type="hidden" name="hiddensendid" id="hiddensendid">
-                    <input type="text" name="anfrom" value="<?php echo teachersgetname($id);?>" style="display:inline;" readonly>
-                    <input type="date" name="dateposted" value="<?php echo date("Y-m-d"); ?>" style="display:inline;" readonly>
-                    <h5 class="modal-title" id="mediumModalLabel"><input type="text" name="antitle" placeholder="Type Title here..."></h5>
+                    <h4>Add Subject</h5>
+              
+                    <input type="text" name="<?php echo $row['fullname'] ?>" value="" style="display:inline;" readonly>
+                   
+                    
                 </div>
                 <div class="modal-body">
-                <textarea rows="5" cols="90" name="andetails" placeholder="Type message here..."></textarea>
+                <table>
+                    <tr><td>Subject:</td><td><select name="subject" id="sec" required>
+                        <option id="sectionselected" selected readonly>Choose Subject</option>
+                           <?php 
+                           $sql="SELECT * from subjecttbl";
+                           $result=mysqli_query($con, $sql);
+                           if(mysqli_num_rows($result)){
+                            while($row = mysqli_fetch_array($result))
+                            { 
+                           ?>
+                            <option value="<?php echo $row['subjectid'] ?>"><?php echo $row['subjectname'] ?></option>
+                            <?php }
+                            }?>
+                    </select></td></tr>
+                  </table>
+               
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" name="addAnnPerStudent" class="btn btn-primary" id="sendbtn">Send</button>
+                    <button type="submit" name="assignsubject" class="btn btn-primary" id="sendbtn">Add</button>
                  </form>
                 </div>
             </div>

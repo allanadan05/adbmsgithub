@@ -4,16 +4,37 @@ include('connection.php');
 if(isset($_POST['submitnewsubject'])){
     $subname=$_POST['subjectname'];
     $subdesc=$_POST['subjectdesc'];
+    $sectionid=$_POST['sections'];
      
     $sql = "INSERT INTO subjecttbl(subjectname,subjectdesc) VALUES ('$subname','$subdesc')";
     if(mysqli_query($con,$sql))
-        {
-            header("location: adminsubjects.php?addsubresult=success");
+        {   $last_id=mysqli_insert_id($con);
+            $sectionid=$_POST['sections'];
+            $sql="INSERT INTO sectionsubjecttbl(sectionid,subjectid) VALUES ('$sectionid','$last_id')";
+            $Excutequery=mysqli_query($con,$sql);
+            if($Excutequery){
+            header("location: adminsubjects.php?addsubresult=success");}
         }
         else
         {
             header("location: adminsubjects.php?addsubresult=failed");
         }
+}
+
+if(isset($_POST['assignsubject'])){
+    $id=$_POST['hiddensendid'];
+    $subjectid=$_POST['subject'];
+    $sql="INSERT INTO teachersubjecttbl(teachersid,subjectid) VALUES ('$id','$subjectid')";
+    if(mysqli_query($con,$sql))
+    {   
+        header("location: adminteachers.php?addsubresult=success");
+    }
+    
+    else
+    {
+        header("location: adminteachers.php?addsubresult=failed");
+    }
+
 }
 
 if(isset($_POST['editnewsubject'])){

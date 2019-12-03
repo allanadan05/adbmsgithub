@@ -114,7 +114,18 @@ $query=mysqli_query($con, $sql);
                                         </p>
                                     </div>
                                     <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary" style="float:right; display: inline;"  id="addsubj" name="submitnewsubject"><i class="fas fa-plus"></i> ADD</button>
+                                    <select  name="sections" style="margin-top: 5px;">
+                                                <option selected="selected" disabled>Select Section</option>
+                                                <?php 
+                                                   $sqlstring="SELECT * FROM sectiontbl";
+                                                   $querystring=mysqli_query($con, $sqlstring);
+                                                   while($row=mysqli_fetch_array($querystring)){
+                                                ?>
+                                                <option value="<?php echo $row['sectionid']; ?>"><?php echo $row['sectionname']; ?></option>
+                                                <?php } ?>
+                                            </select>
+
+                                        <button type="submit" class="btn btn-primary btn-sm" style="float:right; display: inline;"  id="addsubj" name="submitnewsubject"><i class="fas fa-plus"></i> ADD</button>
                                         <button type="submit" class="btn btn-primary" style="float:right; display: none;"  name="editnewsubject" id="updatesubj"><i class="fas fa-save"></i> SAVE</button>
                                     </div>
                                 </form>
