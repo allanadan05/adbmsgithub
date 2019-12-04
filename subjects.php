@@ -1,3 +1,9 @@
+<?php
+include('connection.php');
+include('session.php');
+include('functions.php');
+
+?>
 <!DOCTYPE html>
 <php lang="en">
 
@@ -48,53 +54,44 @@
                                 <h2>Subjects</h2><hr/><br/>
                             </div>
                         <div class="row">
+                            <?php 
+                            $sql="SELECT  subjectid  from userstbl join sectionsubjecttbl on userstbl.sectionid=sectionsubjecttbl.sectionid where userstbl.userid='$id'";
+                            $result=mysqli_query($con, $sql);
+                            While($row=mysqli_fetch_array($result)){
+                            {   
+                                $sql="SELECT subjectname,subjectdesc from subjecttbl where subjectid=$row[subjectid]";
+                                $result=mysqli_query($con, $sql);
+                                    if(mysqli_num_rows($result)){
+                                    while($row = mysqli_fetch_array($result))
+                                    {
+                            
+    
+                            
+                            
+                            ?>
                             <div class="col-md-4">
                                     <div class="card">
                                      <div class="card-header">
-                                         <strong class="card-title"><a href="#"> Physics </a>
+                                         <strong class="card-title"><a href="#"><?php echo $row['subjectname']?></a>
                                             <small>
                                                 <span class="badge badge-success float-right mt-1">3</span>
                                            </small>
                                         </strong>
                                      </div>
                                     <div class="card-body">
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
+                                        <p class="card-text"><?php echo $row['subjectdesc']?>
                                         </p>
                                     </div>
                                 </div> 
                             </div>
 
-                            <div class="col-md-4">
-                                    <div class="card">
-                                     <div class="card-header">
-                                         <strong class="card-title"><a href="#"> Mathematics </a>
-                                            <small>
-                                                <span class="badge badge-success float-right mt-1">3</span>
-                                           </small>
-                                        </strong>
-                                     </div>
-                                    <div class="card-body">
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
-                                        </p>
-                                    </div>
-                                </div> 
-                            </div>
+                            <?php }
+                            }
+                        }
 
-                            <div class="col-md-4">
-                                    <div class="card">
-                                     <div class="card-header">
-                                         <strong class="card-title"><a href="#"> Biology </a>
-                                            <small>
-                                                <span class="badge badge-success float-right mt-1">3</span>
-                                           </small>
-                                        </strong>
-                                     </div>
-                                    <div class="card-body">
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
-                                        </p>
-                                    </div>
-                                </div> 
-                            </div>
+                    }?>
+
+
                         </div> <!-- row -->
                     </div> <!-- section__content -->
                 </div><!-- container Fluid -->
