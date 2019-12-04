@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<php lang="en">
+<html lang="en">
 
 <head>
     <!-- Required meta tags-->
@@ -97,47 +97,6 @@
                                 <?php } ?>
                             </div>
 
-                            <div class="col-md-12">
-                                <div class="card border border-primary">
-                                    <div class="card-header">
-                                        <strong class="card-title">Question #2 of 10</strong>
-                                    </div>
-                                    <div class="card-body">
-                                        <p class="card-text">What is the full name of the Philippine national heroe?
-                                        </p>
-                                        <br/>
-                                        <div class="row form-group">
-                                                <div class="col col-md-2">
-                                                    
-                                                </div>
-                                                <div class="col col-md-8">
-                                                    <div class="form-check">
-                                                        <div class="radio">
-                                                            <label for="radio1" class="form-check-label ">
-                                                                <input type="radio" id="radio1" name="radios" value="option1" class="form-check-input">Option 1
-                                                            </label>
-                                                        </div>
-                                                        <div class="radio">
-                                                            <label for="radio2" class="form-check-label ">
-                                                                <input type="radio" id="radio2" name="radios" value="option2" class="form-check-input">Option 2
-                                                            </label>
-                                                        </div>
-                                                        <div class="radio">
-                                                            <label for="radio3" class="form-check-label ">
-                                                                <input type="radio" id="radio3" name="radios" value="option3" class="form-check-input">Option 3
-                                                            </label>
-                                                        </div>
-                                                        <div class="radio">
-                                                            <label for="radio3" class="form-check-label ">
-                                                                <input type="radio" id="radio3" name="radios" value="option3" class="form-check-input">Option 3
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div> <!-- row -->
 
                         <div class="row">
@@ -187,5 +146,5 @@
 
 </body>
 
-</php>
+</html>
 <!-- end document-->
