@@ -166,6 +166,94 @@ $palatandaan =  $_GET['palatandaan'];
 				echo json_encode($pambato);
 		}
 
+		if($palatandaan=="stat"){
+			$id=$_GET['forIpinasa'];
+			$sql="Select status FROM quiztbl where quizid=$id";
+			$result=mysqli_query($con, $sql);
+			$result2=mysqli_fetch_array($result);
+
+			if($result2['status']=="ACTIVATED"){
+				$query="UPDATE quiztbl SET status='DEACTIVATED' WHERE quizid=$id ";
+				if(mysqli_query($con, $query)){
+					//echo "DEACTIVATED!";
+
+                        $sql="select quizid, quizname, (SELECT subjectname from subjecttbl WHERE subjectid=quiztbl.subjectid) AS subject, duration, status from quiztbl";
+                        $result=mysqli_query($con, $sql);
+                        while($row=mysqli_fetch_array($result)){
+                    	echo "<tr>
+                        <td>".$row['quizname'] ."</td>
+                        <td>".$row['subject']  ."</td>
+                        <td>".$row['duration'] ."</td>";
+                        $stat="";
+                        if($row['status']=="ACTIVATED"){
+                            echo '<td style="color: green;">';
+                            $stat="Deactivate";
+                        }else{
+                            echo '<td style="color: red;">';
+                            $stat="Activate";
+                        }
+
+                        echo $row['status']
+                        ."</td>
+                        <td>
+                            <div class='table-data-feature'>
+                                <button onclick='stat(".$row['quizid'].")' class='item' data-toggle='modal' data-placement='top' title='$stat' type='button'>
+                                    <i class='zmdi zmdi-power'></i>
+                                </button>
+                                <button type='button' onclick='editstudent(".$row['quizid'].")' class='item' data-placement='top' title='Edit'  data-toggle='modal' data-target='#modalbox'>
+                                    <i class='zmdi zmdi-edit'></i>
+                                </button>
+                                <a href='process2.php?deletestudent=1&id=".$row['quizid'] ."?>' >
+                                <button class='item' data-toggle='tooltip' data-placement='top' title='Delete'>
+                                    <i class='zmdi zmdi-delete'></i>
+                                </button></a>
+                            </div>
+                        </td>
+                    </tr>";
+                    }
+				}
+			}else{
+				$query="UPDATE quiztbl SET status='ACTIVATED' WHERE quizid=$id ";
+				if(mysqli_query($con, $query)){
+					//echo "ACTIVATED!";
+					 $sql="select quizid, quizname, (SELECT subjectname from subjecttbl WHERE subjectid=quiztbl.subjectid) AS subject, duration, status from quiztbl";
+                        $result=mysqli_query($con, $sql);
+                        while($row=mysqli_fetch_array($result)){
+                    	echo "<tr>
+                        <td>".$row['quizname'] ."</td>
+                        <td>".$row['subject']  ."</td>
+                        <td>".$row['duration'] ."</td>";
+                        $stat="";
+                        if($row['status']=="ACTIVATED"){
+                            echo '<td style="color: green;">';
+                            $stat="Deactivate";
+                        }else{
+                            echo '<td style="color: red;">';
+                            $stat="Activate";
+                        }
+
+                        echo $row['status']
+                        ."</td>
+                        <td>
+                            <div class='table-data-feature'>
+                                <button onclick='stat(".$row['quizid'].")' class='item' data-toggle='modal' data-placement='top' title='$stat' type='button'>
+                                    <i class='zmdi zmdi-power'></i>
+                                </button>
+                                <button type='button' onclick='editstudent(".$row['quizid'].")' class='item' data-placement='top' title='Edit'  data-toggle='modal' data-target='#modalbox'>
+                                    <i class='zmdi zmdi-edit'></i>
+                                </button>
+                                <a href='process2.php?deletestudent=1&id=".$row['quizid'] ."?>' >
+                                <button class='item' data-toggle='tooltip' data-placement='top' title='Delete'>
+                                    <i class='zmdi zmdi-delete'></i>
+                                </button></a>
+                            </div>
+                        </td>
+                    </tr>";
+                    }
+				}
+			}
+		}
+
 }//end if isset palatandaan
 
 if(isset($_POST['addsection'])){
