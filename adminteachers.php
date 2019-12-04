@@ -49,11 +49,11 @@ include('functions.php');
                 document.getElementById("lname").value = buongObject.lname;
                 document.getElementById("fname").value = buongObject.fname;
                 document.getElementById("mname").value = buongObject.mname;
-                document.getElementById("sectionselected1").label = buongObject.departmentname;
+                //document.getElementById("sectionselected1").label = buongObject.departmentname;
                 document.getElementById("sectionselected1").value = buongObject.deptid;
-                document.getElementById("sectionselected2").label = buongObject.sectionname;
+                //document.getElementById("sectionselected2").label = buongObject.sectionname;
                 document.getElementById("sectionselected2").value = buongObject.sectionid;
-                document.getElementById("sectionselected3").label = buongObject.subjectname;
+                //document.getElementById("sectionselected3").label = buongObject.subjectname;
                 document.getElementById("sectionselected3").value = buongObject.subjectid;
                 document.getElementById("modaltitle").value = "EDIT Teacher";
                 document.getElementById("hiddenuserid").value = forwardedid;
@@ -235,7 +235,7 @@ include('functions.php');
                                                         <button type="button" onclick="editsteacher(<?php echo $row['teachersid']; ?>)" class="item" data-placement="top" title="Edit"  data-toggle="modal" data-target="#add">
                                                             <i class="zmdi zmdi-edit"></i>
                                                         </button>
-                                                        <a href="<?php echo "process2.php?deletestudent=1&id=".$row['teachersid'] ?>">
+                                                        <a href="<?php echo "processj.php?deleteteachers=1&id=".$row['teachersid'] ?>">
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
                                                             <i class="zmdi zmdi-delete"></i>
                                                         </button>
@@ -281,7 +281,7 @@ include('functions.php');
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h6 class="modal-title" id="modaltitle">Add Student</h6>
+                <h6 class="modal-title" id="modaltitle">Add Teachers</h6>
                 
             </div>
 
@@ -340,7 +340,7 @@ include('functions.php');
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline" name="addstudentsubmit">Submit</button> &nbsp 
+                <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline" name="addteachersubmit">Submit</button> &nbsp 
                 <button type="submit" id="savebtn" class="btn btn-warning" style="display: none" name="editteachersubmit">Save</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </form>

@@ -48,18 +48,40 @@ if($palatandaan =="editsteacher"){
 			$pambato['password'] = $row['password'];
 			$pambato['fname'] = $row['fname'];
 			$pambato['lname'] = $row['lname'];
+			$pambato['mname'] = $row['mname'];
 			$deptid=$row['deptid'];
 			$qq = "SELECT * FROM departmenttbl WHERE deptid='$deptid' ";
 			$ee = mysqli_query($con, $qq);
 			while ($rr = mysqli_fetch_array($ee)){
-			$pambato['departmentname'] = $rr['departmentname'] ;
+			$pambato['departmentname'] = $rr['departmentname'];
 			$pambato['deptid'] = $rr['deptid'];
-			}
+			
 			
 
 		}
+		
 		echo json_encode($pambato);
-}
+	}
+	
 
 }
+
+
+}
+
+if(isset($_GET['deleteteachers'])){
+    $id=$_GET['id'];
+     
+   $query = "DELETE FROM teacherstbl WHERE teachersid='$id' ";
+   $check = mysqli_query($con , $query) or die('Query error');
+    if($check)
+        {	echo "success";
+            header("location: adminteachers.php");
+        }
+        else
+        {	echo "failed";
+            header("location: adminteachers.php?");
+        }
+}
+
 ?>
