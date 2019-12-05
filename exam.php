@@ -63,6 +63,7 @@ $rr="";
                     <div class="container-fluid">
                             <div>
                                 <?php
+
                                     if(isset($_GET['quizid'])){
                                     $id=$_GET['quizid'];
                                     $qq = "select quizid, quizname, (SELECT subjectname FROM subjecttbl WHERE subjectid=quiztbl.subjectid) AS subjectname, duration, status FROM quiztbl WHERE quizid='$id' ";
@@ -82,7 +83,7 @@ $rr="";
                                 <?php
 
                                 if($rr['status']=="ACTIVATED"){
-                                    $que="select questionid, question, (select count(question) FROM questiontbl WHERE quizid='$id') AS noOfQuestion from questiontbl where quizid='$id' LIMIT ".$count .", 1 ";
+                                    $que="select questionid, question, (select count(question) FROM questiontbl WHERE quizid='$id') AS noOfQuestion from questiontbl where quizid='$id' "; /* LIMIT ".$count .", 1 ";*/
                                     $quer=mysqli_query($con, $que);
                                     while($row=mysqli_fetch_array($quer)){
                                         $questid=$row['questionid'];
@@ -91,7 +92,9 @@ $rr="";
                                 <div class="card border border-primary">
                                     <div class="card-header">
                                         <strong class="card-title">Question #<?php echo ++$count ." of " .$row['noOfQuestion']; ?></strong>
-                                        <button class="btn btn-primary" style="float:right;">Next</button>
+                                        <button class="btn btn-primary" type="button" style="float:right;">Submit</button>
+                                        <input type="text" id="answer" value="Answer" style="float:right; width:150px; text-align: center;"  readonly>
+                                        
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text"><?php echo $row['question']; ?>
@@ -118,22 +121,22 @@ $rr="";
                                                     <div class="form-check">
                                                         <div class="radio">
                                                             <label for="radio1" class="form-check-label ">
-                                                                <input type="radio" id="radio1" name="radios" value="option1" class="form-check-input"><?php echo "<strong> A. </strong> " .$pilian['optiona']; ?>
+                                                                <input type="radio" id="radio1" name="radios" value="A" class="form-check-input"><?php echo "<strong> A. </strong> " .$pilian['optiona']; ?>
                                                             </label>
                                                         </div>
                                                         <div class="radio">
                                                             <label for="radio2" class="form-check-label ">
-                                                                <input type="radio" id="radio2" name="radios" value="option2" class="form-check-input"><?php echo "<strong> B. </strong> " .$pilian['optionb']; ?>
+                                                                <input type="radio" id="radio2" name="radios" value="B" class="form-check-input"><?php echo "<strong> B. </strong> " .$pilian['optionb']; ?>
                                                             </label>
                                                         </div>
                                                         <div class="radio">
                                                             <label for="radio3" class="form-check-label ">
-                                                                <input type="radio" id="radio3" name="radios" value="option3" class="form-check-input"><?php echo "<strong> C. </strong> " .$pilian['optionc']; ?>
+                                                                <input type="radio" id="radio3" name="radios" value="C" class="form-check-input"><?php echo "<strong> C. </strong> " .$pilian['optionc']; ?>
                                                             </label>
                                                         </div>
                                                         <div class="radio">
                                                             <label for="radio4" class="form-check-label ">
-                                                                <input type="radio" id="radio4" name="radios" value="option4" class="form-check-input"><?php echo "<strong> D. </strong> " .$pilian['optiond']; ?>
+                                                                <input type="radio" id="radio4" name="radios" value="D" class="form-check-input"><?php echo "<strong> D. </strong> " .$pilian['optiond']; ?>
                                                             </label>
                                                         </div>
                                                     </div>
