@@ -1,3 +1,12 @@
+<?php 
+
+include('connection.php');
+include('adminsession.php');
+include('functions.php');
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,11 +45,15 @@
     <div class="page-wrapper">
         
 
-        <?php include("studentheaderandmobileview.php"); ?>
+         <!-- HEADER MOBILE and SIDEBAR-->
+        <?php include("adminheadermobileandsidebar.php"); ?>
+        <!-- HEADER MOBILE and SIDEBAR-->
 
         <!-- PAGE CONTAINER-->
         <div class="page-container">
-            <?php include("studentheader.php"); ?>
+            <!-- HEADER DESKTOP-->
+            <?php include("adminheader.php"); ?>
+            <!-- HEADER DESKTOP-->
             
 
             <!-- MAIN CONTENT-->
@@ -48,13 +61,26 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                             <div>
-                                <h2>Quiz Title Here</h2><hr/>
-                                <p>Quiz Description</p>
-                                <p>Time: 10 mins</p><br/>
+                                <?php
+                                    if(isset($_GET['quizid'])){
+                                    $id=$_GET['quizid'];
+                                    $qq = "select quizid, quizname, (SELECT subjectname FROM subjecttbl WHERE subjectid=quiztbl.subjectid) AS subjectname, duration, status FROM quiztbl WHERE quizid='$id' ";
+                                    $ee = mysqli_query($con, $qq);
+                                    while($rr = mysqli_fetch_array($ee)){
+                                
+                                ?>
+                                <h2><?php echo "Quiz: " .$rr['quizname'];  ?></h2><hr/>
+                                <p><?php echo "Subject: " .$rr['subjectname'];   ?></p>
+                                <p><?php echo "Duration: " .$rr['duration'];  ?></p><br/>
+                                <?php } } ?> 
                             </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <?php for($x=1; $x<=10; $x++) { ?>
+                                <?php 
+                                if($rr['status']=="ACTIVATED"){
+                                for($x=1; $x<=10; $x++) { 
+
+                                ?>
                                 <div class="card border border-primary">
                                     <div class="card-header">
                                         <strong class="card-title">Question #<?php echo $x; ?> of 10</strong>
@@ -94,7 +120,7 @@
                                             </div>
                                     </div>
                                 </div>
-                                <?php } ?>
+                                <?php } }?>
                             </div>
 
                         </div> <!-- row -->

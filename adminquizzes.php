@@ -82,23 +82,38 @@ include('functions.php');
                                             echo "<div class='alert alert-primary' role='alert'> Quiz has been added :) </div>";
                                         }
                                         if($addquizresult=="failed"){
-                                            echo "<div class='alert alert-danger' role='alert'> Quiz cannot been added :) </div>";
+                                            echo "<div class='alert alert-danger' role='alert'> Quiz cannot been added :( </div>";
+                                        }
+                                   }
+
+                                   if(isset($_GET['addquestionresult'])){
+                                    $addquestionresult=$_GET['addquestionresult'];
+                                        if($addquestionresult=="success"){
+                                            echo "<div class='alert alert-primary' role='alert'> Question has been added :) </div>";
+                                        }
+                                        if($addquestionresult=="failed"){
+                                            echo "<div class='alert alert-danger' role='alert'> Question cannot been added :( </div>";
                                         }
                                    }
                                 ?>
                             </div>
-                        <div class="row">
+
+                                                <div class="row">
                            
                              <div class="col-md-12">
                                 <div class="card border border-primary">
                                     <div class="card-header">
                                         <form method="POST" action="process2.php">
+                                        <strong class="card-title">Add Quiz</strong>  &nbsp &nbsp
+                                    </div>
+                                
+                                    <div class="card-body">
                                         <div class="row">
-                                        <strong class="card-title">Question for </strong>  &nbsp &nbsp
+                                        <strong class="card-title">Subject </strong>  &nbsp &nbsp
                                         <select class="js-select2" name="chosensubject" required>
                                                 <option selected="selected" disabled>Choose Subject</option>
                                                  <?php 
-                                                   $sqlstring="SELECT * FROM subjecttbl";
+                                                   $sqlstring="SELECT * FROM subjecttbl ORDER BY subjectname ASC ";
                                                    $querystring=mysqli_query($con, $sqlstring);
                                                    while($row=mysqli_fetch_array($querystring)){
                                                 ?>
@@ -107,15 +122,53 @@ include('functions.php');
                                         </select>
                                         <div class="dropDownSelect2"></div>
                                         </div>
-                                        <strong>Quiz Title </strong>  &nbsp &nbsp
+                                        <div class="row">
+                                        <strong>New Quiz Title: &nbsp</strong><br>
+                                        
                                         <input type="text" name="qtitle" placeholder="Type title here" required>
                                         <br>
-                                        <strong>Duration:</strong> &nbsp &nbsp <input type="time" name="time" required>
+                                        <strong>Duration:</strong> &nbsp &nbsp <input type="time" name="dur" required>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="card-footer">
+                                        <!-- <button type="edit" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-pencil-square-o"></i> Edit
+                                        </button> -->
+                                        <button type="submit" class="btn btn-primary btn-sm" name="submitnewquiz">
+                                            <i class="fa fa-plus"></i> Add
+                                        </button>
+                                    </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <div class="row">
+                           
+                             <div class="col-md-12">
+                                <div class="card border border-primary">
+                                    <div class="card-header">
+                                        <form method="POST" action="process2.php">
+                                        <div class="row">
+                                        <strong class="card-title">Add Question </strong>  &nbsp &nbsp
+                                        <div class="dropDownSelect2"></div>
+                                        </div>
                                     </div>
                                     <div class="card-body">
-                                        <strong>Question: &nbsp</strong><br>
-                                        <p class="card-text"><input type="text" name="question" placeholder="Enter question here..." style="width:100%" required>
-                                        </p>
+                                         <strong>Quiz Title </strong>  &nbsp &nbsp
+                                        <select class="js-select3" name="chosenquiztitle" required>
+                                                <option selected="selected" disabled>Choose Quiz</option>
+                                                <?php 
+                                                   $sqlstring="SELECT * FROM quiztbl ORDER BY quizname ASC";
+                                                   $querystring=mysqli_query($con, $sqlstring);
+                                                   while($row=mysqli_fetch_array($querystring)){
+                                                ?>
+                                                <option value="<?php echo $row['quizid']; ?>"><?php echo $row['quizname']; ?></option>
+                                                <?php } ?>
+                                        </select><br>
+                                        <strong>Question: &nbsp</strong>
+                                       <input type="text" name="question" placeholder="Write question here..." style="width:70%" required>
+                                        
                                         <br/>
                                         <div class="row form-group">
                                                 <div class="col col-md-2">
@@ -133,7 +186,7 @@ include('functions.php');
                                                         <input type="text" name="optiond" placeholder="Choice D" style="width:50%" required>
                                                     </div>
                                                     <br>
-                                                  Answer: <input type="text" name="answer" maxlength="1" style="width: 100%" placeholder="Type the letter of the correct answer here... " required>
+                                                  Answer: <input type="text" name="answer" maxlength="1" pattern="[ABCD]" style="width: 100%" placeholder="Type the letter of the correct answer here... " required>
                                                 </div>
                                         </div>
                                     </div>
@@ -141,9 +194,7 @@ include('functions.php');
                                         <!-- <button type="edit" class="btn btn-secondary btn-sm">
                                             <i class="fa fa-pencil-square-o"></i> Edit
                                         </button> -->
-                                        <button type="reset" class="btn btn-danger btn-sm">
-                                            <i class="fa fa-ban"></i> Reset
-                                        </button>
+                                        
                                         <button type="submit" class="btn btn-primary btn-sm" name="submitquiz">
                                             <i class="fa fa-dot-circle-o"></i> Submit
                                         </button>
@@ -166,12 +217,12 @@ include('functions.php');
                                         </thead>
                                         <tbody id="response">
                                             <?php
-                                                $sql="select quizid, quizname, (SELECT subjectname from subjecttbl WHERE subjectid=quiztbl.subjectid) AS subject, duration, status from quiztbl";
+                                                $sql="select quizid, quizname, (SELECT subjectname from subjecttbl WHERE subjectid=quiztbl.subjectid) AS subject, duration, status from quiztbl ORDER BY quizname";
                                                 $result=mysqli_query($con, $sql);
                                                 while($row=mysqli_fetch_array($result)){
                                             ?>
                                             <tr>
-                                                <td><?php echo $row['quizname']; ?></td>
+                                                <td><?php echo "<a href=exam.php?quizid=".$row['quizid']."> " .$row['quizname']."</a>"; ?></td></a>
                                                 <td><?php echo $row['subject']; ?></td>
                                                 <td><?php echo $row['duration']; ?></td>
                                                 <?php 
