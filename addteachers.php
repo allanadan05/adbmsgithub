@@ -13,9 +13,8 @@ $deptid=$_POST['deptid'];
 $sql = "INSERT INTO teacherstbl(email,password,fname,lname,mname,deptid) VALUES ('$email','$pword','$fname','$lname','$mname','$deptid')";
 if(mysqli_query($con,$sql)){
         $last_id=mysqli_insert_id($con);
-        $sectionid=$_POST['section'];
         $subjectid=$_POST['subject'];
-        $sql="INSERT INTO sectionsubjecttbl(sectionid,subjectid) VALUES ('$sectionid','$subjectid')";
+        $sql="INSERT INTO teachersubjecttbl(subjectid,teachersid) VALUES ('$subjectid','$last_id')";
         $Excutequery=mysqli_query($con,$sql);
         if($Excutequery){
         $sectionid=$_POST['section'];
@@ -45,8 +44,8 @@ if(isset($_POST['editteachersubmit'])){
 	$lname=$_POST['lname'];
     $mname=$_POST['mname'];
     $deptid=$_POST['deptid'];
-    $sectionid=$_POST['sectionid'];
-    $subjectid=$_POST['subjectid'];
+    $sectionid=$_POST['section'];
+    $subjectid=$_POST['subject'];
    
 
     
@@ -54,11 +53,11 @@ if(isset($_POST['editteachersubmit'])){
 	$sql = "UPDATE teacherstbl SET email='$email' ,password='$pword', fname='$fname',lname='$lname',mname='$mname',deptid='$deptid' WHERE teachersid='$id' ";
 	if(mysqli_query($con,$sql))
 	    {
-            $sql = "UPDATE teachersectiontbl SET sectionid='$sectionid' WHERE sectionid='$id' ";
+            $sql = "UPDATE teachersectiontbl SET sectionid='$sectionid' WHERE teachersid='$id' ";
 	        if(mysqli_query($con,$sql))
 	        { 
 
-                $sql = "UPDATE teachersubjecttbl SET subjectid='$subjectid' WHERE subjectid='$id' ";
+                $sql = "UPDATE teachersubjecttbl SET subjectid='$subjectid' WHERE teachersid='$id' ";
                 if(mysqli_query($con,$sql))
                 { 
                     header("location: adminteachers.php?editstudentresult=success&lname=".$lname."&fname=".$fname);

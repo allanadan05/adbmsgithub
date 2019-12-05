@@ -50,15 +50,15 @@ if($palatandaan =="editsteacher"){
 			$pambato['lname'] = $row['lname'];
 			$pambato['mname'] = $row['mname'];
 			$deptid=$row['deptid'];
+			
 			$qq = "SELECT * FROM departmenttbl WHERE deptid='$deptid' ";
 			$ee = mysqli_query($con, $qq);
 			while ($rr = mysqli_fetch_array($ee)){
 			$pambato['departmentname'] = $rr['departmentname'];
 			$pambato['deptid'] = $rr['deptid'];
-			
-			
 
 		}
+			
 		
 		echo json_encode($pambato);
 	}
