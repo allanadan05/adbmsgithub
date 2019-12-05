@@ -12,6 +12,57 @@ $rr="";
 <html lang="en">
 
 <head>
+
+    <script>
+        
+        function submitanswer(count, questid){
+            
+
+            var useranswer="";
+            if(document.getElementById("radio1"+count).checked){
+                useranswer="A";
+            }else if (document.getElementById("radio2"+count).checked) {
+                useranswer="B";
+            }else if (document.getElementById("radio3"+count).checked) {
+                useranswer="C";
+            }else if (document.getElementById("radio4"+count).checked) {
+                useranswer="D";
+            }else{
+                useranswer="undefined";
+            }
+
+            var score=document.getElementById("score").innerHTML;
+            var noofitems=document.getElementById("noOfQuestion").innerHTML;
+            document.getElementById("noOfItems").innerHTML="# of Items: "+noofitems;
+
+
+            var ans=document.getElementById("answer"+count).value;
+            var ans2=ans;
+            if(useranswer==ans){
+                document.getElementById("message"+count).value="Correct";
+                document.getElementById("score").innerHTML=(Number(score)+1);
+                document.getElementById("submit"+count).style.display="none";
+            }else if (useranswer=="undefined") {
+                document.getElementById("message"+count).value="Please select an answer";
+                document.getElementById("submit"+count).style.display="inline";
+                document.getElementById("answer"+count).value=ans2;
+            }else{
+                document.getElementById("message"+count).value="Wrong! " +", Correct answer is: "+ans;
+                document.getElementById("submit"+count).style.display="none";
+            }
+            
+
+        }
+
+        function qresult() {
+            document.getElementById("quizresults").style.display="inline";
+            document.getElementById("quests").style.display="none";
+            document.getElementById("finish").style.display="none";
+            document.getElementById("exitbtn").style.display="inline";
+        }
+
+
+    </script>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -58,7 +109,7 @@ $rr="";
             
 
             <!-- MAIN CONTENT-->
-            <div class="main-content">
+            <div class="main-content" >
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                             <div>
@@ -71,13 +122,18 @@ $rr="";
                                     while($rr = mysqli_fetch_array($ee)){
                                 
                                 ?>
+                               
                                 <h2><?php echo "Quiz: " .$rr['quizname'];  ?></h2><hr/>
                                 <p><?php echo "Subject: " .$rr['subjectname'];   ?></p>
-                                <p><?php echo "Duration: " .$rr['duration'];  ?></p><br/>
-
+                                <p><?php echo "Duration: " .$rr['duration'];  ?></p>
+                                <div id="quizresults" style="display: none;">
+                                <hr><p>Score: <span id="score"></span> </p>
+                                    <p id="noOfItems"># of Items: </p>
+                                    <br>
+                                </div>
                                 
                             </div>
-                        <div class="row">
+                        <div class="row" id="quests" style="display: inline;">
                             <div class="col-md-12">
 
                                 <?php
@@ -89,22 +145,9 @@ $rr="";
                                         $questid=$row['questionid'];
                                 ?>
 
-                                <div class="card border border-primary">
+                                <div class="card border border-primary"> 
                                     <div class="card-header">
-                                        <strong class="card-title">Question #<?php echo ++$count ." of " .$row['noOfQuestion']; ?></strong>
-                                        <button class="btn btn-primary" type="button" style="float:right;">Submit</button>
-                                        <input type="text" id="answer" value="Answer" style="float:right; width:150px; text-align: center;"  readonly>
-                                        
-                                    </div>
-                                    <div class="card-body">
-                                        <p class="card-text"><?php echo $row['question']; ?>
-                                        </p>
-                                        <br/>
-                                        <div class="row form-group">
-                                                <div class="col col-md-2">
-                                                    
-                                                </div>
-                                                <?php 
+                                         <?php 
 
                                                 $sqlsql="select questionid, optionid, answer from answertbl where questionid='$questid' ";
                                                 $query2=mysqli_query($con, $sqlsql);
@@ -116,27 +159,43 @@ $rr="";
                                                 $query3=mysqli_query($con, $sql3);
                                                 $pilian=mysqli_fetch_array($query3);
 
-                                                ?>
+                                        ?>
+                                        <strong class="card-title" id="questionNo">Question #<?php echo ++$count ." of " ?></strong>
+                                        <strong class="card-title" id="noOfQuestion"><?php echo $row['noOfQuestion']; ?></strong>
+                                        <button class="btn btn-primary" type="button" id="<?php echo 'submit'.$count; ?>" onclick="submitanswer(<?php echo $count .","  .$questid; ?>)" style="float:right; display:inline">Submit</button>
+                                        <input type="hidden" id="<?php echo 'answer'.$count; ?>" value="<?php echo $ans; ?>" style="float:right; width:15px; text-align: center;"  readonly>
+                                        <input type="text" id="<?php echo 'message'.$count; ?>" style="float:right; width:50%; text-align: center;"  readonly>
+                                        
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text"><?php echo $row['question']; ?>
+                                        </p>
+                                        <br/>
+                                        <div class="row form-group">
+                                                <div class="col col-md-2">
+                                                    
+                                                </div>
+                                               
                                                 <div class="col col-md-8">
-                                                    <div class="form-check">
+                                                    <div class="form-check" id="<?php echo 'radio'.$count; ?>">
                                                         <div class="radio">
                                                             <label for="radio1" class="form-check-label ">
-                                                                <input type="radio" id="radio1" name="radios" value="A" class="form-check-input"><?php echo "<strong> A. </strong> " .$pilian['optiona']; ?>
+                                                                <input type="radio" id="<?php echo 'radio1'.$count; ?>" name="radios" value="A" class="form-check-input"><?php echo "<strong> A. </strong> " .$pilian['optiona']; ?>
                                                             </label>
                                                         </div>
                                                         <div class="radio">
                                                             <label for="radio2" class="form-check-label ">
-                                                                <input type="radio" id="radio2" name="radios" value="B" class="form-check-input"><?php echo "<strong> B. </strong> " .$pilian['optionb']; ?>
+                                                                <input type="radio" id="<?php echo 'radio2'.$count; ?>" name="radios" value="B" class="form-check-input"><?php echo "<strong> B. </strong> " .$pilian['optionb']; ?>
                                                             </label>
                                                         </div>
                                                         <div class="radio">
                                                             <label for="radio3" class="form-check-label ">
-                                                                <input type="radio" id="radio3" name="radios" value="C" class="form-check-input"><?php echo "<strong> C. </strong> " .$pilian['optionc']; ?>
+                                                                <input type="radio" id="<?php echo 'radio3'.$count; ?>" name="radios" value="C" class="form-check-input"><?php echo "<strong> C. </strong> " .$pilian['optionc']; ?>
                                                             </label>
                                                         </div>
                                                         <div class="radio">
                                                             <label for="radio4" class="form-check-label ">
-                                                                <input type="radio" id="radio4" name="radios" value="D" class="form-check-input"><?php echo "<strong> D. </strong> " .$pilian['optiond']; ?>
+                                                                <input type="radio" id="<?php echo 'radio4'.$count; ?>" name="radios" value="D" class="form-check-input"><?php echo "<strong> D. </strong> " .$pilian['optiond']; ?>
                                                             </label>
                                                         </div>
                                                     </div>
@@ -156,6 +215,9 @@ $rr="";
                             </div>
 
                         </div> <!-- row -->
+
+                        <button class="btn btn-success" type="button" id="finish" onclick="qresult()" style="width: 100%; display:inline">Finish</button>
+                        <a href="adminquizzes.php" id="exitbtn" style="width: 100%; display:none"><button class="btn btn-warning" type="button">Exit</button></a>
 
                        
 
