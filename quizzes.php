@@ -1,3 +1,9 @@
+<?php
+include('connection.php');
+include('session.php');
+include('functions.php');
+
+?>
 <!DOCTYPE html>
 <php lang="en">
 
@@ -62,12 +68,38 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                    <?php 
+                                    $sql="SELECT  subjectid  from userstbl join sectionsubjecttbl on userstbl.sectionid=sectionsubjecttbl.sectionid where userstbl.userid='$id'";
+                                    $result=mysqli_query($con, $sql);
+                                    While($row=mysqli_fetch_array($result)){
+                                    {   
+                                        $sql="SELECT quiztbl.duration,quiztbl.quizname,quiztbl.status,subjecttbl.subjectname from quiztbl join subjecttbl on quiztbl.subjectid=subjecttbl.subjectid where quiztbl.subjectid=$row[subjectid]";
+                                        $result=mysqli_query($con, $sql);
+                                            if(mysqli_num_rows($result)){
+                                            while($row = mysqli_fetch_array($result))
+                                            {
+                            
+    
+                            
+                            
+                                            ?>
+
                                             <tr>
-                                                <td>2018-09-29 05:57</td>
-                                                <td>Mobile</td>
-                                                <td>iPhone X 64Gb Grey</td>
-                                                <td class="denied">You've already taken this quiz</td>
+                                                <td><?php echo $row['duration']?></td>
+                                                <td><?php echo $row['quizname']?></td>
+                                                <td><?php echo $row['subjectname']?></td>
+                                                <td class="denied"><?php echo $row['status']?></td>
                                             </tr>
+
+                                            <?php }
+                                            }
+                                        }
+
+                                    }?>
+
+
+
+
                                             <tr>
                                                 <td>2018-09-28 01:22</td>
                                                 <td>Mobile</td>

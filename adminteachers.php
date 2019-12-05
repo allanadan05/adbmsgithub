@@ -49,16 +49,18 @@ include('functions.php');
                 document.getElementById("lname").value = buongObject.lname;
                 document.getElementById("fname").value = buongObject.fname;
                 document.getElementById("mname").value = buongObject.mname;
-                //document.getElementById("sectionselected1").label = buongObject.departmentname;
+                document.getElementById("sectionselected1").label = buongObject.departmentname;
                 document.getElementById("sectionselected1").value = buongObject.deptid;
                 //document.getElementById("sectionselected2").label = buongObject.sectionname;
                 document.getElementById("sectionselected2").value = buongObject.sectionid;
                 //document.getElementById("sectionselected3").label = buongObject.subjectname;
                 document.getElementById("sectionselected3").value = buongObject.subjectid;
-                document.getElementById("modaltitle").value = "EDIT Teacher";
+                document.getElementById("modaltitleadd").style.display="none";
+                document.getElementById("modaltitleedit").style.display="inline";
                 document.getElementById("hiddenuserid").value = forwardedid;
                 document.getElementById("submitbtn").style.display="none";
                 document.getElementById("savebtn").style.display="inline";
+                
         }
       };
 
@@ -180,7 +182,7 @@ include('functions.php');
                                     </div>
                                     <div class="table-data__tool-right">
                                         <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#add">
-                                            <i class="zmdi zmdi-plus"></i>Add Student</button>
+                                            <i class="zmdi zmdi-plus"></i>Add Teacher</button>
                                         <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
                                             <select class="js-select2" name="type">
                                                 <option selected="selected">Export</option>
@@ -281,7 +283,8 @@ include('functions.php');
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h6 class="modal-title" id="modaltitle">Add Teachers</h6>
+                <h6 class="modal-title" id="modaltitleadd">Add Teachers</h6>
+                <h6 class="modal-title" id="modaltitleedit" style="display:none;">Edit Teachers</h6>
                 
             </div>
 
@@ -342,7 +345,7 @@ include('functions.php');
             <div class="modal-footer">
                 <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline" name="addteachersubmit">Submit</button> &nbsp 
                 <button type="submit" id="savebtn" class="btn btn-warning" style="display: none" name="editteachersubmit">Save</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" id="close-tbn" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </form>
                 
                 
