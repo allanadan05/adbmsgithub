@@ -24,6 +24,25 @@ include('functions.php');
             xhttp.open("GET", "process2.php?forIpinasa="+forIpinasa+"&palatandaan="+palatandaan, true);
             xhttp.send(); 
         }
+
+        function editquiz(id){
+             var xhttp = new XMLHttpRequest();
+                  xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState == 4 && xhttp.status == 200) { 
+                            var buongObject=JSON.parse(this.responseText);
+                            //document.getElementById("sectionselected1").innerHTML = buongObject.subjectname ;
+                            document.getElementById("replaceqtitle").value = buongObject.quizname;
+                            document.getElementById("replacedduration").value = buongObject.duration;
+                            document.getElementById("sectionselected").label = buongObject.subjectname;
+                            document.getElementById("sectionselected").value = buongObject.subjectid;
+                            document.getElementById("hiddenquizid").value = forwardedid;
+                        }
+                  };
+            var forwardedid=id;
+            var palatandaan = "editquiz";
+            xhttp.open("GET", "process2.php?forwardedid="+forwardedid+"&palatandaan="+palatandaan, true);
+            xhttp.send(); 
+        }
     </script>
 
     <!-- Required meta tags-->
@@ -92,7 +111,26 @@ include('functions.php');
                                             echo "<div class='alert alert-primary' role='alert'> Question has been added :) </div>";
                                         }
                                         if($addquestionresult=="failed"){
-                                            echo "<div class='alert alert-danger' role='alert'> Question cannot been added :( </div>";
+                                            echo "<div class='alert alert-danger' role='alert'> Question cannot be added :( </div>";
+                                        }
+                                   }
+                                   
+                                   if(isset($_GET['deletequizresult'])){
+                                    $deletequizresult=$_GET['deletequizresult'];
+                                        if($deletequizresult=="success"){
+                                            echo "<div class='alert alert-primary' role='alert'> Quiz has been deleted :) </div>";
+                                        }
+                                        if($deletequizresult=="failed"){
+                                            echo "<div class='alert alert-danger' role='alert'> Quiz cannot be deleted :( </div>";
+                                        }
+                                   }
+                                   if(isset($_GET['editquizresult'])){
+                                    $editquizresult=$_GET['editquizresult'];
+                                        if($editquizresult=="success"){
+                                            echo "<div class='alert alert-primary' role='alert'> Quiz has been updated :) </div>";
+                                        }
+                                        if($editquizresult=="failed"){
+                                            echo "<div class='alert alert-danger' role='alert'> Quiz cannot be updated :( </div>";
                                         }
                                    }
                                 ?>
@@ -247,10 +285,10 @@ include('functions.php');
                                                         <button onclick="stat(<?php echo $row['quizid']; ?>)" class="item" data-toggle="modal" data-placement="top" title="<?php echo $stat; ?>" type="button">
                                                             <i class="zmdi zmdi-power"></i>
                                                         </button>
-                                                        <button type="button" onclick="editstudent(<?php echo $row['quizid']; ?>)" class="item" data-placement="top" title="Edit"  data-toggle="modal" data-target="#modalbox">
+                                                        <button type="button" onclick="editquiz(<?php echo $row['quizid']; ?>)" class="item" data-placement="top" title="Edit"  data-toggle="modal" data-target="#modalbox">
                                                             <i class="zmdi zmdi-edit"></i>
                                                         </button>
-                                                        <a href="<?php echo "process2.php?deletestudent=1&id=".$row['quizid'] ?>">
+                                                        <a href="<?php echo "process2.php?deletequiz=1&id=".$row['quizid'] ?>">
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
                                                             <i class="zmdi zmdi-delete"></i>
                                                         </button></a>
@@ -279,18 +317,37 @@ include('functions.php');
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <form action="announcement.php" method="POST">
-                    <input type="hidden" name="hiddensendid" id="hiddensendid">
-                    <input type="text" name="anfrom" value="<?php echo teachersgetname($id);?>" style="display:inline;" readonly>
-                    <input type="date" name="dateposted" value="<?php echo date("Y-m-d"); ?>" style="display:inline;" readonly>
-                    <h5 class="modal-title" id="mediumModalLabel"><input type="text" name="antitle" placeholder="Type Title here..."></h5>
+                <form action="process2.php" method="POST">
+                <strong>Edit Quiz: </strong>
                 </div>
                 <div class="modal-body">
-                <textarea rows="5" cols="90" name="andetails" placeholder="Type message here..."></textarea>
-                </div>
+
+                    <div class="row">
+                    <strong class="card-title" id="sectionselected1">Subject </strong>  &nbsp &nbsp
+                    <select class="select" name="chosensubject" required>
+                            <option id="sectionselected"  selected readonly>Choose Subject</option>
+                             <?php 
+                               $sqlstring="SELECT * FROM subjecttbl ORDER BY subjectname ASC ";
+                               $querystring=mysqli_query($con, $sqlstring);
+                               while($row=mysqli_fetch_array($querystring)){
+                            ?>
+                            <option value="<?php echo $row['subjectid']; ?>"><?php echo $row['subjectname']; ?></option>
+                            <?php } ?>
+                    </select>
+                    <div class="dropDownSelect2"></div>
+                    </div>
+                    <div class="row">
+                    <strong>New Quiz Title: &nbsp</strong><br>
+                    
+                    <input type="text" name="qtitle" id="replaceqtitle" placeholder="Type title here" required>
+                    <br>
+                    <strong>Duration:</strong> &nbsp &nbsp <input type="time" name="dur" id="replacedduration" required>
+                    <input type="hidden" id="hiddenquizid" name="hiddenquizid">
+                    </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" name="addAnnPerStudent" class="btn btn-primary" id="sendbtn">Send</button>
+                    <button type="submit" name="updatequiz" class="btn btn-primary" id="sendbtn">Save</button>
                  </form>
                 </div>
             </div>

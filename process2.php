@@ -254,6 +254,26 @@ $palatandaan =  $_GET['palatandaan'];
 			}
 		}
 
+		
+		if($palatandaan =="editquiz"){
+			$id=$_GET['forwardedid'];
+			$querySaDatabase = "SELECT * FROM quiztbl WHERE quizid='$id' ";
+			$executeQuery = mysqli_query($con, $querySaDatabase);
+				$pambato = array();
+				while($row = mysqli_fetch_array($executeQuery)){
+					$pambato['quizname'] = $row['quizname'];
+					$pambato['duration'] = $row['duration'];
+					$pambato['subjectid'] = $row['subjectid'];
+					$sid=$row['subjectid'];
+					$sqls="SELECT subjectname from subjecttbl where subjectid='$sid' ";
+					$col=mysqli_fetch_array(mysqli_query($con, $sqls));
+					$pambato['subjectname']=$col['subjectname'];
+					}
+					echo json_encode($pambato);
+			}
+				
+		
+
 }//end if isset palatandaan
 
 if(isset($_POST['addsection'])){
@@ -315,6 +335,21 @@ if(isset($_POST['editdeptsubmit'])){
 			}
 }
 
+if(isset($_POST['updatequiz'])){
+		
+			$id = $_POST['hiddenquizid'];
+			$duration = $_POST['dur'];		
+			$quizname = $_POST['qtitle'];		
+			$chosensubject = $_POST['chosensubject'];		
+			$query = "UPDATE quiztbl SET quizname='$quizname', subjectid='$chosensubject', duration='$dur'  WHERE quizid='$id' ";
+			$check=mysqli_query($con, $query) or die('Query error');
+			if($check){
+				header("location: adminquizzes.php?editquizresult=success");
+			}else{
+				header("location: adminquizzes.php?editquizresult=failed");
+			}
+}
+
 if(isset($_GET['deletesection'])){
     $id=$_GET['id'];
      
@@ -357,6 +392,21 @@ if(isset($_GET['deletestudent'])){
         else
         {
             header("location: adminstudents.php?deletestudentresult=failed");
+        }
+}
+
+if(isset($_GET['deletequiz'])){
+    $id=$_GET['id'];
+     
+   $query = "DELETE FROM quiztbl WHERE quizid='$id' ";
+   $check = mysqli_query($con , $query) or die('Query error');
+    if($check)
+        {
+            header("location: adminquizzes.php?deletequizresult=success");
+        }
+        else
+        {
+            header("location: adminquizzes.php?deletequizresult=failed");
         }
 }
 
@@ -405,6 +455,7 @@ if(isset($_POST['submitnewquiz'])){
             header("location: adminquizzes.php?addquizresult=failed");
         }
 }
+
 
 
 ?>

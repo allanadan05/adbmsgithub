@@ -4,7 +4,8 @@ include('connection.php');
 include('adminsession.php');
 include('functions.php');
 
-
+$count=0;
+$rr="";
 ?>
 
 <!DOCTYPE html>
@@ -72,70 +73,88 @@ include('functions.php');
                                 <h2><?php echo "Quiz: " .$rr['quizname'];  ?></h2><hr/>
                                 <p><?php echo "Subject: " .$rr['subjectname'];   ?></p>
                                 <p><?php echo "Duration: " .$rr['duration'];  ?></p><br/>
-                                <?php } } ?> 
+
+                                
                             </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <?php 
-                                if($rr['status']=="ACTIVATED"){
-                                for($x=1; $x<=10; $x++) { 
 
+                                <?php
+
+                                if($rr['status']=="ACTIVATED"){
+                                    $que="select questionid, question, (select count(question) FROM questiontbl WHERE quizid='$id') AS noOfQuestion from questiontbl where quizid='$id' LIMIT ".$count .", 1 ";
+                                    $quer=mysqli_query($con, $que);
+                                    while($row=mysqli_fetch_array($quer)){
+                                        $questid=$row['questionid'];
                                 ?>
+
                                 <div class="card border border-primary">
                                     <div class="card-header">
-                                        <strong class="card-title">Question #<?php echo $x; ?> of 10</strong>
+                                        <strong class="card-title">Question #<?php echo ++$count ." of " .$row['noOfQuestion']; ?></strong>
+                                        <button class="btn btn-primary" style="float:right;">Next</button>
                                     </div>
                                     <div class="card-body">
-                                        <p class="card-text">What is the full name of the Philippine national heroe?
+                                        <p class="card-text"><?php echo $row['question']; ?>
                                         </p>
                                         <br/>
                                         <div class="row form-group">
                                                 <div class="col col-md-2">
                                                     
                                                 </div>
+                                                <?php 
+
+                                                $sqlsql="select questionid, optionid, answer from answertbl where questionid='$questid' ";
+                                                $query2=mysqli_query($con, $sqlsql);
+                                                $opo=mysqli_fetch_array($query2);
+                                                $optionsid=$opo['optionid'];
+                                                $ans=$opo['answer'];
+
+                                                $sql3="select * from optionstbl where optionsid='$optionsid' ";
+                                                $query3=mysqli_query($con, $sql3);
+                                                $pilian=mysqli_fetch_array($query3);
+
+                                                ?>
                                                 <div class="col col-md-8">
                                                     <div class="form-check">
                                                         <div class="radio">
                                                             <label for="radio1" class="form-check-label ">
-                                                                <input type="radio" id="radio1" name="radios" value="option1" class="form-check-input">Option 1
+                                                                <input type="radio" id="radio1" name="radios" value="option1" class="form-check-input"><?php echo "<strong> A. </strong> " .$pilian['optiona']; ?>
                                                             </label>
                                                         </div>
                                                         <div class="radio">
                                                             <label for="radio2" class="form-check-label ">
-                                                                <input type="radio" id="radio2" name="radios" value="option2" class="form-check-input">Option 2
+                                                                <input type="radio" id="radio2" name="radios" value="option2" class="form-check-input"><?php echo "<strong> B. </strong> " .$pilian['optionb']; ?>
                                                             </label>
                                                         </div>
                                                         <div class="radio">
                                                             <label for="radio3" class="form-check-label ">
-                                                                <input type="radio" id="radio3" name="radios" value="option3" class="form-check-input">Option 3
+                                                                <input type="radio" id="radio3" name="radios" value="option3" class="form-check-input"><?php echo "<strong> C. </strong> " .$pilian['optionc']; ?>
                                                             </label>
                                                         </div>
                                                         <div class="radio">
                                                             <label for="radio4" class="form-check-label ">
-                                                                <input type="radio" id="radio4" name="radios" value="option4" class="form-check-input">Option 4
+                                                                <input type="radio" id="radio4" name="radios" value="option4" class="form-check-input"><?php echo "<strong> D. </strong> " .$pilian['optiond']; ?>
                                                             </label>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                     </div>
-                                </div>
-                                <?php } }?>
+                                </div> <!-- end card border--> 
+
+                            <?php 
+                            }//end while row
+                            }else{
+                                    echo "<div class='alert alert-danger' role='alert'> Quiz has been deactivated </div>";
+                                 }
+
+                             }//end while 
+                             }//end isset quizid ?> 
                             </div>
 
                         </div> <!-- row -->
 
-                        <div class="row">
-                            <div class="col-md-4"></div>
-                            <div class="col-md-4"> 
-                                <!-- 
-                                <button class="btn btn-primary">Back</button>
-                                <button class="btn btn-primary">Next</button>
-                                 -->
-                                <button class="btn btn-success">Submit</button>
-                            </div>
-                            <div class="col-md-4"></div>
-                        </div>
+                       
 
                     </div> <!-- section__content -->
                 </div><!-- container Fluid -->

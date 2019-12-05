@@ -51,7 +51,7 @@ include('functions.php');
                 document.getElementById("mname").value = buongObject.mname;
                 document.getElementById("sectionselected").label = buongObject.sectionname;
                 document.getElementById("sectionselected").value = buongObject.sectionid;
-                document.getElementById("modaltitle").value = "EDIT Student";
+                document.getElementById("modaltitle").innerHTML = "EDIT Student";
                 document.getElementById("hiddenuserid").value = forwardedid;
                 document.getElementById("submitbtn").style.display="none";
                 document.getElementById("savebtn").style.display="inline";
