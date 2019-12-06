@@ -3,6 +3,8 @@ include('connection.php');
 include('session.php');
 include('functions.php');
 
+$profileid=$_SESSION['userid'];
+
 ?>
 <!DOCTYPE html>
 <php lang="en">
@@ -54,7 +56,7 @@ include('functions.php');
                                 <h2>Quizzes</h2><hr/>
                             </div>
                         <div class="row">
-                                                       
+
                                 <div class="col-md-12">
                                 <div class="table-responsive table--no-card m-b-30">
                                     <table class="table table-borderless table-striped table-earning">
@@ -77,7 +79,21 @@ include('functions.php');
                                                 <td><?php echo "<a href=exam.php?quizid=".$row['quizid']."> " .$row['quizname']."</a>"; ?></td>
                                                 <td><?php echo $row['subject']; ?></td>
                                                 <td><?php echo $row['duration']; ?></td>
-                                                <td class="process"><?php echo "<a href=exam.php?quizid=".$row['quizid']."> " ." Take this quiz</a>"; ?><i class="fas fa-link"></i></td>
+                                                <td class="process">
+
+                                                    <?php 
+                                                    $sqlq="select quizid, userid from scoretbl where quizid=".$row['quizid']." AND userid=".$profileid;
+                                                    $rs=mysqli_query($con, $sqlq);
+                                                    $arr=mysqli_fetch_array($rs);
+                                                    
+                                                    if($arr){
+                                                        echo " You've taken this quiz"; 
+                                                    }else{
+                                                        echo "<a href=exam.php?quizid=".$row['quizid']."> " ." Take this quiz</a>"; 
+                                                    }
+
+                                                    ?><i class="fas fa-link"></i>
+                                                </td>
                                             </tr>
                                            <?php } ?>
                                         </tbody>

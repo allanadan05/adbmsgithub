@@ -1,5 +1,14 @@
+<?php
+include('connection.php');
+include('session.php');
+include('functions.php');
+
+$profileid=$_SESSION['userid'];
+
+?>
+
 <!DOCTYPE html>
-<php lang="en">
+<html lang="en">
 
 <head>
     <!-- Required meta tags-->
@@ -56,30 +65,36 @@
                                         <thead>
                                             <tr>
                                                 <th>Quiz title</th>
-                                                <th>time given</th>
-                                                <th>total items</th>
-                                                <th>total score</th>
-                                                <th>average</th>
+                                                <th>Score</th>
+                                                <th>Average Score</th>
                                                 <th>remarks</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <?php 
+                                            $sql="select (SELECT quizname from quiztbl where quizid=scoretbl.quizid) as quizname, concat(totalscore, '/', totalitems) as score, averagescore, remarks from scoretbl where userid=".$profileid;
+                                            $result=mysqli_query($con, $sql);
+                                            while($row=mysqli_fetch_array($result)){
+
+                                            ?>
                                             <tr>
-                                                <td>Mobile</td>
-                                                <td>20 minutes</td>
-                                                <td>40</td>
-                                                <td>35/40</td>
-                                                <td>95%</td>
-                                                <td class="process">PASSED</td>
+                                                <td><?php echo $row['quizname']; ?></td>
+                                                <td><?php echo $row['score']; ?></td>
+                                                <td><?php echo $row['averagescore']. "%"; ?></td>
+
+                                                <td 
+                                                <?php
+                                                  $rem=$row['remarks'];
+
+                                                  if($rem=="PASSED"){
+                                                    echo "class='process' ";
+                                                  }else{
+                                                    echo "class='denied' ";
+                                                  }
+                                                ?>
+                                                ><?php echo $row['remarks']; ?></td>
                                             </tr>
-                                            <tr>
-                                                <td>Mobile</td>
-                                                <td>20 minutes</td>
-                                                <td>40</td>
-                                                <td>15/40</td>
-                                                <td>60%</td>
-                                                <td class="denied">FAILED</td>
-                                            </tr>
+                                        <?php  } ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -121,5 +136,5 @@
 
 </body>
 
-</php>
+</html>
 <!-- end document-->

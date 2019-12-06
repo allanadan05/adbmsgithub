@@ -253,7 +253,7 @@ $quizid=$_GET['quizid'];
 
                        <button id="finish" class="btn btn-success" type="button"  onclick="qresult(<?php echo $id;?>)" style="width: 100%; display:none;">Finish</button>
                         <button class="btn btn-success" type="button" id="savequizbtn" onclick="savequiznow()" style="width: 100px; display:none">Save Quiz</button>
-                        <a href="quizzes.php" id="exitbtn" style="width: 100%; display:none"><button class="btn btn-warning" type="button">Exit</button></a>
+                        <a href="scores.php" id="exitbtn" style="width: 100%; display:none"><button class="btn btn-warning" type="button">Exit</button></a>
                         <?php }//end isset quizid ?> 
                        
 

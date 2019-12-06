@@ -281,6 +281,7 @@ $palatandaan =  $_GET['palatandaan'];
 				$remarks="PASSED";
 			}else{
 				$remarks="FAILED";
+				
 			}
 			$userid=$_GET['userid'];
 			$quizid=$_GET['quizid'];

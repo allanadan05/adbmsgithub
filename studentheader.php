@@ -21,7 +21,7 @@ include('session.php');
                                             <img src="images/icon/avatar-dan.jpg" alt="profile" />
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#"><?php echo $lname.",".$fname?></a>
+                                            <a class="js-acc-btn" href="#"><?php echo $lname.",".$fname; ?></a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
@@ -32,7 +32,7 @@ include('session.php');
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#"><?php echo $lname.",".$fname?></a>
+                                                        <a href="#"><?php echo $lname.",".$fname; ?></a>
                                                     </h5>
                                                     <span class="email"><?php echo $logacc; ?></span>
                                                 </div>
