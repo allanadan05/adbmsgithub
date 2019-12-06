@@ -54,64 +54,37 @@ include('functions.php');
                                 <h2>Quizzes</h2><hr/>
                             </div>
                         <div class="row">
-                            <div class="row m-t-30">
-                            <div class="col-md-12">
-                                <!-- DATA TABLE-->
-                                <div class="table-responsive m-b-40">
-                                    <table class="table table-borderless table-data3">
+                                                       
+                                <div class="col-md-12">
+                                <div class="table-responsive table--no-card m-b-30">
+                                    <table class="table table-borderless table-striped table-earning">
                                         <thead>
+
                                             <tr>
-                                                <th>Date given</th>
                                                 <th>Quiz Title</th>
-                                                <th>Description</th>
-                                                <th>status</th>
+                                                <th>Subject</th>
+                                                <th>Time</th>
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                    <?php 
-                                    $sql="SELECT  subjectid  from userstbl join sectionsubjecttbl on userstbl.sectionid=sectionsubjecttbl.sectionid where userstbl.userid='$id'";
-                                    $result=mysqli_query($con, $sql);
-                                    While($row=mysqli_fetch_array($result)){
-                                    {   
-                                        $sql="SELECT quiztbl.duration,quiztbl.quizname,quiztbl.status,subjecttbl.subjectname from quiztbl join subjecttbl on quiztbl.subjectid=subjecttbl.subjectid where quiztbl.subjectid=$row[subjectid]";
-                                        $result=mysqli_query($con, $sql);
-                                            if(mysqli_num_rows($result)){
-                                            while($row = mysqli_fetch_array($result))
-                                            {
-                            
-    
-                            
-                            
+                                        <tbody id="response">
+                                            <?php
+                                                $sql="select quizid, quizname, (SELECT subjectname from subjecttbl WHERE subjectid=quiztbl.subjectid) AS subject, duration, status from quiztbl ORDER BY quizname";
+                                                $result=mysqli_query($con, $sql);
+                                                while($row=mysqli_fetch_array($result)){
                                             ?>
-
                                             <tr>
-                                                <td><?php echo $row['duration']?></td>
-                                                <td><?php echo $row['quizname']?></td>
-                                                <td><?php echo $row['subjectname']?></td>
-                                                <td class="denied"><?php echo $row['status']?></td>
+                                                <td><?php echo "<a href=exam.php?quizid=".$row['quizid']."> " .$row['quizname']."</a>"; ?></td>
+                                                <td><?php echo $row['subject']; ?></td>
+                                                <td><?php echo $row['duration']; ?></td>
+                                                <td class="process"><?php echo "<a href=exam.php?quizid=".$row['quizid']."> " ." Take this quiz</a>"; ?><i class="fas fa-link"></i></td>
                                             </tr>
-
-                                            <?php }
-                                            }
-                                        }
-
-                                    }?>
-
-
-
-
-                                            <tr>
-                                                <td>2018-09-28 01:22</td>
-                                                <td>Mobile</td>
-                                                <td>Samsung S8 Black</td>
-                                                <td class="process"><a href="#"> <i class="fas fa-link"></i> Take this quiz</a></td>
-                                            </tr>
+                                           <?php } ?>
                                         </tbody>
                                     </table>
                                 </div>
-                                <!-- END DATA TABLE-->
                             </div>
-                        </div>
+
                         </div> <!-- row -->
                     </div> <!-- section__content -->
                 </div><!-- container Fluid -->

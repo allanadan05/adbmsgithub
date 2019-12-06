@@ -6,12 +6,6 @@ include('functions.php');
 
 $count=0;
 $rr="";
-
-$profileid=$_SESSION['userid'];
-$quizid=$_GET['quizid'];
-
-//echo "profileid: ".$profileid.", quizid: ".$quizid.", totalscore: ".$totalscore.", averagescore: ".$averagescore;
-
 ?>
 
 <!DOCTYPE html>
@@ -54,8 +48,6 @@ $quizid=$_GET['quizid'];
                 document.getElementById("avgscore").innerHTML=(((Number(score)/Number(noofitems))*50)+50)+"%";
                 document.getElementById("submit"+count).style.display="none";
                 document.getElementById("finish").style.display="inline";
-                //document.getElementById("<?php $ts ?>").innerHTML=(Number(score)+1);
-                //document.getElementById("<?php $as ?>").innerHTML=(((Number(score)/Number(noofitems))*50)+50)+"%";
             }else if (useranswer=="undefined") {
                 document.getElementById("message"+count).value="Please select an answer";
                 document.getElementById("submit"+count).style.display="inline";
@@ -64,7 +56,7 @@ $quizid=$_GET['quizid'];
             }else{
                 document.getElementById("message"+count).value="Wrong! " +", Correct answer is: "+ans;
                 document.getElementById("submit"+count).style.display="none";
-                document.getElementById("finish").style.display="inline";
+                document.getElementById("finish").style.display="none";
             }
             
 
@@ -77,26 +69,6 @@ $quizid=$_GET['quizid'];
             document.getElementById("exitbtn").style.display="inline";
             document.getElementById("savequizbtn").style.display="inline";
         }
-
-        function savequiznow(){
-            var xhttp = new XMLHttpRequest();
-              xhttp.onreadystatechange = function() {
-                if (xhttp.readyState == 4 && xhttp.status == 200) { 
-                        document.getElementById("resultsaved").innerHTML = this.responseText;
-                        document.getElementById("savequizbtn").style.display="none";
-                }
-              };
-                var score=document.getElementById("score").innerHTML;
-                var avgscore=document.getElementById("avgscore").innerHTML;
-                var userid=document.getElementById("userprofile").value;
-                var quizid=document.getElementById("quizquizid").value;
-                noofitems=document.getElementById("noOfQuestion").innerHTML;
-                var palatandaan = "savequiznow";
-                xhttp.open("GET", "process2.php?score="+score+"&avgscore="+avgscore+"&userid="+userid+"&quizid="+quizid+"&noofitems="+noofitems+"&palatandaan="+palatandaan, true);
-                xhttp.send();
-                
-        }
-
 
 
     </script>
@@ -132,11 +104,17 @@ $quizid=$_GET['quizid'];
 
 <body class="animsition">
     <div class="page-wrapper">
-             <?php include("studentheaderandmobileview.php"); ?>
+        
+
+         <!-- HEADER MOBILE and SIDEBAR-->
+        <?php include("adminheadermobileandsidebar.php"); ?>
+        <!-- HEADER MOBILE and SIDEBAR-->
 
         <!-- PAGE CONTAINER-->
         <div class="page-container">
-            <?php include("studentheader.php"); ?>
+            <!-- HEADER DESKTOP-->
+            <?php include("adminheader.php"); ?>
+            <!-- HEADER DESKTOP-->
             
 
             <!-- MAIN CONTENT-->
@@ -157,15 +135,11 @@ $quizid=$_GET['quizid'];
                                 <h2><?php echo "Quiz: " .$rr['quizname'];  ?></h2><hr/>
                                 <p><?php echo "Subject: " .$rr['subjectname'];   ?></p>
                                 <p><?php echo "Duration: " .$rr['duration'];  ?></p>
-                                <input type="hidden" id="userprofile" value="<?php echo $profileid; ?>" >
-                                <input type="hidden" id="quizquizid" value="<?php echo $id; ?>">
-
                                 <div id="quizresults" style="display: none;">
                                 <hr><p>Score: <span id="score">0</span>/<span id="noOfItems">0</span></p>
                                     <p>Average: <span id="avgscore">0</span></p>
                                     <br>
                                 </div>
-                                <div id="resultsaved"></div>
                                 
                             </div>
                         <div class="row" id="quests" style="display: inline;">
@@ -252,8 +226,7 @@ $quizid=$_GET['quizid'];
                         </div> <!-- row -->
 
                        <button id="finish" class="btn btn-success" type="button"  onclick="qresult(<?php echo $id;?>)" style="width: 100%; display:none;">Finish</button>
-                        <button class="btn btn-success" type="button" id="savequizbtn" onclick="savequiznow()" style="width: 100px; display:none">Save Quiz</button>
-                        <a href="quizzes.php" id="exitbtn" style="width: 100%; display:none"><button class="btn btn-warning" type="button">Exit</button></a>
+                        <a href="adminquizzes.php" id="exitbtn" style="width: 100%; display:none"><button class="btn btn-warning" type="button">Exit</button></a>
                         <?php }//end isset quizid ?> 
                        
 

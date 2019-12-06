@@ -271,6 +271,29 @@ $palatandaan =  $_GET['palatandaan'];
 					}
 					echo json_encode($pambato);
 			}
+
+			
+
+			if($palatandaan =="savequiznow"){
+			$score=$_GET['score'];
+			$avgscore=$_GET['avgscore'];
+			if($avgscore>=75){
+				$remarks="PASSED";
+			}else{
+				$remarks="FAILED";
+			}
+			$userid=$_GET['userid'];
+			$quizid=$_GET['quizid'];
+			$noofitems=$_GET['noofitems'];
+
+			$querySaDatabase = "INSERT INTO scoretbl(totalscore,totalitems, averagescore, quizid, remarks, userid) values ('$score', '$noofitems', '$avgscore', '$quizid','$remarks', '$userid')";
+			$executeQuery = mysqli_query($con, $querySaDatabase);
+				if($executeQuery){
+					echo "<div class='alert alert-success' role='alert'>  Quiz results has been saved. :) </div>";
+				}else{
+					echo "<div class='alert alert-danger' role='alert'>  Quiz results cannot be saved. :) </div>";
+				}
+			}
 				
 		
 

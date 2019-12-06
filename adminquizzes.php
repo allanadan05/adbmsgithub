@@ -260,7 +260,7 @@ include('functions.php');
                                                 while($row=mysqli_fetch_array($result)){
                                             ?>
                                             <tr>
-                                                <td><?php echo "<a href=exam.php?quizid=".$row['quizid']."> " .$row['quizname']."</a>"; ?></td></a>
+                                                <td><?php echo "<a href=adminexam.php?quizid=".$row['quizid']."> " .$row['quizname']."</a>"; ?></td></a>
                                                 <td><?php echo $row['subject']; ?></td>
                                                 <td><?php echo $row['duration']; ?></td>
                                                 <?php 
