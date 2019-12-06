@@ -3,7 +3,7 @@ include('connection.php');
 include('adminsession.php');
 include('functions.php');
 
-
+$profileid=$_SESSION['userid'];
 
 ?>
 <!DOCTYPE html>
@@ -63,36 +63,44 @@ include('functions.php');
                         <div class="row">
                             <div class="row m-t-30">
                             <div class="col-md-12">
-                                <!-- DATA TABLE-->
+                               <!-- DATA TABLE-->
                                 <div class="table-responsive m-b-40">
                                     <table class="table table-borderless table-data3">
                                         <thead>
                                             <tr>
                                                 <th>Quiz title</th>
-                                                <th>time given</th>
-                                                <th>total items</th>
-                                                <th>total score</th>
-                                                <th>average</th>
+                                                <th>Name</th>
+                                                <th>Score</th>
+                                                <th>Average Score</th>
                                                 <th>remarks</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <?php 
+                                            $sql="select (select concat(lname, ', ', fname) as name from userstbl where userid=scoretbl.userid) as user, (SELECT quizname from quiztbl where quizid=scoretbl.quizid) as quizname, concat(totalscore, '/', totalitems) as score, averagescore, remarks from scoretbl ORDER BY quizname";
+                                            $result=mysqli_query($con, $sql);
+                                            while($row=mysqli_fetch_array($result)){
+
+                                            ?>
                                             <tr>
-                                                <td>Mobile</td>
-                                                <td>20 minutes</td>
-                                                <td>40</td>
-                                                <td>35/40</td>
-                                                <td>95%</td>
-                                                <td class="process">PASSED</td>
+                                                <td><?php echo $row['quizname']; ?></td>
+                                                <td><?php echo $row['user']; ?></td>
+                                                <td><?php echo $row['score']; ?></td>
+                                                <td><?php echo $row['averagescore']. "%"; ?></td>
+
+                                                <td 
+                                                <?php
+                                                  $rem=$row['remarks'];
+
+                                                  if($rem=="PASSED"){
+                                                    echo "class='process' ";
+                                                  }else{
+                                                    echo "class='denied' ";
+                                                  }
+                                                ?>
+                                                ><?php echo $row['remarks']; ?></td>
                                             </tr>
-                                            <tr>
-                                                <td>Mobile</td>
-                                                <td>20 minutes</td>
-                                                <td>40</td>
-                                                <td>15/40</td>
-                                                <td>60%</td>
-                                                <td class="denied">FAILED</td>
-                                            </tr>
+                                        <?php  } ?>
                                         </tbody>
                                     </table>
                                 </div>
