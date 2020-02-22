@@ -103,14 +103,14 @@ include('functions.php');
 
 <body class="animsition">
     <div class="page-wrapper">
-        <!-- HEADER MOBILE and SIDEBAR-->
-        <?php include("adminheadermobileandsidebar.php"); ?>
+       <!-- HEADER MOBILE and SIDEBAR-->
+       <?php include("teacherheadermobileandsidebar.php"); ?>
         <!-- HEADER MOBILE and SIDEBAR-->
 
         <!-- PAGE CONTAINER-->
         <div class="page-container">
             <!-- HEADER DESKTOP-->
-            <?php include("adminheader.php"); ?>
+            <?php include("teacherheader.php"); ?>
             <!-- HEADER DESKTOP-->
 
             <!-- MAIN CONTENT-->
@@ -200,8 +200,8 @@ include('functions.php');
                                                 <th>name</th>
                                                 <th>email</th>
                                                 <th>Section</th>
-
-                                                <th>Average Score</th>
+                                              
+                                                <!-- <th>Average Score</th> -->
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>

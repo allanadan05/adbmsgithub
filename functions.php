@@ -58,14 +58,6 @@ function getmname($id){
 
 
 
-
-
-
-
-
-
-
-
 function getuserid($id){
 
     include('connection.php');
@@ -197,6 +189,77 @@ function countsub(){
     }
     return $ibalik;
 }
+
+
+
+
+function adminid($id){
+
+    include('connection.php');
+    $sql="SELECT * FROM admintbl WHERE adminid=".$id;
+    $executeQuery=mysqli_query($con,$sql);
+
+    while($result=mysqli_fetch_array($executeQuery)){
+        $adminid=$result['adminid'];
+    }
+
+        return $adminid;
+}
+
+function admingetname($id){
+
+    include('connection.php');	
+
+    $sql="SELECT * FROM admintbl where adminid=".$id;
+    $executeQuery=mysqli_query($con, $sql);
+
+    while($result=mysqli_fetch_array($executeQuery)){
+        $ibalik=$result['lname'] ." " .$result['fname'];
+    }
+
+    return $ibalik;
+}
+
+
+function admingetfname($id){
+    include('connection.php');	
+
+    $sql="SELECT * FROM admintbl where adminid=".$id;
+    $executeQuery=mysqli_query($con, $sql);
+
+    while($result=mysqli_fetch_array($executeQuery)){
+        $ibalik=$result['fname'];
+    }
+
+    return $ibalik;
+}
+
+function admingetlname($id){
+    include('connection.php');	
+
+    $sql="SELECT * FROM admintbl where adminid=".$id;
+    $executeQuery=mysqli_query($con, $sql);
+
+    while($result=mysqli_fetch_array($executeQuery)){
+        $ibalik=$result['lname'];
+    }
+
+    return $ibalik;
+}
+
+function admingetmname($id){
+    include('connection.php');	
+
+    $sql="SELECT * FROM admintbl where adminid=".$id;
+    $executeQuery=mysqli_query($con, $sql);
+
+    while($result=mysqli_fetch_array($executeQuery)){
+        $ibalik=$result['mname'];
+    }
+
+    return $ibalik;
+}
+
 
 
 

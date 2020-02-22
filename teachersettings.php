@@ -3,7 +3,7 @@ include('connection.php');
 include('adminsession.php');
 include('functions.php');
 
-$profileid=$_SESSION['userid'];
+
 
 ?>
 <!DOCTYPE html>
@@ -43,14 +43,13 @@ $profileid=$_SESSION['userid'];
 <body class="animsition">
     <div class="page-wrapper">
         <!-- HEADER MOBILE and SIDEBAR-->
-        <?php include("adminheadermobileandsidebar.php"); ?>
+        <?php include("teacherheadermobileandsidebar.php"); ?>
         <!-- HEADER MOBILE and SIDEBAR-->
-
 
         <!-- PAGE CONTAINER-->
         <div class="page-container">
             <!-- HEADER DESKTOP-->
-            <?php include("adminheader.php"); ?>
+            <?php include("teacherheader.php"); ?>
             <!-- HEADER DESKTOP-->
 
             <!-- MAIN CONTENT-->
@@ -58,59 +57,16 @@ $profileid=$_SESSION['userid'];
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                             <div>
-                                <h2>Scores</h2><hr/>
+                                <h2>Settings</h2><hr/>
                             </div>
                         <div class="row">
-                            <div class="row m-t-30">
-                            <div class="col-md-12">
-                               <!-- DATA TABLE-->
-                                <div class="table-responsive m-b-40">
-                                    <table class="table table-borderless table-data3">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Quiz title</th>
-                                                <th>Score</th>
-                                                <th>Average Score</th>
-                                                <th>remarks</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php 
-                                            $sql="select (select concat(lname, ', ', fname) as name from userstbl where userid=scoretbl.userid) as user, (SELECT quizname from quiztbl where quizid=scoretbl.quizid) as quizname, concat(totalscore, '/', totalitems) as score, averagescore, remarks from scoretbl ORDER BY user";
-                                            $result=mysqli_query($con, $sql);
-                                            while($row=mysqli_fetch_array($result)){
-
-                                            ?>
-                                            <tr>
-                                                <td><?php echo $row['user']; ?></td>
-                                                <td><?php echo $row['quizname']; ?></td>
-                                                <td><?php echo $row['score']; ?></td>
-                                                <td><?php echo $row['averagescore']. "%"; ?></td>
-
-                                                <td 
-                                                <?php
-                                                  $rem=$row['remarks'];
-
-                                                  if($rem=="PASSED"){
-                                                    echo "class='process' ";
-                                                  }else{
-                                                    echo "class='denied' ";
-                                                  }
-                                                ?>
-                                                ><?php echo $row['remarks']; ?></td>
-                                            </tr>
-                                        <?php  } ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- END DATA TABLE-->
-                            </div>
+                            
                         </div> <!-- row -->
                     </div> <!-- section__content -->
                 </div><!-- container Fluid -->
             </div><!-- main content -->
             <!-- END MAIN CONTENT-->
+            
             <!-- END PAGE CONTAINER-->
         </div>
 

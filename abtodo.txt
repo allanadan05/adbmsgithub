@@ -1,0 +1,22 @@
+Admin TO DO
+=======================================================================
+1. Profile Card Social Media Logos, Account Information Buttons
+   http://localhost/adbmsgithub/adminindex.php?login=s&fname=Admin
+2. Make Edit interface active everytime edit button click
+    http://localhost/adbmsgithub/adminsubjects.php
+3. Make Edit interface active everytime edit button click
+    http://localhost/adbmsgithub/adminsections.php  
+4. Checkboxes, export button, more button functionality, search results, filter results
+    http://localhost/adbmsgithub/adminstudents.php
+5. change message icon to add, edit teacher's section and subject dropdown must be populated, search and filter and export, and checkboxes functionality
+    http://localhost/adbmsgithub/adminteachers.php
+6. Make Edit interface active everytime edit button click, add button should change to save when editing
+    http://localhost/adbmsgithub/adminlessons.php
+7. Duration on Add Quiz, Edit quiz' choose subject auto populate, fix overlapping box sizes
+    http://localhost/adbmsgithub/adminscores.php
+8. Make Filters by name, section or subject or quiz or teacher or remarks, Add export button
+    http://localhost/adbmsgithub/adminscores.php
+
+Teacher TO DO
+========================================================================
+

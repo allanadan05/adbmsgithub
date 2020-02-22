@@ -1,19 +1,20 @@
 <?php
-@session_start();
+session_start();
 include('connection.php');
 $logacc="Log In";
-     @$userprofile=@$_SESSION['email'];
+     $userprofile=$_SESSION['email'];
      
 
-     $ASK=" SELECT * FROM `admintbl` WHERE email='$userprofile' ";
+     $ASK=" SELECT * FROM `teacherstbl` WHERE email='$userprofile' ";
      $INFO=mysqli_query($con, $ASK);
      $result=mysqli_fetch_assoc($INFO);
      
      if($userprofile == true){
-        $adminid=$result['adminid'];
+        $teachersid=$result['teachersid'];
+        $id=$teachersid;
         $logacc=$result['email'];
         $lname=$result['lname'];
         $fname=$result['fname'];
-        $id=$adminid;
+        
      }
 ?>

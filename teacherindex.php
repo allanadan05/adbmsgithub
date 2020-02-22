@@ -1,10 +1,10 @@
 <?php
 include('connection.php');
-include('adminsession.php');
+include('teachersession.php');
 include('functions.php');
 
 
-$admin=admingetname($id);
+$teacher=teachersgetname($teachersid);
 ?>
 
 <!DOCTYPE html>
@@ -58,13 +58,13 @@ $admin=admingetname($id);
 <body class="animsition">
     <div class="page-wrapper">
         <!-- HEADER MOBILE and SIDEBAR-->
-        <?php include("adminheadermobileandsidebar.php"); ?>
+        <?php include("teacherheadermobileandsidebar.php"); ?>
         <!-- HEADER MOBILE and SIDEBAR-->
 
         <!-- PAGE CONTAINER-->
         <div class="page-container">
             <!-- HEADER DESKTOP-->
-            <?php include("adminheader.php"); ?>
+            <?php include("teacherheader.php"); ?>
             <!-- HEADER DESKTOP-->
 
             <!-- MAIN CONTENT-->
@@ -94,7 +94,7 @@ $admin=admingetname($id);
                                     <?php
 
 
-                                    $sql="SELECT * FROM announcementtbl WHERE anfrom='$admin' ORDER BY dateposted desc  ";
+                                    $sql="SELECT * FROM announcementtbl WHERE anfrom='$teacher' ORDER BY dateposted desc  ";
                                     $result=mysqli_query($con, $sql);
 
                                     if(mysqli_num_rows($result)){
@@ -121,7 +121,7 @@ $admin=admingetname($id);
                                     <div class="card-body">
                                         <div class="mx-auto d-block">
                                             <img class="rounded-circle mx-auto d-block" style="width:50%;" src="images/icon/avatar-dan.jpg" alt="Card image cap">
-                                            <h5 class="text-sm-center mt-2 mb-1"><?php echo admingetname($id);?></h5>
+                                            <h5 class="text-sm-center mt-2 mb-1"><?php echo teachersgetname($teachersid);?></h5>
                                             <!-- <div class="location text-sm-center">
                                                 <i class="fa fa-groups"></i>Section: BSIT-3B1</div> -->
                                         </div>
@@ -152,19 +152,19 @@ $admin=admingetname($id);
                                             
                                             <div class="form-group">
                                                 <label for="exampleInputName2" class="pr-1  form-control-label">Userid</label><br>
-                                                <input type="text" id="name" placeholder="" required="" value=<?php echo adminid($id);?> readonly class="form-control">
+                                                <input type="text" id="name" placeholder="" required="" value=<?php echo teacherid($teachersid);?> readonly class="form-control">
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputEmail2" class="px-1  form-control-label">FirstName</label><br>
-                                                <input type="email" id="email" placeholder="" required="" value=<?php echo admingetfname($id);?> readonly class="form-control">
+                                                <input type="email" id="email" placeholder="" required="" value=<?php echo teachergetfname($teachersid);?> readonly class="form-control">
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputName2" class="pr-1  form-control-label">Lastname</label><br>
-                                                <input type="text" id="name" placeholder="" required="" value=<?php echo admingetlname($id);?> readonly class="form-control">
+                                                <input type="text" id="name" placeholder="" required="" value=<?php echo teachergetlname($teachersid);?> readonly class="form-control">
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputEmail2" class="px-1  form-control-label">Middlename</label><br>
-                                                <input type="email" id="email" placeholder="" required="" value=<?php echo admingetmname($id);?> readonly class="form-control">
+                                                <input type="email" id="email" placeholder="" required="" value=<?php echo teachergetmname($teachersid);?> readonly class="form-control">
                                             </div>
                                             
                                         </form>
@@ -211,7 +211,7 @@ $admin=admingetname($id);
                 <form action="announcement.php" method="POST">
                     <h5 class="modal-title" id="mediumModalLabel"><input type="text" name="antitle" placeholder="Title"></h5>
                     
-                <input type="text" name="anfrom" value="<?php echo teachersgetname($id);?>" style="display:none;">
+                <input type="text" name="anfrom" value="<?php echo teachersgetname($teachersid);?>" style="display:none;">
                 <input type="date" name="dateposted" value="<?php echo date('Y-m-d'); ?>" style="display:none;" />
                 </div>
                 <div class="modal-body">

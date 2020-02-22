@@ -43,14 +43,13 @@ $profileid=$_SESSION['userid'];
 <body class="animsition">
     <div class="page-wrapper">
         <!-- HEADER MOBILE and SIDEBAR-->
-        <?php include("adminheadermobileandsidebar.php"); ?>
+        <?php include("teacherheadermobileandsidebar.php"); ?>
         <!-- HEADER MOBILE and SIDEBAR-->
-
 
         <!-- PAGE CONTAINER-->
         <div class="page-container">
             <!-- HEADER DESKTOP-->
-            <?php include("adminheader.php"); ?>
+            <?php include("teacherheader.php"); ?>
             <!-- HEADER DESKTOP-->
 
             <!-- MAIN CONTENT-->
@@ -68,8 +67,8 @@ $profileid=$_SESSION['userid'];
                                     <table class="table table-borderless table-data3">
                                         <thead>
                                             <tr>
-                                                <th>Name</th>
                                                 <th>Quiz title</th>
+                                                <th>Name</th>
                                                 <th>Score</th>
                                                 <th>Average Score</th>
                                                 <th>remarks</th>
@@ -77,14 +76,14 @@ $profileid=$_SESSION['userid'];
                                         </thead>
                                         <tbody>
                                             <?php 
-                                            $sql="select (select concat(lname, ', ', fname) as name from userstbl where userid=scoretbl.userid) as user, (SELECT quizname from quiztbl where quizid=scoretbl.quizid) as quizname, concat(totalscore, '/', totalitems) as score, averagescore, remarks from scoretbl ORDER BY user";
+                                            $sql="select (select concat(lname, ', ', fname) as name from userstbl where userid=scoretbl.userid) as user, (SELECT quizname from quiztbl where quizid=scoretbl.quizid) as quizname, concat(totalscore, '/', totalitems) as score, averagescore, remarks from scoretbl ORDER BY quizname";
                                             $result=mysqli_query($con, $sql);
                                             while($row=mysqli_fetch_array($result)){
 
                                             ?>
                                             <tr>
-                                                <td><?php echo $row['user']; ?></td>
                                                 <td><?php echo $row['quizname']; ?></td>
+                                                <td><?php echo $row['user']; ?></td>
                                                 <td><?php echo $row['score']; ?></td>
                                                 <td><?php echo $row['averagescore']. "%"; ?></td>
 
