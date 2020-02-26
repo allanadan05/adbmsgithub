@@ -5,6 +5,7 @@ include('functions.php');
 
 
 $teacher=teachersgetname($teachersid);
+$teacherdeptid=teachergetdeptid($teachersid);
 ?>
 
 <!DOCTYPE html>
@@ -91,7 +92,32 @@ $teacher=teachersgetname($teachersid);
                                         </button>
                                     </div>
                                     <div class="card-body">
+
+                                    <hr/>
+                                    <h4 style="color: #4272d7 ">Public Announcements</h4>
+                                    <hr> 
+
                                     <?php
+                                    $sql="SELECT * FROM announcementtbl WHERE deptid='$teacherdeptid' ORDER BY dateposted desc  ";
+                                    $result=mysqli_query($con, $sql);
+
+                                    if(mysqli_num_rows($result)){
+                                    while($row = mysqli_fetch_array($result))
+                                    { ?>
+                                        <div style="background-color: whitesmoke;">
+                                        <h4><?php echo $row['antitle']?><h4>
+                                        <h6><?php echo $row['dateposted']?> | <?php echo $row['anfrom']?></h6>
+                                        <p><?php echo $row['andetails'] ?></p>
+                                        </div>
+                                        <br>
+                                    <?php }
+                                    }
+                                 ?>
+                                 <hr/>
+                                 <h4 style="color: #4272d7 ">Your Announcements</h4>
+                                 <hr>    
+
+                                 <?php
 
 
                                     $sql="SELECT * FROM announcementtbl WHERE anfrom='$teacher' ORDER BY dateposted desc  ";
@@ -109,6 +135,7 @@ $teacher=teachersgetname($teachersid);
                                     <?php }
                                     }
                                  ?>
+
                                     </div>
                                 </div>
                             </div>
@@ -209,13 +236,13 @@ $teacher=teachersgetname($teachersid);
             <div class="modal-content">
                 <div class="modal-header">
                 <form action="announcement.php" method="POST">
-                    <h5 class="modal-title" id="mediumModalLabel"><input type="text" name="antitle" placeholder="Title"></h5>
-                    
-                <input type="text" name="anfrom" value="<?php echo teachersgetname($teachersid);?>" style="display:none;">
-                <input type="date" name="dateposted" value="<?php echo date('Y-m-d'); ?>" style="display:none;" />
+                    <h5 class="modal-title" id="mediumModalLabel"><input type="text" name="antitle" placeholder="Type title announcement here..." style="width: 500px"></h5>
                 </div>
                 <div class="modal-body">
-                <textarea rows="5" cols="90" name="andetails" placeholder="message goes here!"></textarea>
+                <textarea rows="5" cols="90" name="andetails" placeholder="Type your message here..."></textarea>
+                <hr/>    
+                <Label for="anfrom">From:  </Label> &nbsp <input type="text" name="anfrom" value="<?php echo teachersgetname($teachersid);?>" style="display:inline; color: grey;" readonly>
+                <input type="date" name="dateposted" value="<?php echo date('Y-m-d'); ?>" style="display:inline; color: grey;" readonly />
                 </div>
                 <div class="modal-footer">
                     

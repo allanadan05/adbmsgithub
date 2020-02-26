@@ -141,6 +141,19 @@ function teachergetmname($id){
     return $ibalik;
 }
 
+function teachergetdeptid($id){
+    include('connection.php');	
+
+    $sql="SELECT * FROM teacherstbl where teachersid=".$id;
+    $executeQuery=mysqli_query($con, $sql);
+
+    while($result=mysqli_fetch_array($executeQuery)){
+        $ibalik=$result['deptid'];
+    }
+
+    return $ibalik;
+}
+
 function getsubid($id){
     include('connection.php');	
 

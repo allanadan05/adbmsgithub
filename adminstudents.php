@@ -197,11 +197,12 @@ include('functions.php');
                                                         <span class="au-checkmark"></span>
                                                     </label>
                                                 </th>
-                                                <th>name</th>
-                                                <th>email</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
                                                 <th>Section</th>
-
                                                 <th>Average Score</th>
+                                                <!-- <th>Remarks</th> -->
+                                                <th>Subjects</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -209,7 +210,8 @@ include('functions.php');
                                         <?php
                                         /*$sql="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname, (SELECT averagescore FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS AverageScore,(SELECT remarks FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS Remarks from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid  order by userstbl.lname";*/
 
-                                        $sql="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid  order by userstbl.lname";
+                                        // $sql="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid  order by userstbl.lname";
+                                        $sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, (select sectionname from sectiontbl where sectionid=userstbl.sectionid) AS sectionname, (select sum(averagescore)/count(averagescore) from scoretbl where scoretbl.userid=userstbl.userid) AS averagescore from userstbl order by userstbl.lname";
                                         $result=mysqli_query($con, $sql);
                                         if(mysqli_num_rows($result)){
                                         while($row = mysqli_fetch_array($result))
@@ -224,17 +226,37 @@ include('functions.php');
                                                <?php echo "<td>".$row['lname'].", ".$row['fname']."</td>"; ?>
                                                <?php echo "<td>".$row['email']."</td>";?>
                                                <?php echo "<td>".$row['sectionname']."</td>";?>
-                                                
-                                                <!-- <td>
+                                               <td>
                                                     <span <?php 
-                                                    if($row['Remarks']=='PASSED'){
-                                                        echo 'class="status--process"'; } 
-                                                     else{
-                                                        echo 'class="status--denied"';
+                                                    if($row['averagescore']>=75.00){
+                                                        echo 'class="status--process"'; 
+                                                        $remarks="PASSED";
+                                                    }else{
+                                                         if($row['averagescore']<=0){
+                                                            //do nothing
+                                                            $remarks="Undefined";
+                                                         }else{
+                                                            echo 'class="status--denied"';
+                                                            $remarks="FAILED";
+                                                         }
                                                      }
                                                      ?> >
-                                                     <?php echo $row['AverageScore']; ?>% <?php echo $row['Remarks']; ?></span>
-                                                </td> -->
+                                                     <?php echo $row['averagescore'] ." % " .$remarks; ?>
+                                                </td>
+                                               <!-- <?php echo "<td>".$row['subjects']."</td>";?>     
+                                               <?php echo "<td> Subjects </td>";?>                                            -->
+                                               <td>
+                                               <?php
+                                               $q="select subjectid, (select subjectname from subjecttbl where subjectid=sectionsubjecttbl.subjectid) AS subjectname from sectionsubjecttbl where sectionid=" .$row['sectionid'];
+                                               $r=mysqli_query($con, $q);
+                                                if(mysqli_num_rows($r)){
+                                                while($sub = mysqli_fetch_array($r))
+                                                {
+                                                    echo $sub['subjectname'] .", ";
+                                                }
+                                                }
+                                               ?>
+                                               </td>
                                                 <td>
                                                     <div class="table-data-feature">
                                                         <button onclick="setmodalid(<?php echo $row['userid']; ?>)" class="item" data-toggle="modal" data-placement="top" title="Send Notification" type="button" data-target="#sendnotif">

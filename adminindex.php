@@ -47,9 +47,15 @@ $admin=admingetname($id);
         if(cat=="section"){
         document.getElementById("select1").style.display="inline";
         document.getElementById("select2").style.display="none";
-        }else{
+        document.getElementById("select3").style.display="none";
+        }else if(cat=="subject"){
             document.getElementById("select1").style.display="none";
             document.getElementById("select2").style.display="inline";
+            document.getElementById("select3").style.display="none";
+        }else{
+            document.getElementById("select1").style.display="none";
+            document.getElementById("select2").style.display="none";
+            document.getElementById("select3").style.display="inline";
         }
         }
     </script>
@@ -209,20 +215,24 @@ $admin=admingetname($id);
             <div class="modal-content">
                 <div class="modal-header">
                 <form action="announcement.php" method="POST">
-                    <h5 class="modal-title" id="mediumModalLabel"><input type="text" name="antitle" placeholder="Title"></h5>
-                    
-                <input type="text" name="anfrom" value="<?php echo teachersgetname($id);?>" style="display:none;">
-                <input type="date" name="dateposted" value="<?php echo date('Y-m-d'); ?>" style="display:none;" />
+                    <h5 class="modal-title" id="mediumModalLabel"><input type="text" name="antitle" placeholder="Type title here..." style="width:500px;"></h5>
                 </div>
                 <div class="modal-body">
-                <textarea rows="5" cols="90" name="andetails" placeholder="message goes here!"></textarea>
+                <textarea rows="5" cols="90" name="andetails" placeholder="Type your message here.."></textarea>
+                <hr/>
+                <label for="anfrom">From: </label>    <input type="text" name="anfrom" value="<?php echo admingetname($id);?>" style="display:inline; color:grey; "  readonly>
+                <input type="date" name="dateposted" value="<?php echo date('Y-m-d'); ?>" style="display:inline; color:grey;"  readonly/>
                 </div>
+                
                 <div class="modal-footer">
                     
                     <select name="sectionid" id="select0" onchange="showone()">
+                    <option value="" selected disabled>--Choose where to announce--</option>
+                    <option value="department">Per Department</option>
                     <option value="section">Per Section</option>
                     <option value="subject">Per Subject</option>
                     </select>
+
                     <select name="sectionid" id="select1" style="display:none;" >
                     <option value="" selected disabled>--Choose Section--</option>
                     <?php 
@@ -261,11 +271,30 @@ $admin=admingetname($id);
                         }
                     }
                     ?>
+                    </select>
 
+                    <select name="deptid" id="select3" style="display:none;">
+                    <option value="" selected disabled>--Per Department--</option>
+                    <?php 
+                    $category="department";
+                    if($category=="department"){
+                        $sql="select * from departmenttbl";
+                        $result=mysqli_query($con, $sql);
+                        if(mysqli_num_rows($result)){
+                            while($row = mysqli_fetch_array($result))
+                            { 
+                    ?>
+                                <option value="<?php echo $row['deptid'];  ?>"><?php echo $row['departmentname'];  ?></option>
+
+                    <?php
+                            }
+                        }
+                    }
+                    ?>
                     </select>
                     
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" name="addAnnPerSubOrSec" class="btn btn-primary" >Send</button>
+                    <button type="submit" name="addAnnPerSubOrSecorDept" class="btn btn-primary" >Send</button>
                     </form>
                 </div>
             </div>

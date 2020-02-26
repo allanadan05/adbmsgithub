@@ -4,12 +4,12 @@ function editsubject(ipinasa){
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {	
 			var buongObject=JSON.parse(this.responseText);
-			//document.getElementById("response").innerHTML = buongObject.sname;
 			document.getElementById("subname").value = buongObject.sname;
 			document.getElementById("subdes").value = buongObject.sdesc;
 			document.getElementById("uId").value = forIpinasa;
 			document.getElementById("addsubj").style.display="none";
 			document.getElementById("updatesubj").style.display="inline";
+
     }
   };
   
@@ -17,7 +17,8 @@ function editsubject(ipinasa){
 	//document.write(forIpinasa);
 	var palatandaan = "edit";
 	xhttp.open("GET", "process.php?forIpinasa="+forIpinasa+"&palatandaan="+palatandaan, true);
-    xhttp.send(); 
+	xhttp.send(); 
+	
 }
 
 function saved(){

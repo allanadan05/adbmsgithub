@@ -7,6 +7,7 @@ $palatandaan =  $_GET['palatandaan'];
 
 if($palatandaan =="edit"){
 	$id=$_GET['forIpinasa'];
+
 	$querySaDatabase = "SELECT * FROM subjecttbl WHERE subjectid='$id' ";
 	$executeQuery = mysqli_query($con, $querySaDatabase);
 		$pambato = array();
@@ -14,7 +15,7 @@ if($palatandaan =="edit"){
 			$pambato['sname'] = $row['subjectname'];
 			$pambato['sdesc'] = $row['subjectdesc'];
 		}
-		echo json_encode($pambato);
+	echo json_encode($pambato);
 }
 
 if($palatandaan=="update"){

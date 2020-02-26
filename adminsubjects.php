@@ -40,6 +40,7 @@ $query=mysqli_query($con, $sql);
 
     <script src="functions.js"></script>
 
+
 </head>
 
 <body class="animsition">
@@ -94,51 +95,73 @@ $query=mysqli_query($con, $sql);
                                 if($deletesubresult=="failed"){
                                 echo "<div class='alert alert-danger' role='alert'> Sorry, cannot be deleted  :( </div>";
                                 }
-                            }
-
-
-                             
+                            }  
                             ?>
-                          <div class="row">
-                            <div class="col-md-4">
+
+                        <!-- Add Subject -->
+                          <div class="row" >
+                            <div class="col-md-12">
                                 <form action="addsub.php" method="POST">
                                     <div class="card">
-                                     <div class="card-header">
-                                         <strong class="card-title"> 
-                                            <input type="text" name="subjectname" id="subname" placeholder="Enter Subject Title" autofocus="autofocus"> 
-                                            <input type="hidden" name="uId" id="uId">
-                                        </strong>
+                                     <div class="card-header" >
+                                     <h4>Add Subject </h4>
                                      </div>
                                     <div class="card-body">
-                                        <p class="card-text"> <input type="text" name="subjectdesc" id="subdes"  placeholder="Type description here..."> 
+                                        <strong class="card-title"> 
+                                            <input type="text" name="subjectname" id="subname" placeholder="Enter Subject Title" autofocus="autofocus" style="width: 800px;"> 
+                                            <input type="hidden" name="uId" id="uId">
+                                        </strong>
+                                        <hr>
+                                        <p class="card-text"> <textarea name="subjectdesc" id="subdes" style="width: 800px;" placeholder=" Type description here... "></textarea>
                                         </p>
+
+                                        <h5>Assign to existing sections: </h5><hr>
+                                        <div id="seccheckbox">
+                                        <?php
+                                                
+
+                                                $sql="SELECT sectiontbl.sectionid, sectiontbl.sectionname,count(userstbl.userid) as 'number of students' from userstbl join sectiontbl on userstbl.sectionid=sectiontbl.sectionid group by sectiontbl.sectionname ";
+                                                $result=mysqli_query($con, $sql);
+
+                                                if(mysqli_num_rows($result)){
+                                                while($row = mysqli_fetch_array($result))
+                                                {?>
+                                                <ul>
+                                                <label>
+                                                    <input type="checkbox" value="<?php  echo $row['sectionid']; ?>" name="<?php  echo $row['sectionname']; ?>"><?php  echo " " .$row['sectionname']; ?>
+                                                </label>
+                                                </ul>
+                                                <?php }
+                                            }?>
+                                        </div>                   
+                                        
                                     </div>
                                     <div class="card-footer">
-                                    <select  name="sections" style="margin-top: 5px;">
-                                                <option selected="selected" disabled>Select Section</option>
-                                                <?php 
-                                                   $sqlstring="SELECT * FROM sectiontbl";
-                                                   $querystring=mysqli_query($con, $sqlstring);
-                                                   while($row=mysqli_fetch_array($querystring)){
-                                                ?>
-                                                <option value="<?php echo $row['sectionid']; ?>"><?php echo $row['sectionname']; ?></option>
-                                                <?php } ?>
-                                            </select>
-
                                         <button type="submit" class="btn btn-primary btn-sm" style="float:right; display: inline;"  id="addsubj" name="submitnewsubject"><i class="fas fa-plus"></i> ADD</button>
                                         <button type="submit" class="btn btn-primary" style="float:right; display: none;"  name="editnewsubject" id="updatesubj"><i class="fas fa-save"></i> SAVE</button>
                                     </div>
                                 </form>
-
                                </div> 
                             </div>
+                            </div>
+                            <!-- /End Add Subject -->
+
+                          
+                            <div class="row">
                             <?php  while ($row=mysqli_fetch_assoc($query)) {  ?>
                             <div class="col-md-4">
                                     <div class="card">
                                      <div class="card-header">
                                          <strong class="card-title"><a href="<?php echo $row['subjectid'] ?>"><?php echo $row['subjectname'] ?></a>
                                             <small>
-                                                <span class="badge badge-success float-right mt-1">3</span>
+                                                <span class="badge badge-success float-right mt-1">
+                                                <?php  
+                                                $sssqll="SELECT count(sectionid) AS assignedcount from sectionsubjecttbl where subjectid=" .$row['subjectid'];
+                                                $result=mysqli_query($con, $sssqll);
+                                                $r=mysqli_fetch_assoc($result);
+                                                echo $r['assignedcount'];
+                                                ?>
+                                                </span>
                                            </small>
                                         </strong>
                                      </div>
@@ -148,8 +171,9 @@ $query=mysqli_query($con, $sql);
                                     </div>
                                     <div class="card-footer">
                                         <div class="row">
-                                            <button class="btn btn-warning" onclick="editsubject(<?php echo $row['subjectid']; ?>)"><i class="fas fa-pencil-square-o"></i>EDIT</button> &nbsp&nbsp&nbsp
-                                             <a href="<?php echo "addsub.php?deletesubject=1&id=".$row['subjectid'] ?>"><button class="btn btn-danger"><i class="fas fa-trash"></i>DELETE</button></a>
+                                        <button class="btn btn-success" style="font-size: 13px; width: auto; height: auto;" data-toggle="modal" data-target="#add" onclick="assignsubtosec(<?php echo $row['subjectid']; ?>)"><i class="fas fa-check-square"></i> &nbsp Assign</button> &nbsp&nbsp&nbsp
+                                            <button class="btn btn-warning" style="font-size: 13px; width: auto; height: auto;" onclick="editsubject(<?php echo $row['subjectid']; ?>)"><i class="fas fa-pencil-square-o"></i>EDIT</button> &nbsp&nbsp&nbsp
+                                             <a href="<?php echo "addsub.php?deletesubject=1&id=".$row['subjectid'] ?>"><button class="btn btn-danger" style="font-size: 13px; width: auto; height: auto;"> <i class="fas fa-trash"></i>DELETE</button></a>
                                          </div>
                                     </div>
                                 </div> 
@@ -165,7 +189,54 @@ $query=mysqli_query($con, $sql);
 
     </div>
 
+<!-- MODAL ADD -->
+<div class="add-user-modal">
+ <div class="modal" id="add">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h6 class="modal-title" id="modaltitle">Assign Subject</h6>  
+            </div>
 
+            <!-- Modal body -->
+            <div class="modal-body">
+                
+                <form action="adduser.php" method="POST">
+                    <input type="hidden" name="hiddenuserid" id="hiddenuserid">
+                    <div id="seccheckbox">
+                    <?php
+                            
+
+                            $sql="SELECT sectiontbl.sectionid, sectiontbl.sectionname,count(userstbl.userid) as 'number of students' from userstbl join sectiontbl on userstbl.sectionid=sectiontbl.sectionid group by sectiontbl.sectionname ";
+                            $result=mysqli_query($con, $sql);
+
+                            if(mysqli_num_rows($result)){
+                            while($row = mysqli_fetch_array($result))
+                            {?>
+                            <ul>
+                            <label>
+                                <input type="checkbox" value="<?php  echo $row['sectionid']; ?>" name="<?php  echo $row['sectionname']; ?>"><?php  echo " " .$row['sectionname']; ?>
+                            </label>
+                            </ul>
+                            <?php }
+                        }?>
+                    </div>   
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline" name="addstudentsubmit">Submit</button> &nbsp 
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </form>
+                
+                
+            </div>
+        </div>
+    </div>
+ </div>
+</div>
+<!-- /MODAL ADD -->
 
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
