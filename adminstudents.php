@@ -1,4 +1,5 @@
 <?php
+
 include('connection.php');
 include('adminsession.php');
 include('functions.php');
@@ -71,6 +72,76 @@ include('functions.php');
 
     </script>
 
+    <!--new line code-->
+    <!--validation student-->
+
+    <script>
+        function validEmail()
+        {
+            var checkEmail=document.getElementById("chkEmail");
+            var myEmail=document.getElementById("email").value;
+
+            if(myEmail !="")
+            {
+                checkEmail.innerHTML="Checking...";
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("POST","process3.php",true);
+                xhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+
+                    xhttp.onreadystatechange = function()
+                    {
+                        if(xhttp.readyState == 4 && xhttp.status == 200 )
+                        {
+                            checkEmail.innerHTML=xhttp.responseText;
+                        }
+                    }
+
+                var postEmail= "chEm=" +myEmail;
+                xhttp.send(postEmail);
+
+            }
+            else
+            {
+                checkEmail.innerHTML="";
+            }
+        }
+
+
+        function tooShortPassword()
+        {
+            var tooShortPwd=document.getElementById("chkpwd");
+            var pwd=document.getElementById("password").value;
+
+            if(pwd !="")
+            {
+                tooShortPwd.innerHTML="Checking...";
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("POST","process3.php",true);
+                xhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+
+                    xhttp.onreadystatechange = function()
+                    {
+                        if(xhttp.readyState == 4 && xhttp.status == 200 )
+                        {
+                            tooShortPwd.innerHTML=xhttp.responseText;
+                        }
+                    }
+
+                var postPwd= "chpwd=" +pwd;
+                xhttp.send(postPwd);
+
+            }
+            else
+            {
+                tooShortPwd.innerHTML="";
+            }
+        }
+        
+    </script>
+
+    <!--new line code-->
+    <!--validation student-->
+
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -123,10 +194,12 @@ include('functions.php');
                              if(isset($_GET['editstudentresult'])){
                                 $editstudentresult=$_GET['editstudentresult'];
                                 if($editstudentresult=="success"){
-                                echo "<div class='alert alert-primary' role='alert'> Profile: ".$_GET['lname'] .", " .$_GET['fname'] ." has been updated :) </div>";
+                               // echo "<div class='alert alert-primary' role='alert'> Profile: ".$_GET['lname'] .", " .$_GET['fname'] ." has been updated :) </div>";
+                               echo "<div class='alert alert-primary' role='alert'> Profile has been updated :) </div>";
                                 }
                                 if($editstudentresult=="failed"){
-                                echo "<div class='alert alert-danger' role='alert'>  Profile: ".$_GET['lname'] .", " .$_GET['fname'] ." cannot be updated :( </div>";
+                                //echo "<div class='alert alert-danger' role='alert'>  Profile: ".$_GET['lname'] .", " .$_GET['fname'] ." cannot be updated :( </div>";
+                                echo "<div class='alert alert-primary' role='alert'> cannot be updated :( </div>";
                                 } 
                             }
                             
@@ -150,6 +223,38 @@ include('functions.php');
                                 } 
                             }
                             ?>
+
+                    <!--newline code-->
+                    <!--adduser.php-->
+                    <?php
+                    //save
+                    if(isset($_GET['password']) && $_GET['password']=="tooShort")
+                    {
+                        echo "<div class='alert alert-danger' role='alert'>Password must be more than 4 characters </div>";
+                    }
+                     if(isset($_GET['exist']) && $_GET['exist']=="email") 
+                    {
+                      echo "<div class='alert alert-danger' role='alert'>Already Exist Email </div>";
+                    }
+                    if(isset($_GET['new']) && $_GET['new']=="student")
+                    {
+                        echo "<div class='alert alert-success' role='alert'>Add Record Successfully</div>";
+                    }
+                    //edit
+
+                    if(isset($_GET['password']) && $_GET['password']=="tooShortEdit")
+                    {
+                        echo "<div class='alert alert-danger' role='alert'>Password must be more than 4 characters </div>";
+
+                    }
+                     if(isset($_GET['exist']) && $_GET['exist']=="emailEdit") 
+                    {
+                      echo "<div class='alert alert-danger' role='alert'>Already Exist Email </div>";
+                    }  
+
+                    ?>
+                    <!--adduser.php-->
+
                         </div>
                         <div class="row">
                             <div class="col-md-10">
@@ -177,18 +282,19 @@ include('functions.php');
                                         <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#add">
                                             <i class="zmdi zmdi-plus"></i>Add Student</button>
                                         <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
-                                            <select class="js-select2" name="type">
+                                            <select class="js-select2" name="type" onchange="location=this.value">
                                                 <option selected="selected">Export</option>
-                                                <option value="">Pdf</option>
-                                                <option value="">HTML</option>
+                                                <option value="adminstudentpdf.php">Pdf</option>
+                                                <!--option value="">HTML</option-->
                                             </select>
                                             <div class="dropDownSelect2"></div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="table-responsive table-responsive-data2">
+                                <div class="table-responsive table-responsive-data2" style="overflow-x: scroll; overflow-y: hidden; width:970px;">
 
-                                  <table class="table table-data2">
+                                  <table class="table table-data2 table-responsive-data2">
+
                                         <thead>
                                             <tr>
                                                 <th>
@@ -203,15 +309,34 @@ include('functions.php');
                                                 <th>Average Score</th>
                                                 <!-- <th>Remarks</th> -->
                                                 <th>Subjects</th>
+                                                <th>Image</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="response">
+                                        <tbody id="response" >
                                         <?php
                                         /*$sql="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname, (SELECT averagescore FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS AverageScore,(SELECT remarks FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS Remarks from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid  order by userstbl.lname";*/
 
                                         // $sql="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid  order by userstbl.lname";
-                                        $sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, (select sectionname from sectiontbl where sectionid=userstbl.sectionid) AS sectionname, (select sum(averagescore)/count(averagescore) from scoretbl where scoretbl.userid=userstbl.userid) AS averagescore from userstbl order by userstbl.lname";
+                                       
+                                        // pagination 
+                                        
+                                        if(isset($_GET['page']))
+                                        {
+                                            $page = $_GET['page'];
+                                        }
+                                         else
+                                        {
+                                            $page = 1;
+                                        }
+                                        
+                                        $num_of_page = 05; // limit ng page niya sa table
+                                        $start_from= ($page-1)*06;                                      
+                                       //pagination
+                                        $sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, 
+                                        (select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname,
+                                         (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore
+                                          from userstbl order by userstbl.lname limit $start_from,$num_of_page";
                                         $result=mysqli_query($con, $sql);
                                         if(mysqli_num_rows($result)){
                                         while($row = mysqli_fetch_array($result))
@@ -241,7 +366,7 @@ include('functions.php');
                                                          }
                                                      }
                                                      ?> >
-                                                     <?php echo $row['averagescore'] ." % " .$remarks; ?>
+                                                     <?php echo $row['averagescore'] ." % \n" .$remarks; ?>
                                                 </td>
                                                <!-- <?php echo "<td>".$row['subjects']."</td>";?>     
                                                <?php echo "<td> Subjects </td>";?>                                            -->
@@ -257,6 +382,9 @@ include('functions.php');
                                                 }
                                                ?>
                                                </td>
+                                                    <td>
+                                            <img style="width: 30px; height: 30px; border-radius: 100px;" onerror="this.src='images/defaultpic/defaultPIC.png'" src="<?php echo "images/profile_picture/".$row['image']."";?>"></td>
+                                                    </td> 
                                                 <td>
                                                     <div class="table-data-feature">
                                                         <button onclick="setmodalid(<?php echo $row['userid']; ?>)" class="item" data-toggle="modal" data-placement="top" title="Send Notification" type="button" data-target="#sendnotif">
@@ -278,16 +406,47 @@ include('functions.php');
                                         <?php      
 
                                         }
-                                    }else{
+                                    
+                                        
+                                   }
+                                    else{
                                         echo "<tr><td></td><td></td><td>No data Found</td><td></td><td></td><td></td>
                                         </tr>";
                                     }
+                                    
 
                                     ?>
                                         </tbody>
                                     </table>
+
                                 </div>
-                          
+            <?php
+                                    //buttons page pagination
+                                
+                                    $perpage="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, 
+                                    (select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname,
+                                     (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore
+                                      from userstbl order by userstbl.lname ";
+
+                                      $perpageResult=mysqli_query($con,$perpage);
+                                      $totalRecord=mysqli_num_rows($perpageResult);
+                                        // note lang totalpage=ceil(rows/numpage) - ceil convert to decimal to integer
+                                      $totalPage=ceil($totalRecord/$num_of_page);
+                                        //echo $totalPage;
+                                        if($page>1)
+                                        {
+                                            echo "<a class='btn btn-warning' href='adminstudents.php?page=".($page-1)."'>Previous</a>";
+                                        }
+                                      for($i=1;$i<$totalPage;$i++)
+                                        {
+                                            echo "<a class='btn btn-info' href='adminstudents.php?page=".$i."'>$i</a>";
+                                        }
+                                        if($page>1)
+                                        {
+                                            echo "<a class='btn btn-primary' href='adminstudents.php?page=".($page+1)."'>Next</a>";
+                                        }
+                                    //buttons page pagination                                      
+                                    ?>                          
                                 <!-- END DATA TABLE -->
                             </div>
                         </div>
@@ -321,11 +480,12 @@ include('functions.php');
             <!-- Modal body -->
             <div class="modal-body">
                 
-                <form action="adduser.php" method="POST">
+                <form action="adduser.php" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="hiddenuserid" id="hiddenuserid">
                     <table border="0" style="border-collapse: collapse;">
-                    <tr><td>Email:</td><td><input type="email"  name="email" id="email" placeholder="Enter Email" required></td></tr>
-                    <tr><td>Password:</td><td><input type="password" name="password" id="password" placeholder="Enter Password " required></td></tr>
+                    <tr><td>Image:</td><td><input type="file" name="image"></td></tr>
+                    <tr><td>Email:</td><td><input type="email"  name="email" id="email" placeholder="Enter Email" onkeyup="validEmail();" maxlength="30" required></td></tr><span style=" margin: 40px 0 0 20px;" id="chkEmail"></span>
+                    <tr><td>Password:</td><td><input type="password" name="password" id="password" placeholder="Enter Password " onkeyup="tooShortPassword();" maxlength="30" required><span id="chkpwd"></span></td></tr>
                     <tr><td>Firstname:</td><td><input type="text"  name="fname" id="fname" placeholder="Enter Firstname" required></td></tr>
                     <tr><td>Lastname:</td><td><input type="text"  name="lname" id="lname" placeholder="Enter Lastname" required></td></tr>
                     <tr><td>Middlename: &nbsp&nbsp&nbsp</td><td><input type="text"  name="mname" id="mname" placeholder="Enter Middlename"></td></tr>
@@ -349,7 +509,8 @@ include('functions.php');
             <div class="modal-footer">
                 <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline" name="addstudentsubmit">Submit</button> &nbsp 
                 <button type="submit" id="savebtn" class="btn btn-warning" style="display: none" name="editstudentsubmit">Save</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <!--button type="button" class="btn btn-danger" data-dismiss="modal">Close</button-->
+                <a class="btn btn-danger" data-dismiss="modal" href="adminstudents.php">Close</a>
                 </form>
                 
                 

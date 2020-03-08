@@ -3,7 +3,6 @@ include('connection.php');
 include('adminsession.php');
 include('functions.php');
 
-
 $admin=admingetname($id);
 ?>
 
@@ -78,6 +77,7 @@ $admin=admingetname($id);
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <?php 
+                        /*
                             if(isset($_GET['login'])){
                                 $login=$_GET['login'];
                                 $name=$_GET['fname'];
@@ -86,6 +86,14 @@ $admin=admingetname($id);
                                 echo "<div class='alert alert-success' role='alert'> Welcome ". $name ."! </div>";
                                 }
                             }
+                            */
+                                 if(isset($_SESSION['fname'])){
+                                 echo "<div class='alert alert-success' role='alert'> Welcome ".$_SESSION['fname']."! </div>";
+                                 }
+                                 else{
+                                    header("Location: index.php");
+                                 }
+                             
                             ?>
                         <div class="row">
                             <div class="col-md-8">

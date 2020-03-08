@@ -52,13 +52,25 @@ include('functions.php');
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <?php 
+                        //print_r($_SESSION['fname']);
+                        /*
                             if(isset($_GET['login'])){
                                 $login=$_GET['login'];
                                 $name=$_GET['fname'];
 
                                 if($login=="s"){
-                                echo "<div class='alert alert-success' role='alert'> Welcome ". $name ."! </div>";
+                                //echo "<div class='alert alert-success' role='alert'> Welcome ". $name ."! </div>";
+                                
+                                echo "<div class='alert alert-success' role='alert'> Welcome ". $_SESSION['fname'] ."! </div>";
+                                
                                 }
+                            }
+                            */
+                            if(isset($_SESSION['fname'])){
+                                echo "<div class='alert alert-success' role='alert'> Welcome ".$_SESSION['fname']."! </div>";      
+                            }
+                            else{
+                                header("Location: index.php?login=f");
                             }
                             ?>
 
@@ -179,7 +191,26 @@ include('functions.php');
                                     </div>
                                     <div class="card-body">
                                         <div class="mx-auto d-block">
-                                            <img class="rounded-circle mx-auto d-block" style="width:50%;" src="images/icon/avatar-dan.jpg" alt="Card image cap">
+                                            <!--img class="rounded-circle mx-auto d-block" style="width:50%;" src="images/icon/avatar-dan.jpg" alt="Card image cap"-->
+                                            <!-- New line code image-->
+                                            <?php
+
+                                $query="SELECT `image` FROM `userstbl` WHERE email='".$_SESSION['email']."' ";
+                                $result=mysqli_query($con,$query);
+
+                                    if($row=mysqli_fetch_array($result) )
+                                    {
+                                //print_r($row['img']);
+                                ?>
+                                <!-- if empty profile picture use default background-->
+                                <img style=" margin:0 0 0 28px;width: 200px; height:200px; border-radius: 100px;" onerror="this.src='images/defaultpic/defaultPIC.png'" src="<?php echo "images/profile_picture/".$row['image']."";?>">
+
+                                <?php
+
+                                }
+                                ?>
+                                <!-- if empty profile picture use default background-->
+                                <!-- New line code image-->                                            
                                             <h5 class="text-sm-center mt-2 mb-1"><?php echo getname($id);?></h5>
                                             <div class="location text-sm-center">
                                                 <i class="fa fa-groups"></i>Section: BSIT-3B1</div>

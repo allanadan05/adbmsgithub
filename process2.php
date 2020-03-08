@@ -2,7 +2,18 @@
 include('connection.php');
 
 if(isset($_GET['palatandaan'])){
-
+	//pagination 
+	if(isset($_GET['page']))
+	{
+		$page = $_GET['page'];
+	}
+	 else
+	{
+		$page = 1;
+	}
+	$num_of_page = 05; // limit ng page niya sa table
+	$start_from= ($page-1)*06;  
+	// pagination 
 $palatandaan =  $_GET['palatandaan'];
 
 		if($palatandaan =="editsection"){
@@ -31,65 +42,121 @@ $palatandaan =  $_GET['palatandaan'];
 
 		if($palatandaan=="changedsec"){
 			$secid=$_GET['secid'];
-
-		     $sql="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname, (SELECT averagescore FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS AverageScore,(SELECT remarks FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS Remarks from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid WHERE userstbl.sectionid='$secid' order by userstbl.lname";
-		     $result=mysqli_query($con, $sql);
-		        if(mysqli_num_rows($result)){
-		             while($row = mysqli_fetch_array($result)){
-		             	echo "<tr class='tr-shadow'>
-		                        <td>
-		                            <label class='au-checkbox'>
-		                                <input type='checkbox'>
-		                                <span class='au-checkmark'></span>
-		                            </label>
-		                        </td>";
-		                echo "<td>".$row['lname'].", ".$row['fname']."</td>";
-		                echo "<td>".$row['email']."</td>";
-		                echo "<td>".$row['sectionname']."</td>";
-		                echo "<td>
-		                        <span "; 
-		                        if($row['Remarks']=='PASSED'){
-		                            echo 'class="status--process"'; } 
-		                         else{
-		                            echo 'class="status--denied"';
-		                         }
-		                         echo ">";
-		                         echo $row['AverageScore']."% ".$row['Remarks'];
-		                         echo "
-									</span>
-		                       </td>";
-		                  echo "
-		                                <td>
-		                                    <div class='table-data-feature'>
-		                                        <button onclick='setmodalid(".$row['userid'].")'  class='item' data-toggle='modal' data-placement='top' title='Send Notifications'  type='button' data-target='#sendnotif'>
-		                                            <i class='zmdi zmdi-mail-send'></i>
-		                                        </button>
-		                                       <button type='button' onclick='editstudent(".$row['userid'].")' class='item' data-placement='top' title='Edit' data-toggle='modal' data-target='#add'>
-		                                            <i class='zmdi zmdi-edit'></i>
-		                                        </button>
-		                                         <a href='process2.php?deletestudent=1&id=".$row['userid']."'>
-		                                        <button class='item' data-toggle='tooltip' data-placement='top' title='Delete'>
-		                                            <i class='zmdi zmdi-delete'></i>
-		                                        </button></a>
-		                                        <button class='item' data-toggle='tooltip' data-placement='top' title='More'>
-		                                            <i class='zmdi zmdi-more'></i>
-		                                        </button>
-		                                    </div>
-		                                </td>
-		                         ";
-		                         echo "</tr>";
-		        }
-		    }else{
-		        	 echo "<tr><td></td><td></td><td>No data Found</td><td></td><td></td><td></td>
-		                   </tr>";
-		        }
+			/*
+		     $sql="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname, 
+			 (SELECT averagescore FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS AverageScore,
+			 (SELECT remarks FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS Remarks 
+			 from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid WHERE userstbl.sectionid='$secid' order by userstbl.lname";
+			*/
+			
+			$qu="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email,userstbl.image, 
+			(select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname,
+			 (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore
+			  from userstbl WHERE userstbl.sectionid='$secid' order by userstbl.lname limit $start_from,$num_of_page";
+			  $re=mysqli_query($con, $qu);
+			  if(mysqli_num_rows($re)){
+				   while($row = mysqli_fetch_array($re)){
+					   echo "<tr class='tr-shadow'>
+							  <td>
+								  <label class='au-checkbox'>
+									  <input type='checkbox'>
+									  <span class='au-checkmark'></span>
+								  </label>
+							  </td>";
+					  echo "<td>".$row['lname'].", ".$row['fname']."</td>";
+					  echo "<td>".$row['email']."</td>";
+					  echo "<td>".$row['sectionname']."</td>";
+					  ?>
+					  <td>
+					  <span <?php
+						  if($row['averagescore']>=75.00)
+						  {
+							  echo 'class="status--process"'; 
+								$remarks="PASSED";
+						  }
+						  else
+						  {
+							  if($row['averagescore']<=0){
+							  //do nothing
+							  $remarks="Undefined";
+							   }else{
+							  echo 'class="status--denied"';
+							  $remarks="FAILED";
+							  }
+						  }						
+					  ?> >
+						  <?php echo $row['averagescore'] ." % ".$remarks; ?>
+					  </td>             
+											 <td>
+											 <?php
+											 $q="select subjectid, (select subjectname from subjecttbl where subjectid=sectionsubjecttbl.subjectid) AS subjectname from sectionsubjecttbl where sectionid=" .$row['sectionid'];
+											 $r=mysqli_query($con, $q);
+											  if(mysqli_num_rows($r))
+											  {
+											  while($sub = mysqli_fetch_array($r))
+											  {
+												  if ($sub['subjectname'])
+												  {
+												  echo $sub['subjectname'];
+												  }
+											  }
+											  }
+											 ?>
+											 </td>
+											 <td>
+                                            <img style="width: 30px; height: 30px; border-radius: 100px;" onerror="this.src='images/defaultpic/defaultPIC.png'" src="<?php echo "images/profile_picture/".$row['image']."";?>"></td>
+                                                    </td> 					
+					  <?php
+						echo "
+									  <td>
+										  <div class='table-data-feature'>
+											  <button onclick='setmodalid(".$row['userid'].")'  class='item' data-toggle='modal' data-placement='top' title='Send Notifications'  type='button' data-target='#sendnotif'>
+												  <i class='zmdi zmdi-mail-send'></i>
+											  </button>
+											  <button type='button' onclick='editstudent(".$row['userid'].")' class='item' data-placement='top' title='Edit' data-toggle='modal' data-target='#add'>
+												  <i class='zmdi zmdi-edit'></i>
+											  </button>
+											   <a href='process2.php?deletestudent=1&id=".$row['userid']."'>
+											  <button class='item' data-toggle='tooltip' data-placement='top' title='Delete'>
+												  <i class='zmdi zmdi-delete'></i>
+											  </button></a>
+											  <button class='item' data-toggle='tooltip' data-placement='top' title='More'>
+												  <i class='zmdi zmdi-more'></i>
+											  </button>
+										  </div>
+									  </td>
+							   ";
+							   echo "</tr>";
+			  }
+		  }else{
+			  echo "<tr><td></td><td></td><td>No data Found</td><td></td><td></td><td></td>
+			  </tr>";
+		  }
 		                
 		} //end if palatandaan==changedsec
 		if($palatandaan=="searchstudent"){
 			$tosearch=$_GET['tosearch'];
-
-		     $qu="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname, (SELECT averagescore FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS AverageScore,(SELECT remarks FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS Remarks from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid WHERE lname  LIKE '%$tosearch%' OR userid  LIKE '%$tosearch%' OR fname LIKE '%$tosearch%' OR email LIKE '%$tosearch%' OR sectionname LIKE '%$tosearch%' order by userstbl.lname";
-		     $re=mysqli_query($con, $qu);
+			/*
+			$qu="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, 
+			(select sectionname from sectiontbl where sectionid=userstbl.sectionid) AS sectionname, 
+			(select sum(averagescore)/count(averagescore) from scoretbl where scoretbl.userid=userstbl.userid) AS averagescore 
+			from userstbl WHERE lname LIKE '%$tosearch%' OR userid  LIKE '%$tosearch%' OR fname LIKE '%$tosearch%' OR 
+			email LIKE '%$tosearch%' OR sectionname LIKE '%$tosearch%' order by userstbl.lname";		 
+			*/
+			/*
+			$qu="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname,
+			 (SELECT averagescore FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS AverageScore,
+			 (SELECT remarks FROM scoretbl WHERE userstbl.userid=scoretbl.userid )
+			  AS Remarks from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid
+			   WHERE lname  LIKE '%$tosearch%' OR userid  LIKE '%$tosearch%' OR fname LIKE '%$tosearch%' OR 
+			   email LIKE '%$tosearch%' OR sectionname LIKE '%$tosearch%' order by userstbl.lname";
+			*/
+			$qu="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, 
+			(select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname,
+			 (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore
+			  from userstbl WHERE lname LIKE '%$tosearch%' OR fname LIKE '%$tosearch%' OR email LIKE '%$tosearch%'
+			   order by userstbl.lname limit $start_from,$num_of_page";
+			$re=mysqli_query($con, $qu);
 		        if(mysqli_num_rows($re)){
 		             while($row = mysqli_fetch_array($re)){
 		             	echo "<tr class='tr-shadow'>
@@ -102,18 +169,47 @@ $palatandaan =  $_GET['palatandaan'];
 		                echo "<td>".$row['lname'].", ".$row['fname']."</td>";
 		                echo "<td>".$row['email']."</td>";
 		                echo "<td>".$row['sectionname']."</td>";
-		                echo "<td>
-		                        <span "; 
-		                        if($row['Remarks']=='PASSED'){
-		                            echo 'class="status--process"'; } 
-		                         else{
-		                            echo 'class="status--denied"';
-		                         }
-		                         echo ">";
-		                         echo $row['AverageScore']."% ".$row['Remarks'];
-		                         echo "
-									</span>
-		                       </td>";
+						?>
+						<td>
+						<span <?php
+							if($row['averagescore']>=75.00)
+							{
+                            	echo 'class="status--process"'; 
+                              	$remarks="PASSED";
+							}
+							else
+							{
+                                if($row['averagescore']<=0){
+                                //do nothing
+                                $remarks="Undefined";
+                         		}else{
+                                echo 'class="status--denied"';
+                                $remarks="FAILED";
+                                }
+                            }						
+						?> >
+                            <?php echo $row['averagescore'] ." % ".$remarks; ?>
+                        </td>             
+                                               <td>
+                                               <?php
+                                               $q="select subjectid, (select subjectname from subjecttbl where subjectid=sectionsubjecttbl.subjectid) AS subjectname from sectionsubjecttbl where sectionid=" .$row['sectionid'];
+                                               $r=mysqli_query($con, $q);
+												if(mysqli_num_rows($r))
+												{
+                                                while($sub = mysqli_fetch_array($r))
+                                                {
+													if ($sub['subjectname'])
+													{
+													echo $sub['subjectname'];
+													}
+												}
+                                                }
+                                               ?>
+                                               </td>
+											   <td>
+                                            <img style="width: 30px; height: 30px; border-radius: 100px;" onerror="this.src='images/defaultpic/defaultPIC.png'" src="<?php echo "images/profile_picture/".$row['image']."";?>"></td>
+                                                    </td> 					
+						<?php
 		                  echo "
 		                                <td>
 		                                    <div class='table-data-feature'>
@@ -136,11 +232,14 @@ $palatandaan =  $_GET['palatandaan'];
 		                         echo "</tr>";
 		        }
 		    }else{
-		        	 echo "<tr><td></td><td></td><td>No data Found</td><td></td><td></td><td></td>
-		                   </tr>";
-		        }
-		                
-		} //end if palatandaan==searchstudent
+				echo "<tr><td></td><td></td><td>No data Found</td><td></td><td></td><td></td>
+				</tr>";
+			}           
+		
+
+	}//end if palatandaan==searchstudent		
+
+
 
 		if($palatandaan =="editstudent"){
 			$id=$_GET['forwardedid'];

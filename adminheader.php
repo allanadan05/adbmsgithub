@@ -25,7 +25,7 @@ include('adminsession.php');
                                             <img src="images/icon/avatar-dan.jpg" alt="profile" />
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#"><?php echo $lname." , ".$fname?></a>
+                                            <a class="js-acc-btn" href="#"><?php echo $_SESSION['lname'].", ".$_SESSION['fname'];//echo $lname." , ".$fname?></a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
@@ -36,7 +36,7 @@ include('adminsession.php');
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#"><?php echo $lname.",".$fname?></a>
+                                                        <a href="#"><?php echo $_SESSION['lname'].", ".$_SESSION['fname']; //echo $lname.",".$fname?></a>
                                                     </h5>
                                                     <span class="email"><?php echo $logacc; ?></span>
                                                 </div>
