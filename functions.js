@@ -9,6 +9,8 @@ function editsubject(ipinasa){
 			document.getElementById("uId").value = forIpinasa;
 			document.getElementById("addsubj").style.display="none";
 			document.getElementById("updatesubj").style.display="inline";
+			document.body.scrollTop = 0; // For Safari
+			document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 
     }
   };
@@ -35,5 +37,21 @@ function saved(){
 	xhttp.open("GET", "process.php?subname="+f+"&subdes="+u+"&palatandaan="+palatandaan+"&uId="+uid, true);
     xhttp.send(); 
 }
+
+function showassignedsections(subjectid){
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	  if (xhttp.readyState == 4 && xhttp.status == 200) {	
+			document.getElementById("seccheckbox").innerHTML = this.responseText;
+			document.getElementById("hiddensubid").value=subjectid;
+    		document.getElementById("modaltitle").innerHTML=document.getElementById("title"+subjectid).value;
+	  }
+	};
+	
+	  var subjectid=subjectid;
+	  var palatandaan = "showassignedsections";
+	  xhttp.open("GET", "process.php?palatandaan="+palatandaan+"&subjectid="+subjectid, true);
+	  xhttp.send(); 
+  }
 
 

@@ -16,25 +16,6 @@ if(isset($_POST['submitnewsubject'])){
     }
 }
 
-// if(isset($_POST['submitnewsubject'])){
-//     $subname=$_POST['subjectname'];
-//     $subdesc=$_POST['subjectdesc'];
-//     $sectionid=$_POST['sections'];
-     
-//     $sql = "INSERT INTO subjecttbl(subjectname,subjectdesc) VALUES ('$subname','$subdesc')";
-//     if(mysqli_query($con,$sql))
-//         {   $last_id=mysqli_insert_id($con);
-//             $sectionid=$_POST['sections'];
-//             $sql="INSERT INTO sectionsubjecttbl(sectionid,subjectid) VALUES ('$sectionid','$last_id')";
-//             $Excutequery=mysqli_query($con,$sql);
-//             if($Excutequery){
-//             header("location: adminsubjects.php?addsubresult=success");}
-//         }
-//         else
-//         {
-//             header("location: adminsubjects.php?addsubresult=failed");
-//         }
-// }
 
 if(isset($_POST['assignsubject'])){
     $id=$_POST['hiddensendid'];
@@ -48,6 +29,22 @@ if(isset($_POST['assignsubject'])){
     else
     {
         header("location: adminteachers.php?addsubresult=failed");
+    }
+
+}
+
+if(isset($_POST['assignsectiontosubject'])){
+    $sectionid=$_POST['sectionid'];
+    $subjectid=$_POST['subjectid'];
+    $sql="INSERT INTO sectionsubjecttbl(sectionid,subjectid) VALUES ('$sectionid','$subjectid')";
+    if(mysqli_query($con,$sql))
+    {   
+        // header("location: adminsubject.php?assignsubresult=success");
+    }
+    
+    else
+    {
+        // header("location: adminsubject.php?assignsubresult=failed");
     }
 
 }
@@ -68,6 +65,8 @@ if(isset($_POST['editnewsubject'])){
             header("location: adminsubjects.php?editsubresult=failed&subname=".$subname);
         }
 }
+
+
 
 if(isset($_GET['deletesubject'])){
     $id=$_GET['id'];
