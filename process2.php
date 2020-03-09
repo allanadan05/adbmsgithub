@@ -239,8 +239,6 @@ $palatandaan =  $_GET['palatandaan'];
 
 	}//end if palatandaan==searchstudent		
 
-
-
 		if($palatandaan =="editstudent"){
 			$id=$_GET['forwardedid'];
 			$querySaDatabase = "SELECT * FROM userstbl WHERE userid='$id' ";
