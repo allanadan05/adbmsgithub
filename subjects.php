@@ -2,7 +2,7 @@
 include('connection.php');
 include('session.php');
 include('functions.php');
-
+$_SESSION['sidebar']="subjects";
 ?>
 <!DOCTYPE html>
 <php lang="en">

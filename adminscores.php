@@ -4,7 +4,7 @@ include('adminsession.php');
 include('functions.php');
 
 $profileid=$_SESSION['userid'];
-
+$_SESSION['sidebar']="scores";
 ?>
 <!DOCTYPE html>
 <php lang="en">

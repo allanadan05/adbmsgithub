@@ -4,7 +4,7 @@ include('session.php');
 include('functions.php');
 
 $profileid=$_SESSION['userid'];
-
+$_SESSION['sidebar']="quizzes";
 ?>
 <!DOCTYPE html>
 <php lang="en">
