@@ -2,7 +2,7 @@
 include('connection.php');
 include('teachersession.php');
 include('functions.php');
-
+$_SESSION['sidebar']="dashboard";
 
 $teacher=teachersgetname($teachersid);
 $teacherdeptid=teachergetdeptid($teachersid);

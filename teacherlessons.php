@@ -2,7 +2,7 @@
 include('connection.php');
 include('adminsession.php');
 include('functions.php');
-
+$_SESSION['sidebar']="lessons";
 
 
 ?>

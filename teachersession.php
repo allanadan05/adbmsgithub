@@ -2,6 +2,7 @@
 session_start();
 include('connection.php');
 $logacc="Log In";
+
      $userprofile=$_SESSION['email'];
      
 

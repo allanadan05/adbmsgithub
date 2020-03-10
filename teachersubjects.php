@@ -1,7 +1,7 @@
 <?php
 include('connection.php');
 include('adminsession.php');
-
+$_SESSION['sidebar']="subjects";
 $sql="SELECT * FROM subjecttbl";
 $query=mysqli_query($con, $sql);
 
