@@ -1,9 +1,11 @@
 <?php
 include('connection.php');
 include('adminsession.php');
+include('functions.php');
 
 $sql="SELECT * FROM subjecttbl";
 $query=mysqli_query($con, $sql);
+
 
 ?>
 <!DOCTYPE html>
@@ -39,7 +41,6 @@ $query=mysqli_query($con, $sql);
     <link href="css/theme.css" rel="stylesheet" media="all">
 
     <script src="functions.js"></script>
-
 
 </head>
 
@@ -115,12 +116,13 @@ $query=mysqli_query($con, $sql);
                                         <p class="card-text"> <textarea name="subjectdesc" id="subdes" style="width: 800px;" placeholder=" Type description here... "></textarea>
                                         </p>
 
-                                        <h5>Assign to existing sections: </h5><hr>
-                                        <div id="seccheckbox">
+                                        <!-- <h5>Assign to existing sections: </h5><hr> -->
+                                        <!-- <div id="seccheckbox">
                                         <?php
                                                 
 
-                                                $sql="SELECT sectiontbl.sectionid, sectiontbl.sectionname,count(userstbl.userid) as 'number of students' from userstbl join sectiontbl on userstbl.sectionid=sectiontbl.sectionid group by sectiontbl.sectionname ";
+                                                // $sql="SELECT sectiontbl.sectionid, sectiontbl.sectionname,count(userstbl.userid) as 'number of students' from userstbl join sectiontbl on userstbl.sectionid=sectiontbl.sectionid group by sectiontbl.sectionname ";
+                                                $sql = "SELECT * from sectiontbl";
                                                 $result=mysqli_query($con, $sql);
 
                                                 if(mysqli_num_rows($result)){
@@ -133,11 +135,10 @@ $query=mysqli_query($con, $sql);
                                                 </ul>
                                                 <?php }
                                             }?>
-                                        </div>                   
-                                        
+                                        </div>                    -->
                                     </div>
                                     <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary btn-sm" style="float:right; display: inline;"  id="addsubj" name="submitnewsubject"><i class="fas fa-plus"></i> ADD</button>
+                                        <button type="submit" class="btn btn-primary btn-sm" style="display: inline;"  id="addsubj" name="submitnewsubject"><i class="fas fa-plus"></i> ADD</button>
                                         <button type="submit" class="btn btn-primary" style="float:right; display: none;"  name="editnewsubject" id="updatesubj"><i class="fas fa-save"></i> SAVE</button>
                                     </div>
                                 </form>
@@ -152,9 +153,10 @@ $query=mysqli_query($con, $sql);
                             <div class="col-md-4">
                                     <div class="card">
                                      <div class="card-header">
-                                         <strong class="card-title"><a href="<?php echo $row['subjectid'] ?>"><?php echo $row['subjectname'] ?></a>
+                                         <strong class="card-title"><a href="#"><?php echo $row['subjectname'] ?></a>
+                                         <input type="hidden" id="<?php echo "title" .$row['subjectid'] ?>" value="<?php echo $row['subjectname'] ?>">
                                             <small>
-                                                <span class="badge badge-success float-right mt-1">
+                                                <span class="badge badge-success float-right mt-1" id="<?php echo "badge" .$row['subjectid']; ?>">
                                                 <?php  
                                                 $sssqll="SELECT count(sectionid) AS assignedcount from sectionsubjecttbl where subjectid=" .$row['subjectid'];
                                                 $result=mysqli_query($con, $sssqll);
@@ -171,7 +173,7 @@ $query=mysqli_query($con, $sql);
                                     </div>
                                     <div class="card-footer">
                                         <div class="row">
-                                        <button class="btn btn-success" style="font-size: 13px; width: auto; height: auto;" data-toggle="modal" data-target="#add" onclick="assignsubtosec(<?php echo $row['subjectid']; ?>)"><i class="fas fa-check-square"></i> &nbsp Assign</button> &nbsp&nbsp&nbsp
+                                        <button class="btn btn-success" style="font-size: 13px; width: auto; height: auto;" data-toggle="modal" data-target="#add" onclick="showassignedsections(<?php echo $row['subjectid']; ?>)"><i class="fas fa-check-square"></i> &nbsp Assign</button> &nbsp&nbsp&nbsp
                                             <button class="btn btn-warning" style="font-size: 13px; width: auto; height: auto;" onclick="editsubject(<?php echo $row['subjectid']; ?>)"><i class="fas fa-pencil-square-o"></i>EDIT</button> &nbsp&nbsp&nbsp
                                              <a href="<?php echo "addsub.php?deletesubject=1&id=".$row['subjectid'] ?>"><button class="btn btn-danger" style="font-size: 13px; width: auto; height: auto;"> <i class="fas fa-trash"></i>DELETE</button></a>
                                          </div>
@@ -202,13 +204,12 @@ $query=mysqli_query($con, $sql);
             <!-- Modal body -->
             <div class="modal-body">
                 
-                <form action="adduser.php" method="POST">
-                    <input type="hidden" name="hiddenuserid" id="hiddenuserid">
+                <form action="#" method="GET">
+                    <input type="hidden" name="hiddensubid" id="hiddensubid">    
                     <div id="seccheckbox">
+                   
                     <?php
-                            
-
-                            $sql="SELECT sectiontbl.sectionid, sectiontbl.sectionname,count(userstbl.userid) as 'number of students' from userstbl join sectiontbl on userstbl.sectionid=sectiontbl.sectionid group by sectiontbl.sectionname ";
+                            $sql="SELECT * from sectiontbl ";
                             $result=mysqli_query($con, $sql);
 
                             if(mysqli_num_rows($result)){
@@ -216,7 +217,23 @@ $query=mysqli_query($con, $sql);
                             {?>
                             <ul>
                             <label>
-                                <input type="checkbox" value="<?php  echo $row['sectionid']; ?>" name="<?php  echo $row['sectionname']; ?>"><?php  echo " " .$row['sectionname']; ?>
+                            <!-- check section if already assigned to a subject  -->
+                                <input type="checkbox" value="<?php  echo $row['sectionid']; ?>" name="<?php  echo $row['sectionname']; ?>"
+                                
+                                <?php
+                                     $sqlss="SELECT * from sectionsubjecttbl where sectionid=".$row['sectionid'];
+                                     $resultss=mysqli_query($con, $sqlss);
+                                     if(mysqli_num_rows($resultss)){
+                                     while($rowss = mysqli_fetch_array($resultss)){
+                                        if($rowss['subjectid'] == 2 ){
+                                            echo "checked=checked";
+                                        }
+                                     }
+                                    }
+                                ?> 
+                                > <!-- end tag of input type chekbox -->
+                                <?php  echo " " .$row['sectionname']; ?>
+                               
                             </label>
                             </ul>
                             <?php }
@@ -226,8 +243,8 @@ $query=mysqli_query($con, $sql);
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline" name="addstudentsubmit">Submit</button> &nbsp 
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <!-- <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline" name="assignsectiontosubject">Submit</button> &nbsp  -->
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="history.go(0)">Save</button>
                 </form>
                 
                 
@@ -237,6 +254,53 @@ $query=mysqli_query($con, $sql);
  </div>
 </div>
 <!-- /MODAL ADD -->
+
+    <!-- JS functions -->
+    <script>
+
+    function top(){
+        document.body.scrollTop = 0; // For Safari
+		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+    
+    function assignbutton(subid){
+    document.getElementById("hiddensubid").value=subid;
+    document.getElementById("modaltitle").innerHTML=document.getElementById("title"+subid).value;
+    }
+
+    function showassignedsections(subjectid){
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	  if (xhttp.readyState == 4 && xhttp.status == 200) {	
+			document.getElementById("seccheckbox").innerHTML = this.responseText;
+			document.getElementById("hiddensubid").value=subjectid;
+    		document.getElementById("modaltitle").innerHTML=document.getElementById("title"+subjectid).value;
+	  }
+	};
+	
+	  var subjectid=subjectid;
+	  var palatandaan = "showassignedsections";
+	  xhttp.open("GET", "process.php?palatandaan="+palatandaan+"&subjectid="+subjectid, true);
+	  xhttp.send(); 
+  }
+
+  function assignsectiontosubject(secid,subid ){
+    var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	  if (xhttp.readyState == 4 && xhttp.status == 200) {	
+			// window.alert(this.responseText);
+      }
+	};
+	
+      var subid=subid;
+      var secid=secid;
+	  var palatandaan = "assignsectiontosubject";
+	  xhttp.open("GET", "process.php?palatandaan="+palatandaan+"&subid="+subid+"&secid="+secid, true);
+	  xhttp.send(); 
+  }
+
+    </script>
+
 
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>

@@ -274,8 +274,22 @@ function admingetmname($id){
 }
 
 
-
-
+// function assignsectiontosubject($secid,  $subid ){
+//     include('connection.php');	
+    
+//     $sectionid=$secid;
+//     $subjectid=$subid;
+//     $sql="INSERT INTO sectionsubjecttbl(sectionid,subjectid) VALUES ('$sectionid','$subjectid')";
+//     if(mysqli_query($con,$sql))
+//     {   
+//         echo '<script>alert("Successfully assigned!");</script>';
+//     }
+    
+//     else
+//     {
+//         echo '<script>alert("Cannot be assigned!");</script>';
+//     }
+// }
 
 
 ?>
