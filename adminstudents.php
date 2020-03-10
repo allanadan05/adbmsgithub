@@ -1,9 +1,7 @@
 <?php
-
 include('connection.php');
 include('adminsession.php');
 include('functions.php');
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,6 +28,7 @@ include('functions.php');
           xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) { 
                 document.getElementById("response").innerHTML = this.responseText;
+                
         }
       };
             var tosearch=document.getElementById('searchstudent').value;
@@ -136,7 +135,67 @@ include('functions.php');
                 tooShortPwd.innerHTML="";
             }
         }
-        
+
+     // this code work deleted multiple
+                //click all checkboxes
+                function checkboxes_deleted()
+                {
+                    var xmlhttp = new XMLHttpRequest();
+
+                    xmlhttp.onreadystatechange = function()
+                    {
+                        if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                            {
+                                document.getElementById("showDel").innerHTML = this.responseText;                        
+                            }     
+                    }
+                    document.getElementById("showBtn").style.display="inline";
+                }
+                //click all checkboxes
+
+                // multiple delete each boxes
+                
+                function muliple_ajax_del()
+                {
+                    var eachCheckBoxes = null;
+                    var eachCheckBoxesElements = document.getElementsByName("num[]");
+
+                    for (var i=0;eachCheckBoxesElements[i];++i)
+                    {
+                        if(eachCheckBoxesElements[i].checked)
+                        {
+                        eachCheckBoxes=eachCheckBoxesElements[i].value;
+                        delete_each_value(eachCheckBoxes);
+                        //alert(eachCheckBoxes);
+                        }
+                    }
+                }
+                // multiple delete each boxes
+                // process2.php
+                delete_each_value();
+                function delete_each_value(eachCheckBoxes)
+                {
+                    //alert("clickDeletedniya");
+                    var xmlhttp = new XMLHttpRequest();
+                    
+                    // note working naman siya yung comment na ito
+                     xmlhttp.onreadystatechange = function ()
+                    {
+                        if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                            {
+                                document.getElementById('mulDelSuccess').innerHTML=this.responseText;
+                            }
+                    }
+                    document.getElementById("mulDelSuccess").style.display="none";
+                    document.getElementById("delSuccess").style.display="inline"; // print delete successfully 
+                    var mul_del = "ajaxMulitpleDelete";
+                    xmlhttp.open("GET","process2.php?id="+eachCheckBoxes+"&mul_del="+mul_del,true);
+                    xmlhttp.send();
+                // process2.php
+                }
+        // this code work deleted multiple
+
+ 
     </script>
 
     <!--new line code-->
@@ -183,8 +242,8 @@ include('functions.php');
             <!-- HEADER DESKTOP-->
             <?php include("adminheader.php"); ?>
             <!-- HEADER DESKTOP-->
-
             <!-- MAIN CONTENT-->
+            
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
@@ -254,10 +313,12 @@ include('functions.php');
 
                     ?>
                     <!--adduser.php-->
-
-                        </div>
+                   <!--ajax multiple delete-->
+                    <div id="delSuccess" style="display:none;" class='alert alert-danger' role='alert'>Delete Successfully </div>
+                    <!--ajax multiple delete-->
                         <div class="row">
                             <div class="col-md-10">
+
                                 <!-- DATA TABLE -->
                             <h3 class="title-5 m-b-35" style="background-color: whitesmoke;"><input style="width:95%; min-height:50px;" type="Search" id="searchstudent" onkeyup="searchstudent()" placeholder="Search here..."><i class="fas fa-search"></i></h3>
                                 <div class="table-data__tool">
@@ -278,7 +339,13 @@ include('functions.php');
                                         <button class="au-btn-filter">
                                             <i class="zmdi zmdi-filter-list"></i>Filters</button>                                       
                                     </div>
-                                    <div class="table-data__tool-right">
+
+                                    <div id="showDel"> <!--showed button Deleted-->
+                                    <button onclick="muliple_ajax_del();" style="margin:0 0 0 70px; display:none; position:absolute;" id="showBtn" class="btn btn-danger" type="button"><span class="zmdi zmdi-delete"></span></button>
+                                    </div> <!--showed button Deleted-->
+
+                                    
+                                    <div class="table-data__tool-right">   
                                         <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#add">
                                             <i class="zmdi zmdi-plus"></i>Add Student</button>
                                         <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
@@ -293,15 +360,16 @@ include('functions.php');
                                 </div>
                                 <div class="table-responsive table-responsive-data2" style="overflow-x: scroll; overflow-y: hidden; width:970px;">
 
-                                  <table class="table table-data2 table-responsive-data2">
-
+                                <div id='mulDelSuccess' style="display:inline;">
+                                  <table class="table table-data2 table-responsive-data2">                            
                                         <thead>
                                             <tr>
                                                 <th>
                                                     <label class="au-checkbox">
-                                                        <input type="checkbox">
+                                                        <input onclick="checkboxes_deleted();" id="checkall" type="checkbox">
                                                         <span class="au-checkmark"></span>
                                                     </label>
+
                                                 </th>
                                                 <th>Name</th>
                                                 <th>Email</th>
@@ -313,7 +381,12 @@ include('functions.php');
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="response" >
+                                        
+                                      
+                                        
+                                        <tbody id="response">
+                                              
+                                             
                                         <?php
                                         /*$sql="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname, (SELECT averagescore FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS AverageScore,(SELECT remarks FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS Remarks from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid  order by userstbl.lname";*/
 
@@ -341,13 +414,15 @@ include('functions.php');
                                         if(mysqli_num_rows($result)){
                                         while($row = mysqli_fetch_array($result))
                                         {?>
+                                     
                                             <tr class="tr-shadow">
                                                 <td>
                                                     <label class="au-checkbox">
-                                                        <input type="checkbox">
+                                                  <input name="num[]" class="checkitem" type="checkbox" value="<?php echo $row["userid"];?>">
                                                         <span class="au-checkmark"></span>
                                                     </label>
                                                 </td>
+                                              
                                                <?php echo "<td>".$row['lname'].", ".$row['fname']."</td>"; ?>
                                                <?php echo "<td>".$row['email']."</td>";?>
                                                <?php echo "<td>".$row['sectionname']."</td>";?>
@@ -452,7 +527,7 @@ include('functions.php');
                         </div>
                     </div>
                 </div>
-
+                 </div>                       
                     <div class="row">
                             <div class="col-md-12">
                                 <div class="copyright">
@@ -520,7 +595,6 @@ include('functions.php');
  </div>
 </div>
 <!-- /MODAL ADD -->
-
  <!-- modal medium -->
     <div class="modal fade" id="sendnotif" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -569,7 +643,15 @@ include('functions.php');
 
     <!-- Main JS-->
     <script src="js/main.js"></script>
+    <!-- new line code-->
+    <script>
 
+            //this method check na yung... all item using check box
+            $('#checkall').change(function(){
+            $('.checkitem').prop("checked", $(this).prop("checked"))
+        })
+    </script>
+    <!--new line code-->
 </body>
 
 </html>

@@ -28,6 +28,15 @@ if(isset($_POST['chpwd']) && $_POST['chpwd'] != "" )
 		exit();
 	}
 }
-
+/*
+include 'connection.php';
+$action=$_GET['mul_del'];
+if($action=="ajaxMulitpleDelete")
+	{
+		$id=$_GET['id'];
+		$delAjax="DELETE FROM userstbl WHERE userid=$id";
+		$sqlAjaxDel=mysqli_query($con,$delAjax);
+	}
+*/
 
 ?>

@@ -1,6 +1,14 @@
 <?php 
 include('connection.php');
-
+// adminstudents.php multiple delete ajax
+@$action=$_GET['mul_del'];
+if($action=="ajaxMulitpleDelete")
+	{
+		$id=$_GET['id'];
+		$delAjax="DELETE FROM userstbl WHERE userid=$id";
+		$sqlAjaxDel=mysqli_query($con,$delAjax);
+	}
+// adminstudents.php
 if(isset($_GET['palatandaan'])){
 	//pagination 
 	if(isset($_GET['page']))
@@ -59,8 +67,9 @@ $palatandaan =  $_GET['palatandaan'];
 					   echo "<tr class='tr-shadow'>
 							  <td>
 								  <label class='au-checkbox'>
-									  <input type='checkbox'>
-									  <span class='au-checkmark'></span>
+									  ";
+							 echo "<input name='num[]' class='checkitem' type='checkbox' value=$row[userid]>";
+								echo"<span class='au-checkmark'></span>
 								  </label>
 							  </td>";
 					  echo "<td>".$row['lname'].", ".$row['fname']."</td>";
@@ -157,15 +166,17 @@ $palatandaan =  $_GET['palatandaan'];
 			  from userstbl WHERE lname LIKE '%$tosearch%' OR fname LIKE '%$tosearch%' OR email LIKE '%$tosearch%'
 			   order by userstbl.lname limit $start_from,$num_of_page";
 			$re=mysqli_query($con, $qu);
+			// <input name='num[]' class='checkitem' type='checkbox'> <<this code check all and class="num[]" specific deleted
 		        if(mysqli_num_rows($re)){
 		             while($row = mysqli_fetch_array($re)){
 		             	echo "<tr class='tr-shadow'>
-		                        <td>
-		                            <label class='au-checkbox'>
-		                                <input type='checkbox'>
-		                                <span class='au-checkmark'></span>
-		                            </label>
-		                        </td>";
+						 <td>
+						 <label class='au-checkbox'>
+							 ";
+							 echo "<input name='num[]' class='checkitem' type='checkbox' value=$row[userid]>";
+					   echo"<span class='au-checkmark'></span>
+						 </label>
+					 </td>";
 		                echo "<td>".$row['lname'].", ".$row['fname']."</td>";
 		                echo "<td>".$row['email']."</td>";
 		                echo "<td>".$row['sectionname']."</td>";
@@ -577,6 +588,13 @@ if(isset($_POST['submitnewquiz'])){
         }
 }
 
-
+// new line code
+// checkboxes all selected adminstudents.php  
+echo '<script>
+	$("checkitem").change(function(){
+		$(".checkall").prop,("checked", $(this).prop("checked"))
+	})
+	</script>
+';
 
 ?>
