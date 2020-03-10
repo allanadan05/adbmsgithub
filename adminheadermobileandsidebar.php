@@ -17,7 +17,7 @@
             <nav class="navbar-mobile">
                 <div class="container-fluid">
                     <ul class="navbar-mobile__list list-unstyled">
-                        <li class="active has-sub">
+                        <li >
                             <a class="js-arrow" href="adminindex.php">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                         </li>
@@ -69,39 +69,57 @@
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
-                        <li class="active has-sub">
+                        <li <?php if($_SESSION['sidebar']=="dashboard"){
+ echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
+} ?>>
                             <a class="js-arrow" href="adminindex.php">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                         </li>
-                        <li>
+                        <li <?php if($_SESSION['sidebar']=="subjects"){
+ echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
+} ?>>
                             <a href="adminsubjects.php">
                                 <i class="fas fa-book"></i>Subjects</a>
                         </li>
-                        <li>
+                        <li <?php if($_SESSION['sidebar']=="sections"){
+ echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
+} ?>>
                             <a href="adminsections.php">
                                 <i class="fas  fa-bookmark"></i>Sections/Departments</a>
                         </li>
-                        <li>
+                        <li <?php if($_SESSION['sidebar']=="students"){
+ echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
+} ?>>
                             <a href="adminstudents.php">
                                 <i class="fas fa-group"></i>Students</a>
                         </li>
-                        <li>
+                        <li <?php if($_SESSION['sidebar']=="teachers"){
+ echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
+} ?>>
                             <a href="adminteachers.php">
                                 <i class="fas fa-group"></i>Teachers</a>
                         </li>
-                        <li>
+                        <li <?php if($_SESSION['sidebar']=="lessons"){
+ echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
+} ?>>
                             <a href="adminlessons.php">
                                 <i class="fas fa-link"></i>Lessons</a>
                         </li>
-                        <li>
+                        <li <?php if($_SESSION['sidebar']=="quizzes"){
+ echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
+} ?>>
                             <a href="adminquizzes.php">
                                 <i class="fas fa-file-text"></i>Quizzes</a>
                         </li>
-                        <li>
+                        <li <?php if($_SESSION['sidebar']=="scores"){
+ echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
+} ?>>
                             <a href="adminscores.php">
                                 <i class="far fa-check-square"></i>Scores</a>
                         </li>
-                        <li>
+                        <li <?php if($_SESSION['sidebar']=="settings"){
+ echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
+} ?>>
                             <a href="adminsettings.php">
                                 <i class="fas fa-gear"></i>Settings</a>
                         </li>

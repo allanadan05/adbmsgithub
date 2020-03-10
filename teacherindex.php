@@ -4,6 +4,7 @@ include('teachersession.php');
 include('functions.php');
 $_SESSION['sidebar']="dashboard";
 
+
 $teacher=teachersgetname($teachersid);
 $teacherdeptid=teachergetdeptid($teachersid);
 ?>
@@ -86,7 +87,7 @@ $teacherdeptid=teachergetdeptid($teachersid);
                             <div class="col-md-8">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong class="card-title mb-3">Announcements</strong>
+                                        <strong class="card-title mb-3">Announcements </strong>
                                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addAnnouncement" style="float: right;">
                                            <i class="fas fa-plus"></i> ADD
                                         </button>

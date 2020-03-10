@@ -1,3 +1,6 @@
+<?php 
+$_SESSION['sidebar']="settings";
+?>
 <!DOCTYPE html>
 <php lang="en">
 
