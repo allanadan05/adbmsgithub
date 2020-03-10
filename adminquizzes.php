@@ -136,7 +136,7 @@ $_SESSION['sidebar']="quizzes";
                                 ?>
                             </div>
 
-                                                <div class="row">
+                         <div class="row">
                            
                              <div class="col-md-12">
                                 <div class="card border border-primary">
@@ -164,9 +164,12 @@ $_SESSION['sidebar']="quizzes";
                                         <strong>New Quiz Title: &nbsp</strong><br>
                                         
                                         <input type="text" name="qtitle" placeholder="Type title here" required>
-                                        <br>
-                                        <strong>Duration:</strong> &nbsp &nbsp <input type="time" name="dur" required>
                                         </div>
+
+                                        <div class="row">
+                                        <strong>Duration (in Minutes):</strong> &nbsp &nbsp <input type="number" name="dur" placeholder="0 minute" required>
+                                        </div>
+                                        
                                         
                                     </div>
                                     <div class="card-footer">
@@ -180,6 +183,7 @@ $_SESSION['sidebar']="quizzes";
                                     </div>
                                 </div>
                             </div>
+                         </div>
 
                         <div class="row">
                            
@@ -337,13 +341,12 @@ $_SESSION['sidebar']="quizzes";
                     <div class="dropDownSelect2"></div>
                     </div>
                     <div class="row">
-                    <strong>New Quiz Title: &nbsp</strong><br>
-                    
+                    <strong>New Quiz Title: &nbsp</strong>
                     <input type="text" name="qtitle" id="replaceqtitle" placeholder="Type title here" required>
-                    <br>
-                    <strong>Duration:</strong> &nbsp &nbsp <input type="time" name="dur" id="replacedduration" required>
-                    <input type="hidden" id="hiddenquizid" name="hiddenquizid">
                     </div>
+                    <strong>Duration (in minutes):</strong>
+                    <input type="number" name="dur" id="replacedduration" placeholder="0 minute" required>
+                    <input type="hidden" id="hiddenquizid" name="hiddenquizid">
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

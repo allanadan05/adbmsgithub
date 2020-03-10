@@ -134,7 +134,13 @@ $rr="";
                                
                                 <h2><?php echo "Quiz: " .$rr['quizname'];  ?></h2><hr/>
                                 <p><?php echo "Subject: " .$rr['subjectname'];   ?></p>
-                                <p><?php echo "Duration: " .$rr['duration'];  ?></p>
+                                <p>
+                                <label>Remaining Time : </label>
+                                <span id="timer">
+                                <?php echo $rr['duration'] .":00";  ?>
+                                </span>
+                                minutes
+                                </p>
                                 <div id="quizresults" style="display: none;">
                                 <hr><p>Score: <span id="score">0</span>/<span id="noOfItems">0</span></p>
                                     <p>Average: <span id="avgscore">0</span></p>
@@ -142,7 +148,14 @@ $rr="";
                                 </div>
                                 
                             </div>
-                        <div class="row" id="quests" style="display: inline;">
+                            <button id="startbtn" type="button" class="btn  btn-primary" onclick="startTimer()">START</button>
+
+                            <!-- Button trigger modal -->
+                            <button id="modalbtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" hidden>
+                            Launch Modal
+                            </button>
+
+                        <div class="row" id="quests" style="display: none;">
                             <div class="col-md-12">
 
                                 <?php
@@ -171,7 +184,7 @@ $rr="";
                                         ?>
                                         <strong class="card-title" id="questionNo">Question #<?php echo ++$count ." of " ?></strong>
                                         <strong class="card-title" id="noOfQuestion"><?php echo $row['noOfQuestion']; ?></strong>
-                                        <button class="btn btn-primary" type="button" id="<?php echo 'submit'.$count; ?>" onclick="submitanswer(<?php echo $count .","  .$questid; ?>)" style="float:right; display:inline">Submit</button>
+                                        <button class="btn btn-primary" type="button" id="<?php echo 'submit'.$count; ?>" onclick="submitanswer(<?php echo $count .','. $questid; ?>)" style="float: right; display:inline">Submit</button>
                                         <input type="hidden" id="<?php echo 'answer'.$count; ?>" value="<?php echo $ans; ?>" style="float:right; width:15px; text-align: center;"  readonly>
                                         <input type="text" id="<?php echo 'message'.$count; ?>" style="float:right; width:50%; text-align: center;"  readonly>
                                         
@@ -238,6 +251,64 @@ $rr="";
         </div>
 
     </div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        5 minutes remaining!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <script>
+
+    function startTimer() {
+    document.getElementById("quests").style.display="inline";
+    document.getElementById("startbtn").style.display="none";
+    var presentTime = document.getElementById('timer').innerHTML;
+    var timeArray = presentTime.split(/[:]+/);
+    var m = timeArray[0];
+    var s = checkSecond((timeArray[1] - 1));
+    if(s==59){m=m-1}
+    //if(m<0){alert('timer completed')}
+    
+    document.getElementById('timer').innerHTML =
+        m + ":" + s;
+    console.log(m)
+    if(m==5 && s==57){
+        // alert("WARNING:\n5 minutes remaining!");
+        document.getElementById("modalbtn").click();
+    }
+
+    if(m<=0 && s<=0){
+        alert("WARNING:\nTime's up!");
+    }
+    setTimeout(startTimer, 1000);
+    }
+
+    function checkSecond(sec) {
+    if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
+    if (sec < 0) {sec = "59"};
+    return sec;
+    }
+
+
+    </script>
 
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>

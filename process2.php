@@ -278,7 +278,7 @@ $palatandaan =  $_GET['palatandaan'];
                         $result=mysqli_query($con, $sql);
                         while($row=mysqli_fetch_array($result)){
                     	echo "<tr>
-                        <td>".$row['quizname'] ."</td>
+                        <td>"."<a href=adminexam.php?quizid=".$row['quizid']."> " .$row['quizname']."</a>"."</td> 
                         <td>".$row['subject']  ."</td>
                         <td>".$row['duration'] ."</td>";
                         $stat="";
@@ -317,7 +317,7 @@ $palatandaan =  $_GET['palatandaan'];
                         $result=mysqli_query($con, $sql);
                         while($row=mysqli_fetch_array($result)){
                     	echo "<tr>
-                        <td>".$row['quizname'] ."</td>
+                        <td>"."<a href=adminexam.php?quizid=".$row['quizid']."> " .$row['quizname']."</a>"."</td>
                         <td>".$row['subject']  ."</td>
                         <td>".$row['duration'] ."</td>";
                         $stat="";
@@ -462,7 +462,7 @@ if(isset($_POST['updatequiz'])){
 			$duration = $_POST['dur'];		
 			$quizname = $_POST['qtitle'];		
 			$chosensubject = $_POST['chosensubject'];		
-			$query = "UPDATE quiztbl SET quizname='$quizname', subjectid='$chosensubject', duration='$dur'  WHERE quizid='$id' ";
+			$query = "UPDATE quiztbl SET quizname='$quizname', subjectid='$chosensubject', duration='$duration'  WHERE quizid='$id' ";
 			$check=mysqli_query($con, $query) or die('Query error');
 			if($check){
 				header("location: adminquizzes.php?editquizresult=success");
@@ -566,7 +566,7 @@ if(isset($_POST['submitnewquiz'])){
     $dur=$_POST['dur'];
     
      
-    $sql = "INSERT INTO quiztbl(quizname, subjectid, duration, status) VALUES ('$qtitle','$chosensubject', '$dur', 'ACTIVATED')";
+    $sql = "INSERT INTO quiztbl(quizname, subjectid, duration, status) VALUES ('$qtitle','$chosensubject', '$dur', 'DEACTIVATED')";
     if(mysqli_query($con,$sql))
         {
         	header("location: adminquizzes.php?addquizresult=success");	
