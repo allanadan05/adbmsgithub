@@ -1,9 +1,13 @@
 <?php
 include('connection.php');
-include('adminsession.php');
+include('teachersession.php');
+include('functions.php');
 $_SESSION['sidebar']="subjects";
 $sql="SELECT * FROM subjecttbl";
 $query=mysqli_query($con, $sql);
+
+
+
 
 ?>
 <!DOCTYPE html>

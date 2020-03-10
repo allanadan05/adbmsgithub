@@ -273,6 +273,16 @@ function admingetmname($id){
     return $ibalik;
 }
 
+function bilang($id){
+    include('connection.php');
+    $sql="SELECT count(antitle) as announcebilang FROM announcementtbl WHERE anfrom=".$id;
+    $executeQuery=mysqli_query($con, $sql);
+
+    while($result=mysqli_fetch_array($executeQuery)){
+        $ibalik=$result['antitle'];
+    }
+    return $ibalik;
+}
 
 // function assignsectiontosubject($secid,  $subid ){
 //     include('connection.php');	
