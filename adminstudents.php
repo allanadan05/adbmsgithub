@@ -128,7 +128,6 @@ include('functions.php');
 
                 var postPwd= "chpwd=" +pwd;
                 xhttp.send(postPwd);
-
             }
             else
             {
@@ -155,11 +154,10 @@ include('functions.php');
 
                 // multiple delete each boxes
                 
-                function muliple_ajax_del()
-                {
+                function multiple_ajax_del()
+                { 
                     var eachCheckBoxes = null;
                     var eachCheckBoxesElements = document.getElementsByName("num[]");
-
                     for (var i=0;eachCheckBoxesElements[i];++i)
                     {
                         if(eachCheckBoxesElements[i].checked)
@@ -172,7 +170,7 @@ include('functions.php');
                 }
                 // multiple delete each boxes
                 // process2.php
-                delete_each_value();
+                //delete_each_value();
                 function delete_each_value(eachCheckBoxes)
                 {
                     //alert("clickDeletedniya");
@@ -183,19 +181,36 @@ include('functions.php');
                     {
                         if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
                             {
-                                document.getElementById('mulDelSuccess').innerHTML=this.responseText;
+                                document.getElementById('response').innerHTML=this.responseText; // refresh table purpose niya
+                                
                             }
                     }
-                    document.getElementById("mulDelSuccess").style.display="none";
-                    document.getElementById("delSuccess").style.display="inline"; // print delete successfully 
+                    document.getElementById("delSuccess").style.display="inline"; // print delete successfully
+                    document.getElementById("showDeleted").style.display="inline";
+                     
                     var mul_del = "ajaxMulitpleDelete";
                     xmlhttp.open("GET","process2.php?id="+eachCheckBoxes+"&mul_del="+mul_del,true);
                     xmlhttp.send();
                 // process2.php
+                /*
+                setTimeout(function(){
+                    window.location.reload(); 
+                },1000); // 2 seconds
+                */
+                var timeleft = 3 ;
+                var downloadTimer  =  setInterval(function(){
+                    timeleft--;
+                    document.getElementById('delSuccess').textContent = timeleft;
+                    if(timeleft <=0)
+                        clearInterval(downloadTimer);
+                        // setTimeout para refresh page
+                        setTimeout(function(){
+                         window.location.reload(); 
+                         },3000); // 3 seconds 
+                },1000);
                 }
         // this code work deleted multiple
 
- 
     </script>
 
     <!--new line code-->
@@ -314,7 +329,7 @@ include('functions.php');
                     ?>
                     <!--adduser.php-->
                    <!--ajax multiple delete-->
-                    <div id="delSuccess" style="display:none;" class='alert alert-danger' role='alert'>Delete Successfully </div>
+                    <div id="showDeleted" style="display:none;" class='alert alert-danger' role='alert'>Delete Successfully.. Please wait in <span id="delSuccess" style="display:none;">3</span> seconds</div>
                     <!--ajax multiple delete-->
                         <div class="row">
                             <div class="col-md-10">
@@ -341,7 +356,7 @@ include('functions.php');
                                     </div>
 
                                     <div id="showDel"> <!--showed button Deleted-->
-                                    <button onclick="muliple_ajax_del();" style="margin:0 0 0 70px; display:none; position:absolute;" id="showBtn" class="btn btn-danger" type="button"><span class="zmdi zmdi-delete"></span></button>
+                                    <button onclick="multiple_ajax_del();" style="margin:0 0 0 70px; display:none; position:absolute;" id="showBtn" class="btn btn-danger" type="button"><span class="zmdi zmdi-delete"></span></button>
                                     </div> <!--showed button Deleted-->
 
                                     
@@ -358,10 +373,9 @@ include('functions.php');
                                         </div>
                                     </div>
                                 </div>
-                                <div class="table-responsive table-responsive-data2" style="overflow-x: scroll; overflow-y: hidden; width:970px;">
-
-                                <div id='mulDelSuccess' style="display:inline;">
-                                  <table class="table table-data2 table-responsive-data2">                            
+                                
+                                <div class="table-responsive table-responsive-data2" style="overflow-x: scroll; overflow-y: hidden; width:970px;">                               
+                                  <table class="table table-data2 table-responsive-data2">                           
                                         <thead>
                                             <tr>
                                                 <th>
@@ -371,6 +385,7 @@ include('functions.php');
                                                     </label>
 
                                                 </th>
+
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Section</th>
@@ -385,8 +400,7 @@ include('functions.php');
                                       
                                         
                                         <tbody id="response">
-                                              
-                                             
+
                                         <?php
                                         /*$sql="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname, (SELECT averagescore FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS AverageScore,(SELECT remarks FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS Remarks from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid  order by userstbl.lname";*/
 
@@ -488,8 +502,6 @@ include('functions.php');
                                         echo "<tr><td></td><td></td><td>No data Found</td><td></td><td></td><td></td>
                                         </tr>";
                                     }
-                                    
-
                                     ?>
                                         </tbody>
                                     </table>
@@ -527,7 +539,7 @@ include('functions.php');
                         </div>
                     </div>
                 </div>
-                 </div>                       
+                                      
                     <div class="row">
                             <div class="col-md-12">
                                 <div class="copyright">
@@ -643,6 +655,7 @@ include('functions.php');
 
     <!-- Main JS-->
     <script src="js/main.js"></script>
+    
     <!-- new line code-->
     <script>
 
