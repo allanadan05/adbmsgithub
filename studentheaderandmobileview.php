@@ -53,23 +53,33 @@
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
-                        <li class="active has-sub">
+                        <li <?php if($_SESSION['sidebar']=="dashboards"){
+ echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
+} ?>>
                             <a class="js-arrow" href="studentindex.php">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                         </li>
-                        <li>
+                        <li <?php if($_SESSION['sidebar']=="subjects"){
+ echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
+} ?>>
                             <a href="subjects.php">
                                 <i class="fas fa-book"></i>Subjects</a>
                         </li>
-                        <li>
+                        <li <?php if($_SESSION['sidebar']=="quizzes"){
+ echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
+} ?>>
                             <a href="quizzes.php">
                                 <i class="fas fa-file-text"></i>Quizzes</a>
                         </li>
-                        <li>
+                        <li <?php if($_SESSION['sidebar']=="scores"){
+ echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
+} ?>>
                             <a href="scores.php">
                                 <i class="far fa-check-square"></i>Scores</a>
                         </li>
-                        <li>
+                        <li <?php if($_SESSION['sidebar']=="settings"){
+ echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
+} ?>>
                             <a href="settings.php">
                                 <i class="fas fa-gear"></i>Settings</a>
                         </li>
