@@ -9,7 +9,7 @@ if($action=="ajaxMulitpleDelete")
 		$sqlAjaxDel=mysqli_query($con,$delAjax);
 	}
 // adminstudents.php
-if(isset($_GET['palatandaan'])){
+
 	//pagination 
 	if(isset($_GET['page']))
 	{
@@ -22,6 +22,9 @@ if(isset($_GET['palatandaan'])){
 	$num_of_page = 05; // limit ng page niya sa table
 	$start_from= ($page-1)*06;  
 	// pagination 
+
+if(isset($_GET['palatandaan'])){
+
 $palatandaan =  $_GET['palatandaan'];
 
 		if($palatandaan =="editsection"){
@@ -141,7 +144,14 @@ $palatandaan =  $_GET['palatandaan'];
 			  echo "<tr><td></td><td></td><td>No data Found</td><td></td><td></td><td></td>
 			  </tr>";
 		  }
-		                
+// new line code
+// checkboxes all selected adminstudents.php  
+echo '<script>
+$("checkitem").change(function(){
+	$(".checkall").prop,("checked", $(this).prop("checked"))
+});
+</script>
+';         
 		} //end if palatandaan==changedsec
 		if($palatandaan=="searchstudent"){
 			$tosearch=$_GET['tosearch'];
@@ -246,21 +256,30 @@ $palatandaan =  $_GET['palatandaan'];
 				echo "<tr><td></td><td></td><td>No data Found</td><td></td><td></td><td></td>
 				</tr>";
 			}           
-		
+// new line code
+// checkboxes all selected adminstudents.php  
+echo '<script>
+	$("checkitem").change(function(){
+		$(".checkall").prop,("checked", $(this).prop("checked"))
+	});
+	</script>
+';		
 
 	}//end if palatandaan==searchstudent		
 
-		if($palatandaan =="editstudent"){
+		if($palatandaan == "editstudent"){
 			$id=$_GET['forwardedid'];
 			$querySaDatabase = "SELECT * FROM userstbl WHERE userid='$id' ";
 			$executeQuery = mysqli_query($con, $querySaDatabase);
 				$pambato = array();
 				while($row = mysqli_fetch_array($executeQuery)){
-					$pambato['userid'] = $row['userid'];
+					$pambato['hiddenuserid'] = $row['userid'];
 					$pambato['email'] = $row['email'];
 					$pambato['password'] = $row['password'];
-					$pambato['fname'] = $row['fname'];
 					$pambato['lname'] = $row['lname'];
+					$pambato['fname'] = $row['fname'];					
+					$pambato['mname'] = $row['mname'];
+					$pambato['image'] = $row['image'];
 					$sec=$row['sectionid'];
 					$qq = "SELECT * FROM sectiontbl WHERE sectionid='$sec' ";
 					$ee = mysqli_query($con, $qq);
@@ -268,8 +287,6 @@ $palatandaan =  $_GET['palatandaan'];
 					$pambato['sectionname'] = $rr['sectionname'] ;	
 					$pambato['sectionid'] = $rr['sectionid'] ;	
 					}
-					
-
 				}
 				echo json_encode($pambato);
 		}
@@ -588,13 +605,6 @@ if(isset($_POST['submitnewquiz'])){
         }
 }
 
-// new line code
-// checkboxes all selected adminstudents.php  
-echo '<script>
-	$("checkitem").change(function(){
-		$(".checkall").prop,("checked", $(this).prop("checked"))
-	})
-	</script>
-';
+
 
 ?>

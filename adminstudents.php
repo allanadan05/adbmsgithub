@@ -42,22 +42,30 @@ include('functions.php');
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) { 
+           // document.write(id);
+                document.getElementById("modaltitle").innerHTML = "EDIT Student";
+
+                document.getElementById("submitbtn").style.display="none";
+                document.getElementById("savebtn").style.display="inline"; 
+                document.getElementById("hiddenuserid").value = forwardedid;
+
+                
                 var buongObject=JSON.parse(this.responseText);
                 //document.getElementById("response").innerHTML = buongObject.sname;
+                document.getElementById("hiddenuserid").value = buongObject.hiddenuserid;
                 document.getElementById("email").value = buongObject.email;
                 document.getElementById("password").value = buongObject.password;
                 document.getElementById("lname").value = buongObject.lname;
                 document.getElementById("fname").value = buongObject.fname;
                 document.getElementById("mname").value = buongObject.mname;
+                document.getElementById("image").value = buongObject.image;
                 document.getElementById("sectionselected").label = buongObject.sectionname;
                 document.getElementById("sectionselected").value = buongObject.sectionid;
-                document.getElementById("modaltitle").innerHTML = "EDIT Student";
-                document.getElementById("hiddenuserid").value = forwardedid;
-                document.getElementById("submitbtn").style.display="none";
-                document.getElementById("savebtn").style.display="inline";
-        }
-      };
+                
 
+        }
+      }
+    
     var forwardedid = id;
     //document.write(forwardedid);
     var palatandaan = "editstudent";
@@ -356,10 +364,8 @@ include('functions.php');
                                     </div>
 
                                     <div id="showDel"> <!--showed button Deleted-->
-                                    <button onclick="multiple_ajax_del();" style="margin:0 0 0 70px; display:none; position:absolute;" id="showBtn" class="btn btn-danger" type="button"><span class="zmdi zmdi-delete"></span></button>
+                                    <button onclick="multiple_ajax_del();" style="display:none;" id="showBtn" class="btn btn-danger" type="button"><span class="zmdi zmdi-delete"></span></button>
                                     </div> <!--showed button Deleted-->
-
-                                    
                                     <div class="table-data__tool-right">   
                                         <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#add">
                                             <i class="zmdi zmdi-plus"></i>Add Student</button>
@@ -373,6 +379,7 @@ include('functions.php');
                                         </div>
                                     </div>
                                 </div>
+                            
                                 
                                 <div class="table-responsive table-responsive-data2" style="overflow-x: scroll; overflow-y: hidden; width:970px;">                               
                                   <table class="table table-data2 table-responsive-data2">                           
@@ -397,8 +404,6 @@ include('functions.php');
                                             </tr>
                                         </thead>
                                         
-                                      
-                                        
                                         <tbody id="response">
 
                                         <?php
@@ -420,6 +425,7 @@ include('functions.php');
                                         $num_of_page = 05; // limit ng page niya sa table
                                         $start_from= ($page-1)*06;                                      
                                        //pagination
+                                       
                                         $sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, 
                                         (select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname,
                                          (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore
@@ -494,7 +500,7 @@ include('functions.php');
                                             </tr>
                                         <?php      
 
-                                        }
+                                        } // end of line code  while($row = mysqli_fetch_array($result))
                                     
                                         
                                    }
@@ -570,7 +576,7 @@ include('functions.php');
                 <form action="adduser.php" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="hiddenuserid" id="hiddenuserid">
                     <table border="0" style="border-collapse: collapse;">
-                    <tr><td>Image:</td><td><input type="file" name="image"></td></tr>
+                    <tr><td>Image:</td><td><input type="file" id="image" name="image" value=""></td></tr>
                     <tr><td>Email:</td><td><input type="email"  name="email" id="email" placeholder="Enter Email" onkeyup="validEmail();" maxlength="30" required></td></tr><span style=" margin: 40px 0 0 20px;" id="chkEmail"></span>
                     <tr><td>Password:</td><td><input type="password" name="password" id="password" placeholder="Enter Password " onkeyup="tooShortPassword();" maxlength="30" required><span id="chkpwd"></span></td></tr>
                     <tr><td>Firstname:</td><td><input type="text"  name="fname" id="fname" placeholder="Enter Firstname" required></td></tr>
@@ -594,8 +600,8 @@ include('functions.php');
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline" name="addstudentsubmit">Submit</button> &nbsp 
-                <button type="submit" id="savebtn" class="btn btn-warning" style="display: none" name="editstudentsubmit">Save</button>
+                <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline;" name="addstudentsubmit">Submit</button> &nbsp 
+                <button type="submit" id="savebtn" class="btn btn-warning" style="display: none;" name="editstudentsubmit">Save</button>
                 <!--button type="button" class="btn btn-danger" data-dismiss="modal">Close</button-->
                 <a class="btn btn-danger" data-dismiss="modal" href="adminstudents.php">Close</a>
                 </form>
@@ -658,11 +664,10 @@ include('functions.php');
     
     <!-- new line code-->
     <script>
-
             //this method check na yung... all item using check box
             $('#checkall').change(function(){
             $('.checkitem').prop("checked", $(this).prop("checked"))
-        })
+        });
     </script>
     <!--new line code-->
 </body>
