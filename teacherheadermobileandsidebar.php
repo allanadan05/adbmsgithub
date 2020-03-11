@@ -1,4 +1,8 @@
 
+<?php 
+
+
+?>
 <!-- HEADER MOBILE-->
         <header class="header-mobile d-block d-lg-none">
             <div class="header-mobile__bar">
@@ -76,7 +80,7 @@
                         
                             <a class="js-arrow" href="teacherindex.php">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard  <span class="badge badge-success float-right mt-1">
-                                        <strong class="card-title mb-3"></strong> <?php  $sql="SELECT count(antitle) as announcebilang FROM announcementtbl WHERE anfrom='$teacher'";
+                                        <strong class="card-title mb-3"></strong> <?php  $sql="SELECT count(antitle) as announcebilang FROM announcementtbl WHERE userid='$teacher'";
                                          $executeQuery=mysqli_query($con, $sql);
     $result=mysqli_fetch_array($executeQuery);
     echo $ibalik=$result['announcebilang']; ?></span></a>

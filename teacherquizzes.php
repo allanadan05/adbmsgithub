@@ -1,8 +1,9 @@
 <?php
 include('connection.php');
-include('adminsession.php');
+include('teachersession.php');
 include('functions.php');
 $_SESSION['sidebar']="quizzes";
+$teacher=teachersgetname($teachersid);
 
 
 ?>

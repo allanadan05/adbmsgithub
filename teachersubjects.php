@@ -3,6 +3,7 @@ include('connection.php');
 include('teachersession.php');
 include('functions.php');
 $_SESSION['sidebar']="subjects";
+$teacher=teachersgetname($teachersid);
 $sql="SELECT * FROM subjecttbl";
 $query=mysqli_query($con, $sql);
 

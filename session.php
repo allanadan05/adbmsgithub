@@ -20,6 +20,7 @@ $logacc="Log In";
       $_SESSION['logacc']=$result['email'];
       $_SESSION['fname']=$result['fname'];
       $_SESSION['lname']=$result['lname'];
+      $_SESSION['sectionid']=$result['sectionid'];
       //$id=$adminid;
       $id=$_SESSION['id'];
    }

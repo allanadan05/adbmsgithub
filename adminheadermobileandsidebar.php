@@ -73,13 +73,20 @@
  echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
 } ?>>
                             <a class="js-arrow" href="adminindex.php">
-                                <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                                <i class="fas fa-tachometer-alt"></i>Dashboard <span class="badge badge-success float-right mt-1">
+                                        <strong class="card-title mb-3"></strong> <?php  $sql="SELECT count(antitle) as announcebilang FROM announcementtbl WHERE userid='$id'";
+                                         $executeQuery=mysqli_query($con, $sql);
+    $result=mysqli_fetch_array($executeQuery);
+    echo $ibalik=$result['announcebilang']; ?></span></a>
                         </li>
                         <li <?php if($_SESSION['sidebar']=="subjects"){
  echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
 } ?>>
                             <a href="adminsubjects.php">
-                                <i class="fas fa-book"></i>Subjects</a>
+                                <i class="fas fa-book"></i>Subjects <span class="badge badge-success float-right mt-1"><?php $sql="SELECT count(subjectid) as bilang from subjecttbl";
+                                 $executeQuery=mysqli_query($con, $sql);
+                                 $result=mysqli_fetch_array($executeQuery);
+                                 echo $ibalik=$result['bilang']; ?></span></a>
                         </li>
                         <li <?php if($_SESSION['sidebar']=="sections"){
  echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
@@ -103,19 +110,28 @@
  echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
 } ?>>
                             <a href="adminlessons.php">
-                                <i class="fas fa-link"></i>Lessons</a>
+                                <i class="fas fa-link"></i>Lessons <span class="badge badge-success float-right mt-1"><?php $sql="SELECT count(lessonid) as bilang from lessontbl";
+                                 $executeQuery=mysqli_query($con, $sql);
+                                 $result=mysqli_fetch_array($executeQuery);
+                                 echo $ibalik=$result['bilang']; ?></span></a>
                         </li>
                         <li <?php if($_SESSION['sidebar']=="quizzes"){
  echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
 } ?>>
                             <a href="adminquizzes.php">
-                                <i class="fas fa-file-text"></i>Quizzes</a>
+                                <i class="fas fa-file-text"></i>Quizzes <span class="badge badge-success float-right mt-1"><?php $sql="SELECT count(quizid) as bilang from quiztbl";
+                                 $executeQuery=mysqli_query($con, $sql);
+                                 $result=mysqli_fetch_array($executeQuery);
+                                 echo $ibalik=$result['bilang']; ?></span></a>
                         </li>
                         <li <?php if($_SESSION['sidebar']=="scores"){
  echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
 } ?>>
                             <a href="adminscores.php">
-                                <i class="far fa-check-square"></i>Scores</a>
+                                <i class="far fa-check-square"></i>Scores <span class="badge badge-success float-right mt-1"><?php $sql="SELECT count(scoreid) as bilang from scoretbl";
+                                 $executeQuery=mysqli_query($con, $sql);
+                                 $result=mysqli_fetch_array($executeQuery);
+                                 echo $ibalik=$result['bilang']; ?></span></a>
                         </li>
                         <li <?php if($_SESSION['sidebar']=="settings"){
  echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
