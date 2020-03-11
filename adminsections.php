@@ -24,7 +24,7 @@ include('functions.php');
                     document.getElementById("editsecbtn").style.display="inline";
             }
           };
-  
+        $('html, body').animate({scrollTop:0}, 'fast');
         var forwardedid = id;
         //document.write(forwardedid);
         var palatandaan = "editsection";
@@ -44,7 +44,7 @@ include('functions.php');
                     document.getElementById("editdeptbtn").style.display="inline";
             }
           };
-  
+        $('html, body').animate({scrollTop:0}, 'fast');
         var forwardedid = id;
         //document.write(forwardedid);
         var palatandaan = "editdept";
