@@ -40,7 +40,7 @@ if($action=="ajaxMulitpleDelete")
 	}
 */
 include 'connection.php';
-$studName=$_GET['tokenStudName'];
+@$studName=$_GET['tokenStudName'];
 if($studName=="fullName")
 {
 	$id=$_GET['id'];

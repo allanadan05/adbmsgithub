@@ -516,7 +516,7 @@ include('functions.php');
                                                ?>
                                                </td>
                                                     <td>
-                                            <img style="width: 30px; height: 30px; border-radius: 100px;" onerror="this.src='images/defaultpic/defaultPIC.png'" src="<?php echo "images/profile_picture/".$row['image']."";?>"></td>
+                                            <img style="width: 30px; height: 30px; border-radius: 100px;" onerror="this.src='images/defaultpic/defaultPIC.png'" src="<?php echo "images/profile_picture/".$row['image']."";?>">
                                                     </td> 
                                                 <td>
                                                     <div class="table-data-feature">
