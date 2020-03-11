@@ -48,7 +48,8 @@ if(isset($_POST['addAnnPerStudent'])){
 $antitle=$_POST['antitle'];
 $andetails=$_POST['andetails'];
 $dateposted=$_POST['dateposted'];
-$anfrom=$_POST['anfrom'];
+$anfrom=$_POST['lstudName'].", ".$_POST['fstudName']." ".$_POST['mstudName']." ";
+//$anfrom=$_POST['anfrom'];
 $userid=$_POST['hiddensendid'];
 
 $sql = "INSERT INTO announcementtbl(antitle,andetails,dateposted,anfrom,userid) VALUES ('$antitle','$andetails','$dateposted','$anfrom','$userid')";

@@ -71,9 +71,6 @@ function getuserid($id){
         return $userid;
 }
 
-
-
-
 function teacherid($id){
 
     include('connection.php');

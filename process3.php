@@ -1,4 +1,5 @@
 <?php
+//error_reporting(1);
 if(isset($_POST['chEm']) && $_POST['chEm'] != "" )
 {
         include_once 'connection.php';
@@ -38,5 +39,22 @@ if($action=="ajaxMulitpleDelete")
 		$sqlAjaxDel=mysqli_query($con,$delAjax);
 	}
 */
+include 'connection.php';
+$studName=$_GET['tokenStudName'];
+if($studName=="fullName")
+{
+	$id=$_GET['id'];
+	$sql="SELECT * FROM userstbl WHERE userid=$id";
+	$query=mysqli_query($con,$sql);
+	$obj = array();
+	 while ($row = mysqli_fetch_array($query))
+	 	{
+			$obj['lname']=$row['lname'];
+			$obj['fname']=$row['fname'];
+			$obj['mname']=$row['mname'];
+		}
+		$printName = json_encode($obj);
+		echo $printName;
+}
 
 ?>

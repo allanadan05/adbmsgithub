@@ -74,6 +74,27 @@ include('functions.php');
     }
 
     function setmodalid(id){
+        var xmlhttp = new XMLHttpRequest();
+
+                xmlhttp.onreadystatechange = function ()
+                {
+                    if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                        {
+
+                            var objStud = JSON.parse(this.responseText);
+                            var lname = document.getElementById("studlname").value = objStud.lname;
+                            var fname = document.getElementById("studfname").value = objStud.fname;
+                            var mname= document.getElementById("studmname").value = objStud.mname;
+                            var fullName = lname + ', ' + fname + ' ' + mname + ' ';
+                            document.getElementById('fullName').innerHTML = fullName;
+                        }
+                }
+                
+                var tokenStudName="fullName";
+                var idStudName = id;
+                xmlhttp.open("GET","process3.php?id="+idStudName+"&tokenStudName="+tokenStudName,true);
+                xmlhttp.send();
+
         document.getElementById("hiddensendid").value=id;
     }
 
@@ -147,18 +168,23 @@ include('functions.php');
                 //click all checkboxes
                 function checkboxes_deleted()
                 {
-                    var xmlhttp = new XMLHttpRequest();
-
-                    xmlhttp.onreadystatechange = function()
-                    {
-                        if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
-                            {
-                                document.getElementById("showDel").innerHTML = this.responseText;                        
-                            }     
-                    }
                     document.getElementById("showBtn").style.display="inline";
+                    document.getElementById("oneButtonDel").style.display="none";
                 }
                 //click all checkboxes
+
+                //----
+                // one selected button only show button
+                function oneCheckBoxes()
+                {
+                    document.getElementById("oneButtonDel").style.display="inline";
+                    document.getElementById("showBtn").style.display="none";
+                }
+
+
+                // one selected button only show button
+
+                //-----
 
                 // multiple delete each boxes
                 
@@ -193,18 +219,20 @@ include('functions.php');
                                 
                             }
                     }
-                    document.getElementById("delSuccess").style.display="inline"; // print delete successfully
-                    document.getElementById("showDeleted").style.display="inline";
+                   // document.getElementById("delSuccess").style.display="inline"; // print delete successfully
+                    //document.getElementById("showDeleted").style.display="inline";
                      
                     var mul_del = "ajaxMulitpleDelete";
                     xmlhttp.open("GET","process2.php?id="+eachCheckBoxes+"&mul_del="+mul_del,true);
                     xmlhttp.send();
+                    window.location.reload(); 
                 // process2.php
                 /*
                 setTimeout(function(){
                     window.location.reload(); 
                 },1000); // 2 seconds
                 */
+               /*
                 var timeleft = 3 ;
                 var downloadTimer  =  setInterval(function(){
                     timeleft--;
@@ -216,6 +244,7 @@ include('functions.php');
                          window.location.reload(); 
                          },3000); // 3 seconds 
                 },1000);
+                */
                 }
         // this code work deleted multiple
 
@@ -337,7 +366,7 @@ include('functions.php');
                     ?>
                     <!--adduser.php-->
                    <!--ajax multiple delete-->
-                    <div id="showDeleted" style="display:none;" class='alert alert-danger' role='alert'>Delete Successfully.. Please wait in <span id="delSuccess" style="display:none;">3</span> seconds</div>
+                    <!--div id="showDeleted" style="display:none;" class='alert alert-danger' role='alert'>Delete Successfully.. Please wait in <span id="delSuccess" style="display:none;">3</span> seconds</div-->
                     <!--ajax multiple delete-->
                         <div class="row">
                             <div class="col-md-10">
@@ -362,10 +391,17 @@ include('functions.php');
                                         <button class="au-btn-filter">
                                             <i class="zmdi zmdi-filter-list"></i>Filters</button>                                       
                                     </div>
-
-                                    <div id="showDel"> <!--showed button Deleted-->
+                                    <!-- MULTIPLE DELETED-->
+                                     <!--showed button Deleted-->
                                     <button onclick="multiple_ajax_del();" style="display:none;" id="showBtn" class="btn btn-danger" type="button"><span class="zmdi zmdi-delete"></span></button>
-                                    </div> <!--showed button Deleted-->
+                                    <!--showed button Deleted-->
+                                    <!-- MULTIPLE DELETED-->
+
+                                    <!--ONE CHECK DELETE BUTTON-->
+                                     <!--showed button Deleted-->
+                                     <button onclick="multiple_ajax_del();" style="display:none;" id="oneButtonDel" class="btn btn-danger" type="button"><span class="zmdi zmdi-delete"></span></button>
+                                    <!--showed button Deleted-->
+                                    <!--ONE CHECK DELETE BUTTON-->
                                     <div class="table-data__tool-right">   
                                         <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#add">
                                             <i class="zmdi zmdi-plus"></i>Add Student</button>
@@ -392,7 +428,6 @@ include('functions.php');
                                                     </label>
 
                                                 </th>
-
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Section</th>
@@ -407,6 +442,7 @@ include('functions.php');
                                         <tbody id="response">
 
                                         <?php
+                                        
                                         /*$sql="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname, (SELECT averagescore FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS AverageScore,(SELECT remarks FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS Remarks from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid  order by userstbl.lname";*/
 
                                         // $sql="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid  order by userstbl.lname";
@@ -436,12 +472,14 @@ include('functions.php');
                                         {?>
                                      
                                             <tr class="tr-shadow">
+                                            <div id="showDel">
                                                 <td>
                                                     <label class="au-checkbox">
-                                                  <input name="num[]" class="checkitem" type="checkbox" value="<?php echo $row["userid"];?>">
+                                                  <input onclick="oneCheckBoxes();" id="oneButtonDel" name="num[]" class="checkitem" type="checkbox" value="<?php echo $row["userid"];?>">
                                                         <span class="au-checkmark"></span>
                                                     </label>
                                                 </td>
+                                            </div>
                                               
                                                <?php echo "<td>".$row['lname'].", ".$row['fname']."</td>"; ?>
                                                <?php echo "<td>".$row['email']."</td>";?>
@@ -620,8 +658,15 @@ include('functions.php');
                 <div class="modal-header">
                 <form action="announcement.php" method="POST">
                     <input type="hidden" name="hiddensendid" id="hiddensendid">
-                    <input type="text" name="anfrom" value="<?php echo teachersgetname($id);?>" style="display:inline;" readonly>
-                    <input type="date" name="dateposted" value="<?php echo date("Y-m-d"); ?>" style="display:inline;" readonly>
+                    <h5 id="fullName"></h5><input type="date" name="dateposted" value="<?php echo date("Y-m-d"); ?>" style="display:inline;" readonly>
+                    <!-- print name student-->
+                    <!--input type="text" name="anfrom" value="" style="display:inline;" readonly-->
+                    <!--input type="text" name="anfrom" value="<?php //echo teachersgetname($id);?>" style="display:inline;" readonly-->
+                    <input type="hidden" id="studlname" name="lstudName" value="" style="display:none;" >
+                    <input type="hidden"  id="studfname" name="fstudName" value="" style="display:none;">
+                    <input type="hidden" id="studmname" name="mstudName" value="" style="display:none;">
+                    <!--print name student-->
+                    
                     <h5 class="modal-title" id="mediumModalLabel"><input type="text" name="antitle" placeholder="Type Title here..."></h5>
                 </div>
                 <div class="modal-body">
