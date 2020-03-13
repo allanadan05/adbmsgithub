@@ -106,12 +106,7 @@ echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ff
                             <a href="teacherstudents.php">
                                 <i class="fas fa-group"></i>Students</a>
                         </li>
-                        <li  <?php if($_SESSION['sidebar']=="teachers"){
-echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
-} ?>>
-                            <a href="teacherteachers.php">
-                                <i class="fas fa-group"></i>Teachers</a>
-                        </li>
+        
                         <li  <?php if($_SESSION['sidebar']=="lessons"){
  echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
 } ?>>
