@@ -2,6 +2,7 @@
 include('connection.php');
 include('adminsession.php');
 include('functions.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -181,7 +182,6 @@ include('functions.php');
                     document.getElementById("showBtn").style.display="none";
                 }
 
-
                 // one selected button only show button
 
                 //-----
@@ -247,6 +247,13 @@ include('functions.php');
                 */
                 }
         // this code work deleted multiple
+
+        // for modal button close
+            function addstudBtn(){
+                document.getElementById("submitbtn").style.display="inline";
+                document.getElementById("savebtn").style.display="none";
+            }
+        // for modal buton close
 
     </script>
 
@@ -345,7 +352,7 @@ include('functions.php');
                     }
                      if(isset($_GET['exist']) && $_GET['exist']=="email") 
                     {
-                      echo "<div class='alert alert-danger' role='alert'>Already Exist Email </div>";
+                      echo "<div class='alert alert-danger' role='alert'>Email already exist </div>";
                     }
                     if(isset($_GET['new']) && $_GET['new']=="student")
                     {
@@ -640,8 +647,8 @@ include('functions.php');
             <div class="modal-footer">
                 <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline;" name="addstudentsubmit">Submit</button> &nbsp 
                 <button type="submit" id="savebtn" class="btn btn-warning" style="display: none;" name="editstudentsubmit">Save</button>
-                <!--button type="button" class="btn btn-danger" data-dismiss="modal">Close</button-->
-                <a class="btn btn-danger" data-dismiss="modal" href="adminstudents.php">Close</a>
+                <button onclick="addstudBtn();" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <!--a class="btn btn-danger" data-dismiss="modal" href="adminstudents.php">Close</a-->
                 </form>
                 
                 

@@ -13,11 +13,9 @@ if(isset($_POST['chEm']) && $_POST['chEm'] != "" )
 	}
 	else
 	{
-	echo '<strong style="color:red;">'.$email.'</strong> <span style="color:red;"> Already Exist Email</span>';
+	echo '<strong style="color:red;">'.$email.'</strong> <span style="color:red;"> Email already exist</span>';
 	exit();
 	}
-
-
 }
 
 if(isset($_POST['chpwd']) && $_POST['chpwd'] != "" )
