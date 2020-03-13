@@ -1,4 +1,7 @@
 <?php 
+include('connection.php');
+include('teachersession.php');
+
 $_SESSION['sidebar']="settings";
 ?>
 <!DOCTYPE html>
