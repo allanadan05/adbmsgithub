@@ -10,7 +10,7 @@ $_SESSION['sidebar']="teachers";
 <head>
     
     <script>
-        function changedsections(){
+        function changeddepartment(){
           var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) { 
@@ -18,22 +18,22 @@ $_SESSION['sidebar']="teachers";
         }
       };
             var secid=document.getElementById('secid').value;
-            //document.write(forIpinasa);
-            var palatandaan = "changedsec";
+            //document.write(secid);
+            var palatandaan = "changeddepartment";
             xhttp.open("GET", "process2.php?secid="+secid+"&palatandaan="+palatandaan, true);
             xhttp.send(); 
         }
 
-        function searchstudent(){
+        function searchteachers(){
           var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) { 
                 document.getElementById("response").innerHTML = this.responseText;
         }
       };
-            var tosearch=document.getElementById('searchstudent').value;
+            var tosearch=document.getElementById('searchteachers').value;
             //document.write(forIpinasa);
-            var palatandaan = "searchstudent";
+            var palatandaan = "searchteachers";
             xhttp.open("GET", "process2.php?tosearch="+tosearch+"&palatandaan="+palatandaan, true);
             xhttp.send(); 
         }
@@ -51,10 +51,10 @@ $_SESSION['sidebar']="teachers";
                 document.getElementById("mname").value = buongObject.mname;
                 document.getElementById("sectionselected1").label = buongObject.departmentname;
                 document.getElementById("sectionselected1").value = buongObject.deptid;
-                //document.getElementById("sectionselected2").label = buongObject.sectionname;
+                document.getElementById("sectionselected2").label = buongObject.sectionname;
                 document.getElementById("sectionselected2").value = buongObject.sectionid;
                 //document.getElementById("sectionselected3").label = buongObject.subjectname;
-                document.getElementById("sectionselected3").value = buongObject.subjectid;
+                //document.getElementById("sectionselected3").value = buongObject.subjectid;
                 document.getElementById("modaltitleadd").style.display="none";
                 document.getElementById("modaltitleedit").style.display="inline";
                 document.getElementById("hiddenuserid").value = forwardedid;
@@ -71,9 +71,41 @@ $_SESSION['sidebar']="teachers";
     xhttp.send(); 
     }
 
-    function setmodalid(id){
-        document.getElementById("hiddensendid").value=id;
+    function showassignedsubjects(teachersid){
+    //document.getElementById("hiddensendid").value=id;
+    var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	  if (xhttp.readyState == 4 && xhttp.status == 200) {	
+            document.getElementById("subjectscheckboxes").innerHTML = this.responseText;
+			document.getElementById("hiddensendid").value=teachersid;
+	  }
+	};
+	
+	  var teachersid=teachersid;
+	  var palatandaan = "showassignedsubjects";
+	  xhttp.open("GET", "process.php?palatandaan="+palatandaan+"&teachersid="+teachersid, true);
+	  xhttp.send(); 
     }
+
+    function addteacher(){
+        document.getElementById("modaltitleadd").style.display="inline";
+        document.getElementById("modaltitleedit").style.display="none";
+    }
+
+    function assignsubjecttoteacher(subid,teachersid ){
+    var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	  if (xhttp.readyState == 4 && xhttp.status == 200) {	
+			// window.alert(this.responseText);
+      }
+	};
+	
+      var subid=subid;
+      var teachersid=teachersid;
+	  var palatandaan = "assignsubjecttoteacher";
+	  xhttp.open("GET", "process.php?palatandaan="+palatandaan+"&subid="+subid+"&teachersid="+teachersid, true);
+	  xhttp.send(); 
+  }
 
     </script>
 
@@ -161,18 +193,18 @@ $_SESSION['sidebar']="teachers";
                         <div class="row">
                             <div class="col-md-10">
                                 <!-- DATA TABLE -->
-                            <h3 class="title-5 m-b-35" style="background-color: whitesmoke;"><input style="width:95%; min-height:50px;" type="Search" id="searchstudent" onkeyup="searchstudent()" placeholder="Search here..."><i class="fas fa-search"></i></h3>
+                            <h3 class="title-5 m-b-35" style="background-color: whitesmoke;"><input style="width:95%; min-height:50px;" type="Search" id="searchteachers" onkeyup="searchteachers()" placeholder="Search here..."><i class="fas fa-search"></i></h3>
                                 <div class="table-data__tool">
                                     <div class="table-data__tool-left">
                                         <div class="rs-select2--light rs-select2--md">
-                                           <select class="js-select2" name="sections" id="secid" onchange="changedsections()">
+                                           <select class="js-select2" name="sections" id="secid" onchange="changeddepartment()">
                                                 <option selected="selected" disabled>All Departments</option>
                                                 <?php 
                                                    $sqlstring="SELECT * FROM departmenttbl";
                                                    $querystring=mysqli_query($con, $sqlstring);
                                                    while($row=mysqli_fetch_array($querystring)){
                                                 ?>
-                                                <option value="<?php echo $row['deptidid']; ?>"><?php echo $row['departmentname']; ?></option>
+                                                <option value="<?php echo $row['deptid']; ?>"><?php echo $row['departmentname']; ?></option>
                                                 <?php } ?>
                                             </select>
                                             <div class="dropDownSelect2"></div>
@@ -181,13 +213,12 @@ $_SESSION['sidebar']="teachers";
                                             <i class="zmdi zmdi-filter-list"></i>Filters</button>                                       
                                     </div>
                                     <div class="table-data__tool-right">
-                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#add">
+                                        <button onclick="addteacher()" class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#add">
                                             <i class="zmdi zmdi-plus"></i>Add Teacher</button>
                                         <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
                                             <select class="js-select2" name="type">
                                                 <option selected="selected">Export</option>
                                                 <option value="">Pdf</option>
-                                                <option value="">HTML</option>
                                             </select>
                                             <div class="dropDownSelect2"></div>
                                         </div>
@@ -231,8 +262,8 @@ $_SESSION['sidebar']="teachers";
                                                 <?php echo "<td>".$row['NoOfSubject']."</td>";?>
                                                 <td>
                                                     <div class="table-data-feature">
-                                                        <button onclick="setmodalid(<?php echo $row['teachersid']; ?>)" class="item" data-toggle="modal" data-placement="top" title="Send Notification" type="button" data-target="#sendnotif">
-                                                            <i class="zmdi zmdi-mail-send"></i>
+                                                        <button onclick="showassignedsubjects(<?php echo $row['teachersid']; ?>)" class="item" data-toggle="modal" data-placement="top" title="Assigned Subject/s" type="button" data-target="#sendnotif">
+                                                            <i class="fa fa-book"></i>
                                                         </button>
                                                         <button type="button" onclick="editsteacher(<?php echo $row['teachersid']; ?>)" class="item" data-placement="top" title="Edit"  data-toggle="modal" data-target="#add">
                                                             <i class="zmdi zmdi-edit"></i>
@@ -276,6 +307,7 @@ $_SESSION['sidebar']="teachers";
         </div>
 
     </div>
+
 <!-- MODAL ADD -->
 <div class="add-teacher-modal">
  <div class="modal" id="add">
@@ -283,8 +315,8 @@ $_SESSION['sidebar']="teachers";
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h6 class="modal-title" id="modaltitleadd">Add Teachers</h6>
-                <h6 class="modal-title" id="modaltitleedit" style="display:none;">Edit Teachers</h6>
+                <h6 class="modal-title" id="modaltitleadd">Add Teacher</h6>
+                <h6 class="modal-title" id="modaltitleedit" style="display:none;">Edit Teacher</h6>
                 
             </div>
 
@@ -325,19 +357,7 @@ $_SESSION['sidebar']="teachers";
                             <?php }
                             }?>
                     </select></td></tr>
-                    <tr><td>Subject:</td><td><select name="subject" id="sub" required>
-                        <option id="sectionselected3" selected readonly>Choose Subject</option>
-                           <?php 
-                           $sql="SELECT * from subjecttbl";
-                           $result=mysqli_query($con, $sql);
-                           if(mysqli_num_rows($result)){
-                            while($row = mysqli_fetch_array($result))
-                            { 
-                           ?>
-                            <option value="<?php echo $row['subjectid'] ?>"><?php echo $row['subjectname'] ?></option>
-                            <?php }
-                            }?>
-                    </select></td></tr>
+                   
                   </table>
             </div>
 
@@ -361,21 +381,20 @@ $_SESSION['sidebar']="teachers";
 
  <!-- modal medium -->
     <div class="modal fade" id="sendnotif" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-dialog modal-medium" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                 <form action="addsub.php" method="POST">
                     <input type="hidden" name="hiddensendid" id="hiddensendid">
-                    <h4>Add Subject</h5>
-              
-                    <input type="text" name="<?php echo $row['fullname'] ?>" value="" style="display:inline;" readonly>
-                   
+                    <h4>Subject/s</h4>                 
                     
                 </div>
                 <div class="modal-body">
                 <table>
-                    <tr><td>Subject:</td><td><select name="subject" id="sub" required>
-                        <option id="sectionselected" selected readonly>Choose Subject</option>
+                    <tr><td>
+                        <!-- <select name="subject" id="addsubselect" required>
+                        <option value="0" id="sectionselected" selected readonly disabled required>Choose Subject</option>  -->
+                        <div id="subjectscheckboxes">
                            <?php 
                            $sql="SELECT * from subjecttbl";
                            $result=mysqli_query($con, $sql);
@@ -383,16 +402,36 @@ $_SESSION['sidebar']="teachers";
                             while($row = mysqli_fetch_array($result))
                             { 
                            ?>
-                            <option value="<?php echo $row['subjectid'] ?>"><?php echo $row['subjectname'] ?></option>
+                            <label>
+                            <input type="checkbox" value="<?php echo $row['subjectid']; ?>" name=" <?php echo $row['subjectname']; ?> "
+                            
+                            <?php
+                                     $sqlss="SELECT * from teachersubjecttbl where subjectid=".$row['subjectid'];
+                                     $resultss=mysqli_query($con, $sqlss);
+                                     if(mysqli_num_rows($resultss)){
+                                     while($rowss = mysqli_fetch_array($resultss)){
+                                        if($rowss['teachersid'] == 1 ){
+                                            echo "checked=checked";
+                                        }
+                                     }
+                                    }
+                            ?> 
+                            
+                            > <!-- end tag of input -->
+                            <?php echo $row['subjectname']; ?>
+                            </label>
+                            <br>
                             <?php }
                             }?>
-                    </select></td></tr>
+                    <!-- </select> -->
+                    </div>
+                    </td></tr>
                   </table>
                
                 </div>
                 <div class="modal-footer">
+                    <button type="button" name="assignsubject" class="btn btn-warning" id="sendbtn" onclick="history.go(0)">SAVE</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" name="assignsubject" class="btn btn-primary" id="sendbtn">Add</button>
                  </form>
                 </div>
             </div>

@@ -258,10 +258,10 @@ $query=mysqli_query($con, $sql);
     <!-- JS functions -->
     <script>
 
-    function top(){
-        document.body.scrollTop = 0; // For Safari
-		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-    }
+    // function top(){
+    //     document.body.scrollTop = 0; // For Safari
+	// 	document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    // }
     
     function assignbutton(subid){
     document.getElementById("hiddensubid").value=subid;

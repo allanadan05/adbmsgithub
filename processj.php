@@ -58,11 +58,21 @@ if($palatandaan =="editsteacher"){
 			$pambato['deptid'] = $rr['deptid'];
 
 		}
-			
-		
-		echo json_encode($pambato);
+
+		$qq = "SELECT * FROM teachersectiontbl WHERE teachersid='$id' ";
+			$ee = mysqli_query($con, $qq);
+			$rr = mysqli_fetch_array($ee);
+			$pambato['sectionid'] = $rr['sectionid'];
+
+			$ss="SELECT * FROM sectiontbl where sectionid=".$rr['sectionid'];
+			$ff = mysqli_query($con, $ss);
+			$tt = mysqli_fetch_array($ff);
+			$pambato['sectionname'] = $tt['sectionname'];
+
+	echo json_encode($pambato);
+
 	}
-	
+
 
 }
 

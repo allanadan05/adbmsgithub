@@ -71,6 +71,43 @@ if($palatandaan=="showassignedsections"){
 	
 }	
 
+if($palatandaan=="showassignedsubjects"){
+		
+	$teachersid = $_GET['teachersid'];
+		
+	$sql="SELECT * from subjecttbl";
+	$result=mysqli_query($con, $sql);
+	if(mysqli_num_rows($result)){
+	while($row = mysqli_fetch_array($result)){
+	echo '<ul>
+		<label>';
+		// check teacher if already assigned to a subject
+	echo'
+	<input type="checkbox" onclick="assignsubjecttoteacher('.$row['subjectid'].','.$teachersid.')" value=" '.$row['subjectid'].' " name=" '.$row['subjectname'] .' "
+	';
+
+	$sqlss="SELECT * from teachersubjecttbl where subjectid=".$row['subjectid'];
+	$resultss=mysqli_query($con, $sqlss);
+	if(mysqli_num_rows($resultss)){
+	while($rowss = mysqli_fetch_array($resultss)){
+		if($rowss['teachersid'] == $teachersid ){
+			echo "checked=checked";
+		}
+		}
+	}
+
+	echo '>'; //end tag of input type chekbox
+	echo " " .$row['subjectname'];
+
+	echo '
+	</label>
+	</ul>
+	';
+	
+	}
+	}
+	
+}	
 
 if($palatandaan=="assignsectiontosubject"){
 	include('connection.php');	
@@ -97,6 +134,43 @@ if($palatandaan=="assignsectiontosubject"){
 
 	if($allow==1){
 		$sql="INSERT INTO sectionsubjecttbl(sectionid,subjectid) VALUES ('$secid','$subid')";
+		if(mysqli_query($con,$sql))
+		{   
+			// echo 'Successfully assigned!';
+		}
+		else
+		{
+			echo 'Cannot be assigned!';
+		}
+	}
+}
+
+
+if($palatandaan=="assignsubjecttoteacher"){
+	include('connection.php');	
+    
+    $teachersid=$_GET['teachersid'];
+	$subid=$_GET['subid'];
+	$allow=1;
+	
+	$s="SELECT * FROM teachersubjecttbl";
+	$r=mysqli_query($con, $s);
+	if(mysqli_num_rows($r)){
+		while($row = mysqli_fetch_array($r)){
+			if($row['teachersid']==$teachersid && $row['subjectid']==$subid ){
+				$allow=0;
+				// echo 'Already assigned!';
+					$del="DELETE FROM teachersubjecttbl WHERE teachersubjectid=".$row['teachersubjectid'];
+					if(mysqli_query($con, $del)){
+						// echo 'Deleted!';
+					}
+			break;
+			}
+		}
+	}
+
+	if($allow==1){
+		$sql="INSERT INTO teachersubjecttbl(teachersid,subjectid) VALUES ('$teachersid','$subid')";
 		if(mysqli_query($con,$sql))
 		{   
 			// echo 'Successfully assigned!';

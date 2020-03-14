@@ -75,7 +75,15 @@ if(isset($_GET['deletesubject'])){
    $u = mysqli_query($con , $q);
     if($u)
         {
-            header("location: adminsubjects.php?deletesubresult=success");
+            $q = "DELETE FROM teachersubjecttbl WHERE subjectid='$id' ";
+            $u = mysqli_query($con , $q);
+            if($u){
+                $q = "DELETE FROM sectionsubjecttbl WHERE subjectid='$id' ";
+                $u = mysqli_query($con , $q);
+                if($u){
+                header("location: adminsubjects.php?deletesubresult=success");
+                }
+            }
         }
         else
         {

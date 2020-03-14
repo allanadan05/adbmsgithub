@@ -1,0 +1,19 @@
+function showassignedsections(subjectid){
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	  if (xhttp.readyState == 4 && xhttp.status == 200) {	
+			document.getElementById("seccheckbox").innerHTML = this.responseText;
+			document.getElementById("hiddensubid").value=subjectid;
+    		document.getElementById("modaltitle").innerHTML=document.getElementById("title"+subjectid).value;
+	  }
+	};
+	
+	  var subjectid=subjectid;
+	  var palatandaan = "showassignedsections";
+	  xhttp.open("GET", "process.php?palatandaan="+palatandaan+"&subjectid="+subjectid, true);
+	  xhttp.send(); 
+  }
+
+  subjecttbl
+  sectionsubjecttbl
+  teachersubjecttbl
