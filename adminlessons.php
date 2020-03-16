@@ -44,9 +44,12 @@ $_SESSION['sidebar']="lessons";
       if (xhttp.readyState == 4 && xhttp.status == 200) {	
               var buongObject=JSON.parse(this.responseText);
               //document.getElementById("response").innerHTML = buongObject.sname;
+              document.getElementById("selectsubject").label = buongObject.lessonsubjectname;
+              document.getElementById("selectsubject").value = buongObject.lessonsubjectid;
               document.getElementById("lessontit").value = buongObject.lessontitle;
               document.getElementById("lessondet").value = buongObject.lessondetail;
-              //document.getElementById("file-input").value = buongObject.lessonpdf;
+              document.getElementById("file").innerHTML = "Current file: <br/>" + buongObject.lessonpdf;
+              document.getElementById("for-file-input").innerHTML = "<br/> Upload new file";
               document.getElementById("uId").value = forIpinasa;
               document.getElementById("addlesson").style.display="none";
               document.getElementById("updatelesson").style.display="inline";
@@ -58,7 +61,7 @@ $_SESSION['sidebar']="lessons";
       var palatandaan = "edit";
       xhttp.open("GET", "processj.php?forIpinasa="+forIpinasa+"&palatandaan="+palatandaan, true);
       xhttp.send(); 
-  }
+    }
     </script>
 
 </head>
@@ -85,6 +88,20 @@ $_SESSION['sidebar']="lessons";
                             <div>
                                 <h2>Lessons</h2><hr/><br/>
                             </div>
+
+                            <?php
+                             if(isset($_GET['editlessonresult'])){
+                                $editlessonresult=$_GET['editlessonresult'];
+                                if($editlessonresult=="success"){
+                               // echo "<div class='alert alert-primary' role='alert'> Profile: ".$_GET['lname'] .", " .$_GET['fname'] ." has been updated :) </div>";
+                               echo "<div class='alert alert-primary' role='alert'> Lesson has been updated :) </div>";
+                                }
+                                if($editlessonresult=="failed"){
+                                //echo "<div class='alert alert-danger' role='alert'>  Profile: ".$_GET['lname'] .", " .$_GET['fname'] ." cannot be updated :( </div>";
+                                echo "<div class='alert alert-primary' role='alert'> Lesson cannot be updated :( </div>";
+                                } 
+                            }
+                            ?>
                           
                             
                     
@@ -96,7 +113,7 @@ $_SESSION['sidebar']="lessons";
                                         <form action="addlesson.php" method="POST" enctype="multipart/form-data">
                                             <select name="subjectid">
                                             
-                                            <option selected disabled>Select Subject</option>
+                                            <option id="selectsubject"  selected readonly>Select Subject</option>
                                             <?php 
                                             $sql="SELECT * from subjecttbl";
                                             $result=mysqli_query($con, $sql);
@@ -121,8 +138,10 @@ $_SESSION['sidebar']="lessons";
                                                 <textarea name="lessondetail" id="lessondet" rows="9" placeholder="Enter Lesson Description..." class="form-control"></textarea>
                                             </div>
                                             
+                                            <div id="file"></div>
+
                                             <div class="row form-group">
-                                                <label for="file-input" class=" form-control-label">Upload File</label><br>
+                                                <label id="for-file-input" for="file-input" class=" form-control-label">Upload File</label><br>
                                                 <input type="file" id="file-input" name="lessonpdf" class="form-control-file" accept="application/pdf">
                                             </div>
                                         
@@ -138,19 +157,14 @@ $_SESSION['sidebar']="lessons";
                             <?php
                                      
 
-                                 $sql="SELECT subjecttbl.subjectname,lessontbl.lessonid,lessontbl.lessontitle,lessontbl.lessondetail,lessontbl.lessonpdf,lessontbl.path from lessontbl join subjecttbl on lessontbl.subjectid=subjecttbl.subjectid ";
-                                   $result=mysqli_query($con, $sql);
+                                 $sql="SELECT subjecttbl.subjectname,lessontbl.lessonid,lessontbl.lessontitle,lessontbl.lessondetail,lessontbl.lessonpdf from lessontbl join subjecttbl on lessontbl.subjectid=subjecttbl.subjectid ";
+                                $result=mysqli_query($con, $sql);
          
                                  if(mysqli_num_rows($result)){
                                  while($row = mysqli_fetch_array($result))
                                  { 
                                      
-                                     $tae = $row['path'];
                                      $id = $row['lessonid'];
-                                     echo '<img src=""   '.$tae.'" width = "50px" height = "50px" />'
-                                     
-                                     
-                                     
                                      
                                      ?>
                            
@@ -160,19 +174,22 @@ $_SESSION['sidebar']="lessons";
                                     <div class="card">
                                      <div class="card-header">
                                     
-                                         <strong class="card-title"><a href="#">  <?php  echo "<td>".$row['subjectname']."</td>"; ?> <i class="fas fa-link"></i></a></strong><br>
+                                         <h4 class="card-title"><a href="<?php  echo $row['lessonpdf']; ?>">  <?php  echo "<td>".$row['subjectname']."</td>"; ?></a></h4>
                                          <p> <?php  echo "<td>".$row['lessontitle']."</td>"; ?></p>
+                                         <p class="card-text">
+                                            <a style="color:maroon; font-size: 12px;" href="<?php  echo $row['lessonpdf']; ?>"><i class="fas fa-file-pdf-o"></i> Open </a>
+                                            &nbsp | &nbsp
+                                             <a style="color:maroon; font-size: 12px;" href="<?php  echo $row['lessonpdf']; ?>" target="_blank" type="application/octet-stream" download="<?php echo $row['lessontitle']; ?>"><i class="fas fa-download"></i>Download </a>
+                                        </p>
                                      </div>
                                     <div class="card-body">
                                         <p class="card-text"> <?php  echo "<td>".$row['lessondetail']."</td>"; ?>
-                                        </p>
-                                        <p class="card-text"><a href="<?php  echo $row['lessonpdf']; ?>">View</a>
-                                        
                                         </p>
                                     </div>
                                     <div class="card-footer">
                                         <div class="row">
                                         <button class="btn btn-warning" onclick="editlesson(<?php echo $row['lessonid']; ?>)"><i class="fas fa-pencil-square-o"></i>EDIT</button>
+                                        &nbsp &nbsp
                                         <a href="<?php echo "addlesson.php?deletelesson=1&id=".$row['lessonid'] ?>"><button class="btn btn-danger"><i class="fas fa-trash"></i>DELETE</button></a>
                                          </div>
                                     </div>

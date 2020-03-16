@@ -7,13 +7,15 @@ $palatandaan =  $_GET['palatandaan'];
 
 if($palatandaan =="edit"){
 	$id=$_GET['forIpinasa'];
-	$querySaDatabase = "SELECT * FROM lessontbl WHERE lessonid='$id' ";
+	$querySaDatabase = "select *, (select subjectname from subjecttbl where subjectid=lessontbl.subjectid) as subjectname from lessontbl WHERE lessonid='$id' ";
 	$executeQuery = mysqli_query($con, $querySaDatabase);
 		$pambato = array();
 		while($row = mysqli_fetch_array($executeQuery)){
 			$pambato['lessontitle'] = $row['lessontitle'];
 			$pambato['lessondetail'] = $row['lessondetail'];
 			$pambato['lessonpdf'] = $row['lessonpdf'];
+			$pambato['lessonsubjectname'] = $row['subjectname'];
+			$pambato['lessonsubjectid'] = $row['subjectid'];
 		}
 		echo json_encode($pambato);
 }
