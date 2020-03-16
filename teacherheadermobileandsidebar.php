@@ -68,7 +68,8 @@
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
                 <a href="#">
-                    <img src="images/icon/logo.png" alt="Cool Admin" />
+                  <!-- <img src="images/icon/logo.png" alt="BSU" style="height: 75px; width:75px;"> -->
+                  <b style="font-size: 30px; color: maroon;">ELMS</b>
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
