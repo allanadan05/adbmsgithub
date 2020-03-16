@@ -182,5 +182,209 @@ if($palatandaan=="assignsubjecttoteacher"){
 	}
 }
 
+
+if($palatandaan=="searchscore"){
+	include('connection.php');	
+
+	$selectvalue=$_GET['selectvalue'];
+	$tosearch=$_GET['tosearch'];
+	$test=0;
+
+	if($tosearch==""){
+		$sql="select userid, (select userid from userstbl where userid=scoretbl.userid) as studuserid, (select concat(lname, ', ', fname) as name from userstbl where userstbl.userid=scoretbl.userid) as user, (SELECT quizname from quiztbl where quizid=scoretbl.quizid) as quizname, concat(totalscore, '/', totalitems) as score, averagescore, remarks from scoretbl";
+				$result=mysqli_query($con, $sql);
+				if(mysqli_num_rows($result)){
+					while($row=mysqli_fetch_array($result)){
+							echo "<tr>";
+							echo" <td>".$row['user']."</td>";
+							echo" <td>".$row['quizname']."</td>";
+							echo "<td>".$row['score']."</td>";
+							echo "<td>".$row['averagescore']."%"."</td>";
+							$rem=$row['remarks'];
+
+								if($rem=="PASSED"){
+									$rem2="class='process'";
+								}else{
+									$rem2="class='denied'";
+								}
+							echo" <td ".$rem2.">".$row['remarks']."</td>
+							</tr>";
+					}
+				}else{
+					echo "<tr><td></td><td>No data found in scoretbl.</td><td></td><td></td><td></td></tr>";
+				}
+	}else{
+		if($selectvalue=="byname"){
+
+			$sql="select userid, (select userid from userstbl where userid=scoretbl.userid) as studuserid, (select concat(lname, ', ', fname) as name from userstbl where userstbl.userid=scoretbl.userid) as user, (SELECT quizname from quiztbl where quizid=scoretbl.quizid) as quizname, concat(totalscore, '/', totalitems) as score, averagescore, remarks from scoretbl";
+			$result=mysqli_query($con, $sql);
+			if(mysqli_num_rows($result)){
+				$test==0;
+				while($row=mysqli_fetch_array($result)){
+					if ( stristr( $row['user'], $tosearch ) ){
+						$test=1;
+						echo "<tr>";
+						echo" <td>".$row['user']."</td>";
+						echo" <td>".$row['quizname']."</td>";
+						echo "<td>".$row['score']."</td>";
+						echo "<td>".$row['averagescore']."%"."</td>";
+						$rem=$row['remarks'];
+
+							if($rem=="PASSED"){
+								$rem2="class='process'";
+							}else{
+								$rem2="class='denied'";
+							}
+						echo" <td ".$rem2.">".$row['remarks']."</td>
+						</tr>";
+					}
+				}
+				if($test==0){
+					echo "<tr><td></td><td>No data found.</td><td></td><td></td><td></td></tr>";
+				}
+			}else{
+				echo "<tr><td></td><td>No data found.</td><td></td><td></td><td></td></tr>";
+			}
+
+		}else if($selectvalue=="bysection"){
+
+		}else if($selectvalue=="bysubject"){
+
+		}else if($selectvalue=="byquiztitle"){
+
+			$sql="select userid, (select userid from userstbl where userid=scoretbl.userid) as studuserid, (select concat(lname, ', ', fname) as name from userstbl where userstbl.userid=scoretbl.userid) as user, (SELECT quizname from quiztbl where quizid=scoretbl.quizid) as quizname, concat(totalscore, '/', totalitems) as score, averagescore, remarks from scoretbl";
+			$result=mysqli_query($con, $sql);
+			if(mysqli_num_rows($result)){
+				$test==0;
+				while($row=mysqli_fetch_array($result)){
+					if ( stristr( $row['quizname'], $tosearch ) ){
+						$test=1;
+						echo "<tr>";
+						echo" <td>".$row['user']."</td>";
+						echo" <td>".$row['quizname']."</td>";
+						echo "<td>".$row['score']."</td>";
+						echo "<td>".$row['averagescore']."%"."</td>";
+						$rem=$row['remarks'];
+
+							if($rem=="PASSED"){
+								$rem2="class='process'";
+							}else{
+								$rem2="class='denied'";
+							}
+						echo" <td ".$rem2.">".$row['remarks']."</td>
+						</tr>";
+					}
+				}
+				if($test==0){
+					echo "<tr><td></td><td>No data found.</td><td></td><td></td><td></td></tr>";
+				}
+			}else{
+				echo "<tr><td></td><td>No data found.</td><td></td><td></td><td></td></tr>";
+			}
+
+		}else if($selectvalue=="byscore"){
+
+			$sql="select userid, totalscore, (select userid from userstbl where userid=scoretbl.userid) as studuserid, (select concat(lname, ', ', fname) as name from userstbl where userstbl.userid=scoretbl.userid) as user, (SELECT quizname from quiztbl where quizid=scoretbl.quizid) as quizname, concat(totalscore, '/', totalitems) as score, averagescore, remarks from scoretbl";
+			$result=mysqli_query($con, $sql);
+			if(mysqli_num_rows($result)){
+				$test==0;
+				while($row=mysqli_fetch_array($result)){
+					if ( stristr( $row['totalscore'], $tosearch ) ){
+						$test=1;
+						echo "<tr>";
+						echo" <td>".$row['user']."</td>";
+						echo" <td>".$row['quizname']."</td>";
+						echo "<td>".$row['score']."</td>";
+						echo "<td>".$row['averagescore']."%"."</td>";
+						$rem=$row['remarks'];
+
+							if($rem=="PASSED"){
+								$rem2="class='process'";
+							}else{
+								$rem2="class='denied'";
+							}
+						echo" <td ".$rem2.">".$row['remarks']."</td>
+						</tr>";
+					}
+				}
+				if($test==0){
+					echo "<tr><td></td><td>No data found.</td><td></td><td></td><td></td></tr>";
+				}
+			}else{
+				echo "<tr><td></td><td>No data found.</td><td></td><td></td><td></td></tr>";
+			}
+
+		}else if($selectvalue=="byaveragescore"){
+
+			$sql="select userid, (select userid from userstbl where userid=scoretbl.userid) as studuserid, (select concat(lname, ', ', fname) as name from userstbl where userstbl.userid=scoretbl.userid) as user, (SELECT quizname from quiztbl where quizid=scoretbl.quizid) as quizname, concat(totalscore, '/', totalitems) as score, averagescore, remarks from scoretbl";
+			$result=mysqli_query($con, $sql);
+			if(mysqli_num_rows($result)){
+				$test==0;
+				while($row=mysqli_fetch_array($result)){
+					if ( stristr( $row['averagescore'], $tosearch ) ){
+						$test=1;
+						echo "<tr>";
+						echo" <td>".$row['user']."</td>";
+						echo" <td>".$row['quizname']."</td>";
+						echo "<td>".$row['score']."</td>";
+						echo "<td>".$row['averagescore']."%"."</td>";
+						$rem=$row['remarks'];
+
+							if($rem=="PASSED"){
+								$rem2="class='process'";
+							}else{
+								$rem2="class='denied'";
+							}
+						echo" <td ".$rem2.">".$row['remarks']."</td>
+						</tr>";
+					}
+				}
+				if($test==0){
+					echo "<tr><td></td><td>No data found.</td><td></td><td></td><td></td></tr>";
+				}
+			}else{
+				echo "<tr><td></td><td>No data found.</td><td></td><td></td><td></td></tr>";
+			}
+
+		}else if($selectvalue=="byremarks"){
+
+			$sql="select userid, (select userid from userstbl where userid=scoretbl.userid) as studuserid, (select concat(lname, ', ', fname) as name from userstbl where userstbl.userid=scoretbl.userid) as user, (SELECT quizname from quiztbl where quizid=scoretbl.quizid) as quizname, concat(totalscore, '/', totalitems) as score, averagescore, remarks from scoretbl";
+			$result=mysqli_query($con, $sql);
+			if(mysqli_num_rows($result)){
+				$test==0;
+				while($row=mysqli_fetch_array($result)){
+					if ( stristr( $row['remarks'], $tosearch ) ){
+						$test=1;
+						echo "<tr>";
+						echo" <td>".$row['user']."</td>";
+						echo" <td>".$row['quizname']."</td>";
+						echo "<td>".$row['score']."</td>";
+						echo "<td>".$row['averagescore']."%"."</td>";
+						$rem=$row['remarks'];
+
+							if($rem=="PASSED"){
+								$rem2="class='process'";
+							}else{
+								$rem2="class='denied'";
+							}
+						echo" <td ".$rem2.">".$row['remarks']."</td>
+						</tr>";
+					}
+				}
+				if($test==0){
+					echo "<tr><td></td><td>No data found.</td><td></td><td></td><td></td></tr>";
+				}
+			}else{
+				echo "<tr><td></td><td>No data found.</td><td></td><td></td><td></td></tr>";
+			}
+
+
+		}else{
+			echo "<tr><td></td><td>No data found.</td><td></td><td></td><td></td></tr>";
+		}
+	}
+
+}
+
 ?>
 

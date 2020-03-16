@@ -3,9 +3,10 @@
             <div class="header-mobile__bar">
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
-                        <a class="logo" href="index.php">
-                            <img src="images/icon/logo.png" alt="BrightMind" />
-                        </a>
+                        <!-- <a class="logo row" href="#">
+                            <img src="images/icon/logo.png" alt="BSU" style="height: 50px; width:50px;"> 
+                            <span><h1> &nbsp &nbsp Bulacan State University</h1></span>
+                        </a> -->
                         <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
                                 <span class="hamburger-inner"></span>
@@ -63,7 +64,8 @@
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
                 <a href="#">
-                    <img src="images/icon/logo.png" alt="Cool Admin" />
+                  <!-- <img src="images/icon/logo.png" alt="BSU" style="height: 75px; width:75px;"> -->
+                  <b style="font-size: 30px; color: maroon;">ELMS</b>
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">

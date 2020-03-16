@@ -3,7 +3,7 @@ include('connection.php');
 include('adminsession.php');
 include('functions.php');
 
-$profileid=$_SESSION['userid'];
+$profileid=$_SESSION['adminid']; 
 $_SESSION['sidebar']="scores";
 ?>
 <!DOCTYPE html>
@@ -64,6 +64,38 @@ $_SESSION['sidebar']="scores";
                             <div class="row m-t-30">
                             <div class="col-md-12">
                                <!-- DATA TABLE-->
+                            
+                                <div class="table-data__tool">
+                                    <div class="table-data__tool-left">
+                                    <input type="Search" id="searchscoreid" onkeyup="searchscore()" placeholder="Search here..." style="width: 520px; min-height:40px; display:none" >                                                                  
+                                </div>
+                                    
+                                    <div class="table-data__tool-right">   
+                                    <div class="rs-select2--light rs-select2--md">
+                                           <select class="js-select2" name="sections" id="filterid" onchange="changedfilter()">
+                                              <option value="Filter" selected="selected" disabled>Filter</option>
+                                              <option value="byname">By Name</option>
+                                              <!-- <option value="bysection">By Section</option>
+                                              <option value="bysubject">By Subject</option> -->
+                                              <option value="byquiztitle">By QuizTitle</option>
+                                              <option value="byscore">By Score</option>
+                                              <option value="byaveragescore">By Average Score</option>
+                                              <option value="byremarks">By Remarks</option>
+                                            </select>
+                                            <div class="dropDownSelect2"></div>
+                                    </div>
+                                        <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
+                                            <select class="js-select2" name="type" onchange="location=this.value">
+                                                <option selected="selected">Export</option>
+                                                <option value="">Pdf</option>
+                                                <!--option value="">HTML</option-->
+                                            </select>
+                                            <div class="dropDownSelect2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                                 <div class="table-responsive m-b-40">
                                     <table class="table table-borderless table-data3">
                                         <thead>
@@ -75,7 +107,7 @@ $_SESSION['sidebar']="scores";
                                                 <th>remarks</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="response">
                                             <?php 
                                             $sql="select (select concat(lname, ', ', fname) as name from userstbl where userid=scoretbl.userid) as user, (SELECT quizname from quiztbl where quizid=scoretbl.quizid) as quizname, concat(totalscore, '/', totalitems) as score, averagescore, remarks from scoretbl ORDER BY user";
                                             $result=mysqli_query($con, $sql);
@@ -115,6 +147,32 @@ $_SESSION['sidebar']="scores";
         </div>
 
     </div>
+
+    <script>
+
+    function changedfilter(){
+        var selectvalue=document.getElementById("filterid").value;
+        document.getElementById("searchscoreid").style.display="inline";
+        //window.alert(selectvalue);
+    }
+
+    function searchscore(){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {	
+                document.getElementById("response").innerHTML = this.responseText;
+        }
+        };
+
+    var selectvalue=document.getElementById("filterid").value;
+    var tosearch=document.getElementById("searchscoreid").value;
+    //window.alert(selectvalue + ", " + tosearch);
+    var palatandaan = "searchscore";
+    xhttp.open("GET", "process.php?palatandaan="+palatandaan+"&selectvalue="+selectvalue+"&tosearch="+tosearch, true);
+    xhttp.send(); 
+    }
+
+    </script>
 
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
