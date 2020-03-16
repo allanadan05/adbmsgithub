@@ -8,6 +8,7 @@ if(isset($_POST["addlesson"])){
 
     $fm = $_FILES["lessonpdf"]["name"];
     $loc = "./uploads/".$fm;
+
     //this function can accept only in PDF po hihi
     $allow=array("pdf"); // this use diffrent file format niya po
     //$temp=explode(".",$_FILES["lessonpdf"]["name"]);
@@ -20,6 +21,23 @@ if(isset($_POST["addlesson"])){
         //echo "<script>alert('File is allow only in PDF')</script>";
         $_SESSION['only_upload_pdf']=$fm;
         if($_SESSION['only_upload_pdf'])
+
+    move_uploaded_file($_FILES["lessonpdf"]["tmp_name"],$loc);
+    
+
+    $lessontitle=$_POST['lessontitle'];
+    $lessondetail=$_POST['lessondetail']; 
+    $subjectid=$_POST['subjectid'];
+    $sql = "INSERT INTO lessontbl(lessontitle,lessondetail,lessonpdf,subjectid) VALUES ('$lessontitle','$lessondetail','$loc','$subjectid')";
+    $Excutequery=mysqli_query($con,$sql);
+    if($Excutequery)
+        {
+           
+            echo "<script>alert('Uploaded successfully!')</script>";
+            header("location: adminlessons.php?addsubresult=success");
+        }
+        else
+
         {
             header("location: adminlessons.php");
         }

@@ -51,8 +51,11 @@ $_SESSION['sidebar']="students";
                 document.getElementById("submitbtn").style.display = "none";
                 document.getElementById("savebtn").style.display = "inline";
                 document.getElementById("hiddenuserid").value = forwardedid;
+
                 
                 var buongObject=JSON.parse(this.responseText);
+
+
                 //document.getElementById("response").innerHTML = buongObject.sname;
                 document.getElementById("hiddenuserid").value = buongObject.hiddenuserid;
                 document.getElementById("email").value = buongObject.email;
@@ -63,8 +66,6 @@ $_SESSION['sidebar']="students";
                 document.getElementById("image").value = buongObject.image;
                 document.getElementById("sectionselected").label = buongObject.sectionname;
                 document.getElementById("sectionselected").value = buongObject.sectionid;
-
-
 
             }
         }
@@ -95,7 +96,6 @@ $_SESSION['sidebar']="students";
         var idStudName = id;
         xmlhttp.open("GET", "process3.php?id=" + idStudName + "&tokenStudName=" + tokenStudName, true);
         xmlhttp.send();
-
         document.getElementById("hiddensendid").value = id;
     }
     </script>
@@ -133,17 +133,18 @@ $_SESSION['sidebar']="students";
         var tooShortPwd = document.getElementById("chkpwd");
         var pwd = document.getElementById("password").value;
 
+
         if (pwd != "") {
             tooShortPwd.innerHTML = "Checking...";
             var xhttp = new XMLHttpRequest();
             xhttp.open("POST", "process3.php", true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
             xhttp.onreadystatechange = function() {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
                     tooShortPwd.innerHTML = xhttp.responseText;
                 }
             }
+
 
             var postPwd = "chpwd=" + pwd;
             xhttp.send(postPwd);
@@ -151,6 +152,7 @@ $_SESSION['sidebar']="students";
             tooShortPwd.innerHTML = "";
         }
     }
+
 
     // this code work deleted multiple
     //click all checkboxes
@@ -169,77 +171,65 @@ $_SESSION['sidebar']="students";
 
     // one selected button only show button
 
-<<<<<<< HEAD
-                // multiple delete each boxes
-                
-                function multiple_ajax_del()
-                { 
-                    var eachCheckBoxes = null;
-                    var eachCheckBoxesElements = document.getElementsByName("num[]");
-                    for (var i=0;eachCheckBoxesElements[i];++i)
-                    {
-                        if(eachCheckBoxesElements[i].checked)
-                        {
-                        eachCheckBoxes=eachCheckBoxesElements[i].value;
-                        delete_each_value(eachCheckBoxes);
-                        //alert(eachCheckBoxes);
-                        }
-                    }
-                }
-                // multiple delete each boxes
-                // process2.php
-                //delete_each_value();
-                function delete_each_value(eachCheckBoxes)
-                {
-                    //alert("clickDeletedniya");
-                    var xmlhttp = new XMLHttpRequest();
-                    
-                     xmlhttp.onreadystatechange = function ()
-                    {
-                        if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
-                            {
-                                document.getElementById('response').innerHTML=this.responseText; // refresh table purpose niya
-                                
-                            }
-                    }
-                   // document.getElementById("delSuccess").style.display="inline"; // print delete successfully
-                    //document.getElementById("showDeleted").style.display="inline";
-                     
-                    var mul_del = "ajaxMulitpleDeleteStudents";
-                    xmlhttp.open("GET","process2.php?id="+eachCheckBoxes+"&mul_delStudents="+mul_del,true);
-                    xmlhttp.send();
-                    window.location.reload(); 
-                // process2.php
-                /*
-                setTimeout(function(){
-                    window.location.reload(); 
-                },1000); // 2 seconds
-                */
-               /*
-                var timeleft = 3 ;
-                var downloadTimer  =  setInterval(function(){
-                    timeleft--;
-                    document.getElementById('delSuccess').textContent = timeleft;
-                    if(timeleft <=0)
-                        clearInterval(downloadTimer);
-                        // setTimeout para refresh page
-                        setTimeout(function(){
-                         window.location.reload(); 
-                         },3000); // 3 seconds 
-                },1000);
-                */
-                }
-        // this code work deleted multiple
-
-        /*
-        // for modal button close
-            function addstudBtn(){
-                document.getElementById("submitbtn").style.display="inline";
-                document.getElementById("savebtn").style.display="none";
+    function multiple_ajax_del() {
+        var eachCheckBoxes = null;
+        var eachCheckBoxesElements = document.getElementsByName("num[]");
+        for (var i = 0; eachCheckBoxesElements[i]; ++i) {
+            if (eachCheckBoxesElements[i].checked) {
+                eachCheckBoxes = eachCheckBoxesElements[i].value;
+                delete_each_value(eachCheckBoxes);
+                //alert(eachCheckBoxes);
             }
-        // for modal buton close
-        */
+        }
+    }
+    // multiple delete each boxes
+    // process2.php
+    //delete_each_value();
+    function delete_each_value(eachCheckBoxes) {
+        //alert("clickDeletedniya");
+        var xmlhttp = new XMLHttpRequest();
 
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById('response').innerHTML = this.responseText; // refresh table purpose niya
+
+            }
+        }
+        // document.getElementById("delSuccess").style.display="inline"; // print delete successfully
+        //document.getElementById("showDeleted").style.display="inline";
+
+        var mul_del = "ajaxMulitpleDelete";
+        xmlhttp.open("GET", "process2.php?id=" + eachCheckBoxes + "&mul_del=" + mul_del, true);
+        xmlhttp.send();
+        window.location.reload();
+        // process2.php
+        /*
+        setTimeout(function(){
+            window.location.reload(); 
+        },1000); // 2 seconds
+        */
+        /*
+         var timeleft = 3 ;
+         var downloadTimer  =  setInterval(function(){
+             timeleft--;
+             document.getElementById('delSuccess').textContent = timeleft;
+             if(timeleft <=0)
+                 clearInterval(downloadTimer);
+                 // setTimeout para refresh page
+                 setTimeout(function(){
+                  window.location.reload(); 
+                  },3000); // 3 seconds 
+         },1000);
+         */
+    }
+    // this code work deleted multiple
+
+    // for modal button close
+    function addstudBtn() {
+        document.getElementById("submitbtn").style.display = "inline";
+        document.getElementById("savebtn").style.display = "none";
+    }
+    // for modal buton close
     </script>
 
     <!--new line code-->
@@ -487,7 +477,6 @@ $_SESSION['sidebar']="students";
                                                             </label>
                                                         </td>
                                                     </div>
-                                                    <?php echo "<td style='display:none;' id='searchstudentId'>".$row['sectionid']."</td>";?>
                                                     <?php echo "<td>".$row['lname'].", ".$row['fname']."</td>"; ?>
                                                     <?php echo "<td>".$row['email']."</td>";?>
                                                     <?php echo "<td>".$row['sectionname']."</td>";?>
@@ -682,6 +671,7 @@ $_SESSION['sidebar']="students";
                                 </table>
                         </div>
 
+
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline;" name="addstudentsubmit">Submit</button> &nbsp 
@@ -689,6 +679,7 @@ $_SESSION['sidebar']="students";
                 <!--button onclick="addstudBtn();" type="button" class="btn btn-danger" data-dismiss="modal">Close</button-->
                 <a class="btn btn-danger" data-dismiss="modal" href="adminstudents.php">Close</a>
                 </form>
+
 
 
                         </div>

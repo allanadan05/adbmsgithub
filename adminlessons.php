@@ -86,6 +86,7 @@ $_SESSION['sidebar']="lessons";
                     <div class="section__content section__content--p30">
                         <div class="container-fluid">
                             <div>
+
                             <?php
                                 if(@$_SESSION['success_upload_pdf'])
                                     {
@@ -114,6 +115,7 @@ $_SESSION['sidebar']="lessons";
                                         unset($_SESSION['only_upload_pdf']);
                                     }
                             ?>
+
                                 <h2>Lessons</h2>
                                 <hr /><br />
                             </div>
@@ -157,7 +159,6 @@ $_SESSION['sidebar']="lessons";
                                                         <?php }
                                          }?>
                                                     </select>
-
 
                                                     <strong class="card-title"> <input type="text" name="lessontitle"
                                                             id="lessontit" placeholder="Enter Lesson Title"
@@ -248,7 +249,6 @@ $_SESSION['sidebar']="lessons";
                                         </div>
                                     </div>
                                 </div>
-
 
                                 <?php }
                             }?>
