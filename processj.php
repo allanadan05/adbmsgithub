@@ -7,7 +7,10 @@ $palatandaan =  $_GET['palatandaan'];
 
 if($palatandaan =="edit"){
 	$id=$_GET['forIpinasa'];
-	$querySaDatabase = "select *, (select subjectname from subjecttbl where subjectid=lessontbl.subjectid) as subjectname from lessontbl WHERE lessonid='$id' ";
+
+	$querySaDatabase = "select *, (select subjectname from subjecttbl where subjectid=lessontbl.subjectid) as subjectname 
+	from lessontbl WHERE lessonid='$id' ";
+
 	$executeQuery = mysqli_query($con, $querySaDatabase);
 		$pambato = array();
 		while($row = mysqli_fetch_array($executeQuery)){

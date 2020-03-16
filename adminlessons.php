@@ -86,6 +86,34 @@ $_SESSION['sidebar']="lessons";
                     <div class="section__content section__content--p30">
                         <div class="container-fluid">
                             <div>
+                            <?php
+                                if(@$_SESSION['success_upload_pdf'])
+                                    {
+                                        //echo "Success";
+                                        echo "<div class='alert alert-success' role='alert'> Successfully upload PDF File :) </div>";
+                                        unset($_SESSION['success_upload_pdf']);
+                                    }
+                                    if(@$_SESSION['failed_upload_pdf'])
+                                    {
+                                        
+                                        echo "<div class='alert alert-success' role='alert'> Sorry can't upload PDF File :( </div>";
+                                        unset($_SESSION['failed_upload_pdf']);
+                                    }
+
+                                    if(@$_SESSION['exist_upload_pdf'])
+                                    {
+                                        
+                                        echo "<div class='alert alert-warning' role='alert'> Already file exists </div>";
+                                        unset($_SESSION['exist_upload_pdf']);
+                                    }
+
+                                    if(@$_SESSION['only_upload_pdf'])
+                                    {
+                                        
+                                        echo "<div class='alert alert-warning' role='alert'> Only pdf is allowed </div>";
+                                        unset($_SESSION['only_upload_pdf']);
+                                    }
+                            ?>
                                 <h2>Lessons</h2>
                                 <hr /><br />
                             </div>

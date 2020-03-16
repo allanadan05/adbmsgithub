@@ -98,8 +98,8 @@ if(isset($_POST['editstudentsubmit'])){
 		//add image
 		if(isset($_FILES['image']['name']) && ($_FILES['image']['name']!=""))
 			{
-							$image = $_FILES['image']['name'];
-							$img_temp= $_FILES['image']['tmp_name'];
+				$image = $_FILES['image']['name'];
+				$img_temp= $_FILES['image']['tmp_name'];
 				$select_img=mysqli_query($con,"SELECT image FROM userstbl WHERE userid='".$id."'");
 				$fetch_img=mysqli_fetch_array($select_img);
 				unlink("images/profile_picture/".$fetch_img['image']); //delete na luma image

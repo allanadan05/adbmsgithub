@@ -53,9 +53,6 @@ $_SESSION['sidebar']="students";
                 document.getElementById("hiddenuserid").value = forwardedid;
                 
                 var buongObject=JSON.parse(this.responseText);
-
-
-
                 //document.getElementById("response").innerHTML = buongObject.sname;
                 document.getElementById("hiddenuserid").value = buongObject.hiddenuserid;
                 document.getElementById("email").value = buongObject.email;
@@ -66,6 +63,7 @@ $_SESSION['sidebar']="students";
                 document.getElementById("image").value = buongObject.image;
                 document.getElementById("sectionselected").label = buongObject.sectionname;
                 document.getElementById("sectionselected").value = buongObject.sectionid;
+
 
 
             }
@@ -469,7 +467,7 @@ $_SESSION['sidebar']="students";
                                         $start_from= ($page-1)*06;                                      
                                        //pagination
                                        
-                                        $sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, 
+                                        $sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, userstbl.sectionid, 
                                         (select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname,
                                          (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore
                                           from userstbl order by userstbl.lname limit $start_from,$num_of_page";
@@ -489,7 +487,7 @@ $_SESSION['sidebar']="students";
                                                             </label>
                                                         </td>
                                                     </div>
-
+                                                    <?php echo "<td style='display:none;' id='searchstudentId'>".$row['sectionid']."</td>";?>
                                                     <?php echo "<td>".$row['lname'].", ".$row['fname']."</td>"; ?>
                                                     <?php echo "<td>".$row['email']."</td>";?>
                                                     <?php echo "<td>".$row['sectionname']."</td>";?>
@@ -684,7 +682,6 @@ $_SESSION['sidebar']="students";
                                 </table>
                         </div>
 
-<<<<<<< HEAD
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline;" name="addstudentsubmit">Submit</button> &nbsp 
@@ -692,25 +689,12 @@ $_SESSION['sidebar']="students";
                 <!--button onclick="addstudBtn();" type="button" class="btn btn-danger" data-dismiss="modal">Close</button-->
                 <a class="btn btn-danger" data-dismiss="modal" href="adminstudents.php">Close</a>
                 </form>
-                
-                
-=======
-                        <!-- Modal footer -->
-                        <div class="modal-footer">
-                            <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline;"
-                                name="addstudentsubmit">Submit</button> &nbsp
-                            <button type="submit" id="savebtn" class="btn btn-warning" style="display: none;"
-                                name="editstudentsubmit">Save</button>
-                            <button onclick="addstudBtn();" type="button" class="btn btn-danger"
-                                data-dismiss="modal">Close</button>
-                            <!--a class="btn btn-danger" data-dismiss="modal" href="adminstudents.php">Close</a-->
-                            </form>
 
 
                         </div>
                     </div>
                 </div>
->>>>>>> 0c73df99fa19ef74e882d4121abce5a7bb0e32c7
+
             </div>
         </div>
         <!-- /MODAL ADD -->

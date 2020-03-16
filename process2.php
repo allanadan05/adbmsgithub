@@ -659,9 +659,15 @@ if(isset($_GET['deletestudent'])){
 $id=$_GET['id'];
 
 $query = "DELETE FROM userstbl WHERE userid='$id' ";
+
+$select_img=mysqli_query($con,"SELECT image FROM userstbl WHERE userid='".$id."'");
+$fetch_img=mysqli_fetch_array($select_img);
+unlink("images/profile_picture/".$fetch_img['image']); //delete na luma image
+
 $check = mysqli_query($con , $query) or die('Query error');
 if($check)
 {
+
 header("location: adminstudents.php?deletestudentresult=success");
 }
 else

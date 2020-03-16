@@ -78,7 +78,7 @@ $_SESSION['sidebar']="teachers";
                 // section id
                 var getDeptId = document.getElementById("SearchteachersdeptId").value = buongObject.SearchteachersdeptId;
                 var setDeptId = getDeptId; // hold value 
-                document.getElementById("teachersdeptId").value = setDeptId ;
+                //document.getElementById("teachersdeptId").value = setDeptId ;
                 //document.write(getDeptId);                
                 
                 // section id
@@ -91,8 +91,6 @@ $_SESSION['sidebar']="teachers";
                 
         }
       };
-    //var tId=document.getElementById("techersSectionId").value;
-    //document.write(tId);
     var forwardedid = id;
     //document.write(forwardedid);
     var palatandaan = "editsteacher";
@@ -486,7 +484,7 @@ $_SESSION['sidebar']="teachers";
                 <form action="addteachers.php" method="POST">
                     <input type="hidden" name="hiddenuserid" id="hiddenuserid">
                     <!--dept id for teachers-->
-                    <input type="hidden" name="teachersdeptId" id="teachersdeptId">
+                    <!--input type="hidden" name="teachersdeptId" id="teachersdeptId"-->
                     <!--dept id for teachers-->
                     <table border="0" style="border-collapse: collapse;">
                     
