@@ -212,7 +212,6 @@ $_SESSION['sidebar']="students";
                     //alert("clickDeletedniya");
                     var xmlhttp = new XMLHttpRequest();
                     
-                    // note working naman siya yung comment na ito
                      xmlhttp.onreadystatechange = function ()
                     {
                         if(xmlhttp.readyState == 4 && xmlhttp.status == 200)

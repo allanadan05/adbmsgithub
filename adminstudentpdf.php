@@ -8,7 +8,7 @@ $pdf = new FPDF();
 
 $pdf->AddPage();
 $pdf->SetFont('Arial','U',15);
-$pdf->Cell(180,5,'Students Records',0,1,'C');
+$pdf->Cell(180,5,'Student Records',0,1,'C');
 $pdf->Ln(10);
 $pdf->SetFont('Arial','B',10);
 $pdf->Cell(48,5,'Full Name',1,0);

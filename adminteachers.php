@@ -109,6 +109,20 @@ $_SESSION['sidebar']="teachers";
 
     </script>
 
+    <!-- new line code-->
+    <script>
+                //click all checkboxes
+                function checkboxes_deleted()
+                {
+                    document.getElementById("showBtn").style.display="inline";
+                    document.getElementById("oneButtonDel").style.display="none";
+                }
+                //click all checkboxes
+
+    </script>
+    <!-- new line code-->
+
+    
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -216,9 +230,9 @@ $_SESSION['sidebar']="teachers";
                                         <button onclick="addteacher()" class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#add">
                                             <i class="zmdi zmdi-plus"></i>Add Teacher</button>
                                         <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
-                                            <select class="js-select2" name="type">
+                                            <select class="js-select2" name="type" onchange="location=this.value">
                                                 <option selected="selected">Export</option>
-                                                <option value="">Pdf</option>
+                                                <option value="adminteacherpdf.php">Pdf</option>
                                             </select>
                                             <div class="dropDownSelect2"></div>
                                         </div>
@@ -231,7 +245,7 @@ $_SESSION['sidebar']="teachers";
                                             <tr>
                                                 <th>
                                                     <label class="au-checkbox">
-                                                        <input type="checkbox">
+                                                        <input type="checkbox" id="checkall">
                                                         <span class="au-checkmark"></span>
                                                     </label>
                                                 </th>
@@ -244,7 +258,10 @@ $_SESSION['sidebar']="teachers";
                                         </thead>
                                         <tbody id="response">
                                         <?php
-                                        $sql="select teachersid, concat(lname, ', ', fname , ' ', mname) AS name, email, (SELECT departmentname from departmenttbl WHERE deptid=teacherstbl.deptid) AS departmentname, (SELECT count(subjectid) from teachersubjecttbl where teachersid=teacherstbl.teachersid) AS NoOfSubject FROM teacherstbl";
+                                        $sql="select teachersid, concat(lname, ', ', fname , ' ', mname) AS name, email, 
+                                        (SELECT departmentname from departmenttbl WHERE deptid=teacherstbl.deptid) AS departmentname, 
+                                        (SELECT count(subjectid) from teachersubjecttbl where teachersid=teacherstbl.teachersid) AS NoOfSubject 
+                                        FROM teacherstbl order by teacherstbl.lname";
                                         $result=mysqli_query($con, $sql);
                                         if(mysqli_num_rows($result)){
                                         while($row = mysqli_fetch_array($result))
@@ -252,7 +269,7 @@ $_SESSION['sidebar']="teachers";
                                             <tr class="tr-shadow">
                                                 <td>
                                                     <label class="au-checkbox">
-                                                        <input type="checkbox">
+                                                        <input class="checkitem" type="checkbox">
                                                         <span class="au-checkmark"></span>
                                                     </label>
                                                 </td>
@@ -464,6 +481,14 @@ $_SESSION['sidebar']="teachers";
     <!-- Main JS-->
     <script src="js/main.js"></script>
 
+    <!-- new line code-->
+    <script>
+            //this method check na yung... all item using check box
+            $('#checkall').change(function(){
+            $('.checkitem').prop("checked", $(this).prop("checked"))
+        });
+    </script>
+    <!--new line code-->
 </body>
 
 </html>

@@ -63,7 +63,7 @@ $palatandaan =  $_GET['palatandaan'];
 			echo'<tr class="tr-shadow">';
 			echo'<td>
 					<label class="au-checkbox">
-						<input type="checkbox">
+						<input class="checkitem" type="checkbox">
 						<span class="au-checkmark"></span>
 					</label>
 				</td> ';
@@ -317,8 +317,10 @@ $("checkitem").change(function(){
 
 if($palatandaan=="searchteachers"){
 	$tosearch=$_GET['tosearch'];
-	$sql="select teachersid, concat(lname, ', ', fname , ' ', mname) AS name, email, (SELECT departmentname from departmenttbl WHERE deptid=teacherstbl.deptid) AS departmentname, (SELECT count(subjectid) from teachersubjecttbl where teachersid=teacherstbl.teachersid) AS NoOfSubject FROM teacherstbl WHERE lname LIKE '%$tosearch%' OR fname LIKE '%$tosearch%' OR email LIKE '%$tosearch%' 
-		order by teacherstbl.lname";
+	$sql="select teachersid, concat(lname, ', ', fname , ' ', mname) AS name, email, 
+	(SELECT departmentname from departmenttbl WHERE deptid=teacherstbl.deptid) AS departmentname, 
+	(SELECT count(subjectid) from teachersubjecttbl where teachersid=teacherstbl.teachersid) AS NoOfSubject FROM teacherstbl
+	 WHERE lname LIKE '%$tosearch%' OR fname LIKE '%$tosearch%' OR email LIKE '%$tosearch%' order by teacherstbl.lname";
 	$result=mysqli_query($con, $sql);
 	if(mysqli_num_rows($result)){
 		while($row = mysqli_fetch_array($result))
@@ -326,7 +328,7 @@ if($palatandaan=="searchteachers"){
 			echo'<tr class="tr-shadow">';
 			echo'<td>
 					<label class="au-checkbox">
-						<input type="checkbox">
+						<input type="checkbox" class="checkitem">
 						<span class="au-checkmark"></span>
 					</label>
 				</td> ';
@@ -356,7 +358,14 @@ if($palatandaan=="searchteachers"){
 	echo "<tr><td></td><td></td><td>No data Found</td><td></td><td></td><td></td>
 	</tr>";
 	}
-
+// new line code
+// checkboxes all selected adminteachers.php  
+echo '<script>
+$("checkitem").change(function(){
+	$(".checkall").prop,("checked", $(this).prop("checked"))
+});
+</script>
+';	
 }//end if palatandaan==searchteachers	
 
 	if($palatandaan == "editstudent"){
