@@ -42,6 +42,13 @@ $_SESSION['sidebar']="teachers";
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) { 
+                document.getElementById("modaltitleadd").style.display="none";
+                document.getElementById("modaltitleedit").style.display="inline";
+                document.getElementById("hiddenuserid").value = forwardedid;
+                document.getElementById("submitbtn").style.display="none";
+                document.getElementById("savebtn").style.display="inline";
+                
+                /*
                 var buongObject=JSON.parse(this.responseText);
                 //document.getElementById("response").innerHTML = buongObject.sname;
                 document.getElementById("email").value = buongObject.email;
@@ -49,21 +56,43 @@ $_SESSION['sidebar']="teachers";
                 document.getElementById("lname").value = buongObject.lname;
                 document.getElementById("fname").value = buongObject.fname;
                 document.getElementById("mname").value = buongObject.mname;
+                // new line code
+                document.getElementById("dep").value = buongObject.dep;
+                document.getElementById("sec").value = buongObject.sec;
+                // new line code
                 document.getElementById("sectionselected1").label = buongObject.departmentname;
                 document.getElementById("sectionselected1").value = buongObject.deptid;
                 document.getElementById("sectionselected2").label = buongObject.sectionname;
                 document.getElementById("sectionselected2").value = buongObject.sectionid;
                 //document.getElementById("sectionselected3").label = buongObject.subjectname;
                 //document.getElementById("sectionselected3").value = buongObject.subjectid;
-                document.getElementById("modaltitleadd").style.display="none";
-                document.getElementById("modaltitleedit").style.display="inline";
-                document.getElementById("hiddenuserid").value = forwardedid;
-                document.getElementById("submitbtn").style.display="none";
-                document.getElementById("savebtn").style.display="inline";
+                */
+                var buongObject=JSON.parse(this.responseText);
+                 
+                document.getElementById("email").value = buongObject.email;
+                document.getElementById("password").value = buongObject.password;
+                document.getElementById("lname").value = buongObject.lname;
+                document.getElementById("fname").value = buongObject.fname;
+                document.getElementById("mname").value = buongObject.mname;
+
+                // section id
+                var getDeptId = document.getElementById("SearchteachersdeptId").value = buongObject.SearchteachersdeptId;
+                var setDeptId = getDeptId; // hold value 
+                document.getElementById("teachersdeptId").value = setDeptId ;
+                //document.write(getDeptId);                
+                
+                // section id
+
+                document.getElementById("sectionselected1").value = buongObject.deptid;
+                document.getElementById("sectionselected1").label = buongObject.departmentname;
+
+                document.getElementById("sectionselected2").value = buongObject.sectionid;
+                document.getElementById("sectionselected2").label = buongObject.sectionname;
                 
         }
       };
-
+    //var tId=document.getElementById("techersSectionId").value;
+    //document.write(tId);
     var forwardedid = id;
     //document.write(forwardedid);
     var palatandaan = "editsteacher";
@@ -119,6 +148,53 @@ $_SESSION['sidebar']="teachers";
                 }
                 //click all checkboxes
 
+                function oneCheckBoxes()
+                {
+                    document.getElementById("oneButtonDel").style.display="inline";
+                    document.getElementById("showBtn").style.display="none";
+                }
+                function multiple_ajax_del()
+                {
+                    //alert("click");
+                    var eachCheckBoxes = null;
+                    var eachCheckBoxesElements = document.getElementsByName('num[]');
+                    for(var i=0;eachCheckBoxesElements[i];++i)
+                    {
+                        //alert(eachCheckBoxesElements[i].checked); // true
+                        
+                        if(eachCheckBoxesElements[i].checked)
+                        {
+                            eachCheckBoxes=eachCheckBoxesElements[i].value;
+                            //alert(eachCheckBoxes);
+                            delete_each_value(eachCheckBoxes);
+                        }
+                    }
+                }
+
+                function delete_each_value(eachCheckBoxes)
+                {
+                    //alert("clickDeletedniya");
+                    var xmlhttp = new XMLHttpRequest();
+                    
+                     xmlhttp.onreadystatechange = function ()
+                    {
+                        if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                            {
+                                document.getElementById('response').innerHTML=this.responseText; // refresh table purpose niya
+                                
+                            }
+                    }
+                    var mul_del = "ajaxMulitpleDeleteTeachers";
+                    xmlhttp.open("GET","process2.php?id="+eachCheckBoxes+"&mul_delTeachers="+mul_del,true);
+                    xmlhttp.send();
+                    window.location.reload();                     
+                }
+                /*
+                function addteachersBtn(){
+                document.getElementById("submitbtn").style.display="inline";
+                document.getElementById("savebtn").style.display="none";
+                }
+                */
     </script>
     <!-- new line code-->
 
@@ -226,6 +302,19 @@ $_SESSION['sidebar']="teachers";
                                         <button class="au-btn-filter">
                                             <i class="zmdi zmdi-filter-list"></i>Filters</button>                                       
                                     </div>
+
+                                    <!-- MULTIPLE DELETED-->
+                                     <!--showed button Deleted-->
+                                     <button onclick="multiple_ajax_del()" style="display:none;" id="showBtn" class="btn btn-danger" type="button"><span class="zmdi zmdi-delete"></span></button>
+                                    <!--showed button Deleted-->
+                                    <!-- MULTIPLE DELETED-->
+
+                                    <!--ONE CHECK DELETE BUTTON-->
+                                     <!--showed button Deleted-->
+                                     <button onclick="multiple_ajax_del()" style="display:none;" id="oneButtonDel" class="btn btn-danger" type="button"><span class="zmdi zmdi-delete"></span></button>
+                                    <!--showed button Deleted-->
+                                    <!--ONE CHECK DELETE BUTTON-->
+
                                     <div class="table-data__tool-right">
                                         <button onclick="addteacher()" class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#add">
                                             <i class="zmdi zmdi-plus"></i>Add Teacher</button>
@@ -245,7 +334,7 @@ $_SESSION['sidebar']="teachers";
                                             <tr>
                                                 <th>
                                                     <label class="au-checkbox">
-                                                        <input type="checkbox" id="checkall">
+                                                        <input onclick="checkboxes_deleted();" type="checkbox" id="checkall">
                                                         <span class="au-checkmark"></span>
                                                     </label>
                                                 </th>
@@ -257,11 +346,35 @@ $_SESSION['sidebar']="teachers";
                                             </tr>
                                         </thead>
                                         <tbody id="response">
+                                        <!--pagination-->
                                         <?php
+                                        /*
                                         $sql="select teachersid, concat(lname, ', ', fname , ' ', mname) AS name, email, 
                                         (SELECT departmentname from departmenttbl WHERE deptid=teacherstbl.deptid) AS departmentname, 
                                         (SELECT count(subjectid) from teachersubjecttbl where teachersid=teacherstbl.teachersid) AS NoOfSubject 
                                         FROM teacherstbl order by teacherstbl.lname";
+                                        */
+                                        if(isset($_GET['page']))
+                                        {
+                                            $page = $_GET['page'];
+                                        }
+                                         else
+                                        {
+                                            $page = 1;
+                                        }
+                                        
+                                        $num_of_page = 05; // limit ng page niya sa table
+                                        $start_from= ($page-1)*06;                                      
+                                       //pagination
+                                        
+                                        ?>
+                                        <!--pagination-->
+
+                                        <?php
+                                        $sql="select teachersid,deptid, concat(lname, ', ', fname , ' ', mname) AS name, email, 
+                                        (SELECT departmentname from departmenttbl WHERE deptid=teacherstbl.deptid) AS departmentname, 
+                                        (SELECT count(subjectid) from teachersubjecttbl where teachersid=teacherstbl.teachersid) AS NoOfSubject 
+                                        FROM teacherstbl order by teacherstbl.lname limit $start_from,$num_of_page";
                                         $result=mysqli_query($con, $sql);
                                         if(mysqli_num_rows($result)){
                                         while($row = mysqli_fetch_array($result))
@@ -269,10 +382,12 @@ $_SESSION['sidebar']="teachers";
                                             <tr class="tr-shadow">
                                                 <td>
                                                     <label class="au-checkbox">
-                                                        <input class="checkitem" type="checkbox">
+                                                        <input onclick="oneCheckBoxes();" name="num[]" class="checkitem" type="checkbox" value="<?php echo $row["teachersid"]; ?>">
                                                         <span class="au-checkmark"></span>
                                                     </label>
                                                 </td>
+                                                
+                                                <?php echo "<td style='display:none;' id='SearchteachersdeptId'>".$row['deptid']."</td>";?>
                                                 <?php echo "<td>".$row['name']."</td>";?>
                                                <?php echo "<td>".$row['email']."</td>";?>
                                                <?php echo "<td>".$row['departmentname']."</td>";?>
@@ -303,6 +418,34 @@ $_SESSION['sidebar']="teachers";
                                     ?>
                                         </tbody>
                                     </table>
+                                    <?php
+                                    //buttons page pagination
+                                
+                                    $perpage="select teachersid, concat(lname, ', ', fname , ' ', mname) AS name, email, 
+                                    (SELECT departmentname from departmenttbl WHERE deptid=teacherstbl.deptid) AS departmentname, 
+                                    (SELECT count(subjectid) from teachersubjecttbl where teachersid=teacherstbl.teachersid) AS NoOfSubject 
+                                    FROM teacherstbl order by teacherstbl.lname";
+
+                                      $perpageResult=mysqli_query($con,$perpage);
+                                      $totalRecord=mysqli_num_rows($perpageResult);
+                                        // note lang totalpage=ceil(rows/numpage) - ceil convert to decimal to integer
+                                      $totalPage=ceil($totalRecord/$num_of_page);
+                                        //echo $totalPage;
+                                        if($page>1)
+                                        {
+                                            echo "<a class='btn btn-warning' href='adminteachers.php?page=".($page-1)."'>Previous</a>";
+                                        }
+                                      for($i=1;$i<$totalPage;$i++)
+                                        {
+                                            echo "<a class='btn btn-info' href='adminteachers.php?page=".$i."'>$i</a>";
+                                        }
+                                        if($page>1)
+                                        {
+                                            echo "<a class='btn btn-primary' href='adminteachers.php?page=".($page+1)."'>Next</a>";
+                                        }
+                                    //buttons page pagination                                      
+                                    ?> 
+                                
                                 </div>
                           
                                 <!-- END DATA TABLE -->
@@ -342,7 +485,11 @@ $_SESSION['sidebar']="teachers";
                 
                 <form action="addteachers.php" method="POST">
                     <input type="hidden" name="hiddenuserid" id="hiddenuserid">
+                    <!--dept id for teachers-->
+                    <input type="hidden" name="teachersdeptId" id="teachersdeptId">
+                    <!--dept id for teachers-->
                     <table border="0" style="border-collapse: collapse;">
+                    
                     <tr><td>Email:</td><td><input type="email"  name="email" id="email" placeholder="Enter Email" required></td></tr>
                     <tr><td>Password:</td><td><input type="password" name="password" id="password" placeholder="Enter Password " required></td></tr>
                     <tr><td>Firstname:</td><td><input type="text"  name="fname" id="fname" placeholder="Enter Firstname" required></td></tr>
@@ -380,9 +527,10 @@ $_SESSION['sidebar']="teachers";
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline" name="addteachersubmit">Submit</button> &nbsp 
-                <button type="submit" id="savebtn" class="btn btn-warning" style="display: none" name="editteachersubmit">Save</button>
-                <button type="button" id="close-tbn" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline;" name="addteachersubmit">Submit</button> &nbsp 
+                <button type="submit" id="savebtn" class="btn btn-warning" style="display: none;" name="editteachersubmit">Save</button>
+                <a class="btn btn-danger" data-dismiss="modal" href="adminteachers.php">Close</a>
+                <!--button onclick="addteachersBtn();" type="button" id="close-tbn" class="btn btn-danger" data-dismiss="modal">Close</button-->
                 </form>
                 
                 

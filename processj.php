@@ -7,13 +7,15 @@ $palatandaan =  $_GET['palatandaan'];
 
 if($palatandaan =="edit"){
 	$id=$_GET['forIpinasa'];
-	$querySaDatabase = "SELECT * FROM lessontbl WHERE lessonid='$id' ";
+	$querySaDatabase = "select *, (select subjectname from subjecttbl where subjectid=lessontbl.subjectid) as subjectname from lessontbl WHERE lessonid='$id' ";
 	$executeQuery = mysqli_query($con, $querySaDatabase);
 		$pambato = array();
 		while($row = mysqli_fetch_array($executeQuery)){
 			$pambato['lessontitle'] = $row['lessontitle'];
 			$pambato['lessondetail'] = $row['lessondetail'];
 			$pambato['lessonpdf'] = $row['lessonpdf'];
+			$pambato['lessonsubjectname'] = $row['subjectname'];
+			$pambato['lessonsubjectid'] = $row['subjectid'];
 		}
 		echo json_encode($pambato);
 }
@@ -49,6 +51,26 @@ if($palatandaan =="editsteacher"){
 			$pambato['fname'] = $row['fname'];
 			$pambato['lname'] = $row['lname'];
 			$pambato['mname'] = $row['mname'];
+
+			$pambato['SearchteachersdeptId'] = $row['deptid']; // find section by teacher compare to (department id for teacher)
+			$findDeptId = $pambato['SearchteachersdeptId']; // hold value dept id niya
+
+			// finding a department para makuha o kumpara section hinahawakan ng teacher po
+				// teachersPerSection
+				$qq = "SELECT * FROM teachersectiontbl WHERE sectionid='$findDeptId'";
+				$ee = mysqli_query($con, $qq);
+				$rr = mysqli_fetch_array($ee);
+				$pambato['sectionid'] = $rr['sectionid'];
+				// teachersPerSection
+
+				// finding section by teachers
+				$ss="SELECT * FROM sectiontbl where sectionid=".$rr['sectionid'];
+				$ff = mysqli_query($con, $ss);
+				$tt = mysqli_fetch_array($ff);
+				$pambato['sectionname'] = $tt['sectionname'];
+				// finding section by teachers 
+			// finding a department para makuha o kumpara section hinahawakan ng teacher po			
+
 			$deptid=$row['deptid'];
 			
 			$qq = "SELECT * FROM departmenttbl WHERE deptid='$deptid' ";
@@ -56,10 +78,13 @@ if($palatandaan =="editsteacher"){
 			while ($rr = mysqli_fetch_array($ee)){
 			$pambato['departmentname'] = $rr['departmentname'];
 			$pambato['deptid'] = $rr['deptid'];
-
+			
 		}
 
-		$qq = "SELECT * FROM teachersectiontbl WHERE teachersid='$id' ";
+
+		//$qq = "SELECT * FROM teachersectiontbl WHERE teachersid='$id' ";
+		/*
+		$qq = "SELECT * FROM teachersectiontbl WHERE sectionid='$id' ";
 			$ee = mysqli_query($con, $qq);
 			$rr = mysqli_fetch_array($ee);
 			$pambato['sectionid'] = $rr['sectionid'];
@@ -68,7 +93,7 @@ if($palatandaan =="editsteacher"){
 			$ff = mysqli_query($con, $ss);
 			$tt = mysqli_fetch_array($ff);
 			$pambato['sectionname'] = $tt['sectionname'];
-
+		*/
 	echo json_encode($pambato);
 
 	}

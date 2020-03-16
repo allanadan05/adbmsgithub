@@ -1,14 +1,27 @@
 <?php 
 include('connection.php');
 // adminstudents.php multiple delete ajax
-@$action=$_GET['mul_del'];
-if($action=="ajaxMulitpleDelete")
+@$actionStudents=$_GET['mul_delStudents'];
+if($actionStudents=="ajaxMulitpleDeleteStudents")
 {
 	$id=$_GET['id'];
 	$delAjax="DELETE FROM userstbl WHERE userid=$id";
 	$sqlAjaxDel=mysqli_query($con,$delAjax);
 }
 // adminstudents.php
+
+//----
+
+// adminteachers.php multiple delete ajax
+@$actionTeachers=$_GET['mul_delTeachers'];
+if($actionTeachers=="ajaxMulitpleDeleteTeachers")
+{
+	$id=$_GET['id'];
+	$delAjax="DELETE FROM teacherstbl WHERE teachersid=$id";
+	$sqlAjaxDel=mysqli_query($con,$delAjax);
+}
+// adminteachers.php
+
 
 //pagination 
 if(isset($_GET['page']))
@@ -54,7 +67,10 @@ $palatandaan =  $_GET['palatandaan'];
 	if($palatandaan=="changeddepartment"){
 		$secid=$_GET['secid'];
 		
-		$sql="select deptid, teachersid, concat(lname, ', ', fname , ' ', mname) AS name, email, (SELECT departmentname from departmenttbl WHERE deptid=teacherstbl.deptid) AS departmentname, (SELECT count(subjectid) from teachersubjecttbl where teachersid=teacherstbl.teachersid) AS NoOfSubject FROM teacherstbl WHERE deptid=".$secid. " order by teacherstbl.lname";
+		$sql="select deptid, teachersid, concat(lname, ', ', fname , ' ', mname) AS name, email, 
+		(SELECT departmentname from departmenttbl WHERE deptid=teacherstbl.deptid) AS departmentname, 
+		(SELECT count(subjectid) from teachersubjecttbl where teachersid=teacherstbl.teachersid) AS NoOfSubject 
+		FROM teacherstbl WHERE deptid=".$secid. " order by teacherstbl.lname limit $start_from,$num_of_page";
 		// echo $sql;
 	$result=mysqli_query($con, $sql);
 	if(mysqli_num_rows($result)){
@@ -62,11 +78,12 @@ $palatandaan =  $_GET['palatandaan'];
 		{
 			echo'<tr class="tr-shadow">';
 			echo'<td>
-					<label class="au-checkbox">
-						<input class="checkitem" type="checkbox">
-						<span class="au-checkmark"></span>
+					<label class="au-checkbox">';
+					echo "<input onclick='oneCheckBoxes();' name='num[]' class='checkitem' type='checkbox' value=$row[teachersid]>";
+			echo'<span class="au-checkmark"></span>
 					</label>
 				</td> ';
+				echo "<td style='display:none;' id='SearchteachersdeptId'>".$row['deptid']."</td>";
 			echo "<td>".$row['name']."</td>";
 			echo "<td>".$row['email']."</td>";
 			echo "<td>".$row['departmentname']."</td>";
@@ -117,7 +134,7 @@ $palatandaan =  $_GET['palatandaan'];
 							<td>
 								<label class='au-checkbox'>
 									";
-							echo "<input name='num[]' class='checkitem' type='checkbox' value=$row[userid]>";
+							echo "<input class='checkitem' name='num[]' type='checkbox' value=$row[userid]>";
 							echo"<span class='au-checkmark'></span>
 								</label>
 							</td>";
@@ -317,21 +334,23 @@ $("checkitem").change(function(){
 
 if($palatandaan=="searchteachers"){
 	$tosearch=$_GET['tosearch'];
-	$sql="select teachersid, concat(lname, ', ', fname , ' ', mname) AS name, email, 
+	$sql="select teachersid,deptid, concat(lname, ', ', fname , ' ', mname) AS name, email, 
 	(SELECT departmentname from departmenttbl WHERE deptid=teacherstbl.deptid) AS departmentname, 
 	(SELECT count(subjectid) from teachersubjecttbl where teachersid=teacherstbl.teachersid) AS NoOfSubject FROM teacherstbl
-	 WHERE lname LIKE '%$tosearch%' OR fname LIKE '%$tosearch%' OR email LIKE '%$tosearch%' order by teacherstbl.lname";
+	 WHERE lname LIKE '%$tosearch%' OR fname LIKE '%$tosearch%' OR email LIKE '%$tosearch%' order by teacherstbl.lname limit $start_from,$num_of_page";
 	$result=mysqli_query($con, $sql);
 	if(mysqli_num_rows($result)){
 		while($row = mysqli_fetch_array($result))
 		{
 			echo'<tr class="tr-shadow">';
 			echo'<td>
-					<label class="au-checkbox">
-						<input type="checkbox" class="checkitem">
-						<span class="au-checkmark"></span>
+					<label class="au-checkbox">';
+					echo "<input onclick='oneCheckBoxes();' name='num[]' class='checkitem' type='checkbox' value=$row[teachersid]>";
+						//<input onclick="oneCheckBoxes();" name="num[]" type="checkbox" class="checkitem">
+					echo'	<span class="au-checkmark"></span>
 					</label>
 				</td> ';
+			echo "<td style='display:none;' id='SearchteachersdeptId'>".$row['deptid']."</td>";
 			echo "<td>".$row['name']."</td>";
 			echo "<td>".$row['email']."</td>";
 			echo "<td>".$row['departmentname']."</td>";
