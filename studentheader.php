@@ -10,7 +10,7 @@ include('session.php');
 
                         <div class="header-wrap float-left">
                         <a class="logo row" href="#">
-                                <img src="images/icon/logo.png" alt="BSU" style="height: 50px; width:50px;"> 
+                                <img src="images/icon/logo-mini_bsu.png" alt="BSU" style="height: 50px; width:50px;"> 
                                 <b style="font-size: 30px; color: maroon;">&nbsp &nbsp Bulacan State University</b>
                                 <!-- <span><h1><a>&nbsp &nbsp Bulacan State University</a></h1></span> -->
                         </a>
