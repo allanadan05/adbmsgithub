@@ -1,4 +1,5 @@
 <?php
+session_start();
 include('connection.php');
 
 if(isset($_POST['addstudentsubmit'])){
@@ -36,9 +37,21 @@ if(isset($_POST['addstudentsubmit'])){
 			$sql = "INSERT INTO userstbl(email,password,fname,lname,mname,image,sectionid) VALUES ('$email','$pword','$fname','$lname','$mname','$image','$sectionid')";
 			//add image
 
-					move_uploaded_file($img_temp,"images/profile_picture/".$image);
-					mysqli_query($con,$sql);
-		 			header("location: adminstudents.php?new=student");
+					if(file_exists("images/profile_picture/$image"))
+					{
+							header("location: adminstudents.php?exist=image");		
+					}
+					else
+					{
+						$_SESSION['upload_student']=$image;
+						if($_SESSION['upload_student'])
+						{
+							move_uploaded_file($img_temp,"images/profile_picture/".$image);
+							mysqli_query($con,$sql);
+							header("location: adminstudents.php?new=student");
+						}
+					}
+		 			//header("location: adminstudents.php?new=student");
 		}
 	/*
 	$sql = "INSERT INTO userstbl(email,password,fname,lname,mname,sectionid) VALUES ('$email','$pword','$fname','$lname','$mname','$sectionid')";
@@ -102,23 +115,36 @@ if(isset($_POST['editstudentsubmit'])){
 				$img_temp= $_FILES['image']['tmp_name'];
 				$select_img=mysqli_query($con,"SELECT image FROM userstbl WHERE userid='".$id."'");
 				$fetch_img=mysqli_fetch_array($select_img);
-				unlink("images/profile_picture/".$fetch_img['image']); //delete na luma image
-				move_uploaded_file($img_temp,"images/profile_picture/".$image);
-$sql = "UPDATE userstbl SET email='$email' ,password='$pword', fname='$fname',lname='$lname',mname='$mname',image='$image',sectionid='$sectionid' WHERE userid='$id' ";
-				mysqli_query($con,$sql);
-				 header("location: adminstudents.php?editstudentresult=success");
+				if(file_exists("images/profile_picture/$image"))
+				{
+					header("location: adminstudents.php?exist=image");	
+					//echo "<script>alert('already exist')</script>";
+				}
+				else
+				{	
+					$_SESSION['upload_student_new_image']=$image;
+					if($_SESSION['upload_student_new_image'])
+					{
+					unlink("images/profile_picture/".$fetch_img['image']); //delete na luma image
+					move_uploaded_file($img_temp,"images/profile_picture/".$image);
+					$sql = "UPDATE userstbl SET email='$email' ,password='$pword', fname='$fname',lname='$lname',mname='$mname',image='$image',sectionid='$sectionid' WHERE userid='$id' ";
+					mysqli_query($con,$sql);
+					 header("location: adminstudents.php?editstudentresult=success");
+					
+					}
+				}
+
 			}
 		else
 			{
-							$image = $_FILES['image']['name'];
-							$img_temp= $_FILES['image']['tmp_name'];
-							$image="defaultPIC.png";
-
-				$select_img=mysqli_query($con,"SELECT image FROM userstbl WHERE userid='".$id."'");
-				$fetch_img=mysqli_fetch_array($select_img);
-				unlink("images/profile_picture/".$fetch_img['image']); //delete na luma image
-				move_uploaded_file($img_temp,"images/defaultpic/".$image);
-			$sql = "UPDATE userstbl SET email='$email' ,password='$pword', fname='$fname',lname='$lname',mname='$mname',image='$image',sectionid='$sectionid' WHERE userid='$id' ";
+							//$image = $_FILES['image']['name'];
+							//$img_temp= $_FILES['image']['tmp_name'];
+							//$image="defaultPIC.png";
+				//$select_img=mysqli_query($con,"SELECT image FROM userstbl WHERE userid='".$id."'");
+				//$fetch_img=mysqli_fetch_array($select_img);
+				//unlink("images/profile_picture/".$fetch_img['image']); //delete na luma image
+				//move_uploaded_file($img_temp,"images/defaultpic/".$image);
+			$sql = "UPDATE userstbl SET email='$email' ,password='$pword', fname='$fname',lname='$lname',mname='$mname',sectionid='$sectionid' WHERE userid='$id' ";
 				mysqli_query($con,$sql);
 				  $_SESSION["lname"]=$lname;
 				$_SESSION["fname"]=$fname;

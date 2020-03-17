@@ -51,10 +51,8 @@ $_SESSION['sidebar']="students";
                 document.getElementById("submitbtn").style.display = "none";
                 document.getElementById("savebtn").style.display = "inline";
                 document.getElementById("hiddenuserid").value = forwardedid;
-
                 
                 var buongObject=JSON.parse(this.responseText);
-
 
                 //document.getElementById("response").innerHTML = buongObject.sname;
                 document.getElementById("hiddenuserid").value = buongObject.hiddenuserid;
@@ -63,7 +61,20 @@ $_SESSION['sidebar']="students";
                 document.getElementById("lname").value = buongObject.lname;
                 document.getElementById("fname").value = buongObject.fname;
                 document.getElementById("mname").value = buongObject.mname;
-                document.getElementById("image").value = buongObject.image;
+
+                 var imgStud = document.getElementById("resultimage").value = buongObject.resultimage; // result image
+                 if(imgStud)
+                 {
+                    var imgStud = document.getElementById("resultimage").value = "Image Name: " + buongObject.resultimage; 
+                    //var resultimg = document.getElementById("displayimage").innerHTML = "Image Name: "+  imgStud ;
+                 }
+                 else
+                 {
+                    var imgStud = document.getElementById("resultimage").value = "Image Name: None";
+                    //var resultimg = document.getElementById("displayimage").innerHTML = "Image Name: None";
+                 }
+                 var seeimg = document.getElementById("showStudtimage").style.display="inline";
+
                 document.getElementById("sectionselected").label = buongObject.sectionname;
                 document.getElementById("sectionselected").value = buongObject.sectionid;
 
@@ -285,6 +296,7 @@ $_SESSION['sidebar']="students";
                             <h2>Students</h2>
                             <hr />
                             <?php
+                            
                              if(isset($_GET['editstudentresult'])){
                                 $editstudentresult=$_GET['editstudentresult'];
                                 if($editstudentresult=="success"){
@@ -296,6 +308,8 @@ $_SESSION['sidebar']="students";
                                 echo "<div class='alert alert-primary' role='alert'> cannot be updated :( </div>";
                                 } 
                             }
+                            
+                   
                             
                             if(isset($_GET['deletestudentresult'])){
                                 $deletestudentresult=$_GET['deletestudentresult'];
@@ -344,6 +358,11 @@ $_SESSION['sidebar']="students";
                      if(isset($_GET['exist']) && $_GET['exist']=="emailEdit") 
                     {
                       echo "<div class='alert alert-danger' role='alert'>Already Exist Email </div>";
+                    }  
+
+                    if(isset($_GET['exist']) && $_GET['exist']=="image") 
+                    {
+                      echo "<div class='alert alert-primary' role='alert'>Already exist image</div>";
                     }  
 
                     ?>
@@ -621,15 +640,27 @@ $_SESSION['sidebar']="students";
                             <form action="adduser.php" method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="hiddenuserid" id="hiddenuserid">
                                 <table border="0" style="border-collapse: collapse;">
-                                    <tr>
+
+                                <tr>
                                         <td>Image:</td>
                                         <td><input type="file" id="image" name="image" value=""></td>
-                                    </tr>
+                                </tr>
+                                <div style="display:none;" id="showStudtimage">
+                                <!-- image view per student-->
+                                <!--input type="text" id="hiddenuseridStudent">
+                                <input type="text" id="resultimage" value="test"-->
+                                <!--span id="displayimage"></span-->
+                                <input type="test" id="resultimage" value="test" value="test" readonly>                                
+                                <!-- image view per student-->
+        
+                                </div>
                                     <tr>
                                         <td>Email:</td>
                                         <td><input type="email" name="email" id="email" placeholder="Enter Email"
                                                 onkeyup="validEmail();" maxlength="30" required></td>
-                                    </tr><span style=" margin: 40px 0 0 20px;" id="chkEmail"></span>
+                                    <br>
+                                    </tr>
+                                    <span style=" margin: 40px 0 0 20px;" id="chkEmail"></span>
                                     <tr>
                                         <td>Password:</td>
                                         <td><input type="password" name="password" id="password"

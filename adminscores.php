@@ -87,7 +87,7 @@ $_SESSION['sidebar']="scores";
                                         <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
                                             <select class="js-select2" name="type" onchange="location=this.value">
                                                 <option selected="selected">Export</option>
-                                                <option value="">Pdf</option>
+                                                <option value="adminscorespdf.php">Pdf</option>
                                                 <!--option value="">HTML</option-->
                                             </select>
                                             <div class="dropDownSelect2"></div>
@@ -109,7 +109,11 @@ $_SESSION['sidebar']="scores";
                                         </thead>
                                         <tbody id="response">
                                             <?php 
-                                            $sql="select (select concat(lname, ', ', fname) as name from userstbl where userid=scoretbl.userid) as user, (SELECT quizname from quiztbl where quizid=scoretbl.quizid) as quizname, concat(totalscore, '/', totalitems) as score, averagescore, remarks from scoretbl ORDER BY user";
+                                            $sql="select (select concat(lname, ', ', fname) as name from userstbl 
+                                            where userid=scoretbl.userid) as user, 
+                                            (SELECT quizname from quiztbl where quizid=scoretbl.quizid) as quizname,
+                                             concat(totalscore, '/', totalitems) as score, 
+                                             averagescore, remarks from scoretbl ORDER BY user";
                                             $result=mysqli_query($con, $sql);
                                             while($row=mysqli_fetch_array($result)){
 

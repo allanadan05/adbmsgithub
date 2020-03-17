@@ -399,7 +399,10 @@ $("checkitem").change(function(){
 				$pambato['lname'] = $row['lname'];
 				$pambato['fname'] = $row['fname'];					
 				$pambato['mname'] = $row['mname'];
-				$pambato['image'] = $row['image'];
+				$pambato['resultimage'] = $row['image'];
+
+				//$pambato['hiddenuseridStudent'] = $row['image']; // result image view
+				
 				$sec=$row['sectionid'];
 				$qq = "SELECT * FROM sectiontbl WHERE sectionid='$sec' ";
 				$ee = mysqli_query($con, $qq);

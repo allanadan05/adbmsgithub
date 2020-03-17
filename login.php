@@ -42,12 +42,19 @@ if($result['email'] == $email && $result['password']== $password){
         $insert=mysqli_query($con, $sql);
         $result = mysqli_fetch_array($insert);
         if($result['email'] == $email && $result['password']== $password){
-
+            /*
             $_SESSION['teachersid']=$result['teachersid'];
             $_SESSION['email']=$result['email'];
             $_SESSION['lname']=$result['lname'];
             $_SESSION['fname']=$result['fname'];
             header("Location: teacherindex.php?login=s&fname=".$result['fname']);
+            */
+
+            $_SESSION['teachersid']=$result['teachersid'];
+            $_SESSION['email']=$result['email'];
+            $_SESSION['lname']=$result['lname'];
+            $_SESSION['fname']=$result['fname'];
+            header("Location: teacherindex.php");
             exit();
         }else{
             $sql="SELECT * FROM admintbl WHERE email='$email' AND password='$password'";

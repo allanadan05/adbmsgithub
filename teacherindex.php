@@ -74,6 +74,7 @@ $teacherdeptid=teachergetdeptid($teachersid);
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <?php 
+                        /*
                             if(isset($_GET['login'])){
                                 $login=$_GET['login'];
                                 $name=$_GET['fname'];
@@ -81,6 +82,11 @@ $teacherdeptid=teachergetdeptid($teachersid);
                                 if($login=="s"){
                                 echo "<div class='alert alert-success' role='alert'> Welcome ". $name ."! </div>";
                                 }
+                            }
+                            */
+                            if(isset($_SESSION['fname']))
+                            {
+                                echo "<div class='alert alert-success' role='alert'> Welcome ". $_SESSION['fname'] ."! </div>";
                             }
                             ?>
                         <div class="row">
