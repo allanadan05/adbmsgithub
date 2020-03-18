@@ -20,85 +20,77 @@ $quizid=$_GET['quizid'];
 <head>
 
     <script>
-    function submitanswer(count, questid) {
-
-
-        var useranswer = "";
-        if (document.getElementById("radio1" + count).checked) {
-            useranswer = "A";
-        } else if (document.getElementById("radio2" + count).checked) {
-            useranswer = "B";
-        } else if (document.getElementById("radio3" + count).checked) {
-            useranswer = "C";
-        } else if (document.getElementById("radio4" + count).checked) {
-            useranswer = "D";
-        } else {
-            useranswer = "undefined";
-        }
-
-
-        var score = document.getElementById("score").innerHTML;
-        var avgscore = document.getElementById("avgscore").innerHTML;
-        var noofitems = document.getElementById("noOfQuestion").innerHTML;
-        document.getElementById("noOfItems").innerHTML = noofitems;
-
-
-        var ans = document.getElementById("answer" + count).value;
-        var ans2 = ans;
-        if (useranswer == ans) {
-            document.getElementById("message" + count).value = "Correct";
-            document.getElementById("score").innerHTML = (Number(score) + 1);
-            score = document.getElementById("score").innerHTML;
-            noofitems = document.getElementById("noOfQuestion").innerHTML;
-            document.getElementById("avgscore").innerHTML = (((Number(score) / Number(noofitems)) * 50) + 50) + "%";
-            document.getElementById("submit" + count).style.display = "none";
-            document.getElementById("finish").style.display = "inline";
-            //document.getElementById("<?php $ts ?>").innerHTML=(Number(score)+1);
-            //document.getElementById("<?php $as ?>").innerHTML=(((Number(score)/Number(noofitems))*50)+50)+"%";
-        } else if (useranswer == "undefined") {
-            document.getElementById("message" + count).value = "Please select an answer";
-            document.getElementById("submit" + count).style.display = "inline";
-            document.getElementById("finish").style.display = "none";
-            document.getElementById("answer" + count).value = ans2;
-        } else {
-            document.getElementById("message" + count).value = "Wrong! " + ", Correct answer is: " + ans;
-            document.getElementById("submit" + count).style.display = "none";
-            document.getElementById("finish").style.display = "inline";
-        }
-
-
-    }
-
-    function qresult(id) {
-        document.getElementById("quizresults").style.display = "inline";
-        document.getElementById("quests").style.display = "none";
-        document.getElementById("finish").style.display = "none";
-        document.getElementById("startbtn").style.display = "none";
-        document.getElementById("modalbtn2").click();
-        document.getElementById("timer").innerHTML = "00:00"
-        document.getElementById("exitbtn").style.display = "inline";
-        document.getElementById("savequizbtn").style.display = "inline";
-    }
-
-    function savequiznow() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (xhttp.readyState == 4 && xhttp.status == 200) {
-                document.getElementById("resultsaved").innerHTML = this.responseText;
-                document.getElementById("savequizbtn").style.display = "none";
+        function submitanswer(count, questid) {
+            var useranswer = "";
+            if (document.getElementById("radio1" + count).checked) {
+                useranswer = "A";
+            } else if (document.getElementById("radio2" + count).checked) {
+                useranswer = "B";
+            } else if (document.getElementById("radio3" + count).checked) {
+                useranswer = "C";
+            } else if (document.getElementById("radio4" + count).checked) {
+                useranswer = "D";
+            } else {
+                useranswer = "undefined";
             }
-        };
-        var score = document.getElementById("score").innerHTML;
-        var avgscore = document.getElementById("avgscore").innerHTML;
-        var userid = document.getElementById("userprofile").value;
-        var quizid = document.getElementById("quizquizid").value;
-        noofitems = document.getElementById("noOfQuestion").innerHTML;
-        var palatandaan = "savequiznow";
-        xhttp.open("GET", "process2.php?score=" + score + "&avgscore=" + avgscore + "&userid=" + userid + "&quizid=" +
-            quizid + "&noofitems=" + noofitems + "&palatandaan=" + palatandaan, true);
-        xhttp.send();
+            var score = document.getElementById("score").innerHTML;
+            var avgscore = document.getElementById("avgscore").innerHTML;
+            var noofitems = document.getElementById("noOfQuestion").innerHTML;
+            document.getElementById("noOfItems").innerHTML = noofitems;
+            var ans = document.getElementById("answer" + count).value;
+            var ans2 = ans;
+            if (useranswer == ans) {
+                document.getElementById("message" + count).value = "Correct";
+                document.getElementById("score").innerHTML = (Number(score) + 1);
+                score = document.getElementById("score").innerHTML;
+                noofitems = document.getElementById("noOfQuestion").innerHTML;
+                document.getElementById("avgscore").innerHTML = (((Number(score) / Number(noofitems)) * 50) + 50) + "%";
+                document.getElementById("submit" + count).style.display = "none";
+                document.getElementById("finish").style.display = "inline";
+                //document.getElementById("<?php $ts ?>").innerHTML=(Number(score)+1);
+                //document.getElementById("<?php $as ?>").innerHTML=(((Number(score)/Number(noofitems))*50)+50)+"%";
+            } else if (useranswer == "undefined") {
+                document.getElementById("message" + count).value = "Please select an answer";
+                document.getElementById("submit" + count).style.display = "inline";
+                document.getElementById("finish").style.display = "none";
+                document.getElementById("answer" + count).value = ans2;
+            } else {
+                document.getElementById("message" + count).value = "Wrong! " + ", Correct answer is: " + ans;
+                document.getElementById("submit" + count).style.display = "none";
+                document.getElementById("finish").style.display = "inline";
+            }
+        }
 
-    }
+        function qresult(id) {
+            document.getElementById("quizresults").style.display = "inline";
+            document.getElementById("quests").style.display = "none";
+            document.getElementById("finish").style.display = "none";
+            document.getElementById("startbtn").style.display = "none";
+            document.getElementById("modalbtn2").click();
+            document.getElementById("timer").innerHTML = "00:00"
+            document.getElementById("exitbtn").style.display = "inline";
+            document.getElementById("savequizbtn").style.display = "inline";
+        }
+
+        function savequiznow() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    document.getElementById("resultsaved").innerHTML = this.responseText;
+                    document.getElementById("savequizbtn").style.display = "none";
+                }
+            };
+            var score = document.getElementById("score").innerHTML;
+            var avgscore = document.getElementById("avgscore").innerHTML;
+            var userid = document.getElementById("userprofile").value;
+            var quizid = document.getElementById("quizquizid").value;
+            noofitems = document.getElementById("noOfQuestion").innerHTML;
+            var palatandaan = "savequiznow";
+            xhttp.open("GET", "process2.php?score=" + score + "&avgscore=" + avgscore + "&userid=" + userid +
+                "&quizid=" +
+                quizid + "&noofitems=" + noofitems + "&palatandaan=" + palatandaan, true);
+            xhttp.send();
+        }
     </script>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
@@ -138,7 +130,6 @@ $quizid=$_GET['quizid'];
         <div class="page-container">
             <?php include("studentheader.php"); ?>
 
-
             <!-- MAIN CONTENT-->
             <div class="main-content">
                 <div class="section__content section__content--p30">
@@ -165,12 +156,10 @@ $quizid=$_GET['quizid'];
                                 minutes
                             </p>
 
-
                         </div>
 
                     </div>
                     <button id="startbtn" type="button" class="btn  btn-primary" onclick="startTimer()">START</button>
-
 
                     <!-- Button trigger modal for 5 mins warning -->
                     <button id="modalbtn" type="button" class="btn btn-primary" data-toggle="modal"
@@ -289,7 +278,6 @@ $quizid=$_GET['quizid'];
                             type="button">Exit</button></a>
                     <?php }//end isset quizid ?>
 
-
                 </div> <!-- section__content -->
             </div><!-- container Fluid -->
         </div><!-- main content -->
@@ -298,7 +286,6 @@ $quizid=$_GET['quizid'];
     </div>
 
     </div>
-
 
     <!-- Modal for remaining time -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -321,7 +308,6 @@ $quizid=$_GET['quizid'];
             </div>
         </div>
     </div>
-
 
     <!-- Modal for finish -->
     <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -350,7 +336,8 @@ $quizid=$_GET['quizid'];
 
                     <button class="btn btn-success" type="button" id="savequizbtn" onclick="savequiznow()"
                         style="width: 100px; display:inline">Save Quiz</button>
-                    <a href="scores.php" id="exitbtn" style="width: 100%; display:inline"><button class="btn btn-warning" type="button">Exit</button></a>
+                    <a href="scores.php" id="exitbtn" style="width: 100%; display:inline"><button
+                            class="btn btn-warning" type="button">Exit</button></a>
 
                     <!-- <button type="button" class="btn btn-primary">Submit</button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> -->
@@ -361,42 +348,40 @@ $quizid=$_GET['quizid'];
     </div>
 
     <script>
-    function startTimer() {
-        document.getElementById("quests").style.display = "inline";
-        document.getElementById("startbtn").style.display = "none";
-        var presentTime = document.getElementById('timer').innerHTML;
-        var timeArray = presentTime.split(/[:]+/);
-        var m = timeArray[0];
-        var s = checkSecond((timeArray[1] - 1));
-        if (s == 59) {
-            m = m - 1
+        function startTimer() {
+            document.getElementById("quests").style.display = "inline";
+            document.getElementById("startbtn").style.display = "none";
+            var presentTime = document.getElementById('timer').innerHTML;
+            var timeArray = presentTime.split(/[:]+/);
+            var m = timeArray[0];
+            var s = checkSecond((timeArray[1] - 1));
+            if (s == 59) {
+                m = m - 1
+            }
+            //if(m<0){alert('timer completed')}
+            document.getElementById('timer').innerHTML =
+                m + ":" + s;
+            console.log(m)
+            if (m == 5 && s == 0) {
+                // alert("WARNING:\n5 minutes remaining!");
+                document.getElementById("modalbtn").click();
+            }
+            if (m <= 0 && s <= 0) {
+                document.getElementById("finish").click();
+                window.alert("WARNING:\nTime's up!");
+            }
+            setTimeout(startTimer, 1000);
         }
-        //if(m<0){alert('timer completed')}
 
-        document.getElementById('timer').innerHTML =
-            m + ":" + s;
-        console.log(m)
-        if (m == 5 && s == 0) {
-            // alert("WARNING:\n5 minutes remaining!");
-            document.getElementById("modalbtn").click();
+        function checkSecond(sec) {
+            if (sec < 10 && sec >= 0) {
+                sec = "0" + sec
+            }; // add zero in front of numbers < 10
+            if (sec < 0) {
+                sec = "59"
+            };
+            return sec;
         }
-
-        if (m <= 0 && s <= 0) {
-            document.getElementById("finish").click();
-            window.alert("WARNING:\nTime's up!");
-        }
-        setTimeout(startTimer, 1000);
-    }
-
-    function checkSecond(sec) {
-        if (sec < 10 && sec >= 0) {
-            sec = "0" + sec
-        }; // add zero in front of numbers < 10
-        if (sec < 0) {
-            sec = "59"
-        };
-        return sec;
-    }
     </script>
 
     <!-- Jquery JS-->

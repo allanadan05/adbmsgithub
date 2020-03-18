@@ -49,10 +49,11 @@
                         <div class="login-form">
                             <form action="" method="post">
                                 <div class="form-group">
-                                    <label>Email Address</label>
-                                    <input class="au-input au-input--full" type="email" name="email" placeholder="Email">
+                                    <label>Send password reset request to</label>
+                                    <input class="au-input au-input--full" type="email" name="email"
+                                        placeholder="Email">
                                 </div>
-                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">submit</button>
+                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Submit</button>
                             </form>
                         </div>
                     </div>

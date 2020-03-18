@@ -12,235 +12,205 @@ $_SESSION['sidebar']="students";
 <head>
 
     <script>
-    function changedsections() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (xhttp.readyState == 4 && xhttp.status == 200) {
-                document.getElementById("response").innerHTML = this.responseText;
-            }
-        };
-        var secid = document.getElementById('secid').value;
-        //document.write(forIpinasa);
-        var palatandaan = "changedsec";
-        xhttp.open("GET", "process2.php?secid=" + secid + "&palatandaan=" + palatandaan, true);
-        xhttp.send();
-    }
-
-    function searchstudent() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (xhttp.readyState == 4 && xhttp.status == 200) {
-                document.getElementById("response").innerHTML = this.responseText;
-
-            }
-        };
-        var tosearch = document.getElementById('searchstudent').value;
-        //document.write(forIpinasa);
-        var palatandaan = "searchstudent";
-        xhttp.open("GET", "process2.php?tosearch=" + tosearch + "&palatandaan=" + palatandaan, true);
-        xhttp.send();
-    }
-
-    function editstudent(id) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (xhttp.readyState == 4 && xhttp.status == 200) {
-                // document.write(id);
-                document.getElementById("modaltitle").innerHTML = "EDIT Student";
-
-                document.getElementById("submitbtn").style.display = "none";
-                document.getElementById("savebtn").style.display = "inline";
-                document.getElementById("hiddenuserid").value = forwardedid;
-                
-                var buongObject=JSON.parse(this.responseText);
-
-                //document.getElementById("response").innerHTML = buongObject.sname;
-                document.getElementById("hiddenuserid").value = buongObject.hiddenuserid;
-                document.getElementById("email").value = buongObject.email;
-                document.getElementById("password").value = buongObject.password;
-                document.getElementById("lname").value = buongObject.lname;
-                document.getElementById("fname").value = buongObject.fname;
-                document.getElementById("mname").value = buongObject.mname;
-
-                 var imgStud = document.getElementById("resultimage").value = buongObject.resultimage; // result image
-                 if(imgStud)
-                 {
-                    var imgStud = document.getElementById("resultimage").value = "Image Name: " + buongObject.resultimage; 
-                    //var resultimg = document.getElementById("displayimage").innerHTML = "Image Name: "+  imgStud ;
-                 }
-                 else
-                 {
-                    var imgStud = document.getElementById("resultimage").value = "Image Name: None";
-                    //var resultimg = document.getElementById("displayimage").innerHTML = "Image Name: None";
-                 }
-                 var seeimg = document.getElementById("showStudtimage").style.display="inline";
-
-                document.getElementById("sectionselected").label = buongObject.sectionname;
-                document.getElementById("sectionselected").value = buongObject.sectionid;
-
-            }
+        function changedsections() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    document.getElementById("response").innerHTML = this.responseText;
+                }
+            };
+            var secid = document.getElementById('secid').value;
+            //document.write(forIpinasa);
+            var palatandaan = "changedsec";
+            xhttp.open("GET", "process2.php?secid=" + secid + "&palatandaan=" + palatandaan, true);
+            xhttp.send();
         }
 
-        var forwardedid = id;
-        //document.write(forwardedid);
-        var palatandaan = "editstudent";
-        xhttp.open("GET", "process2.php?forwardedid=" + forwardedid + "&palatandaan=" + palatandaan, true);
-        xhttp.send();
-    }
-
-    function setmodalid(id) {
-        var xmlhttp = new XMLHttpRequest();
-
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-
-                var objStud = JSON.parse(this.responseText);
-                var lname = document.getElementById("studlname").value = objStud.lname;
-                var fname = document.getElementById("studfname").value = objStud.fname;
-                var mname = document.getElementById("studmname").value = objStud.mname;
-                var fullName = lname + ', ' + fname + ' ' + mname + ' ';
-                document.getElementById('fullName').innerHTML = fullName;
-            }
+        function searchstudent() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    document.getElementById("response").innerHTML = this.responseText;
+                }
+            };
+            var tosearch = document.getElementById('searchstudent').value;
+            //document.write(forIpinasa);
+            var palatandaan = "searchstudent";
+            xhttp.open("GET", "process2.php?tosearch=" + tosearch + "&palatandaan=" + palatandaan, true);
+            xhttp.send();
         }
 
-        var tokenStudName = "fullName";
-        var idStudName = id;
-        xmlhttp.open("GET", "process3.php?id=" + idStudName + "&tokenStudName=" + tokenStudName, true);
-        xmlhttp.send();
-        document.getElementById("hiddensendid").value = id;
-    }
+        function editstudent(id) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    // document.write(id);
+                    document.getElementById("modaltitle").innerHTML = "EDIT Student";
+                    document.getElementById("submitbtn").style.display = "none";
+                    document.getElementById("savebtn").style.display = "inline";
+                    document.getElementById("hiddenuserid").value = forwardedid;
+                    var buongObject = JSON.parse(this.responseText);
+                    //document.getElementById("response").innerHTML = buongObject.sname;
+                    document.getElementById("hiddenuserid").value = buongObject.hiddenuserid;
+                    document.getElementById("email").value = buongObject.email;
+                    document.getElementById("password").value = buongObject.password;
+                    document.getElementById("lname").value = buongObject.lname;
+                    document.getElementById("fname").value = buongObject.fname;
+                    document.getElementById("mname").value = buongObject.mname;
+                    var imgStud = document.getElementById("resultimage").value = buongObject
+                    .resultimage; // result image
+                    if (imgStud) {
+                        var imgStud = document.getElementById("resultimage").value = "Image Name: " + buongObject
+                            .resultimage;
+                        //var resultimg = document.getElementById("displayimage").innerHTML = "Image Name: "+  imgStud ;
+                    } else {
+                        var imgStud = document.getElementById("resultimage").value = "Image Name: None";
+                        //var resultimg = document.getElementById("displayimage").innerHTML = "Image Name: None";
+                    }
+                    var seeimg = document.getElementById("showStudtimage").style.display = "inline";
+                    document.getElementById("sectionselected").label = buongObject.sectionname;
+                    document.getElementById("sectionselected").value = buongObject.sectionid;
+                }
+            }
+            var forwardedid = id;
+            //document.write(forwardedid);
+            var palatandaan = "editstudent";
+            xhttp.open("GET", "process2.php?forwardedid=" + forwardedid + "&palatandaan=" + palatandaan, true);
+            xhttp.send();
+        }
+
+        function setmodalid(id) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    var objStud = JSON.parse(this.responseText);
+                    var lname = document.getElementById("studlname").value = objStud.lname;
+                    var fname = document.getElementById("studfname").value = objStud.fname;
+                    var mname = document.getElementById("studmname").value = objStud.mname;
+                    var fullName = lname + ', ' + fname + ' ' + mname + ' ';
+                    document.getElementById('fullName').innerHTML = fullName;
+                }
+            }
+            var tokenStudName = "fullName";
+            var idStudName = id;
+            xmlhttp.open("GET", "process3.php?id=" + idStudName + "&tokenStudName=" + tokenStudName, true);
+            xmlhttp.send();
+            document.getElementById("hiddensendid").value = id;
+        }
     </script>
 
     <!--new line code-->
     <!--validation student-->
 
     <script>
-    function validEmail() {
-        var checkEmail = document.getElementById("chkEmail");
-        var myEmail = document.getElementById("email").value;
+        function validEmail() {
+            var checkEmail = document.getElementById("chkEmail");
+            var myEmail = document.getElementById("email").value;
+            if (myEmail != "") {
+                checkEmail.innerHTML = "Checking...";
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("POST", "process3.php", true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState == 4 && xhttp.status == 200) {
+                        checkEmail.innerHTML = xhttp.responseText;
+                    }
+                }
+                var postEmail = "chEm=" + myEmail;
+                xhttp.send(postEmail);
+            } else {
+                checkEmail.innerHTML = "";
+            }
+        }
 
-        if (myEmail != "") {
-            checkEmail.innerHTML = "Checking...";
-            var xhttp = new XMLHttpRequest();
-            xhttp.open("POST", "process3.php", true);
-            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-            xhttp.onreadystatechange = function() {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    checkEmail.innerHTML = xhttp.responseText;
+        function tooShortPassword() {
+            var tooShortPwd = document.getElementById("chkpwd");
+            var pwd = document.getElementById("password").value;
+            if (pwd != "") {
+                tooShortPwd.innerHTML = "Checking...";
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("POST", "process3.php", true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState == 4 && xhttp.status == 200) {
+                        tooShortPwd.innerHTML = xhttp.responseText;
+                    }
+                }
+                var postPwd = "chpwd=" + pwd;
+                xhttp.send(postPwd);
+            } else {
+                tooShortPwd.innerHTML = "";
+            }
+        }
+        // this code work deleted multiple
+        //click all checkboxes
+        function checkboxes_deleted() {
+            document.getElementById("showBtn").style.display = "inline";
+            document.getElementById("oneButtonDel").style.display = "none";
+        }
+        //click all checkboxes
+        //----
+        // one selected button only show button
+        function oneCheckBoxes() {
+            document.getElementById("oneButtonDel").style.display = "inline";
+            document.getElementById("showBtn").style.display = "none";
+        }
+        // one selected button only show button
+        function multiple_ajax_del() {
+            var eachCheckBoxes = null;
+            var eachCheckBoxesElements = document.getElementsByName("num[]");
+            for (var i = 0; eachCheckBoxesElements[i]; ++i) {
+                if (eachCheckBoxesElements[i].checked) {
+                    eachCheckBoxes = eachCheckBoxesElements[i].value;
+                    delete_each_value(eachCheckBoxes);
+                    //alert(eachCheckBoxes);
                 }
             }
-
-            var postEmail = "chEm=" + myEmail;
-            xhttp.send(postEmail);
-
-        } else {
-            checkEmail.innerHTML = "";
         }
-    }
-
-
-    function tooShortPassword() {
-        var tooShortPwd = document.getElementById("chkpwd");
-        var pwd = document.getElementById("password").value;
-
-
-        if (pwd != "") {
-            tooShortPwd.innerHTML = "Checking...";
-            var xhttp = new XMLHttpRequest();
-            xhttp.open("POST", "process3.php", true);
-            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhttp.onreadystatechange = function() {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    tooShortPwd.innerHTML = xhttp.responseText;
-                }
-            }
-
-
-            var postPwd = "chpwd=" + pwd;
-            xhttp.send(postPwd);
-        } else {
-            tooShortPwd.innerHTML = "";
-        }
-    }
-
-
-    // this code work deleted multiple
-    //click all checkboxes
-    function checkboxes_deleted() {
-        document.getElementById("showBtn").style.display = "inline";
-        document.getElementById("oneButtonDel").style.display = "none";
-    }
-    //click all checkboxes
-
-    //----
-    // one selected button only show button
-    function oneCheckBoxes() {
-        document.getElementById("oneButtonDel").style.display = "inline";
-        document.getElementById("showBtn").style.display = "none";
-    }
-
-    // one selected button only show button
-
-    function multiple_ajax_del() {
-        var eachCheckBoxes = null;
-        var eachCheckBoxesElements = document.getElementsByName("num[]");
-        for (var i = 0; eachCheckBoxesElements[i]; ++i) {
-            if (eachCheckBoxesElements[i].checked) {
-                eachCheckBoxes = eachCheckBoxesElements[i].value;
-                delete_each_value(eachCheckBoxes);
-                //alert(eachCheckBoxes);
-            }
-        }
-    }
-    // multiple delete each boxes
-    // process2.php
-    //delete_each_value();
-    function delete_each_value(eachCheckBoxes) {
-        //alert("clickDeletedniya");
-        var xmlhttp = new XMLHttpRequest();
-
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById('response').innerHTML = this.responseText; // refresh table purpose niya
-
-            }
-        }
-        // document.getElementById("delSuccess").style.display="inline"; // print delete successfully
-        //document.getElementById("showDeleted").style.display="inline";
-
-        var mul_del = "ajaxMulitpleDelete";
-        xmlhttp.open("GET", "process2.php?id=" + eachCheckBoxes + "&mul_del=" + mul_del, true);
-        xmlhttp.send();
-        window.location.reload();
+        // multiple delete each boxes
         // process2.php
-        /*
-        setTimeout(function(){
-            window.location.reload(); 
-        },1000); // 2 seconds
-        */
-        /*
-         var timeleft = 3 ;
-         var downloadTimer  =  setInterval(function(){
-             timeleft--;
-             document.getElementById('delSuccess').textContent = timeleft;
-             if(timeleft <=0)
-                 clearInterval(downloadTimer);
-                 // setTimeout para refresh page
-                 setTimeout(function(){
-                  window.location.reload(); 
-                  },3000); // 3 seconds 
-         },1000);
-         */
-    }
-    // this code work deleted multiple
-
-    // for modal button close
-    function addstudBtn() {
-        document.getElementById("submitbtn").style.display = "inline";
-        document.getElementById("savebtn").style.display = "none";
-    }
-    // for modal buton close
+        //delete_each_value();
+        function delete_each_value(eachCheckBoxes) {
+            //alert("clickDeletedniya");
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById('response').innerHTML = this.responseText; // refresh table purpose niya
+                }
+            }
+            // document.getElementById("delSuccess").style.display="inline"; // print delete successfully
+            //document.getElementById("showDeleted").style.display="inline";
+            var mul_del = "ajaxMulitpleDelete";
+            xmlhttp.open("GET", "process2.php?id=" + eachCheckBoxes + "&mul_del=" + mul_del, true);
+            xmlhttp.send();
+            window.location.reload();
+            // process2.php
+            /*
+            setTimeout(function(){
+                window.location.reload(); 
+            },1000); // 2 seconds
+            */
+            /*
+             var timeleft = 3 ;
+             var downloadTimer  =  setInterval(function(){
+                 timeleft--;
+                 document.getElementById('delSuccess').textContent = timeleft;
+                 if(timeleft <=0)
+                     clearInterval(downloadTimer);
+                     // setTimeout para refresh page
+                     setTimeout(function(){
+                      window.location.reload(); 
+                      },3000); // 3 seconds 
+             },1000);
+             */
+        }
+        // this code work deleted multiple
+        // for modal button close
+        function addstudBtn() {
+            document.getElementById("submitbtn").style.display = "inline";
+            document.getElementById("savebtn").style.display = "none";
+        }
+        // for modal buton close
     </script>
 
     <!--new line code-->
@@ -427,7 +397,6 @@ $_SESSION['sidebar']="students";
                                             </div>
                                         </div>
                                     </div>
-
 
                                     <div class="table-responsive table-responsive-data2"
                                         style="overflow-x: scroll; overflow-y: hidden; width:970px;">
@@ -641,24 +610,24 @@ $_SESSION['sidebar']="students";
                                 <input type="hidden" name="hiddenuserid" id="hiddenuserid">
                                 <table border="0" style="border-collapse: collapse;">
 
-                                <tr>
+                                    <tr>
                                         <td>Image:</td>
                                         <td><input type="file" id="image" name="image" value=""></td>
-                                </tr>
-                                <div style="display:none;" id="showStudtimage">
-                                <!-- image view per student-->
-                                <!--input type="text" id="hiddenuseridStudent">
+                                    </tr>
+                                    <div style="display:none;" id="showStudtimage">
+                                        <!-- image view per student-->
+                                        <!--input type="text" id="hiddenuseridStudent">
                                 <input type="text" id="resultimage" value="test"-->
-                                <!--span id="displayimage"></span-->
-                                <input type="test" id="resultimage" value="test" value="test" readonly>                                
-                                <!-- image view per student-->
-        
-                                </div>
+                                        <!--span id="displayimage"></span-->
+                                        <input type="test" id="resultimage" value="test" value="test" readonly>
+                                        <!-- image view per student-->
+
+                                    </div>
                                     <tr>
                                         <td>Email:</td>
                                         <td><input type="email" name="email" id="email" placeholder="Enter Email"
                                                 onkeyup="validEmail();" maxlength="30" required></td>
-                                    <br>
+                                        <br>
                                     </tr>
                                     <span style=" margin: 40px 0 0 20px;" id="chkEmail"></span>
                                     <tr>
@@ -702,16 +671,15 @@ $_SESSION['sidebar']="students";
                                 </table>
                         </div>
 
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline;" name="addstudentsubmit">Submit</button> &nbsp 
-                <button type="submit" id="savebtn" class="btn btn-warning" style="display: none;" name="editstudentsubmit">Save</button>
-                <!--button onclick="addstudBtn();" type="button" class="btn btn-danger" data-dismiss="modal">Close</button-->
-                <a class="btn btn-danger" data-dismiss="modal" href="adminstudents.php">Close</a>
-                </form>
-
-
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline;"
+                                name="addstudentsubmit">Submit</button> &nbsp
+                            <button type="submit" id="savebtn" class="btn btn-warning" style="display: none;"
+                                name="editstudentsubmit">Save</button>
+                            <!--button onclick="addstudBtn();" type="button" class="btn btn-danger" data-dismiss="modal">Close</button-->
+                            <a class="btn btn-danger" data-dismiss="modal" href="adminstudents.php">Close</a>
+                            </form>
 
                         </div>
                     </div>
@@ -754,7 +722,6 @@ $_SESSION['sidebar']="students";
         </div>
         <!-- end modal medium -->
 
-
         <!-- Jquery JS-->
         <script src="vendor/jquery-3.2.1.min.js"></script>
         <!-- Bootstrap JS-->
@@ -781,10 +748,10 @@ $_SESSION['sidebar']="students";
 
         <!-- new line code-->
         <script>
-        //this method check na yung... all item using check box
-        $('#checkall').change(function() {
-            $('.checkitem').prop("checked", $(this).prop("checked"))
-        });
+            //this method check na yung... all item using check box
+            $('#checkall').change(function() {
+                $('.checkitem').prop("checked", $(this).prop("checked"))
+            });
         </script>
         <!--new line code-->
 </body>

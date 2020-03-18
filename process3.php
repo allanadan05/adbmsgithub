@@ -54,5 +54,3 @@ if($studName=="fullName")
 		$printName = json_encode($obj);
 		echo $printName;
 }
-
-?>

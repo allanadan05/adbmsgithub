@@ -14,63 +14,52 @@ $rr="";
 <head>
 
     <script>
-        
-        function submitanswer(count, questid){
-            
-
-            var useranswer="";
-            if(document.getElementById("radio1"+count).checked){
-                useranswer="A";
-            }else if (document.getElementById("radio2"+count).checked) {
-                useranswer="B";
-            }else if (document.getElementById("radio3"+count).checked) {
-                useranswer="C";
-            }else if (document.getElementById("radio4"+count).checked) {
-                useranswer="D";
-            }else{
-                useranswer="undefined";
+        function submitanswer(count, questid) {
+            var useranswer = "";
+            if (document.getElementById("radio1" + count).checked) {
+                useranswer = "A";
+            } else if (document.getElementById("radio2" + count).checked) {
+                useranswer = "B";
+            } else if (document.getElementById("radio3" + count).checked) {
+                useranswer = "C";
+            } else if (document.getElementById("radio4" + count).checked) {
+                useranswer = "D";
+            } else {
+                useranswer = "undefined";
             }
-
-            
-            var score=document.getElementById("score").innerHTML;
-            var avgscore=document.getElementById("avgscore").innerHTML;
-            var noofitems=document.getElementById("noOfQuestion").innerHTML;
-            document.getElementById("noOfItems").innerHTML=noofitems;
-
-
-            var ans=document.getElementById("answer"+count).value;
-            var ans2=ans;
-            if(useranswer==ans){
-                document.getElementById("message"+count).value="Correct";
-                document.getElementById("score").innerHTML=(Number(score)+1);
-                score=document.getElementById("score").innerHTML;
-                noofitems=document.getElementById("noOfQuestion").innerHTML;
-                document.getElementById("avgscore").innerHTML=(((Number(score)/Number(noofitems))*50)+50)+"%";
-                document.getElementById("submit"+count).style.display="none";
-                document.getElementById("finish").style.display="inline";
-            }else if (useranswer=="undefined") {
-                document.getElementById("message"+count).value="Please select an answer";
-                document.getElementById("submit"+count).style.display="inline";
-                document.getElementById("finish").style.display="none";
-                document.getElementById("answer"+count).value=ans2;
-            }else{
-                document.getElementById("message"+count).value="Wrong! " +", Correct answer is: "+ans;
-                document.getElementById("submit"+count).style.display="none";
-                document.getElementById("finish").style.display="none";
+            var score = document.getElementById("score").innerHTML;
+            var avgscore = document.getElementById("avgscore").innerHTML;
+            var noofitems = document.getElementById("noOfQuestion").innerHTML;
+            document.getElementById("noOfItems").innerHTML = noofitems;
+            var ans = document.getElementById("answer" + count).value;
+            var ans2 = ans;
+            if (useranswer == ans) {
+                document.getElementById("message" + count).value = "Correct";
+                document.getElementById("score").innerHTML = (Number(score) + 1);
+                score = document.getElementById("score").innerHTML;
+                noofitems = document.getElementById("noOfQuestion").innerHTML;
+                document.getElementById("avgscore").innerHTML = (((Number(score) / Number(noofitems)) * 50) + 50) + "%";
+                document.getElementById("submit" + count).style.display = "none";
+                document.getElementById("finish").style.display = "inline";
+            } else if (useranswer == "undefined") {
+                document.getElementById("message" + count).value = "Please select an answer";
+                document.getElementById("submit" + count).style.display = "inline";
+                document.getElementById("finish").style.display = "none";
+                document.getElementById("answer" + count).value = ans2;
+            } else {
+                document.getElementById("message" + count).value = "Wrong! " + ", Correct answer is: " + ans;
+                document.getElementById("submit" + count).style.display = "none";
+                document.getElementById("finish").style.display = "none";
             }
-            
-
         }
 
         function qresult(id) {
-            document.getElementById("quizresults").style.display="inline";
-            document.getElementById("quests").style.display="none";
-            document.getElementById("finish").style.display="none";
-            document.getElementById("exitbtn").style.display="inline";
-            document.getElementById("savequizbtn").style.display="inline";
+            document.getElementById("quizresults").style.display = "inline";
+            document.getElementById("quests").style.display = "none";
+            document.getElementById("finish").style.display = "none";
+            document.getElementById("exitbtn").style.display = "inline";
+            document.getElementById("savequizbtn").style.display = "inline";
         }
-
-
     </script>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
@@ -104,9 +93,8 @@ $rr="";
 
 <body class="animsition">
     <div class="page-wrapper">
-        
 
-         <!-- HEADER MOBILE and SIDEBAR-->
+        <!-- HEADER MOBILE and SIDEBAR-->
         <?php include("adminheadermobileandsidebar.php"); ?>
         <!-- HEADER MOBILE and SIDEBAR-->
 
@@ -115,14 +103,13 @@ $rr="";
             <!-- HEADER DESKTOP-->
             <?php include("adminheader.php"); ?>
             <!-- HEADER DESKTOP-->
-            
 
             <!-- MAIN CONTENT-->
-            <div class="main-content" >
+            <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
-                            <div>
-                                <?php
+                        <div>
+                            <?php
 
                                     if(isset($_GET['quizid'])){
                                     $id=$_GET['quizid'];
@@ -131,29 +118,33 @@ $rr="";
                                     while($rr = mysqli_fetch_array($ee)){
                                 
                                 ?>
-                               
-                                <h2><?php echo "Quiz: " .$rr['quizname'];  ?></h2><hr/>
-                                <p><?php echo "Subject: " .$rr['subjectname'];   ?></p>
-                                <p>
+
+                            <h2><?php echo "Quiz: " .$rr['quizname'];  ?></h2>
+                            <hr />
+                            <p><?php echo "Subject: " .$rr['subjectname'];   ?></p>
+                            <p>
                                 <label>Remaining Time : </label>
                                 <span id="timer">
-                                <?php echo $rr['duration'] .":00";  ?>
+                                    <?php echo $rr['duration'] .":00";  ?>
                                 </span>
                                 minutes
-                                </p>
-                                <div id="quizresults" style="display: none;">
-                                <hr><p>Score: <span id="score">0</span>/<span id="noOfItems">0</span></p>
-                                    <p>Average: <span id="avgscore">0</span></p>
-                                    <br>
-                                </div>
-                                
+                            </p>
+                            <div id="quizresults" style="display: none;">
+                                <hr>
+                                <p>Score: <span id="score">0</span>/<span id="noOfItems">0</span></p>
+                                <p>Average: <span id="avgscore">0</span></p>
+                                <br>
                             </div>
-                            <button id="startbtn" type="button" class="btn  btn-primary" onclick="startTimer()">START</button>
 
-                            <!-- Button trigger modal -->
-                            <button id="modalbtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" hidden>
+                        </div>
+                        <button id="startbtn" type="button" class="btn  btn-primary"
+                            onclick="startTimer()">START</button>
+
+                        <!-- Button trigger modal -->
+                        <button id="modalbtn" type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#exampleModal" hidden>
                             Launch Modal
-                            </button>
+                        </button>
 
                         <div class="row" id="quests" style="display: none;">
                             <div class="col-md-12">
@@ -167,9 +158,9 @@ $rr="";
                                         $questid=$row['questionid'];
                                 ?>
 
-                                <div class="card border border-primary"> 
+                                <div class="card border border-primary">
                                     <div class="card-header">
-                                         <?php 
+                                        <?php 
 
                                                 $sqlsql="select questionid, optionid, answer from answertbl where questionid='$questid' ";
                                                 $query2=mysqli_query($con, $sqlsql);
@@ -182,51 +173,67 @@ $rr="";
                                                 $pilian=mysqli_fetch_array($query3);
 
                                         ?>
-                                        <strong class="card-title" id="questionNo">Question #<?php echo ++$count ." of " ?></strong>
-                                        <strong class="card-title" id="noOfQuestion"><?php echo $row['noOfQuestion']; ?></strong>
-                                        <button class="btn btn-primary" type="button" id="<?php echo 'submit'.$count; ?>" onclick="submitanswer(<?php echo $count .','. $questid; ?>)" style="float: right; display:inline">Submit</button>
-                                        <input type="hidden" id="<?php echo 'answer'.$count; ?>" value="<?php echo $ans; ?>" style="float:right; width:15px; text-align: center;"  readonly>
-                                        <input type="text" id="<?php echo 'message'.$count; ?>" style="float:right; width:50%; text-align: center;"  readonly>
-                                        
+                                        <strong class="card-title" id="questionNo">Question
+                                            #<?php echo ++$count ." of " ?></strong>
+                                        <strong class="card-title"
+                                            id="noOfQuestion"><?php echo $row['noOfQuestion']; ?></strong>
+                                        <button class="btn btn-primary" type="button"
+                                            id="<?php echo 'submit'.$count; ?>"
+                                            onclick="submitanswer(<?php echo $count .','. $questid; ?>)"
+                                            style="float: right; display:inline">Submit</button>
+                                        <input type="hidden" id="<?php echo 'answer'.$count; ?>"
+                                            value="<?php echo $ans; ?>"
+                                            style="float:right; width:15px; text-align: center;" readonly>
+                                        <input type="text" id="<?php echo 'message'.$count; ?>"
+                                            style="float:right; width:50%; text-align: center;" readonly>
+
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text"><?php echo $row['question']; ?>
                                         </p>
-                                        <br/>
+                                        <br />
                                         <div class="row form-group">
-                                                <div class="col col-md-2">
-                                                    
-                                                </div>
-                                               
-                                                <div class="col col-md-8">
-                                                    <div class="form-check" id="<?php echo 'radio'.$count; ?>">
-                                                        <div class="radio">
-                                                            <label for="radio1" class="form-check-label ">
-                                                                <input type="radio" id="<?php echo 'radio1'.$count; ?>" name="radios" value="A" class="form-check-input"><?php echo "<strong> A. </strong> " .$pilian['optiona']; ?>
-                                                            </label>
-                                                        </div>
-                                                        <div class="radio">
-                                                            <label for="radio2" class="form-check-label ">
-                                                                <input type="radio" id="<?php echo 'radio2'.$count; ?>" name="radios" value="B" class="form-check-input"><?php echo "<strong> B. </strong> " .$pilian['optionb']; ?>
-                                                            </label>
-                                                        </div>
-                                                        <div class="radio">
-                                                            <label for="radio3" class="form-check-label ">
-                                                                <input type="radio" id="<?php echo 'radio3'.$count; ?>" name="radios" value="C" class="form-check-input"><?php echo "<strong> C. </strong> " .$pilian['optionc']; ?>
-                                                            </label>
-                                                        </div>
-                                                        <div class="radio">
-                                                            <label for="radio4" class="form-check-label ">
-                                                                <input type="radio" id="<?php echo 'radio4'.$count; ?>" name="radios" value="D" class="form-check-input"><?php echo "<strong> D. </strong> " .$pilian['optiond']; ?>
-                                                            </label>
-                                                        </div>
+                                            <div class="col col-md-2">
+
+                                            </div>
+
+                                            <div class="col col-md-8">
+                                                <div class="form-check" id="<?php echo 'radio'.$count; ?>">
+                                                    <div class="radio">
+                                                        <label for="radio1" class="form-check-label ">
+                                                            <input type="radio" id="<?php echo 'radio1'.$count; ?>"
+                                                                name="radios" value="A"
+                                                                class="form-check-input"><?php echo "<strong> A. </strong> " .$pilian['optiona']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label for="radio2" class="form-check-label ">
+                                                            <input type="radio" id="<?php echo 'radio2'.$count; ?>"
+                                                                name="radios" value="B"
+                                                                class="form-check-input"><?php echo "<strong> B. </strong> " .$pilian['optionb']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label for="radio3" class="form-check-label ">
+                                                            <input type="radio" id="<?php echo 'radio3'.$count; ?>"
+                                                                name="radios" value="C"
+                                                                class="form-check-input"><?php echo "<strong> C. </strong> " .$pilian['optionc']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label for="radio4" class="form-check-label ">
+                                                            <input type="radio" id="<?php echo 'radio4'.$count; ?>"
+                                                                name="radios" value="D"
+                                                                class="form-check-input"><?php echo "<strong> D. </strong> " .$pilian['optiond']; ?>
+                                                        </label>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
                                     </div>
-                                </div> <!-- end card border--> 
+                                </div> <!-- end card border-->
 
-                            <?php 
+                                <?php 
                             }//end while row
                             }else{
                                     echo "<div class='alert alert-danger' role='alert'> Quiz has been deactivated </div>";
@@ -238,10 +245,11 @@ $rr="";
 
                         </div> <!-- row -->
 
-                       <button id="finish" class="btn btn-success" type="button"  onclick="qresult(<?php echo $id;?>)" style="width: 100%; display:none;">Finish</button>
-                        <a href="adminquizzes.php" id="exitbtn" style="width: 100%; display:none"><button class="btn btn-warning" type="button">Exit</button></a>
-                        <?php }//end isset quizid ?> 
-                       
+                        <button id="finish" class="btn btn-success" type="button" onclick="qresult(<?php echo $id;?>)"
+                            style="width: 100%; display:none;">Finish</button>
+                        <a href="adminquizzes.php" id="exitbtn" style="width: 100%; display:none"><button
+                                class="btn btn-warning" type="button">Exit</button></a>
+                        <?php }//end isset quizid ?>
 
                     </div> <!-- section__content -->
                 </div><!-- container Fluid -->
@@ -252,62 +260,62 @@ $rr="";
 
     </div>
 
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        5 minutes remaining!
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Submit</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-      </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    5 minutes remaining!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
     <script>
+        function startTimer() {
+            document.getElementById("quests").style.display = "inline";
+            document.getElementById("startbtn").style.display = "none";
+            var presentTime = document.getElementById('timer').innerHTML;
+            var timeArray = presentTime.split(/[:]+/);
+            var m = timeArray[0];
+            var s = checkSecond((timeArray[1] - 1));
+            if (s == 59) {
+                m = m - 1
+            }
+            //if(m<0){alert('timer completed')}
+            document.getElementById('timer').innerHTML =
+                m + ":" + s;
+            console.log(m)
+            if (m == 5 && s == 57) {
+                // alert("WARNING:\n5 minutes remaining!");
+                document.getElementById("modalbtn").click();
+            }
+            if (m <= 0 && s <= 0) {
+                alert("WARNING:\nTime's up!");
+            }
+            setTimeout(startTimer, 1000);
+        }
 
-    function startTimer() {
-    document.getElementById("quests").style.display="inline";
-    document.getElementById("startbtn").style.display="none";
-    var presentTime = document.getElementById('timer').innerHTML;
-    var timeArray = presentTime.split(/[:]+/);
-    var m = timeArray[0];
-    var s = checkSecond((timeArray[1] - 1));
-    if(s==59){m=m-1}
-    //if(m<0){alert('timer completed')}
-    
-    document.getElementById('timer').innerHTML =
-        m + ":" + s;
-    console.log(m)
-    if(m==5 && s==57){
-        // alert("WARNING:\n5 minutes remaining!");
-        document.getElementById("modalbtn").click();
-    }
-
-    if(m<=0 && s<=0){
-        alert("WARNING:\nTime's up!");
-    }
-    setTimeout(startTimer, 1000);
-    }
-
-    function checkSecond(sec) {
-    if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
-    if (sec < 0) {sec = "59"};
-    return sec;
-    }
-
-
+        function checkSecond(sec) {
+            if (sec < 10 && sec >= 0) {
+                sec = "0" + sec
+            }; // add zero in front of numbers < 10
+            if (sec < 0) {
+                sec = "59"
+            };
+            return sec;
+        }
     </script>
 
     <!-- Jquery JS-->

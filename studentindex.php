@@ -40,7 +40,7 @@ $_SESSION['sidebar']="dashboards";
 
 <body class="animsition">
     <div class="page-wrapper">
-        
+
         <?php include("studentheaderandmobileview.php"); ?>
 
         <!-- PAGE CONTAINER-->
@@ -82,10 +82,10 @@ $_SESSION['sidebar']="dashboards";
                                 <div class="card">
                                     <div class="card-header">
                                         <strong class="card-title mb-3">Announcements</strong>
-                                       
+
                                     </div>
                                     <div class="card-body">
-                                    <?php
+                                        <?php
 
 
                                     $sql="SELECT * FROM announcementtbl join userstbl on announcementtbl.sectionid=userstbl.sectionid OR announcementtbl.userid=userstbl.userid WHERE userstbl.userid='$id'  ";
@@ -96,12 +96,13 @@ $_SESSION['sidebar']="dashboards";
                                     while($row = mysqli_fetch_array($result))
                                     { ?>
                                         <div style="background-color: whitesmoke;">
-                                        <h4><?php echo $row['antitle']?><h4>
-                                        <h6><?php echo $row['dateposted']?> | <?php echo $row['anfrom']?></h6>
-                                        <p><?php echo $row['andetails'] ?></p>
+                                            <h4><?php echo $row['antitle']?><h4>
+                                                    <h6><?php echo $row['dateposted']?> | <?php echo $row['anfrom']?>
+                                                    </h6>
+                                                    <p><?php echo $row['andetails'] ?></p>
                                         </div>
                                         <br>
-                                    <?php }
+                                        <?php }
                                     }
                                  ?>
                                     </div>
@@ -109,79 +110,79 @@ $_SESSION['sidebar']="dashboards";
                                 <!-- END of ANOUNCEMENTS -->
 
                                 <!-- OVERVIEW -->
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="overview-wrap">
-                                    <h2 class="title-1">overview</h2>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="overview-wrap">
+                                            <h2 class="title-1">overview</h2>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row m-t-25">
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="overview-item overview-item--c1">
-                                    <div class="overview__inner">
-                                        <div class="overview-box clearfix">
-                                            <div class="icon">
-                                                <i class="fas fa-file-alt"></i>
+                                <div class="row m-t-25">
+                                    <div class="col-sm-6 col-lg-3">
+                                        <div class="overview-item overview-item--c1">
+                                            <div class="overview__inner">
+                                                <div class="overview-box clearfix">
+                                                    <div class="icon">
+                                                        <i class="fas fa-file-alt"></i>
+                                                    </div>
+                                                    <div class="text">
+                                                        <h2>5</h2>
+                                                        <span>Taken quiz</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="text">
-                                                <h2>5</h2>
-                                                <span>Taken quiz</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-3">
+                                        <div class="overview-item overview-item--c2">
+                                            <div class="overview__inner">
+                                                <div class="overview-box clearfix">
+                                                    <div class="icon">
+                                                        <i class="fas fa-check-circle"></i>
+                                                    </div>
+                                                    <div class="text">
+                                                        <h2>95.9%</h2>
+                                                        <span>Average Score</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-3">
+                                        <div class="overview-item overview-item--c3">
+                                            <div class="overview__inner">
+                                                <div class="overview-box clearfix">
+                                                    <div class="icon">
+                                                        <i class="fas fa-book"></i>
+                                                    </div>
+                                                    <div class="text">
+                                                        <h2>15</h2>
+                                                        <span>Subjects <br /> Enrolled </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-3">
+                                        <div class="overview-item overview-item--c4">
+                                            <div class="overview__inner">
+                                                <div class="overview-box clearfix">
+                                                    <div class="icon">
+                                                        <i class="fas fa-certificate"></i>
+                                                    </div>
+                                                    <div class="text">
+                                                        <h2>PASSED</h2>
+                                                        <span>Results</span>
+                                                    </div>
+                                                </div>
+                                                <div class="overview-chart">
+                                                    <canvas id="widgetChart4"></canvas>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="overview-item overview-item--c2">
-                                    <div class="overview__inner">
-                                        <div class="overview-box clearfix">
-                                            <div class="icon">
-                                                <i class="fas fa-check-circle"></i>
-                                            </div>
-                                            <div class="text">
-                                                <h2>95.9%</h2>
-                                                <span>Average Score</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="overview-item overview-item--c3">
-                                    <div class="overview__inner">
-                                        <div class="overview-box clearfix">
-                                            <div class="icon">
-                                                <i class="fas fa-book"></i>
-                                            </div>
-                                            <div class="text">
-                                                <h2>15</h2>
-                                                <span>Subjects <br/> Enrolled </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="overview-item overview-item--c4">
-                                    <div class="overview__inner">
-                                        <div class="overview-box clearfix">
-                                            <div class="icon">
-                                                <i class="fas fa-certificate"></i>
-                                            </div>
-                                            <div class="text">
-                                                <h2>PASSED</h2>
-                                                <span>Results</span>
-                                            </div>
-                                        </div>
-                                        <div class="overview-chart">
-                                            <canvas id="widgetChart4"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                         <!-- END OF OVERVIEW -->
+                                <!-- END OF OVERVIEW -->
                             </div>
                             <div class="col-md-4">
 
@@ -202,15 +203,17 @@ $_SESSION['sidebar']="dashboards";
                                     {
                                 //print_r($row['img']);
                                 ?>
-                                <!-- if empty profile picture use default background-->
-                                <img style=" margin:0 0 0 28px;width: 200px; height:200px; border-radius: 100px;" onerror="this.src='images/defaultpic/defaultPIC.png'" src="<?php echo "images/profile_picture/".$row['image']."";?>">
+                                            <!-- if empty profile picture use default background-->
+                                            <img style=" margin:0 0 0 28px;width: 200px; height:200px; border-radius: 100px;"
+                                                onerror="this.src='images/defaultpic/defaultPIC.png'"
+                                                src="<?php echo "images/profile_picture/".$row['image']."";?>">
 
-                                <?php
+                                            <?php
 
                                 }
                                 ?>
-                                <!-- if empty profile picture use default background-->
-                                <!-- New line code image-->                                            
+                                            <!-- if empty profile picture use default background-->
+                                            <!-- New line code image-->
                                             <h5 class="text-sm-center mt-2 mb-1"><?php echo getname($id);?></h5>
                                             <div class="location text-sm-center">
                                                 <i class="fa fa-groups"></i>Section: BSIT-3B1</div>
@@ -239,24 +242,32 @@ $_SESSION['sidebar']="dashboards";
                                     </div>
                                     <div class="card-body card-block">
                                         <form action="" method="post" class="form">
-                                            
+
                                             <div class="form-group">
-                                                <label for="exampleInputName2" class="pr-1  form-control-label">Userid</label><br>
-                                                <input type="text" id="name" placeholder="" required="" value=<?php echo getuserid($id);?> readonly class="form-control">
+                                                <label for="exampleInputName2"
+                                                    class="pr-1  form-control-label">Userid</label><br>
+                                                <input type="text" id="name" placeholder="" required=""
+                                                    value=<?php echo getuserid($id);?> readonly class="form-control">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail2" class="px-1  form-control-label">FirstName</label><br>
-                                                <input type="email" id="email" placeholder="" required="" value=<?php echo getfname($id);?> readonly class="form-control">
+                                                <label for="exampleInputEmail2"
+                                                    class="px-1  form-control-label">FirstName</label><br>
+                                                <input type="email" id="email" placeholder="" required=""
+                                                    value=<?php echo getfname($id);?> readonly class="form-control">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputName2" class="pr-1  form-control-label">Lastname</label><br>
-                                                <input type="text" id="name" placeholder="" required="" value=<?php echo getlname($id);?> readonly class="form-control">
+                                                <label for="exampleInputName2"
+                                                    class="pr-1  form-control-label">Lastname</label><br>
+                                                <input type="text" id="name" placeholder="" required=""
+                                                    value=<?php echo getlname($id);?> readonly class="form-control">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail2" class="px-1  form-control-label">Middlename</label><br>
-                                                <input type="email" id="email" placeholder="" required="" value=<?php echo getmname($id);?> readonly class="form-control">
+                                                <label for="exampleInputEmail2"
+                                                    class="px-1  form-control-label">Middlename</label><br>
+                                                <input type="email" id="email" placeholder="" required=""
+                                                    value=<?php echo getmname($id);?> readonly class="form-control">
                                             </div>
-                                            
+
                                         </form>
                                     </div>
                                     <div class="card-footer">
@@ -273,51 +284,45 @@ $_SESSION['sidebar']="dashboards";
                                 </div>
                             </div>
 
-
-
-
-                        
-
-
-                    <div class="row">
-                            <div class="col-md-12">
-                                <div class="copyright">
-                                    <p>Copyright © 2019 Dan Astillero. All rights reserved.</p>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="copyright">
+                                        <p>Copyright © 2019 Dan Astillero. All rights reserved.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- END MAIN CONTENT-->
+                <!-- END PAGE CONTAINER-->
             </div>
-            <!-- END MAIN CONTENT-->
-            <!-- END PAGE CONTAINER-->
+
         </div>
 
-    </div>
+        <!-- Jquery JS-->
+        <script src="vendor/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap JS-->
+        <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+        <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+        <!-- Vendor JS       -->
+        <script src="vendor/slick/slick.min.js">
+        </script>
+        <script src="vendor/wow/wow.min.js"></script>
+        <script src="vendor/animsition/animsition.min.js"></script>
+        <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+        </script>
+        <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+        <script src="vendor/counter-up/jquery.counterup.min.js">
+        </script>
+        <script src="vendor/circle-progress/circle-progress.min.js"></script>
+        <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+        <script src="vendor/select2/select2.min.js">
+        </script>
 
-    <!-- Jquery JS-->
-    <script src="vendor/jquery-3.2.1.min.js"></script>
-    <!-- Bootstrap JS-->
-    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- Vendor JS       -->
-    <script src="vendor/slick/slick.min.js">
-    </script>
-    <script src="vendor/wow/wow.min.js"></script>
-    <script src="vendor/animsition/animsition.min.js"></script>
-    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-    </script>
-    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="vendor/counter-up/jquery.counterup.min.js">
-    </script>
-    <script src="vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="vendor/select2/select2.min.js">
-    </script>
-
-    <!-- Main JS-->
-    <script src="js/main.js"></script>
+        <!-- Main JS-->
+        <script src="js/main.js"></script>
 
 </body>
 

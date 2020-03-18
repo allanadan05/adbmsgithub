@@ -28,4 +28,3 @@ $logacc="Log In";
    {
       header("Location: index.php");
    }
-?>

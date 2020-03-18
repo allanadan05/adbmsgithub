@@ -38,30 +38,29 @@ $_SESSION['sidebar']="lessons";
         <!-- Main CSS-->
         <link href="css/theme.css" rel="stylesheet" media="all">
         <script>
-        function editlesson(ipinasa) {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    var buongObject = JSON.parse(this.responseText);
-                    //document.getElementById("response").innerHTML = buongObject.sname;
-                    document.getElementById("selectsubject").label = buongObject.lessonsubjectname;
-                    document.getElementById("selectsubject").value = buongObject.lessonsubjectid;
-                    document.getElementById("lessontit").value = buongObject.lessontitle;
-                    document.getElementById("lessondet").value = buongObject.lessondetail;
-                    document.getElementById("file").innerHTML = "Current file: <br/>" + buongObject.lessonpdf;
-                    document.getElementById("for-file-input").innerHTML = "<br/> Upload new file";
-                    document.getElementById("uId").value = forIpinasa;
-                    document.getElementById("addlesson").style.display = "none";
-                    document.getElementById("updatelesson").style.display = "inline";
-                }
-            };
-
-            var forIpinasa = ipinasa;
-            //document.write(forIpinasa);
-            var palatandaan = "edit";
-            xhttp.open("GET", "processj.php?forIpinasa=" + forIpinasa + "&palatandaan=" + palatandaan, true);
-            xhttp.send();
-        }
+            function editlesson(ipinasa) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState == 4 && xhttp.status == 200) {
+                        var buongObject = JSON.parse(this.responseText);
+                        //document.getElementById("response").innerHTML = buongObject.sname;
+                        document.getElementById("selectsubject").label = buongObject.lessonsubjectname;
+                        document.getElementById("selectsubject").value = buongObject.lessonsubjectid;
+                        document.getElementById("lessontit").value = buongObject.lessontitle;
+                        document.getElementById("lessondet").value = buongObject.lessondetail;
+                        document.getElementById("file").innerHTML = "Current file: <br/>" + buongObject.lessonpdf;
+                        document.getElementById("for-file-input").innerHTML = "<br/> Upload new file";
+                        document.getElementById("uId").value = forIpinasa;
+                        document.getElementById("addlesson").style.display = "none";
+                        document.getElementById("updatelesson").style.display = "inline";
+                    }
+                };
+                var forIpinasa = ipinasa;
+                //document.write(forIpinasa);
+                var palatandaan = "edit";
+                xhttp.open("GET", "processj.php?forIpinasa=" + forIpinasa + "&palatandaan=" + palatandaan, true);
+                xhttp.send();
+            }
         </script>
 
     </head>
@@ -72,7 +71,6 @@ $_SESSION['sidebar']="lessons";
             <?php include("adminheadermobileandsidebar.php"); ?>
             <!-- HEADER MOBILE and SIDEBAR-->
 
-
             <!-- PAGE CONTAINER-->
             <div class="page-container">
 
@@ -80,14 +78,13 @@ $_SESSION['sidebar']="lessons";
                 <?php include("adminheader.php"); ?>
                 <!-- HEADER DESKTOP-->
 
-
                 <!-- MAIN CONTENT-->
                 <div class="main-content">
                     <div class="section__content section__content--p30">
                         <div class="container-fluid">
                             <div>
 
-                            <?php
+                                <?php
                                 if(@$_SESSION['success_upload_pdf'])
                                     {
                                         //echo "Success";
@@ -133,8 +130,6 @@ $_SESSION['sidebar']="lessons";
                                 } 
                             }
                             ?>
-
-
 
                             <div class="row">
                                 <div class="col-md-4">
@@ -210,7 +205,6 @@ $_SESSION['sidebar']="lessons";
                                      
                                      ?>
 
-
                                 <div class="col-md-4">
 
                                     <div class="card">
@@ -252,12 +246,6 @@ $_SESSION['sidebar']="lessons";
 
                                 <?php }
                             }?>
-
-
-
-
-
-
 
                             </div> <!-- row -->
                         </div> <!-- section__content -->

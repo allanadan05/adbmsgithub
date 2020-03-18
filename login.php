@@ -75,5 +75,3 @@ if($result['email'] == $email && $result['password']== $password){
         }
     }
 }
-
-?>

@@ -385,6 +385,3 @@ if($palatandaan=="searchscore"){
 	}
 
 }
-
-?>
-

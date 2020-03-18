@@ -120,5 +120,3 @@ if(isset($_GET['deleteteachers'])){
             header("location: adminteachers.php?");
         }
 }
-
-?>

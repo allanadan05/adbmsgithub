@@ -9,79 +9,81 @@ $_SESSION['sidebar']="quizzes";
 <!DOCTYPE html>
 <php lang="en">
 
-<head>
-    <!-- Required meta tags-->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Dan Astillero">
-    <!-- Title Page-->
-    <title>Dashboard</title>
+    <head>
+        <!-- Required meta tags-->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="author" content="Dan Astillero">
+        <!-- Title Page-->
+        <title>Dashboard</title>
 
-    <!-- Fontfaces CSS-->
-    <link href="css/font-face.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+        <!-- Fontfaces CSS-->
+        <link href="css/font-face.css" rel="stylesheet" media="all">
+        <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+        <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+        <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
-    <!-- Bootstrap CSS-->
-    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+        <!-- Bootstrap CSS-->
+        <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
-    <!-- Vendor CSS-->
-    <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-    <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-    <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
-    <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-    <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
-    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+        <!-- Vendor CSS-->
+        <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+        <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+        <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
+        <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+        <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
+        <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
+        <link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
 
-    <!-- Main CSS-->
-    <link href="css/theme.css" rel="stylesheet" media="all">
+        <!-- Main CSS-->
+        <link href="css/theme.css" rel="stylesheet" media="all">
 
-</head>
+    </head>
 
-<body class="animsition">
-    <div class="page-wrapper">
-        <?php include("studentheaderandmobileview.php"); ?>
+    <body class="animsition">
+        <div class="page-wrapper">
+            <?php include("studentheaderandmobileview.php"); ?>
 
-        <!-- PAGE CONTAINER-->
-        <div class="page-container">
-            <?php include("studentheader.php"); ?>
+            <!-- PAGE CONTAINER-->
+            <div class="page-container">
+                <?php include("studentheader.php"); ?>
 
-            <!-- MAIN CONTENT-->
-            <div class="main-content">
-                <div class="section__content section__content--p30">
-                    <div class="container-fluid">
+                <!-- MAIN CONTENT-->
+                <div class="main-content">
+                    <div class="section__content section__content--p30">
+                        <div class="container-fluid">
                             <div>
-                                <h2>Quizzes</h2><hr/>
+                                <h2>Quizzes</h2>
+                                <hr />
                             </div>
-                        <div class="row">
+                            <div class="row">
 
                                 <div class="col-md-12">
-                                <div class="table-responsive table--no-card m-b-30">
-                                    <table class="table table-borderless table-striped table-earning">
-                                        <thead>
+                                    <div class="table-responsive table--no-card m-b-30">
+                                        <table class="table table-borderless table-striped table-earning">
+                                            <thead>
 
-                                            <tr>
-                                                <th>Quiz Title</th>
-                                                <th>Subject</th>
-                                                <th>Time</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="response">
-                                            <?php
+                                                <tr>
+                                                    <th>Quiz Title</th>
+                                                    <th>Subject</th>
+                                                    <th>Time</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="response">
+                                                <?php
                                                 $sql="select quizid, quizname, (SELECT subjectname from subjecttbl WHERE subjectid=quiztbl.subjectid) AS subject, duration, status from quiztbl ORDER BY quizname";
                                                 $result=mysqli_query($con, $sql);
                                                 while($row=mysqli_fetch_array($result)){
                                             ?>
-                                            <tr>
-                                                <td><?php echo "<a href=exam.php?quizid=".$row['quizid']."> " .$row['quizname']."</a>"; ?></td>
-                                                <td><?php echo $row['subject']; ?></td>
-                                                <td><?php echo $row['duration']; ?></td>
-                                                <td class="process">
+                                                <tr>
+                                                    <td><?php echo "<a href=exam.php?quizid=".$row['quizid']."> " .$row['quizname']."</a>"; ?>
+                                                    </td>
+                                                    <td><?php echo $row['subject']; ?></td>
+                                                    <td><?php echo $row['duration']; ?></td>
+                                                    <td class="process">
 
-                                                    <?php 
+                                                        <?php 
                                                     $sqlq="select quizid, userid from scoretbl where quizid=".$row['quizid']." AND userid=".$profileid;
                                                     $rs=mysqli_query($con, $sqlq);
                                                     $arr=mysqli_fetch_array($rs);
@@ -93,49 +95,49 @@ $_SESSION['sidebar']="quizzes";
                                                     }
 
                                                     ?><i class="fas fa-link"></i>
-                                                </td>
-                                            </tr>
-                                           <?php } ?>
-                                        </tbody>
-                                    </table>
+                                                    </td>
+                                                </tr>
+                                                <?php } ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                            </div>
 
-                        </div> <!-- row -->
-                    </div> <!-- section__content -->
-                </div><!-- container Fluid -->
-            </div><!-- main content -->
-            <!-- END MAIN CONTENT-->
-            <!-- END PAGE CONTAINER-->
+                            </div> <!-- row -->
+                        </div> <!-- section__content -->
+                    </div><!-- container Fluid -->
+                </div><!-- main content -->
+                <!-- END MAIN CONTENT-->
+                <!-- END PAGE CONTAINER-->
+            </div>
+
         </div>
 
-    </div>
+        <!-- Jquery JS-->
+        <script src="vendor/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap JS-->
+        <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+        <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+        <!-- Vendor JS       -->
+        <script src="vendor/slick/slick.min.js">
+        </script>
+        <script src="vendor/wow/wow.min.js"></script>
+        <script src="vendor/animsition/animsition.min.js"></script>
+        <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+        </script>
+        <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+        <script src="vendor/counter-up/jquery.counterup.min.js">
+        </script>
+        <script src="vendor/circle-progress/circle-progress.min.js"></script>
+        <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+        <script src="vendor/select2/select2.min.js">
+        </script>
 
-    <!-- Jquery JS-->
-    <script src="vendor/jquery-3.2.1.min.js"></script>
-    <!-- Bootstrap JS-->
-    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- Vendor JS       -->
-    <script src="vendor/slick/slick.min.js">
-    </script>
-    <script src="vendor/wow/wow.min.js"></script>
-    <script src="vendor/animsition/animsition.min.js"></script>
-    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-    </script>
-    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="vendor/counter-up/jquery.counterup.min.js">
-    </script>
-    <script src="vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="vendor/select2/select2.min.js">
-    </script>
+        <!-- Main JS-->
+        <script src="js/main.js"></script>
 
-    <!-- Main JS-->
-    <script src="js/main.js"></script>
-
-</body>
+    </body>
 
 </php>
 <!-- end document-->

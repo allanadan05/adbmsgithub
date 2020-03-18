@@ -53,37 +53,37 @@ $_SESSION['sidebar']="scores";
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
-                            <div>
-                                <h2>Scores</h2><hr/>
-                            </div>
+                        <div>
+                            <h2>Scores</h2>
+                            <hr />
+                        </div>
                         <div class="row">
                             <div class="row m-t-30">
-                            <div class="col-md-12">
-                                <!-- DATA TABLE-->
-                                <div class="table-responsive m-b-40">
-                                    <table class="table table-borderless table-data3">
-                                        <thead>
-                                            <tr>
-                                                <th>Quiz title</th>
-                                                <th>Score</th>
-                                                <th>Average Score</th>
-                                                <th>remarks</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php 
+                                <div class="col-md-12">
+                                    <!-- DATA TABLE-->
+                                    <div class="table-responsive m-b-40">
+                                        <table class="table table-borderless table-data3">
+                                            <thead>
+                                                <tr>
+                                                    <th>Quiz title</th>
+                                                    <th>Score</th>
+                                                    <th>Average Score</th>
+                                                    <th>remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php 
                                             $sql="select (SELECT quizname from quiztbl where quizid=scoretbl.quizid) as quizname, concat(totalscore, '/', totalitems) as score, averagescore, remarks from scoretbl where userid=".$profileid;
                                             $result=mysqli_query($con, $sql);
                                             while($row=mysqli_fetch_array($result)){
 
                                             ?>
-                                            <tr>
-                                                <td><?php echo $row['quizname']; ?></td>
-                                                <td><?php echo $row['score']; ?></td>
-                                                <td><?php echo $row['averagescore']. "%"; ?></td>
+                                                <tr>
+                                                    <td><?php echo $row['quizname']; ?></td>
+                                                    <td><?php echo $row['score']; ?></td>
+                                                    <td><?php echo $row['averagescore']. "%"; ?></td>
 
-                                                <td 
-                                                <?php
+                                                    <td <?php
                                                   $rem=$row['remarks'];
 
                                                   if($rem=="PASSED"){
@@ -91,48 +91,47 @@ $_SESSION['sidebar']="scores";
                                                   }else{
                                                     echo "class='denied' ";
                                                   }
-                                                ?>
-                                                ><?php echo $row['remarks']; ?></td>
-                                            </tr>
-                                        <?php  } ?>
-                                        </tbody>
-                                    </table>
+                                                ?>><?php echo $row['remarks']; ?></td>
+                                                </tr>
+                                                <?php  } ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- END DATA TABLE-->
                                 </div>
-                                <!-- END DATA TABLE-->
-                            </div>
-                        </div> <!-- row -->
-                    </div> <!-- section__content -->
-                </div><!-- container Fluid -->
-            </div><!-- main content -->
-            <!-- END MAIN CONTENT-->
-            <!-- END PAGE CONTAINER-->
+                            </div> <!-- row -->
+                        </div> <!-- section__content -->
+                    </div><!-- container Fluid -->
+                </div><!-- main content -->
+                <!-- END MAIN CONTENT-->
+                <!-- END PAGE CONTAINER-->
+            </div>
+
         </div>
 
-    </div>
+        <!-- Jquery JS-->
+        <script src="vendor/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap JS-->
+        <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+        <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+        <!-- Vendor JS       -->
+        <script src="vendor/slick/slick.min.js">
+        </script>
+        <script src="vendor/wow/wow.min.js"></script>
+        <script src="vendor/animsition/animsition.min.js"></script>
+        <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+        </script>
+        <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+        <script src="vendor/counter-up/jquery.counterup.min.js">
+        </script>
+        <script src="vendor/circle-progress/circle-progress.min.js"></script>
+        <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+        <script src="vendor/select2/select2.min.js">
+        </script>
 
-    <!-- Jquery JS-->
-    <script src="vendor/jquery-3.2.1.min.js"></script>
-    <!-- Bootstrap JS-->
-    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- Vendor JS       -->
-    <script src="vendor/slick/slick.min.js">
-    </script>
-    <script src="vendor/wow/wow.min.js"></script>
-    <script src="vendor/animsition/animsition.min.js"></script>
-    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-    </script>
-    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="vendor/counter-up/jquery.counterup.min.js">
-    </script>
-    <script src="vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="vendor/select2/select2.min.js">
-    </script>
-
-    <!-- Main JS-->
-    <script src="js/main.js"></script>
+        <!-- Main JS-->
+        <script src="js/main.js"></script>
 
 </body>
 
