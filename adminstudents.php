@@ -573,7 +573,11 @@ if($_SESSION['access']=="admin"){
                                         {
                                             echo "<a class='btn btn-info' href='adminstudents.php?page=".$i."'>$i</a>";
                                         }
-                                        if($page>1)
+                                        if($totalPage)
+                                        {
+                                            echo "<a class='btn btn-info' href='adminstudents.php?page=".$i."'>$i</a>";
+                                        }
+                                        if($i>$page)
                                         {
                                             echo "<a class='btn btn-primary' href='adminstudents.php?page=".($page+1)."'>Next</a>";
                                         }
