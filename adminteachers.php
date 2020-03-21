@@ -47,25 +47,7 @@ $_SESSION['sidebar']="teachers";
                     document.getElementById("hiddenuserid").value = forwardedid;
                     document.getElementById("submitbtn").style.display = "none";
                     document.getElementById("savebtn").style.display = "inline";
-                    /*
-                    var buongObject=JSON.parse(this.responseText);
-                    //document.getElementById("response").innerHTML = buongObject.sname;
-                    document.getElementById("email").value = buongObject.email;
-                    document.getElementById("password").value = buongObject.password;
-                    document.getElementById("lname").value = buongObject.lname;
-                    document.getElementById("fname").value = buongObject.fname;
-                    document.getElementById("mname").value = buongObject.mname;
-                    // new line code
-                    document.getElementById("dep").value = buongObject.dep;
-                    document.getElementById("sec").value = buongObject.sec;
-                    // new line code
-                    document.getElementById("sectionselected1").label = buongObject.departmentname;
-                    document.getElementById("sectionselected1").value = buongObject.deptid;
-                    document.getElementById("sectionselected2").label = buongObject.sectionname;
-                    document.getElementById("sectionselected2").value = buongObject.sectionid;
-                    //document.getElementById("sectionselected3").label = buongObject.subjectname;
-                    //document.getElementById("sectionselected3").value = buongObject.subjectid;
-                    */
+                  
                     var buongObject = JSON.parse(this.responseText);
                     document.getElementById("email").value = buongObject.email;
                     document.getElementById("password").value = buongObject.password;
@@ -238,12 +220,12 @@ $_SESSION['sidebar']="teachers";
                                 } 
                             }
                             
-                            if(isset($_GET['deletestudentresult'])){
-                                $deletestudentresult=$_GET['deletestudentresult'];
-                                if($deletestudentresult=="success"){
+                            if(isset($_GET['deleteteacherresult'])){
+                                $deleteteacherresult=$_GET['deleteteacherresult'];
+                                if($deleteteacherresult=="success"){
                                 echo "<div class='alert alert-primary' role='alert'> Profile has been deleted :) </div>";
                                 }
-                                if($deletestudentresult=="failed"){
+                                if($deleteteacherresult=="failed"){
                                 echo "<div class='alert alert-danger' role='alert'>  Profile cannot be deleted :( </div>";
                                 } 
                             }
@@ -271,7 +253,7 @@ $_SESSION['sidebar']="teachers";
                                         <div class="rs-select2--light rs-select2--md">
                                             <select class="js-select2" name="sections" id="secid"
                                                 onchange="changeddepartment()">
-                                                <option selected="selected" disabled>All Departments</option>
+                                                <option value="0" selected="selected" disabled>All Departments</option>
                                                 <?php 
                                                    $sqlstring="SELECT * FROM departmenttbl";
                                                    $querystring=mysqli_query($con, $sqlstring);
@@ -355,7 +337,7 @@ $_SESSION['sidebar']="teachers";
                                         }
                                         
                                         $num_of_page = 05; // limit ng page niya sa table
-                                        $start_from= ($page-1)*06;                                      
+                                        $start_from= ($page-1)*05;                                      
                                        //pagination
                                         
                                         ?>
@@ -518,7 +500,7 @@ $_SESSION['sidebar']="teachers";
                                 <tr>
                                     <td>Department: &nbsp&nbsp&nbsp</td>
                                     <td> <select name="deptid" id="dep" required>
-                                            <option id="sectionselected1" selected readonly>Choose Department</option>
+                                            <option value="0" id="sectionselected1" selected readonly>Choose Department</option>
                                             <?php 
                            $sql="SELECT * from departmenttbl";
                            $result=mysqli_query($con, $sql);
@@ -535,7 +517,7 @@ $_SESSION['sidebar']="teachers";
                                 <tr>
                                     <td>Section:</td>
                                     <td><select name="section" id="sec" required>
-                                            <option id="sectionselected2" selected readonly>Choose Section</option>
+                                            <option value="0" id="sectionselected2" selected readonly>Choose Section</option>
                                             <?php 
                            $sql="SELECT * from sectiontbl";
                            $result=mysqli_query($con, $sql);
@@ -559,7 +541,7 @@ $_SESSION['sidebar']="teachers";
                             name="addteachersubmit">Submit</button> &nbsp
                         <button type="submit" id="savebtn" class="btn btn-warning" style="display: none;"
                             name="editteachersubmit">Save</button>
-                        <a class="btn btn-danger" data-dismiss="modal" href="adminteachers.php">Close</a>
+                        <a class="btn btn-danger" data-dismiss="modal" href="#  ">Close</a>
                         <!--button onclick="addteachersBtn();" type="button" id="close-tbn" class="btn btn-danger" data-dismiss="modal">Close</button-->
                         </form>
 

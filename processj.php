@@ -57,20 +57,25 @@ if($palatandaan =="editsteacher"){
 			$pambato['SearchteachersdeptId'] = $row['deptid']; // find section by teacher compare to (department id for teacher)
 			$findDeptId = $pambato['SearchteachersdeptId']; // hold value dept id niya
 
-			// finding a department para makuha o kumpara section hinahawakan ng teacher po
 				// teachersPerSection
-				$qq = "SELECT * FROM teachersectiontbl WHERE sectionid='$findDeptId'";
+				$qq = "SELECT * FROM teachersectiontbl WHERE teachersid='$id' ";
 				$ee = mysqli_query($con, $qq);
 				$rr = mysqli_fetch_array($ee);
-				$pambato['sectionid'] = $rr['sectionid'];
-				// teachersPerSection
+				if($rr['sectionid']<1){
+					$pambato['sectionid'] ="0";
+					$pambato['sectionname'] ="Nothing Assigned";
+				}else{
+					$pambato['sectionid'] = $rr['sectionid'];
+					// teachersPerSection
 
-				// finding section by teachers
-				$ss="SELECT * FROM sectiontbl where sectionid=".$rr['sectionid'];
-				$ff = mysqli_query($con, $ss);
-				$tt = mysqli_fetch_array($ff);
-				$pambato['sectionname'] = $tt['sectionname'];
-				// finding section by teachers 
+					// finding section by teachers
+					$ss="SELECT * FROM sectiontbl where sectionid=".$rr['sectionid'];
+					$ff = mysqli_query($con, $ss);
+					$tt = mysqli_fetch_array($ff);
+					$pambato['sectionname'] = $tt['sectionname'];
+					// finding section by teachers 
+				}
+					
 			// finding a department para makuha o kumpara section hinahawakan ng teacher po			
 
 			$deptid=$row['deptid'];
@@ -112,11 +117,16 @@ if(isset($_GET['deleteteachers'])){
    $query = "DELETE FROM teacherstbl WHERE teachersid='$id' ";
    $check = mysqli_query($con , $query) or die('Query error');
     if($check)
-        {	echo "success";
-            header("location: adminteachers.php");
+        {	
+			$query = "DELETE FROM teachersectiontbl WHERE teachersid='$id' ";
+			$check = mysqli_query($con , $query) or die('Query error');
+				if($check){
+				header("location: adminteachers.php?deleteteacherresult=success");	
+				}
+				
         }
         else
-        {	echo "failed";
-            header("location: adminteachers.php?");
+        {	
+            header("location: adminteachers.php?deleteteacherresult=success");
         }
 }

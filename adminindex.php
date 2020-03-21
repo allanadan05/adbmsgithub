@@ -143,18 +143,7 @@ $admin=admingetname($id);
                                             </div>
                                             <hr>
                                             <div class="card-text text-sm-center">
-                                                <a href="#">
-                                                    <i class="fa fa-facebook pr-1"></i>
-                                                </a>
-                                                <a href="#">
-                                                    <i class="fa fa-twitter pr-1"></i>
-                                                </a>
-                                                <a href="#">
-                                                    <i class="fa fa-linkedin pr-1"></i>
-                                                </a>
-                                                <a href="#">
-                                                    <i class="fa fa-pinterest pr-1"></i>
-                                                </a>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -197,7 +186,7 @@ $admin=admingetname($id);
                                             </form>
                                         </div>
                                         <div class="card-footer">
-                                            <button type="edit" class="btn btn-secondary btn-sm">
+                                            <!-- <button type="edit" class="btn btn-secondary btn-sm">
                                                 <i class="fa fa-pencil-square-o"></i> Edit
                                             </button>
                                             <button type="reset" class="btn btn-danger btn-sm">
@@ -205,7 +194,7 @@ $admin=admingetname($id);
                                             </button>
                                             <button type="submit" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-dot-circle-o"></i> Submit
-                                            </button>
+                                            </button> -->
                                         </div>
                                     </div>
                                 </div>
