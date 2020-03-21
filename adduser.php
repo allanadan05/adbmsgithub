@@ -24,10 +24,26 @@ if(isset($_POST['addstudentsubmit'])){
 		// validation for user -- new line code :)
 	    if(strlen($pword)<4)
 	    {
-	    	header("location: adminstudents.php?password=tooShort");
+			if($_SESSION['access']=="user"){
+				header("Location: index.php?login=access"); //user cant access this
+			}else if($_SESSION['access']=="teacher"){
+				header("location: teacherstudents.php?password=tooShort");
+			}else if($_SESSION['access']=="admin"){
+				header("location: adminstudents.php?password=tooShort");
+			}else{
+				header("Location: index.php?login=access");
+			}
 	    }
 	    elseif(mysqli_num_rows($rowEmail)>0){
-			header("location: adminstudents.php?exist=email");
+			if($_SESSION['access']=="user"){
+				header("Location: index.php?login=access"); //user cant access this
+			}else if($_SESSION['access']=="teacher"){
+				header("location: teacherstudents.php?exist=email");
+			}else if($_SESSION['access']=="admin"){
+				header("location: adminstudents.php?exist=email");
+			}else{
+				header("Location: index.php?login=access");
+			}
 		}
 		else
 		{
@@ -39,7 +55,16 @@ if(isset($_POST['addstudentsubmit'])){
 
 					if(file_exists("images/profile_picture/$image"))
 					{
-							header("location: adminstudents.php?exist=image");		
+						if($_SESSION['access']=="user"){
+							header("Location: index.php?login=access"); //user cant access this
+						}else if($_SESSION['access']=="teacher"){
+							header("location: teacherstudents.php?exist=image");
+						}else if($_SESSION['access']=="admin"){
+							header("location: adminstudents.php?exist=image");
+						}else{
+							header("Location: index.php?login=access");
+						}
+									
 					}
 					else
 					{
@@ -48,7 +73,16 @@ if(isset($_POST['addstudentsubmit'])){
 						{
 							move_uploaded_file($img_temp,"images/profile_picture/".$image);
 							mysqli_query($con,$sql);
-							header("location: adminstudents.php?new=student");
+							if($_SESSION['access']=="user"){
+								header("Location: index.php?login=access"); //user cant access this
+							}else if($_SESSION['access']=="teacher"){
+								header("location: teacherstudents.php?new=student");
+							}else if($_SESSION['access']=="admin"){
+								header("location: adminstudents.php?new=student");
+							}else{
+								header("Location: index.php?login=access");
+							}
+							
 						}
 					}
 		 			//header("location: adminstudents.php?new=student");

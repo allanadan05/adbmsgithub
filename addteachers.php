@@ -1,4 +1,5 @@
 <?php
+@session_start();
 include('connection.php');
 
 
@@ -45,7 +46,8 @@ if (isset($_POST['editteachersubmit'])) {
 
         //check if teacher has section assigned
         $sql1 = "SELECT * FROM teachersectiontbl where teachersid='$id' ";
-        if (mysqli_query($con, $sql1)) {
+        $result=mysqli_query($con, $sql1);
+        if(mysqli_num_rows($result)){
             $sql2 = "UPDATE teachersectiontbl SET sectionid='$sectionid' WHERE teachersid='$id' ";
             if (mysqli_query($con, $sql2)) {
                 header("location: adminteachers.php?editstudentresult=success&lname=" . $lname . "&fname=" . $fname);

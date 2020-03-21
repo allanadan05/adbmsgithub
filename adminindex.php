@@ -4,6 +4,14 @@ include('adminsession.php');
 include('functions.php');
 $_SESSION['sidebar']="dashboard";
 $admin=admingetname($id);
+
+if($_SESSION['access']=="admin"){
+
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -55,6 +63,24 @@ $admin=admingetname($id);
                     document.getElementById("select3").style.display = "inline";
                 }
             }
+
+            function deleteannouncement(announceid){
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState == 4 && xhttp.status == 200) {  
+                        document.getElementById("announcement-body").innerHTML = this.responseText;
+                        document.getElementById("welcome").style.display ="none";                 
+                    }
+                };
+                
+                var  announceid = announceid;
+                var admin=document.getElementById("adminname").innerHTML;
+                //document.write(admin);
+                var palatandaan = "deleteannouncement";
+                xhttp.open("GET", "processj.php?announceid=" + announceid  + "&admin=" + admin + "&palatandaan=" + palatandaan, true);
+                xhttp.send();
+            }
+
         </script>
     </head>
 
@@ -81,18 +107,20 @@ $admin=admingetname($id);
                                 $name=$_GET['fname'];
 
                                 if($login=="s"){
-                                echo "<div class='alert alert-success' role='alert'> Welcome ". $name ."! </div>";
+                                echo "<div id="welcome"  class='alert alert-success' role='alert'> Welcome ". $name ."! </div>";
                                 }
                             }
                             */
                                  if(isset($_SESSION['fname'])){
-                                 echo "<div class='alert alert-success' role='alert'> Welcome ".$_SESSION['fname']."! </div>";
+                                 echo "<div id='welcome' class='alert alert-success' role='alert'> Welcome ".$_SESSION['fname']."! </div>";
                                  }
                                  else{
                                     header("Location: index.php");
                                  }
                              
                             ?>
+                            <div id="response"></div>
+                            <div id="adminname" hidden><?php echo $admin;?></div>
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="card">
@@ -103,24 +131,27 @@ $admin=admingetname($id);
                                                 <i class="fas fa-plus"></i> ADD
                                             </button>
                                         </div>
-                                        <div class="card-body">
+                                        <div class="card-body" id="announcement-body">
                                             <?php
 
 
-                                    $sql="SELECT * FROM announcementtbl WHERE anfrom='$admin' ORDER BY dateposted desc  ";
+                                    $sql="SELECT * FROM announcementtbl WHERE anfrom='$admin' ORDER BY dateposted desc ";
                                     $result=mysqli_query($con, $sql);
 
                                     if(mysqli_num_rows($result)){
                                     while($row = mysqli_fetch_array($result))
                                     { ?>
                                             <div style="background-color: whitesmoke;">
-                                                <h4><?php echo $row['antitle']?><h4>
+                                                <h4><?php echo $row['antitle']?>
+                                                <button onclick="deleteannouncement(<?php echo $row['announceid']; ?>)" class="btn btn-danger" style="float: right;"><i class="fa fa-trash" aria-hidden="true"></i></button><h4>
                                                         <h6><?php echo $row['dateposted']?> |
                                                             <?php echo $row['anfrom']?></h6>
                                                         <p><?php echo $row['andetails'] ?></p>
                                             </div>
                                             <br>
                                             <?php }
+                                    }else{
+                                        echo"<div>No Announcement</div>";
                                     }
                                  ?>
                                         </div>
@@ -158,7 +189,7 @@ $admin=admingetname($id);
                                                 <div class="form-group">
                                                     <label for="exampleInputName2"
                                                         class="pr-1  form-control-label">Userid</label><br>
-                                                    <input type="text" id="name" placeholder="" required=""
+                                                    <input type="text" id="userid" placeholder="" required=""
                                                         value=<?php echo adminid($id);?> readonly class="form-control">
                                                 </div>
                                                 <div class="form-group">

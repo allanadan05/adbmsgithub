@@ -4,11 +4,15 @@ include('teachersession.php');
 include('functions.php');
 $_SESSION['sidebar']="subjects";
 $teacher=teachersgetname($teachersid);
-$sql="SELECT * FROM subjecttbl";
+$sql=" select *, (select subjectid from subjecttbl where subjectid=teachersubjecttbl.subjectid) as subjectid, (select subjectname from subjecttbl where subjectid=teachersubjecttbl.subjectid) as subjectname, (select subjectdesc from subjecttbl where subjectid=teachersubjecttbl.subjectid) as subjectdesc from teachersubjecttbl where teachersid=".$teachersid;
 $query=mysqli_query($con, $sql);
 
+if($_SESSION['access']=="teacher"){
 
-
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
 
 ?>
 <!DOCTYPE html>
@@ -20,7 +24,7 @@ $query=mysqli_query($con, $sql);
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="author" content="Dan Astillero">
         <!-- Title Page-->
-        <title>Dashboard</title>
+        <title>Subjects</title>
 
         <!-- Fontfaces CSS-->
         <link href="css/font-face.css" rel="stylesheet" media="all">
@@ -55,15 +59,17 @@ $query=mysqli_query($con, $sql);
 
             <!-- PAGE CONTAINER-->
             <div class="page-container">
+
                 <!-- HEADER DESKTOP-->
                 <?php include("teacherheader.php"); ?>
                 <!-- HEADER DESKTOP-->
+
                 <!-- MAIN CONTENT-->
                 <div class="main-content">
                     <div class="section__content section__content--p30">
                         <div class="container-fluid">
                             <div>
-                                <h2>Subjects</h2>
+                                <h2>Assigned Subjects</h2>
                                 <hr />
                             </div>
                             <div id="response"></div>
@@ -96,59 +102,28 @@ $query=mysqli_query($con, $sql);
                                 if($deletesubresult=="failed"){
                                 echo "<div class='alert alert-danger' role='alert'> Sorry, cannot be deleted  :( </div>";
                                 }
-                            }
-
-
-                             
+                            }  
                             ?>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <form action="addsub.php" method="POST">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <strong class="card-title">
-                                                    <input type="text" name="subjectname" id="subname"
-                                                        placeholder="Enter Subject Title" autofocus="autofocus">
-                                                    <input type="hidden" name="uId" id="uId">
-                                                </strong>
-                                            </div>
-                                            <div class="card-body">
-                                                <p class="card-text"> <input type="text" name="subjectdesc" id="subdes"
-                                                        placeholder="Type description here...">
-                                                </p>
-                                            </div>
-                                            <div class="card-footer">
-                                                <select name="sections" style="margin-top: 5px;">
-                                                    <option selected="selected" disabled>Select Section</option>
-                                                    <?php 
-                                                   $sqlstring="SELECT * FROM sectiontbl";
-                                                   $querystring=mysqli_query($con, $sqlstring);
-                                                   while($row=mysqli_fetch_array($querystring)){
-                                                ?>
-                                                    <option value="<?php echo $row['sectionid']; ?>">
-                                                        <?php echo $row['sectionname']; ?></option>
-                                                    <?php } ?>
-                                                </select>
 
-                                                <button type="submit" class="btn btn-primary btn-sm"
-                                                    style="float:right; display: inline;" id="addsubj"
-                                                    name="submitnewsubject"><i class="fas fa-plus"></i> ADD</button>
-                                                <button type="submit" class="btn btn-primary"
-                                                    style="float:right; display: none;" name="editnewsubject"
-                                                    id="updatesubj"><i class="fas fa-save"></i> SAVE</button>
-                                            </div>
-                                    </form>
 
-                                </div>
-                            </div>
+                        <div class="row">
                             <?php  while ($row=mysqli_fetch_assoc($query)) {  ?>
                             <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong class="card-title"><a
-                                                href="<?php echo $row['subjectid'] ?>"><?php echo $row['subjectname'] ?></a>
+                                        <strong class="card-title"><a href="#"><?php echo $row['subjectname'] ?></a>
+                                            <input type="hidden" id="<?php echo "title" .$row['subjectid'] ?>"
+                                                value="<?php echo $row['subjectname'] ?>">
                                             <small>
-                                                <span class="badge badge-success float-right mt-1">3</span>
+                                                <span class="badge badge-success float-right mt-1"
+                                                    id="<?php echo "badge" .$row['subjectid']; ?>">
+                                                    <?php  
+                                                $sssqll="SELECT count(sectionid) AS assignedcount from sectionsubjecttbl where subjectid=" .$row['subjectid'];
+                                                $result=mysqli_query($con, $sssqll);
+                                                $r=mysqli_fetch_assoc($result);
+                                                echo $r['assignedcount'] ." Section/s"; 
+                                                ?>
+                                                </span>
                                             </small>
                                         </strong>
                                     </div>
@@ -157,14 +132,22 @@ $query=mysqli_query($con, $sql);
                                         </p>
                                     </div>
                                     <div class="card-footer">
-                                        <div class="row">
+                                        <!-- <div class="row">
+                                            <button class="btn btn-success"
+                                                style="font-size: 13px; width: auto; height: auto;" data-toggle="modal"
+                                                data-target="#add"
+                                                onclick="showassignedsections(<?php echo $row['subjectid']; ?>)"><i
+                                                    class="fas fa-check-square"></i> &nbsp Assign</button>
+                                            &nbsp&nbsp&nbsp
                                             <button class="btn btn-warning"
+                                                style="font-size: 13px; width: auto; height: auto;"
                                                 onclick="editsubject(<?php echo $row['subjectid']; ?>)"><i
                                                     class="fas fa-pencil-square-o"></i>EDIT</button> &nbsp&nbsp&nbsp
                                             <a href="<?php echo "addsub.php?deletesubject=1&id=".$row['subjectid'] ?>"><button
-                                                    class="btn btn-danger"><i
+                                                    class="btn btn-danger"
+                                                    style="font-size: 13px; width: auto; height: auto;"> <i
                                                         class="fas fa-trash"></i>DELETE</button></a>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -178,6 +161,111 @@ $query=mysqli_query($con, $sql);
         </div>
 
         </div>
+
+        <!-- MODAL ADD -->
+        <div class="add-user-modal">
+            <div class="modal" id="add">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h6 class="modal-title" id="modaltitle">Assign Subject</h6>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+
+                            <form action="#" method="GET">
+                                <input type="hidden" name="hiddensubid" id="hiddensubid">
+                                <div id="seccheckbox">
+
+                                    <?php
+                            $sql="SELECT * from sectiontbl ";
+                            $result=mysqli_query($con, $sql);
+
+                            if(mysqli_num_rows($result)){
+                            while($row = mysqli_fetch_array($result))
+                            {?>
+                                    <ul>
+                                        <label>
+                                            <!-- check section if already assigned to a subject  -->
+                                            <input type="checkbox" value="<?php  echo $row['sectionid']; ?>"
+                                                name="<?php  echo $row['sectionname']; ?>" <?php
+                                     $sqlss="SELECT * from sectionsubjecttbl where sectionid=".$row['sectionid'];
+                                     $resultss=mysqli_query($con, $sqlss);
+                                     if(mysqli_num_rows($resultss)){
+                                     while($rowss = mysqli_fetch_array($resultss)){
+                                        if($rowss['subjectid'] == 2 ){
+                                            echo "checked=checked";
+                                        }
+                                     }
+                                    }
+                                ?>> <!-- end tag of input type chekbox -->
+                                            <?php  echo " " .$row['sectionname']; ?>
+
+                                        </label>
+                                    </ul>
+                                    <?php }
+                        }?>
+                                </div>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <!-- <button type="submit" id="submitbtn" class="btn btn-success" style="display: inline" name="assignsectiontosubject">Submit</button> &nbsp  -->
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                onclick="history.go(0)">Save</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /MODAL ADD -->
+
+        <!-- JS functions -->
+        <script>
+            // function top(){
+            //     document.body.scrollTop = 0; // For Safari
+            // 	document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            // }
+            function assignbutton(subid) {
+                document.getElementById("hiddensubid").value = subid;
+                document.getElementById("modaltitle").innerHTML = document.getElementById("title" + subid).value;
+            }
+
+            function showassignedsections(subjectid) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState == 4 && xhttp.status == 200) {
+                        document.getElementById("seccheckbox").innerHTML = this.responseText;
+                        document.getElementById("hiddensubid").value = subjectid;
+                        document.getElementById("modaltitle").innerHTML = document.getElementById("title" +
+                            subjectid).value;
+                    }
+                };
+                var subjectid = subjectid;
+                var palatandaan = "showassignedsections";
+                xhttp.open("GET", "process.php?palatandaan=" + palatandaan + "&subjectid=" + subjectid, true);
+                xhttp.send();
+            }
+
+            function assignsectiontosubject(secid, subid) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState == 4 && xhttp.status == 200) {
+                        // window.alert(this.responseText);
+                    }
+                };
+                var subid = subid;
+                var secid = secid;
+                var palatandaan = "assignsectiontosubject";
+                xhttp.open("GET", "process.php?palatandaan=" + palatandaan + "&subid=" + subid + "&secid=" + secid,
+                    true);
+                xhttp.send();
+            }
+        </script>
 
         <!-- Jquery JS-->
         <script src="vendor/jquery-3.2.1.min.js"></script>

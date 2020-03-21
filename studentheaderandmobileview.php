@@ -3,6 +3,13 @@ include('session.php');
 $secid = $_SESSION['sectionid'];
 $id = $_SESSION['id'];
 
+if($_SESSION['access']=="user"){
+
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
+
 ?>
 <!-- HEADER MOBILE-->
 <header class="header-mobile d-block d-lg-none">

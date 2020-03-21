@@ -4,6 +4,12 @@ include('adminsession.php');
 include('functions.php');
 $_SESSION['sidebar']="students";
 
+if($_SESSION['access']=="admin"){
+
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
 
 ?>
 <!DOCTYPE html>
@@ -442,7 +448,7 @@ $_SESSION['sidebar']="students";
                                         }
                                         
                                         $num_of_page = 05; // limit ng page niya sa table
-                                        $start_from= ($page-1)*06;                                      
+                                        $start_from= ($page-1)*05;                                      
                                        //pagination
                                        
                                         $sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, userstbl.sectionid, 

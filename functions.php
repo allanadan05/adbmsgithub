@@ -105,6 +105,25 @@ function teachersgetname($id)
     return $ibalik;
 }
 
+function teachersgetdeptname($id)
+{
+
+    include('connection.php');
+
+    $sql = "SELECT * FROM teacherstbl where teachersid=" . $id;
+    $executeQuery = mysqli_query($con, $sql);
+
+    while ($result = mysqli_fetch_array($executeQuery)) {
+        $q=mysqli_query($con, "SELECT departmentname FROM departmenttbl WHERE deptid=".$result['deptid']);
+        while($deptname=mysqli_fetch_array($q)){
+            $ibalik = $deptname['departmentname'];
+        }
+        
+    }
+
+    return $ibalik;
+}
+
 
 function teachergetfname($id)
 {

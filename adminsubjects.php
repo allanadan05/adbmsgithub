@@ -6,6 +6,12 @@ $_SESSION['sidebar']="subjects";
 $sql="SELECT * FROM subjecttbl";
 $query=mysqli_query($con, $sql);
 
+if($_SESSION['access']=="admin"){
+
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
 
 ?>
 <!DOCTYPE html>
