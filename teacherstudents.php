@@ -252,7 +252,12 @@ $teacher=teachersgetname($teachersid);
                                         $start_from= ($page-1)*5;                                      
                                        //pagination
                                        
-                                        $sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, userstbl.sectionid, (select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname, (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore from userstbl where sectionid=(select sectionid from teachersectiontbl where teachersid='$teachersid')  order by userstbl.lname limit $start_from,$num_of_page";
+                                        $sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, userstbl.sectionid,
+                                         (select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname, 
+                                         (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore 
+                                         from userstbl where sectionid=(select sectionid from teachersectiontbl where teachersid='$teachersid')  
+                                         order by userstbl.lname limit $start_from,$num_of_page";
+                                         
                                         $result=mysqli_query($con, $sql);
                                         if(mysqli_num_rows($result)){
                                         while($row = mysqli_fetch_array($result))
