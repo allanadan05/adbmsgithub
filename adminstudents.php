@@ -4,6 +4,12 @@ include('adminsession.php');
 include('functions.php');
 $_SESSION['sidebar']="students";
 
+if($_SESSION['access']=="admin"){
+
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
 
 ?>
 <!DOCTYPE html>
@@ -180,8 +186,8 @@ $_SESSION['sidebar']="students";
             }
             // document.getElementById("delSuccess").style.display="inline"; // print delete successfully
             //document.getElementById("showDeleted").style.display="inline";
-            var mul_del = "ajaxMulitpleDelete";
-            xmlhttp.open("GET", "process2.php?id=" + eachCheckBoxes + "&mul_del=" + mul_del, true);
+            var mul_del = "ajaxMulitpleDeleteStudents";
+            xmlhttp.open("GET", "process2.php?id=" + eachCheckBoxes + "&mul_delStudents=" + mul_del, true);
             xmlhttp.send();
             window.location.reload();
             // process2.php
@@ -330,10 +336,10 @@ $_SESSION['sidebar']="students";
                       echo "<div class='alert alert-danger' role='alert'>Already Exist Email </div>";
                     }  
 
-                    if(isset($_GET['exist']) && $_GET['exist']=="image") 
-                    {
-                      echo "<div class='alert alert-primary' role='alert'>Already exist image</div>";
-                    }  
+                    //if(isset($_GET['exist']) && $_GET['exist']=="image") 
+                    //{
+                      //echo "<div class='alert alert-primary' role='alert'>Already exist image</div>";
+                    //}  
 
                     ?>
                             <!--adduser.php-->
@@ -442,7 +448,7 @@ $_SESSION['sidebar']="students";
                                         }
                                         
                                         $num_of_page = 05; // limit ng page niya sa table
-                                        $start_from= ($page-1)*06;                                      
+                                        $start_from= ($page-1)*05;                                      
                                        //pagination
                                        
                                         $sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, userstbl.sectionid, 
@@ -450,7 +456,7 @@ $_SESSION['sidebar']="students";
                                          (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore
                                           from userstbl order by userstbl.lname limit $start_from,$num_of_page";
                                         $result=mysqli_query($con, $sql);
-                                        if(mysqli_num_rows($result)){
+                                        if(@mysqli_num_rows($result)){
                                         while($row = mysqli_fetch_array($result))
                                         {?>
 
@@ -567,7 +573,13 @@ $_SESSION['sidebar']="students";
                                         {
                                             echo "<a class='btn btn-info' href='adminstudents.php?page=".$i."'>$i</a>";
                                         }
-                                        if($page>1)
+
+                                        if($totalPage)
+                                            {
+                                               echo "<a class='btn btn-info' href='adminstudents.php?page=".($i)."'>$i</a>";
+                                            }
+
+                                        if($i>$page)
                                         {
                                             echo "<a class='btn btn-primary' href='adminstudents.php?page=".($page+1)."'>Next</a>";
                                         }
@@ -612,7 +624,7 @@ $_SESSION['sidebar']="students";
 
                                     <tr>
                                         <td>Image:</td>
-                                        <td><input type="file" id="image" name="image" value=""></td>
+                                        <td><input type="file" id="image" name="image" accept="image/*" value=""></td>
                                     </tr>
                                     <div style="display:none;" id="showStudtimage">
                                         <!-- image view per student-->

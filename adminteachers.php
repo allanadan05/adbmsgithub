@@ -3,6 +3,14 @@ include('connection.php');
 include('adminsession.php');
 include('functions.php');
 $_SESSION['sidebar']="teachers";
+
+if($_SESSION['access']=="admin"){
+
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,8 +63,7 @@ $_SESSION['sidebar']="teachers";
                     document.getElementById("fname").value = buongObject.fname;
                     document.getElementById("mname").value = buongObject.mname;
                     // section id
-                    var getDeptId = document.getElementById("SearchteachersdeptId").value = buongObject
-                        .SearchteachersdeptId;
+                    var getDeptId = document.getElementById("SearchteachersdeptId").value = buongObject.SearchteachersdeptId;
                     var setDeptId = getDeptId; // hold value 
                     //document.getElementById("teachersdeptId").value = setDeptId ;
                     //document.write(getDeptId);                
@@ -349,7 +356,7 @@ $_SESSION['sidebar']="teachers";
                                         (SELECT count(subjectid) from teachersubjecttbl where teachersid=teacherstbl.teachersid) AS NoOfSubject 
                                         FROM teacherstbl order by teacherstbl.lname limit $start_from,$num_of_page";
                                         $result=mysqli_query($con, $sql);
-                                        if(mysqli_num_rows($result)){
+                                        if(@mysqli_num_rows($result)){
                                         while($row = mysqli_fetch_array($result))
                                         {?>
                                             <tr class="tr-shadow">
@@ -418,11 +425,17 @@ $_SESSION['sidebar']="teachers";
                                         {
                                             echo "<a class='btn btn-warning' href='adminteachers.php?page=".($page-1)."'>Previous</a>";
                                         }
-                                      for($i=1;$i<$totalPage;$i++)
+                                        for($i=1;$i<$totalPage;$i++)
                                         {
+                                            
                                             echo "<a class='btn btn-info' href='adminteachers.php?page=".$i."'>$i</a>";
                                         }
-                                        if($page>1)
+                                        if($totalPage)
+                                            {
+                                               echo "<a class='btn btn-info' href='adminteachers.php?page=".($i)."'>$i</a>";
+                                            }
+                                    
+                                        if($i>$page)
                                         {
                                             echo "<a class='btn btn-primary' href='adminteachers.php?page=".($page+1)."'>Next</a>";
                                         }
@@ -541,7 +554,7 @@ $_SESSION['sidebar']="teachers";
                             name="addteachersubmit">Submit</button> &nbsp
                         <button type="submit" id="savebtn" class="btn btn-warning" style="display: none;"
                             name="editteachersubmit">Save</button>
-                        <a class="btn btn-danger" data-dismiss="modal" href="#  ">Close</a>
+                        <a class="btn btn-danger" data-dismiss="modal" href="adminteachers.php">Close</a>
                         <!--button onclick="addteachersBtn();" type="button" id="close-tbn" class="btn btn-danger" data-dismiss="modal">Close</button-->
                         </form>
 

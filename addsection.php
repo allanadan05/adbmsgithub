@@ -1,4 +1,5 @@
 <?php
+@session_start();
 include('connection.php');
 
     $sec=$_POST['sectionname'];

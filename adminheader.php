@@ -2,7 +2,20 @@
 include('connection.php');
 include('adminsession.php');
 
+<<<<<<< HEAD
+// image view
+$adminimg="SELECT adminimage FROM admintbl WHERE adminid='".$_SESSION['adminid']."' ";
+$adminimg_query=mysqli_query($con,$adminimg);
+$adminimg_fetch=mysqli_fetch_array($adminimg_query);
+// image view
+=======
+if($_SESSION['access']=="admin"){
 
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
+>>>>>>> 19fd19a65510eb3b530958a25c567f515dab21f9
 
 ?>
 
@@ -25,7 +38,9 @@ include('adminsession.php');
                     <div class="account-wrap">
                         <div class="account-item clearfix js-item-menu">
                             <div class="image">
-                                <img src="images/icon/avatar-dan.jpg" alt="profile" />
+                                <!--img src="images/icon/avatar-dan.jpg" alt="profile" /-->
+                                <img onerror="this.src='images/defaultpic/defaultPIC.png'"
+                                src="<?php echo "images/admin_picture/".$adminimg_fetch['adminimage']."";?>">
                             </div>
                             <div class="content">
                                 <a style="color: maroon;" class="js-acc-btn"
@@ -35,7 +50,9 @@ include('adminsession.php');
                                 <div class="info clearfix">
                                     <div class="image">
                                         <a href="#">
-                                            <img src="images/icon/avatar-dan.jpg" alt="avatar" />
+                                            <!--img src="images/icon/avatar-dan.jpg" alt="avatar" /-->
+                                            <img onerror="this.src='images/defaultpic/defaultPIC.png'"
+                                            src="<?php echo "images/admin_picture/".$adminimg_fetch['adminimage']."";?>">
                                         </a>
                                     </div>
                                     <div class="content">

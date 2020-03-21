@@ -33,6 +33,7 @@ if($result['email'] == $email && $result['password']== $password){
         $_SESSION['email']=$result['email'];
         $_SESSION['lname']=$result['lname'];
         $_SESSION['fname']=$result['fname'];
+        $_SESSION['access']="user";
         //header("Location: studentindex.php?login=s&fname=".$result['fname']);
         header("Location: studentindex.php");
         exit();
@@ -54,6 +55,7 @@ if($result['email'] == $email && $result['password']== $password){
             $_SESSION['email']=$result['email'];
             $_SESSION['lname']=$result['lname'];
             $_SESSION['fname']=$result['fname'];
+            $_SESSION['access']="teacher";
             header("Location: teacherindex.php");
             exit();
         }else{
@@ -67,6 +69,7 @@ if($result['email'] == $email && $result['password']== $password){
                 $_SESSION['lname']=$result['lname'];
                 $_SESSION['fname']=$result['fname'];
                 //header("Location: adminindex.php?login=s&fname=".$result['fname']);
+                $_SESSION['access']="admin";
                 header("Location: adminindex.php");
                 exit();
             }else{

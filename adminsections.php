@@ -5,6 +5,13 @@ include('functions.php');
 
 $_SESSION['sidebar']="sections";
 
+if($_SESSION['access']=="admin"){
+
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
+
 ?>
 <!DOCTYPE html>
 <php lang="en">

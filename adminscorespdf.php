@@ -1,4 +1,12 @@
 <?php
+
+if($_SESSION['access']=="admin"){
+
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
+
 // error reporting to bypass undefined varialble to force without permission siya still working in depends sa condition
 error_reporting(1);
 require 'fpdf182/fpdf.php';
@@ -31,7 +39,7 @@ where userid=scoretbl.userid) as user,
      $pdf->Cell(58,5,$result['user'],1,0);
      $pdf->Cell(47,5,$result['quizname'],1,0);
      $pdf->Cell(13,5,$result['score'],1,0);
-     $pdf->Cell(34,5,$result['averagescore'],1,0);
+     $pdf->Cell(34,5,$result['averagescore']."%",1,0);
      if($result['remarks']>=75.00)
      {
          $remarks="PASSED";
