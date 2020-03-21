@@ -108,6 +108,42 @@ if($palatandaan =="editsteacher"){
 
 }
 
+if($palatandaan=="deleteannouncement"){
+    $announceid=$_GET['announceid'];
+    $admin=$_GET['admin'];
+   $query = "DELETE FROM announcementtbl WHERE announceid='$announceid' ";
+   $check = mysqli_query($con , $query) or die('Query error');
+    if($check)
+        {	
+		
+			$sql="SELECT * FROM announcementtbl WHERE anfrom='$admin' ORDER BY dateposted desc ";
+			$result=mysqli_query($con, $sql);
+
+			if(mysqli_num_rows($result)){
+				while($row = mysqli_fetch_array($result))
+				{ 
+					echo "<div style='background-color: whitesmoke;'>
+						<h4>".$row['antitle']."
+						<button onclick='deleteannouncement(".$row['announceid'].")' class='btn btn-danger' style='float: right;'><i class='fa fa-trash' aria-hidden='true'></i></button><h4>
+								<h6>".$row['dateposted']." |
+									".$row['anfrom']."</h6>
+								<p>".$row['andetails']."</p>
+					</div>
+					<br>";
+				}
+			}else{
+			 echo"<div>No Announcement</div>";
+			}
+		 	
+        }
+        else
+        {	
+            echo"<div>No Announcement</div>";	
+        }
+}
+
+
+
 
 }
 
@@ -130,3 +166,5 @@ if(isset($_GET['deleteteachers'])){
             header("location: adminteachers.php?deleteteacherresult=success");
         }
 }
+
+
