@@ -52,7 +52,7 @@ if($_SESSION['access']=="admin"){
             <?php include("adminheadermobileandsidebar.php"); ?>
             <!-- HEADER MOBILE and SIDEBAR-->
 
-            <!-- PAGE CONTAINER-->
+         <!-- PAGE CONTAINER-->
             <div class="page-container">
                 <!-- HEADER DESKTOP-->
                 <?php include("adminheader.php"); ?>
@@ -66,8 +66,66 @@ if($_SESSION['access']=="admin"){
                                 <h2>Settings</h2>
                                 <hr />
                             </div>
-                            <div class="row">
 
+                            <div class="row">
+                            <form action="process3.php" method="POST" enctype="multipart/form-data">
+                            <?php
+                                    $sqlAdminId_accSetting="SELECT * FROM admintbl WHERE adminid='".$_SESSION['id']."'";
+                                    $sqlAdminQuery_accSetting=mysqli_query($con,$sqlAdminId_accSetting);
+                                    $sqlAdminFetch_accSetting=mysqli_fetch_array($sqlAdminQuery_accSetting);
+                                    echo "<input type='hidden' name='adminid' id='adminid' value='$sqlAdminFetch_accSetting[adminid]' readonly>";
+                                    echo "<input type='hidden' name='accSetting' id='accSetting' value='accSetting' readonly>";
+                                    //var_dump($sqlAdminFetch);
+                            ?> 
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <strong class="card-title"><a href=""> Account Setting</a></strong>
+                                            </div>
+                                                <div class="card-body">
+                                                
+                                                <input type="file" id="myfile" name="myfile" accept="image/*"><br>
+                                                <strong>Username:</strong>&nbsp;
+                                                <input type="email" name="email" id="email" value="<?php echo $sqlAdminFetch_accSetting['email']; ?>"><br>
+                                                <strong>Password:</strong>&nbsp;
+                                                <input type="text" name="password" id="password" value="<?php echo $sqlAdminFetch_accSetting['password']; ?>"><br><br>                                 
+                                                </div>
+                                           
+                                                <div class="card-footer">
+                                                <button name="accSetting" class="btn btn-warning" type="submit">SAVE</button><br> 
+                                                </div>
+                                        </div>
+                                    </div>
+                            </form>
+                            <form action="process3.php" method="POST">
+                                    <?php
+                                    $sqlAdminId_personalInfo="SELECT * FROM admintbl WHERE adminid='".$_SESSION['id']."'";
+                                    $sqlAdminQuery_personalInfo=mysqli_query($con,$sqlAdminId_personalInfo);
+                                    $sqlAdminFetch_personalInfo=mysqli_fetch_array($sqlAdminQuery_personalInfo);
+                                    echo "<input type='hidden' name='adminid' id='adminid' value='$sqlAdminFetch_personalInfo[adminid]' readonly>";
+                                    echo "<input type='hidden' name='personalInfo' id='personalInfo' value='personalInfo' readonly>";
+                                    //var_dump($sqlAdminFetch);
+                                    ?>            
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <strong class="card-title"><a href=""> Personal Information</a></strong>
+                                            </div>
+                                                <div class="card-body"> 
+                                                <strong>Lastname:</strong>&nbsp;
+                                                <input type="text" name="lname" id="lname" value="<?php echo $sqlAdminFetch_personalInfo['lname'];?>"><br>
+                                                <strong>Firstname:</strong>&nbsp;
+                                                <input type="text" name="fname" id="fname" value="<?php echo $sqlAdminFetch_personalInfo['fname']; ?>"><br>
+                                                <strong>Middlename:</strong>&nbsp; 
+                                                <input type="text" name="mname" id="mname" value="<?php echo $sqlAdminFetch_personalInfo['mname']; ?>"><br><br>                                          
+                                                </div>
+                                                <div class="card-footer">
+                                                <button name="personalInfo" class="btn btn-warning" type="submit">SAVE</button><br>
+                                                
+                                                </div>
+                                        </div>
+                                    </div>
+                            </form>
                             </div> <!-- row -->
                         </div> <!-- section__content -->
                     </div><!-- container Fluid -->

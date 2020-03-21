@@ -9,6 +9,13 @@ if($_SESSION['access']=="admin"){
     exit();
 }
 
+
+// image view
+$adminimg="SELECT adminimage FROM admintbl WHERE adminid='".$_SESSION['adminid']."' ";
+$adminimg_query=mysqli_query($con,$adminimg);
+$adminimg_fetch=mysqli_fetch_array($adminimg_query);
+// image view
+
 ?>
 
 <!-- HEADER DESKTOP-->
@@ -30,7 +37,9 @@ if($_SESSION['access']=="admin"){
                     <div class="account-wrap">
                         <div class="account-item clearfix js-item-menu">
                             <div class="image">
-                                <img src="images/icon/avatar-dan.jpg" alt="profile" />
+                                <!--img src="images/icon/avatar-dan.jpg" alt="profile" /-->
+                                <img onerror="this.src='images/defaultpic/defaultPIC.png'"
+                                src="<?php echo "images/admin_picture/".$adminimg_fetch['adminimage']."";?>">
                             </div>
                             <div class="content">
                                 <a style="color: maroon;" class="js-acc-btn"
@@ -40,7 +49,9 @@ if($_SESSION['access']=="admin"){
                                 <div class="info clearfix">
                                     <div class="image">
                                         <a href="#">
-                                            <img src="images/icon/avatar-dan.jpg" alt="avatar" />
+                                            <!--img src="images/icon/avatar-dan.jpg" alt="avatar" /-->
+                                            <img onerror="this.src='images/defaultpic/defaultPIC.png'"
+                                src="<?php echo "images/admin_picture/".$adminimg_fetch['adminimage']."";?>">
                                         </a>
                                     </div>
                                     <div class="content">

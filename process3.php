@@ -37,6 +37,8 @@ if($action=="ajaxMulitpleDelete")
 		$sqlAjaxDel=mysqli_query($con,$delAjax);
 	}
 */
+
+
 include 'connection.php';
 @$studName=$_GET['tokenStudName'];
 if($studName=="fullName")
@@ -54,3 +56,76 @@ if($studName=="fullName")
 		$printName = json_encode($obj);
 		echo $printName;
 }
+
+
+// admin setting (adminsettings.php)
+
+@$token_accSetting=$_POST['accSetting'];
+@$accSetting=$_POST['accSetting'];
+if(isset($accSetting))
+{
+	if(isset($token_accSetting))
+	{
+			$adminid=mysqli_escape_string($con,$_POST['adminid']);
+			$email=mysqli_escape_string($con,$_POST['email']);
+			$password=mysqli_escape_string($con,$_POST['password']);
+			//image import
+			$image = $_FILES['myfile']['name'];
+			$temp = $_FILES['myfile']['tmp_name'];
+			//image import
+			
+			if(isset($image) && ($image!=""))
+			{
+				$oldimg="SELECT adminimage FROM admintbl WHERE adminid='".$adminid."' ";
+				$queryoldimg=mysqli_query($con,$oldimg);
+				$fetcholdimg=mysqli_fetch_array($queryoldimg);
+				unlink("images/admin_picture/".$fetcholdimg['adminimage']); //delete na luma image
+				move_uploaded_file($temp,"images/admin_picture/".$image);
+				$sql_accSetting = "UPDATE admintbl set email='".$email."', password='".$password."', adminimage='".$image."' WHERE adminid='".$adminid."' ";
+				$sql_query_accSetting = mysqli_query($con,$sql_accSetting) or die (mysqli_connect_error($con));
+
+				if($sql_query_accSetting)
+				{
+					header("location: adminsettings.php?admin=accSettting");
+				}
+			}
+			else
+			{
+					$sql_accSetting = "UPDATE admintbl set email='".$email."', password='".$password."' WHERE adminid='".$adminid."' ";
+					$sql_query_accSetting = mysqli_query($con,$sql_accSetting) or die (mysqli_connect_error($con));
+
+					if($sql_query_accSetting)
+					{
+						header("location: adminsettings.php?admin=accSettting");
+					}
+				
+			}
+	}
+	
+}
+
+
+@$token_personalInfo=$_POST['personalInfo'];
+@$personalInfo=$_POST['personalInfo'];
+if(isset($personalInfo))
+{
+	if(isset($token_personalInfo))
+	{
+		$adminid=mysqli_escape_string($con,$_POST['adminid']);
+		$fname=mysqli_escape_string($con,$_POST['fname']);
+		$lname=mysqli_escape_string($con,$_POST['lname']);
+		$mname=mysqli_escape_string($con,$_POST['mname']);
+		$sql_personalInfo= "UPDATE admintbl set fname='".$fname."', lname='".$lname."', mname='".$mname."' WHERE adminid='".$adminid."' ";
+		$sql_query_personalInfo = mysqli_query($con,$sql_personalInfo) or die (mysqli_connect_error($con));
+
+		if($sql_query_personalInfo)
+		{
+			header("location: adminsettings.php?admin=personalInfo");
+		}
+	}
+}
+// admin setting (adminsettings.php)
+
+
+?>
+

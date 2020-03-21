@@ -165,8 +165,19 @@ if($_SESSION['access']=="admin"){
                                         </div>
                                         <div class="card-body">
                                             <div class="mx-auto d-block">
-                                                <img class="rounded-circle mx-auto d-block" style="width:50%;"
-                                                    src="images/icon/avatar-dan.jpg" alt="Card image cap">
+                                            <?php
+                                        // image view
+                                        $adminimg="SELECT adminimage FROM admintbl WHERE adminid='".$_SESSION['adminid']."' ";
+                                        $adminimg_query=mysqli_query($con,$adminimg);
+                                        $adminimg_fetch=mysqli_fetch_array($adminimg_query);
+                                        // image view                                           
+                                            ?>
+                                            <img alt="Card image cap" class="rounded-circle mx-auto d-block" style="width:50%;"
+                                             onerror="this.src='images/defaultpic/defaultPIC.png'"
+                                src="<?php echo "images/admin_picture/".$adminimg_fetch['adminimage']."";?>">
+                                                <!--img class="rounded-circle mx-auto d-block" style="width:50%;"
+                                                    src="images/icon/avatar-dan.jpg" alt="Card image cap"-->
+
                                                 <h5 class="text-sm-center mt-2 mb-1"><?php echo admingetname($id);?>
                                                 </h5>
                                                 <!-- <div class="location text-sm-center">
