@@ -1,9 +1,10 @@
 <?php
 include('connection.php');
-include('adminsession.php');
+include('teachersession.php');
 include('functions.php');
 
-$_SESSION['sidebar']="sections";
+$_SESSION['sidebar']="section";
+$teacher=teachersgetname($teachersid);
 
 ?>
 <!DOCTYPE html>
@@ -24,9 +25,6 @@ $_SESSION['sidebar']="sections";
                         document.getElementById("editsecbtn").style.display = "inline";
                     }
                 };
-                $('html, body').animate({
-                    scrollTop: 0
-                }, 'fast');
                 var forwardedid = id;
                 //document.write(forwardedid);
                 var palatandaan = "editsection";
@@ -46,9 +44,6 @@ $_SESSION['sidebar']="sections";
                         document.getElementById("editdeptbtn").style.display = "inline";
                     }
                 };
-                $('html, body').animate({
-                    scrollTop: 0
-                }, 'fast');
                 var forwardedid = id;
                 //document.write(forwardedid);
                 var palatandaan = "editdept";
@@ -113,15 +108,14 @@ $_SESSION['sidebar']="sections";
     <body class="animsition">
         <div class="page-wrapper">
             <!-- HEADER MOBILE and SIDEBAR-->
-            <?php include("adminheadermobileandsidebar.php"); ?>
+            <?php include("teacherheadermobileandsidebar.php"); ?>
             <!-- HEADER MOBILE and SIDEBAR-->
 
             <!-- PAGE CONTAINER-->
             <div class="page-container">
                 <!-- HEADER DESKTOP-->
-                <?php include("adminheader.php"); ?>
+                <?php include("teacherheader.php"); ?>
                 <!-- HEADER DESKTOP-->
-
                 <!-- MAIN CONTENT-->
                 <div class="main-content">
                     <div class="section__content section__content--p30">

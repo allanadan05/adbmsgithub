@@ -48,7 +48,7 @@ include('connection.php');
                     <div class="login-content">
                         <div class="login-logo">
                             <a href="#">
-                                <img src="images/icon/logo-mini_bsu.png" alt="BSU">
+                                <img src="images/icon/logo-mini_bsu.png" alt="CoolAdmin">
                             </a>
                         </div>
                         <div class="login-form">
@@ -59,10 +59,6 @@ include('connection.php');
                                 if($login=="f"){
                                 echo "<div class='alert alert-danger' role='alert'> Username or Password incorrect </div>";
                                 }
-
-                                if($login=="access"){
-                                    echo "<div class='alert alert-danger' role='alert'> Access denied </div>";
-                                    }
                             }
                             ?>
                             <form action="login.php" method="post">
@@ -81,7 +77,7 @@ include('connection.php');
                                         <input type="checkbox" name="remember">Remember Me
                                     </label>
                                     <label>
-                                        <a href="forgetpassword.php">Forgot Password?</a>
+                                        <a href="forgetpassword.php">Forgotten Password?</a>
                                     </label>
                                 </div>
                                 <button class="au-btn au-btn--block au-btn--green m-b-20" name="loginsubmit"

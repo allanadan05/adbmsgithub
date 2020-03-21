@@ -1,14 +1,6 @@
 <?php
 
-include('connection.php');
-include('teachersession.php');
 
-if($_SESSION['access']=="teacher"){
-
-}else{
-    header("Location: index.php?login=access");
-    exit();
-}
 ?>
 <!-- HEADER MOBILE-->
 <header class="header-mobile d-block d-lg-none">
@@ -36,6 +28,10 @@ if($_SESSION['access']=="teacher"){
                 <li>
                     <a href="teachersubjects.php">
                         <i class="fas fa-book"></i>Subjects</a>
+                </li>
+                <li>
+                    <a href="teachersections.php">
+                        <i class="fas  fa-bookmark"></i>Sections/Departments</a>
                 </li>
                 <li>
                     <a href=teacherstudents.php">
@@ -97,6 +93,12 @@ if($_SESSION['access']=="teacher"){
                                                                                                                 $executeQuery = mysqli_query($con, $sql);
                                                                                                                 $result = mysqli_fetch_array($executeQuery);
                                                                                                                 echo $ibalik = $result['bilang']; ?></span></a>
+                </li>
+                <li <?php if ($_SESSION['sidebar'] == "section") {
+                        echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
+                    } ?>>
+                    <a href="teachersections.php">
+                        <i class="fas  fa-bookmark"></i>Sections/Departments</a>
                 </li>
                 <li <?php if ($_SESSION['sidebar'] == "students") {
                         echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";

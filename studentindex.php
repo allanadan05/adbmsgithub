@@ -3,14 +3,6 @@ include('connection.php');
 include('session.php');
 include('functions.php');
 $_SESSION['sidebar']="dashboards";
-
-if($_SESSION['access']=="user"){
-
-}else{
-    header("Location: index.php?login=access");
-    exit();
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

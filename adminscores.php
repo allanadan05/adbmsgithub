@@ -5,14 +5,6 @@ include('functions.php');
 
 $profileid=$_SESSION['adminid']; 
 $_SESSION['sidebar']="scores";
-
-if($_SESSION['access']=="admin"){
-
-}else{
-    header("Location: index.php?login=access");
-    exit();
-}
-
 ?>
 <!DOCTYPE html>
 <php lang="en">

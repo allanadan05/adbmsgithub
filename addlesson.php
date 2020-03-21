@@ -129,7 +129,7 @@ if(isset($_GET['deletelesson']))
     $id=$_GET['id'];
     $select_pdf=mysqli_query($con,"SELECT lessonpdf FROM lessontbl WHERE lessonid='".$id."'");
     $fetch_pdf=mysqli_fetch_array($select_pdf);
-    unlink($fetch_pdf['lessonpdf']); //delete na luma pdf
+    unlink($fetch_pdf['lessonpdf']); //delete na luma image
     $q = "DELETE FROM lessontbl WHERE lessonid='$id' ";
     $u = mysqli_query($con , $q);
     if($u)

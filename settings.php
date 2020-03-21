@@ -2,14 +2,6 @@
 include('connection.php');
 include('teachersession.php');
 
-if($_SESSION['access']=="user"){
-
-}else{
-    header("Location: index.php?login=access");
-    exit();
-}
-
-
 $_SESSION['sidebar']="settings";
 ?>
 <!DOCTYPE html>

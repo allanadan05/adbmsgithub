@@ -24,26 +24,10 @@ if(isset($_POST['addstudentsubmit'])){
 		// validation for user -- new line code :)
 	    if(strlen($pword)<4)
 	    {
-			if($_SESSION['access']=="user"){
-				header("Location: index.php?login=access"); //user cant access this
-			}else if($_SESSION['access']=="teacher"){
-				header("location: teacherstudents.php?password=tooShort");
-			}else if($_SESSION['access']=="admin"){
-				header("location: adminstudents.php?password=tooShort");
-			}else{
-				header("Location: index.php?login=access");
-			}
+	    	header("location: adminstudents.php?password=tooShort");
 	    }
 	    elseif(mysqli_num_rows($rowEmail)>0){
-			if($_SESSION['access']=="user"){
-				header("Location: index.php?login=access"); //user cant access this
-			}else if($_SESSION['access']=="teacher"){
-				header("location: teacherstudents.php?exist=email");
-			}else if($_SESSION['access']=="admin"){
-				header("location: adminstudents.php?exist=email");
-			}else{
-				header("Location: index.php?login=access");
-			}
+			header("location: adminstudents.php?exist=email");
 		}
 		else
 		{
@@ -53,45 +37,21 @@ if(isset($_POST['addstudentsubmit'])){
 			$sql = "INSERT INTO userstbl(email,password,fname,lname,mname,image,sectionid) VALUES ('$email','$pword','$fname','$lname','$mname','$image','$sectionid')";
 			//add image
 
-<<<<<<< HEAD
-		
-=======
 					if(file_exists("images/profile_picture/$image"))
 					{
-						if($_SESSION['access']=="user"){
-							header("Location: index.php?login=access"); //user cant access this
-						}else if($_SESSION['access']=="teacher"){
-							header("location: teacherstudents.php?exist=image");
-						}else if($_SESSION['access']=="admin"){
-							header("location: adminstudents.php?exist=image");
-						}else{
-							header("Location: index.php?login=access");
-						}
-									
+							header("location: adminstudents.php?exist=image");		
 					}
 					else
 					{
->>>>>>> 19fd19a65510eb3b530958a25c567f515dab21f9
 						$_SESSION['upload_student']=$image;
+						if($_SESSION['upload_student'])
+						{
 							move_uploaded_file($img_temp,"images/profile_picture/".$image);
 							mysqli_query($con,$sql);
-<<<<<<< HEAD
 							header("location: adminstudents.php?new=student");
-=======
-							if($_SESSION['access']=="user"){
-								header("Location: index.php?login=access"); //user cant access this
-							}else if($_SESSION['access']=="teacher"){
-								header("location: teacherstudents.php?new=student");
-							}else if($_SESSION['access']=="admin"){
-								header("location: adminstudents.php?new=student");
-							}else{
-								header("Location: index.php?login=access");
-							}
-							
 						}
 					}
 		 			//header("location: adminstudents.php?new=student");
->>>>>>> 19fd19a65510eb3b530958a25c567f515dab21f9
 		}
 	/*
 	$sql = "INSERT INTO userstbl(email,password,fname,lname,mname,sectionid) VALUES ('$email','$pword','$fname','$lname','$mname','$sectionid')";
@@ -155,7 +115,13 @@ if(isset($_POST['editstudentsubmit'])){
 				$img_temp= $_FILES['image']['tmp_name'];
 				$select_img=mysqli_query($con,"SELECT image FROM userstbl WHERE userid='".$id."'");
 				$fetch_img=mysqli_fetch_array($select_img);
-			
+				if(file_exists("images/profile_picture/$image"))
+				{
+					header("location: adminstudents.php?exist=image");	
+					//echo "<script>alert('already exist')</script>";
+				}
+				else
+				{	
 					$_SESSION['upload_student_new_image']=$image;
 					if($_SESSION['upload_student_new_image'])
 					{
@@ -164,10 +130,20 @@ if(isset($_POST['editstudentsubmit'])){
 					$sql = "UPDATE userstbl SET email='$email' ,password='$pword', fname='$fname',lname='$lname',mname='$mname',image='$image',sectionid='$sectionid' WHERE userid='$id' ";
 					mysqli_query($con,$sql);
 					 header("location: adminstudents.php?editstudentresult=success");
+					
 					}
+				}
+
 			}
 		else
 			{
+							//$image = $_FILES['image']['name'];
+							//$img_temp= $_FILES['image']['tmp_name'];
+							//$image="defaultPIC.png";
+				//$select_img=mysqli_query($con,"SELECT image FROM userstbl WHERE userid='".$id."'");
+				//$fetch_img=mysqli_fetch_array($select_img);
+				//unlink("images/profile_picture/".$fetch_img['image']); //delete na luma image
+				//move_uploaded_file($img_temp,"images/defaultpic/".$image);
 			$sql = "UPDATE userstbl SET email='$email' ,password='$pword', fname='$fname',lname='$lname',mname='$mname',sectionid='$sectionid' WHERE userid='$id' ";
 				mysqli_query($con,$sql);
 				  $_SESSION["lname"]=$lname;
@@ -175,99 +151,10 @@ if(isset($_POST['editstudentsubmit'])){
 				 header("location: adminstudents.php?editstudentresult=success");
 
 			}
+
 	}
 
 }
-
-// teacherstudents.php
-if(isset($_POST['addstudentsubmit_teachers'])){
-
-	$email=mysqli_escape_string($con,$_POST['email']);
-	$pword=mysqli_escape_string($con,$_POST['password']);
-	$fname=mysqli_escape_string($con,$_POST['fname']);
-	$lname=mysqli_escape_string($con,$_POST['lname']);
-	$mname=mysqli_escape_string($con,$_POST['mname']);
-	$sectionid=mysqli_escape_string($con,$_POST['sectionid']);
-
-	$CheckEmail="SELECT * FROM userstbl WHERE email='".$email."'";
-	$rowEmail=mysqli_query($con,$CheckEmail);
-	
-		// validation for user -- new line code :)
-	    if(strlen($pword)<4)
-	    {
-	    	header("location: teacherstudents.php?password=tooShort");
-	    }
-	    elseif(mysqli_num_rows($rowEmail)>0){
-			header("location: teacherstudents.php?exist=email");
-		}
-		else
-		{
-					$image = $_FILES['image']['name'];
-					$img_temp= $_FILES['image']['tmp_name'];
-
-			$sql = "INSERT INTO userstbl(email,password,fname,lname,mname,image,sectionid) VALUES ('$email','$pword','$fname','$lname','$mname','$image','$sectionid')";
-			//add image
-
-		
-						$_SESSION['upload_student']=$image;
-							move_uploaded_file($img_temp,"images/profile_picture/".$image);
-							mysqli_query($con,$sql);
-							header("location: teacherstudents.php?new=student");
-		}
-
-}
-
-if(isset($_POST['editstudentsubmit_teachers'])){
-
-    $id=mysqli_escape_string($con,$_POST['hiddenuserid']);
-	$email=mysqli_escape_string($con,$_POST['email']);
-	$pword=mysqli_escape_string($con,$_POST['password']);
-	$fname=mysqli_escape_string($con,$_POST['fname']);
-	$lname=mysqli_escape_string($con,$_POST['lname']);
-	$mname=mysqli_escape_string($con,$_POST['mname']);
-	$sectionid=mysqli_escape_string($con,$_POST['sectionid']);
-	
-	$CheckEmail="SELECT * FROM userstbl WHERE email='".$email."' LIMIT 1";
-	$rowEmail=mysqli_query($con,$CheckEmail);
-
-	if(strlen($pword)<4)
-	{
-		header("location: teacherstudents.php?password=tooShort");
-	}
-	else
-	{
-		//add image
-		if(isset($_FILES['image']['name']) && ($_FILES['image']['name']!=""))
-			{
-				$image = $_FILES['image']['name'];
-				$img_temp= $_FILES['image']['tmp_name'];
-				$select_img=mysqli_query($con,"SELECT image FROM userstbl WHERE userid='".$id."'");
-				$fetch_img=mysqli_fetch_array($select_img);
-			
-					$_SESSION['upload_student_new_image']=$image;
-					if($_SESSION['upload_student_new_image'])
-					{
-					unlink("images/profile_picture/".$fetch_img['image']); //delete na luma image
-					move_uploaded_file($img_temp,"images/profile_picture/".$image);
-					$sql = "UPDATE userstbl SET email='$email' ,password='$pword', fname='$fname',lname='$lname',mname='$mname',image='$image',sectionid='$sectionid' WHERE userid='$id' ";
-					mysqli_query($con,$sql);
-					 header("location: teacherstudents.php?editstudentresult=success");
-					}
-			}
-		else
-			{
-			$sql = "UPDATE userstbl SET email='$email' ,password='$pword', fname='$fname',lname='$lname',mname='$mname',sectionid='$sectionid' WHERE userid='$id' ";
-				mysqli_query($con,$sql);
-				  $_SESSION["lname"]=$lname;
-				$_SESSION["fname"]=$fname;
-				 header("location: teacherstudents.php?editstudentresult=success");
-
-			}
-	}
-
-}
-
-// teacherstudents.php
 
 
 

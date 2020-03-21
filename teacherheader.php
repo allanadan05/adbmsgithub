@@ -2,12 +2,7 @@
 include('connection.php');
 include('teachersession.php');
 
-if($_SESSION['access']=="teacher"){
 
-}else{
-    header("Location: index.php?login=access");
-    exit();
-}
 
 ?>
 

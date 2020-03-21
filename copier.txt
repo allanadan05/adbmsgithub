@@ -17,26 +17,3 @@ function showassignedsections(subjectid){
   subjecttbl
   sectionsubjecttbl
   teachersubjecttbl
-
-
-if($_SESSION['access']=="user"){
-header("Location: index.php?login=access"); //user cant access this
-}else if($_SESSION['access']=="teacher"){
-header("location: teacherstudents.php?notifsent=success");
-}else if($_SESSION['access']=="admin"){
-header("location: adminstudents.php?notifsent=success");
-}else{
-header("Location: index.php?login=access");
-}
-
-
-============================================
-  teacherstudent sql filter: By Advisory
-============================================
-  select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, userstbl.sectionid, (select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname, (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore from userstbl where sectionid=(select sectionid from teachersectiontbl where teachersid=17)  order by userstbl.lname;
-
-
-  ============================================
-  teacherstudent sql filter: By Assigned Subjects
-============================================
-  select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, userstbl.sectionid, (select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname, (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore from userstbl where sectionid=(select sectionid from sectionsubjecttbl where subjectid=5)  order by userstbl.lname;

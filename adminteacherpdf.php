@@ -1,12 +1,4 @@
 <?php
-
-if($_SESSION['access']=="admin"){
-
-}else{
-    header("Location: index.php?login=access");
-    exit();
-}
-
 // error reporting to bypass undefined varialble to force without permission siya still working in depends sa condition
 error_reporting(1);
 require 'fpdf182/fpdf.php';

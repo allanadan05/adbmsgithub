@@ -1,11 +1,3 @@
-<?php 
-if($_SESSION['access']=="admin"){
-
-}else{
-    header("Location: index.php?login=access");
-    exit();
-}
-?>
 <!-- HEADER MOBILE-->
 <header class="header-mobile d-block d-lg-none">
     <div class="header-mobile__bar">

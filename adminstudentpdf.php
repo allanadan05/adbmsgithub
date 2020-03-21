@@ -1,12 +1,4 @@
 <?php
-
-if($_SESSION['access']=="admin"){
-
-}else{
-    header("Location: index.php?login=access");
-    exit();
-}
-
 // error reporting to bypass undefined varialble to force without permission siya still working in depends sa condition
 error_reporting(1);
 require 'fpdf182/fpdf.php';
@@ -27,7 +19,7 @@ $pdf->Cell(32,5,'Average Score',1,0);
 $pdf->Ln();
 //database
 
-
+//$sql="SELECT userstbl.lname,userstbl.fname,userstbl.email,userstbl.sectionid,scoretbl.quizid, scoretbl.averagescore,scoretbl.remarks FROM userstbl,scoretbl WHERE userstbl.userid=scoretbl.userid";
 $sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, 
 (select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname,
  (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore
@@ -56,6 +48,24 @@ while($result=mysqli_fetch_array($query))
 		 }
 	}
 	$pdf->Cell(32,5,$result['averagescore'].$remarks,1,0); 
+	/*
+	//section id
+	$foundSection=$result['sectionid'];
+	$section="SELECT * FROM sectiontbl WHERE sectionid=$foundSection";
+	$querySection=mysqli_query($con,$section);
+	$compareSection=mysqli_fetch_array($querySection);
+	if($compareSection['sectionname']==$foundSection);
+	$pdf->Cell(15,5,$compareSection['sectionname'],1,0);
+	//quiz id
+	$foundQuiz=$result['quizid'];
+	$quiz="SELECT * FROM quiztbl WHERE quizid=$foundQuiz";
+	$queryQuiz=mysqli_query($con,$quiz);
+	$compareQuiz=mysqli_fetch_array($queryQuiz);
+	if($compareQuiz['quizid']==$foundQuiz);
+	$pdf->Cell(48,5,$compareQuiz['quizname'],1,0);
+	
+	$pdf->Cell(27,5,$result['averagescore']."%".$result['remarks'],1,0); 
+	*/
 	$pdf->Ln();
 }
 $pdf->Output();
