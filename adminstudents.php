@@ -180,8 +180,8 @@ $_SESSION['sidebar']="students";
             }
             // document.getElementById("delSuccess").style.display="inline"; // print delete successfully
             //document.getElementById("showDeleted").style.display="inline";
-            var mul_del = "ajaxMulitpleDelete";
-            xmlhttp.open("GET", "process2.php?id=" + eachCheckBoxes + "&mul_del=" + mul_del, true);
+            var mul_del = "ajaxMulitpleDeleteStudents";
+            xmlhttp.open("GET", "process2.php?id=" + eachCheckBoxes + "&mul_delStudents=" + mul_del, true);
             xmlhttp.send();
             window.location.reload();
             // process2.php
