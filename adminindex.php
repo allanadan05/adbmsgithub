@@ -5,7 +5,12 @@ include('functions.php');
 $_SESSION['sidebar']="dashboard";
 $admin=admingetname($id);
 
+if($_SESSION['access']=="admin"){
 
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
 
 ?>
 
@@ -184,7 +189,7 @@ $admin=admingetname($id);
                                                 <div class="form-group">
                                                     <label for="exampleInputName2"
                                                         class="pr-1  form-control-label">Userid</label><br>
-                                                    <input type="text" id="name" placeholder="" required=""
+                                                    <input type="text" id="userid" placeholder="" required=""
                                                         value=<?php echo adminid($id);?> readonly class="form-control">
                                                 </div>
                                                 <div class="form-group">

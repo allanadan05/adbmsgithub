@@ -2,7 +2,12 @@
 include('connection.php');
 include('adminsession.php');
 
+if($_SESSION['access']=="admin"){
 
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
 
 ?>
 

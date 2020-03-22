@@ -3,6 +3,14 @@ include('connection.php');
 include('adminsession.php');
 include('functions.php');
 $_SESSION['sidebar']="teachers";
+
+if($_SESSION['access']=="admin"){
+
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

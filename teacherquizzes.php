@@ -6,6 +6,13 @@ $_SESSION['sidebar']="quizzes";
 $teacher=teachersgetname($teachersid);
 
 
+if($_SESSION['access']=="teacher"){
+
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
+
 ?>
 <!DOCTYPE html>
 <php lang="en">

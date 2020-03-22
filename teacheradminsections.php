@@ -3,6 +3,12 @@ include('connection.php');
 include('adminsession.php');
 include('functions.php');
 
+if($_SESSION['access']=="teacher"){
+
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
 
 
 ?>

@@ -43,13 +43,13 @@
                     <div class="login-content">
                         <div class="login-logo">
                             <a href="#">
-                                <img src="images/icon/logo.png" alt="CoolAdmin">
+                                <img src="images/icon/logo-mini_bsu.png" alt="BSU">
                             </a>
                         </div>
                         <div class="login-form">
                             <form action="" method="post">
                                 <div class="form-group">
-                                    <label>Send password reset request to</label>
+                                    <label>Send password reset to</label>
                                     <input class="au-input au-input--full" type="email" name="email"
                                         placeholder="Email">
                                 </div>

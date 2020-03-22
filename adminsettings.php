@@ -4,6 +4,12 @@ include('adminsession.php');
 include('functions.php');
 $_SESSION['sidebar']="settings";
 
+if($_SESSION['access']=="admin"){
+
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
 
 ?>
 <!DOCTYPE html>

@@ -4,6 +4,12 @@ include('teachersession.php');
 include('functions.php');
 $_SESSION['sidebar']="dashboard";
 
+if($_SESSION['access']=="teacher"){
+
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
 
 $teacher=teachersgetname($teachersid);
 $teacherdeptid=teachergetdeptid($teachersid);
@@ -159,24 +165,12 @@ $teacherdeptid=teachergetdeptid($teachersid);
                                                     src="images/icon/avatar-dan.jpg" alt="Card image cap">
                                                 <h5 class="text-sm-center mt-2 mb-1">
                                                     <?php echo teachersgetname($teachersid);?></h5>
+
+                                                <h4 class="text-sm-center mt-2 mb-1"> <?php echo teachersgetdeptname($teachersid);?></h4>
                                                 <!-- <div class="location text-sm-center">
                                                 <i class="fa fa-groups"></i>Section: BSIT-3B1</div> -->
                                             </div>
                                             <hr>
-                                            <div class="card-text text-sm-center">
-                                                <a href="#">
-                                                    <i class="fa fa-facebook pr-1"></i>
-                                                </a>
-                                                <a href="#">
-                                                    <i class="fa fa-twitter pr-1"></i>
-                                                </a>
-                                                <a href="#">
-                                                    <i class="fa fa-linkedin pr-1"></i>
-                                                </a>
-                                                <a href="#">
-                                                    <i class="fa fa-pinterest pr-1"></i>
-                                                </a>
-                                            </div>
                                         </div>
                                     </div>
 
@@ -219,7 +213,7 @@ $teacherdeptid=teachergetdeptid($teachersid);
                                             </form>
                                         </div>
                                         <div class="card-footer">
-                                            <button type="edit" class="btn btn-secondary btn-sm">
+                                            <!-- <button type="edit" class="btn btn-secondary btn-sm">
                                                 <i class="fa fa-pencil-square-o"></i> Edit
                                             </button>
                                             <button type="reset" class="btn btn-danger btn-sm">
@@ -227,7 +221,7 @@ $teacherdeptid=teachergetdeptid($teachersid);
                                             </button>
                                             <button type="submit" class="btn btn-primary btn-sm">
                                                 <i class="fa fa-dot-circle-o"></i> Submit
-                                            </button>
+                                            </button> -->
                                         </div>
                                     </div>
                                 </div>

@@ -1,7 +1,12 @@
 <?php
 include('connection.php');
 include('session.php');
+if($_SESSION['access']=="user"){
 
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
 ?>
 <!-- HEADER DESKTOP-->
 <header class="header-desktop">
