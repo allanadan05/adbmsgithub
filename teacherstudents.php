@@ -91,7 +91,7 @@ function printnow()
         print_area.document.write('<th>Email</th>');
         print_area.document.write('<th>Section</th>');
         print_area.document.write('<th>Average Score</th>');
-        print_area.document.write('<th>Subjectn Name</th>');
+        print_area.document.write('<th>Subject Name</th>');
         print_area.document.write('</tr>');
 
         print_area.document.write(response.innerHTML);
