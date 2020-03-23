@@ -4,7 +4,7 @@ include('connection.php');
 
 
 if(isset($_POST["addlesson"])){
-
+    
     $fm = $_FILES["lessonpdf"]["name"];
     $loc = "./uploads/".$fm;
 
@@ -19,7 +19,15 @@ if(isset($_POST["addlesson"])){
     {
                 //echo "<script>alert('File is allow only in PDF')</script>";
                 $_SESSION['only_upload_pdf']=$fm;
-                header("location: adminlessons.php");
+                if($_SESSION['access']=="user"){
+                    header("Location: index.php?login=access"); //user cant access this
+                }else if($_SESSION['access']=="teacher"){
+                    header("location: teacherlessons.php");
+                }else if($_SESSION['access']=="admin"){
+                    header("location: adminlessons.php");
+                }else{
+                    header("Location: index.php?login=access");
+                }
     }
     else
     {
@@ -29,7 +37,16 @@ if(isset($_POST["addlesson"])){
                 $_SESSION['exist_upload_pdf']=$fm;
                 if($_SESSION['exist_upload_pdf'])
                 {
-                    header("location: adminlessons.php");
+                    if($_SESSION['access']=="user"){
+                        header("Location: index.php?login=access"); //user cant access this
+                    }else if($_SESSION['access']=="teacher"){
+                        header("location: teacherlessons.php");
+                    }else if($_SESSION['access']=="admin"){
+                        header("location: adminlessons.php");
+                    }else{
+                        header("Location: index.php?login=access");
+                    }
+                    
                 }
                 //header("location: adminlessons.php?already=exist");
             }
@@ -49,7 +66,15 @@ if(isset($_POST["addlesson"])){
                         $_SESSION['success_upload_pdf']=$fm;
                         if($_SESSION['success_upload_pdf'])
                         {
-                            header("location: adminlessons.php");
+                            if($_SESSION['access']=="user"){
+                                header("Location: index.php?login=access"); //user cant access this
+                            }else if($_SESSION['access']=="teacher"){
+                                header("location: teacherlessons.php");
+                            }else if($_SESSION['access']=="admin"){
+                                header("location: adminlessons.php");
+                            }else{
+                                header("Location: index.php?login=access");
+                            }
                         }
                         //echo "<script>alert('Uploaded successfully!')</script>";
                         //header("location: adminlessons.php?addsubresult=success");
@@ -58,7 +83,15 @@ if(isset($_POST["addlesson"])){
                     {
                         if($_SESSION['failed_upload_pdf'])
                         {
-                            header("location: adminlessons.php");
+                            if($_SESSION['access']=="user"){
+                                header("Location: index.php?login=access"); //user cant access this
+                            }else if($_SESSION['access']=="teacher"){
+                                header("location: teacherlessons.php");
+                            }else if($_SESSION['access']=="admin"){
+                                header("location: adminlessons.php");
+                            }else{
+                                header("Location: index.php?login=access");
+                            }
                         }
                         //header("location: adminlessons.php?addsubresult=failed");   
                     }
@@ -92,7 +125,15 @@ if(isset($_POST['editnewlesson'])){
     {
                 //echo "<script>alert('File is allow only in PDF')</script>";
                 $_SESSION['only_upload_pdf']=$fm;
-                header("location: adminlessons.php");
+                if($_SESSION['access']=="user"){
+                    header("Location: index.php?login=access"); //user cant access this
+                }else if($_SESSION['access']=="teacher"){
+                    header("location: teacherlessons.php");
+                }else if($_SESSION['access']=="admin"){
+                    header("location: adminlessons.php");
+                }else{
+                    header("Location: index.php?login=access");
+                }
     }
     else
     {
@@ -102,7 +143,15 @@ if(isset($_POST['editnewlesson'])){
                     $_SESSION['exist_upload_pdf']=$fm;
                     if($_SESSION['exist_upload_pdf'])
                     {
-                        header("location: adminlessons.php");
+                        if($_SESSION['access']=="user"){
+                            header("Location: index.php?login=access"); //user cant access this
+                        }else if($_SESSION['access']=="teacher"){
+                            header("location: teacherlessons.php");
+                        }else if($_SESSION['access']=="admin"){
+                            header("location: adminlessons.php");
+                        }else{
+                            header("Location: index.php?login=access");
+                        }
                     }
                     
                 }else{
@@ -114,11 +163,28 @@ if(isset($_POST['editnewlesson'])){
                     $u = mysqli_query($con , $q);
                     if($u)
                         {
-                            header("location: adminlessons.php?editlessonresult=success&lessontitle=".$lessontitle);
+                            if($_SESSION['access']=="user"){
+                                header("Location: index.php?login=access"); //user cant access this
+                            }else if($_SESSION['access']=="teacher"){
+                                header("location: teacherlessons.php?editlessonresult=success&lessontitle=".$lessontitle);
+                            }else if($_SESSION['access']=="admin"){
+                                header("location: adminlessons.php?editlessonresult=success&lessontitle=".$lessontitle);
+                            }else{
+                                header("Location: index.php?login=access");
+                            }
+                            
                         }
                         else
                         {
-                            header("location: adminlessons.php?editlessonresult=failed&lessondetail=".$lessondetail);
+                            if($_SESSION['access']=="user"){
+                                header("Location: index.php?login=access"); //user cant access this
+                            }else if($_SESSION['access']=="teacher"){
+                                header("location: teacherlessons.php?editlessonresult=failed&lessontitle=".$lessontitle);
+                            }else if($_SESSION['access']=="admin"){
+                                header("location: adminlessons.php?editlessonresult=failed&lessontitle=".$lessontitle);
+                            }else{
+                                header("Location: index.php?login=access");
+                            }
                         }
                 }
     }
@@ -134,11 +200,28 @@ if(isset($_GET['deletelesson']))
     $u = mysqli_query($con , $q);
     if($u)
         {
-            header("location: adminlessons.php?deletesubresult=success");
+            if($_SESSION['access']=="user"){
+                header("Location: index.php?login=access"); //user cant access this
+            }else if($_SESSION['access']=="teacher"){
+                header("location: teacherlessons.php?deletesubresult=success");
+            }else if($_SESSION['access']=="admin"){
+                header("location: adminlessons.php?deletesubresult=success");
+            }else{
+                header("Location: index.php?login=access");
+            }
+            
         }
         else
         {
-            header("location: adminlessons.php?deletesubresult=failed");
+            if($_SESSION['access']=="user"){
+                header("Location: index.php?login=access"); //user cant access this
+            }else if($_SESSION['access']=="teacher"){
+                header("location: teacherlessons.php?deletesubresult=failed");
+            }else if($_SESSION['access']=="admin"){
+                header("location: adminlessons.php?deletesubresult=failed");
+            }else{
+                header("Location: index.php?login=access");
+            }
         }
 }
 

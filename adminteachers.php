@@ -250,12 +250,9 @@ if($_SESSION['access']=="admin"){
                             ?>
                         </div>
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-12">
                                 <!-- DATA TABLE -->
-                                <h3 class="title-5 m-b-35" style="background-color: whitesmoke;"><input
-                                        style="width:95%; min-height:50px;" type="Search" id="searchteachers"
-                                        onkeyup="searchteachers()" placeholder="Search here..."><i
-                                        class="fas fa-search"></i></h3>
+                               
                                 <div class="table-data__tool">
                                     <div class="table-data__tool-left">
                                         <div class="rs-select2--light rs-select2--md">
@@ -307,9 +304,12 @@ if($_SESSION['access']=="admin"){
                                         </div>
                                     </div>
                                 </div>
-                                <div class="table-responsive table-responsive-data2">
-
-                                    <table class="table table-data2">
+                                <h3 class="title-5 m-b-35" style="background-color: whitesmoke;"><input
+                                        style="width:95%; min-height:50px;" type="Search" id="searchteachers"
+                                        onkeyup="searchteachers()" placeholder="Search here..."><i
+                                        class="fas fa-search"></i></h3>
+                                <div class="table-responsive m-b-40">
+                                    <table class="table table-borderless table-data3">
                                         <thead>
                                             <tr>
                                                 <th>

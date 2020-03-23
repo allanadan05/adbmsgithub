@@ -211,10 +211,7 @@ function printnow()
                                 <div class="col-md-12">
 
                                     <!-- DATA TABLE -->
-                                    <h3 class="title-5 m-b-35" style="background-color: whitesmoke;"><input
-                                            style="width:95%; min-height:50px;" type="Search" id="searchstudent"
-                                            onkeyup="searchstudent()" placeholder="Search here..."><i
-                                            class="fas fa-search"></i></h3>
+                                   
                                     <div class="table-data__tool">
                                         <div class="table-data__tool-left">
                                             <div class="rs-select2--light rs-select2--md">
@@ -255,10 +252,20 @@ function printnow()
                                             </div>
                                         </div>
                                     </div>
+
                                     
                                     <div class="table-responsive table-responsive-data2"
                                         style="overflow-x: scroll; overflow-y: hidden; width:970px;">
-                                        <table class="table table-data2 table-responsive-data2">
+
+
+                                    <h3 class="title-5 m-b-35" style="background-color: whitesmoke;"><input
+                                            style="width:95%; min-height:50px;" type="Search" id="searchstudent"
+                                            onkeyup="searchstudent()" placeholder="Search here..."><i
+                                            class="fas fa-search"></i></h3>
+
+                                    <div class="table-responsive m-b-40">
+                                        <table class="table table-borderless table-data3">
+
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
