@@ -346,12 +346,12 @@ $(".checkall").prop,("checked", $(this).prop("checked"))
 					}
 					?>
 				</td>
-				<td>
+				<td id='actionhide'>
 					<img style="width: 30px; height: 30px; border-radius: 100px;" onerror="this.src='images/defaultpic/defaultPIC.png'" src="<?php echo "images/profile_picture/" . $row['image'] . ""; ?>"></td>
 				</td>
 <?php
 				echo "
-									<td>
+									<td id='actionhide'>
 										<div class='table-data-feature'>
 											<button onclick='setmodalid(" . $row['userid'] . ")'  class='item' data-toggle='modal' data-placement='top' title='Send Notifications'  type='button' data-target='#sendnotif'>
 												<i class='zmdi zmdi-mail-send'></i>

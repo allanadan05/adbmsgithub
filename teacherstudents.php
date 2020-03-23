@@ -102,7 +102,7 @@ function printnow()
         print_area.document.write('</center>');
 		print_area.focus();
 		print_area.print();
-		print_area.close();
+		//print_area.close();
   
 	}
 
