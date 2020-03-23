@@ -92,7 +92,6 @@ function teacherid($id)
 
 function teachersgetname($id)
 {
-
     include('connection.php');
 
     $sql = "SELECT * FROM teacherstbl where teachersid=" . $id;

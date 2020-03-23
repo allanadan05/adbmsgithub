@@ -12,6 +12,7 @@ if($_SESSION['access']=="teacher"){
 
 $_SESSION['sidebar']="students";
 $teacher=teachersgetname($teachersid);
+
 ?>
 
 <!DOCTYPE html>
@@ -69,6 +70,43 @@ $teacher=teachersgetname($teachersid);
             document.getElementById("hiddensendid").value = id;
         }
     </script> 
+
+    <script>
+
+function printnow()
+	{
+
+        var print_div = document.getElementById("printNow");
+        var response = document.getElementById("response");
+        
+		var print_area = window.open();
+        print_area.document.write('<center><b>Student Record<b></center><br><br>');
+        print_area.document.write('<center>');
+
+		print_area.document.write('<table border="1">');
+
+        print_area.document.write('<tr>');
+
+        print_area.document.write('<th>Fullname</th>');
+        print_area.document.write('<th>Email</th>');
+        print_area.document.write('<th>Section</th>');
+        print_area.document.write('<th>Average Score</th>');
+        print_area.document.write('<th>Subjectn Name</th>');
+        print_area.document.write('</tr>');
+
+        print_area.document.write(response.innerHTML);
+        print_area.document.write('<style> #actionhide{display:none;}</style>')
+
+        print_area.document.write('</table>');
+
+        print_area.document.write('</center>');
+		print_area.focus();
+		print_area.print();
+		print_area.close();
+  
+	}
+
+    </script>
 
     <!-- Required meta tags-->
     <meta charset="UTF-8">
@@ -184,7 +222,8 @@ $teacher=teachersgetname($teachersid);
                                                     onchange="changedfilter()">
                                                     <option value="0" selected="selected" disabled>By Assigned Subject/s</option>
                                                     <?php 
-                                                   $sqlstring="select *, (select subjectname from subjecttbl where subjectid=teachersubjecttbl.subjectid) as subjectname from teachersubjecttbl where teachersid='$teachersid' ";
+                                                   $sqlstring="select *, (select subjectname from subjecttbl where subjectid=teachersubjecttbl.subjectid) as subjectname 
+                                                   from teachersubjecttbl where teachersid='$_SESSION[tearcherid]' ";
                                                    $querystring=mysqli_query($con, $sqlstring);
                                                    while($row=mysqli_fetch_array($querystring)){
                                                 ?>
@@ -197,22 +236,26 @@ $teacher=teachersgetname($teachersid);
                                             <button class="au-btn-filter">
                                                 <i class="zmdi zmdi-filter-list"></i>Filters</button>
                                         </div>
-                                       
+
+                                          
+
                                         <div class="table-data__tool-right">
+                                        
                                             <button class="au-btn au-btn-icon au-btn--green au-btn--small"
                                                 data-toggle="modal" data-target="#add">
                                                 <i class="zmdi zmdi-plus"></i>Add Student</button>
-                                            <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
+                                                <button onclick="printnow()" class="btn btn-info">PDF</button>
+                                            <!--div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
                                                 <select class="js-select2" name="type" onchange="location=this.value">
                                                     <option selected="selected">Export</option>
                                                     <option value="teacherstudentpdf.php">Pdf</option>
-                                                    <!--option value="">HTML</option-->
-                                                </select>
+                                                    <option value="">HTML</option>
+                                                </select-->
                                                 <div class="dropDownSelect2"></div>
                                             </div>
                                         </div>
                                     </div>
-
+                                    
                                     <div class="table-responsive table-responsive-data2"
                                         style="overflow-x: scroll; overflow-y: hidden; width:970px;">
                                         <table class="table table-data2 table-responsive-data2">
@@ -229,8 +272,9 @@ $teacher=teachersgetname($teachersid);
                                                 </tr>
                                             </thead>
 
+                                            
                                             <tbody id="response">
-
+                                            
                                                 <?php
                                         
                                         /*$sql="SELECT userstbl.userid, userstbl.lname, userstbl.fname, userstbl.email, sectiontbl.sectionname, (SELECT averagescore FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS AverageScore,(SELECT remarks FROM scoretbl WHERE userstbl.userid=scoretbl.userid ) AS Remarks from userstbl left join sectiontbl on userstbl.sectionid=sectiontbl.sectionid  order by userstbl.lname";*/
@@ -255,18 +299,15 @@ $teacher=teachersgetname($teachersid);
                                         $sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, userstbl.sectionid,
                                          (select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname, 
                                          (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore 
-                                         from userstbl where sectionid=(select sectionid from teachersectiontbl where teachersid='$teachersid')  
-                                         order by userstbl.lname limit $start_from,$num_of_page";
+                                         from userstbl where sectionid=(select sectionid from teachersectiontbl where teachersid='$_SESSION[tearcherid]')  
+                                         order  by userstbl.lname limit $start_from,$num_of_page";
                                          
                                         $result=mysqli_query($con, $sql);
                                         if(mysqli_num_rows($result)){
                                         while($row = mysqli_fetch_array($result))
                                         {?>
-
+                                                
                                                 <tr class="tr-shadow">
-                                                    <div id="showDel">
-                                                        
-                                                    </div>
                                                     <?php echo "<td>".$row['lname'].", ".$row['fname']."</td>"; ?>
                                                     <?php echo "<td>".$row['email']."</td>";?>
                                                     <?php echo "<td>".$row['sectionname']."</td>";?>
@@ -287,11 +328,12 @@ $teacher=teachersgetname($teachersid);
                                                      ?>>
                                                             <?php echo $row['averagescore'] ." % \n" .$remarks; ?>
                                                     </td>
-                                                    <!-- <?php echo "<td>".$row['subjects']."</td>";?>     
+                                                    <!-- <?php echo "<td id='subjprint'>".$row['subjects']."</td>";?>     
                                                <?php echo "<td> Subjects </td>";?>                                            -->
                                                     <td>
                                                         <?php
-                                               $q="select subjectid, (select subjectname from subjecttbl where subjectid=sectionsubjecttbl.subjectid) AS subjectname from sectionsubjecttbl where sectionid=" .$row['sectionid'];
+                                               $q="select subjectid, (select subjectname from subjecttbl where subjectid=sectionsubjecttbl.subjectid) AS subjectname 
+                                               from sectionsubjecttbl where sectionid=" .$row['sectionid'];
                                                $r=mysqli_query($con, $q);
                                                 if(mysqli_num_rows($r)){
                                                 while($sub = mysqli_fetch_array($r))
@@ -301,12 +343,15 @@ $teacher=teachersgetname($teachersid);
                                                 }
                                                ?>
                                                     </td>
-                                                    <td>
+                                                    <td id='actionhide'>
+                                                    
                                                         <img style="width: 30px; height: 30px; border-radius: 100px;"
                                                             onerror="this.src='images/defaultpic/defaultPIC.png'"
                                                             src="<?php echo "images/profile_picture/".$row['image']."";?>">
+                                                   
                                                     </td>
-                                                    <td>
+                                                    
+                                                    <td id="actionhide">
                                                         <div class="table-data-feature">
                                                             <button onclick="setmodalid(<?php echo $row['userid']; ?>)"
                                                                 class="item" data-toggle="modal" data-placement="top"
@@ -314,10 +359,9 @@ $teacher=teachersgetname($teachersid);
                                                                 data-target="#sendnotif">
                                                                 <i class="zmdi zmdi-mail-send"></i>
                                                             </button>
-                                                           
-                                                            
                                                         </div>
                                                     </td>
+                                                
                                                 </tr>
                                                 <?php      
 
@@ -332,15 +376,16 @@ $teacher=teachersgetname($teachersid);
                                     ?>
                                             </tbody>
                                         </table>
-
                                     </div>
+                                    
                                     <?php
                                     //buttons page pagination
                                 
-                                    $perpage="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, 
-                                    (select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname,
-                                     (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore
-                                      from userstbl order by userstbl.lname ";
+                                    $perpage="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, userstbl.sectionid,
+                                    (select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname, 
+                                    (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore 
+                                    from userstbl where sectionid=(select sectionid from teachersectiontbl where teachersid='$_SESSION[tearcherid]')  
+                                    order  by userstbl.lname limit $start_from,$num_of_page";
 
                                       $perpageResult=mysqli_query($con,$perpage);
                                       $totalRecord=mysqli_num_rows($perpageResult);
@@ -355,7 +400,11 @@ $teacher=teachersgetname($teachersid);
                                         {
                                             echo "<a class='btn btn-info' href='teacherstudents.php?page=".$i."'>$i</a>";
                                         }
-                                        if($page>1)
+                                        if($totalPage)
+                                        {
+                                            echo "<a class='btn btn-info' href='teacherstudents.php?page=".$i."'>$i</a>";
+                                        }
+                                        if($i>$page)
                                         {
                                             echo "<a class='btn btn-primary' href='teacherstudents.php?page=".($page+1)."'>Next</a>";
                                         }

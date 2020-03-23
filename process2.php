@@ -66,7 +66,10 @@ if (isset($_GET['palatandaan'])) {
 		if(mysqli_num_rows($subjectresult)){
 			while($subjectrow = mysqli_fetch_array($subjectresult)){
 		
-				$sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, userstbl.sectionid, (select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname, (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore from userstbl where sectionid=".$subjectrow['sectionid']." order by userstbl.lname";
+				$sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, userstbl.sectionid, 
+				(select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname,
+				 (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore 
+				 from userstbl where sectionid=".$subjectrow['sectionid']." order by userstbl.lname";
 				$result=mysqli_query($con, $sql);
 				if(mysqli_num_rows($result)){
 					while($row = mysqli_fetch_array($result))
@@ -97,7 +100,8 @@ if (isset($_GET['palatandaan'])) {
 								</span></td>";
 								
 								echo "<td>";
-								$q="select subjectid, (select subjectname from subjecttbl where subjectid=sectionsubjecttbl.subjectid) AS subjectname from sectionsubjecttbl where sectionid=" .$row['sectionid'];
+								$q="select subjectid, (select subjectname from subjecttbl where subjectid=sectionsubjecttbl.subjectid) AS subjectname
+								 from sectionsubjecttbl where sectionid=" .$row['sectionid'];
 								$r=mysqli_query($con, $q);
 								if(mysqli_num_rows($r)){
 								while($sub = mysqli_fetch_array($r))
@@ -107,12 +111,22 @@ if (isset($_GET['palatandaan'])) {
 								}
 						
 								echo"</td>";
+								/*
 								echo'<td>
+								
 									<img style="width: 30px; height: 30px; border-radius: 100px;"
 										onerror="this.src=images/defaultpic/defaultPIC.png"
-										src="images/profile_picture/'.$row['image'].'">
-								</td>';
-								echo "<td>
+										src="images/profile_picture/$row[image]">
+									</td>';
+								*/
+?>
+                                <td id='actionhide'>
+                                <img style="width: 30px; height: 30px; border-radius: 100px;"
+                                onerror="this.src='images/defaultpic/defaultPIC.png'"
+                                src="<?php echo "images/profile_picture/".$row['image']."";?>">
+                                </td>								
+<?php
+								echo "<td id='actionhide'>
 									<div class='table-data-feature'>
 										<button onclick='setmodalid(".$row['userid'].")'
 											class='item' data-toggle='modal' data-placement='top'

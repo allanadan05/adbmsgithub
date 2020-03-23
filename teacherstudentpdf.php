@@ -1,6 +1,7 @@
 <?php
 // error reporting to bypass undefined varialble to force without permission siya still working in depends sa condition
 error_reporting(1);
+include('teachersession.php');
 require 'fpdf182/fpdf.php';
 include 'connection.php';
 include 'adminsession.php';
@@ -20,10 +21,11 @@ $pdf->Ln();
 //database
 
 
-$sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, 
-(select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname,
- (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore
-  from userstbl order by userstbl.lname";
+$sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, userstbl.sectionid,
+(select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname, 
+(select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore 
+from userstbl where sectionid=(select sectionid from teachersectiontbl where teachersid='$_SESSION[tearcherid]')  
+order  by userstbl.lname";
 $query=mysqli_query($con,$sql);
 while($result=mysqli_fetch_array($query))
 {
