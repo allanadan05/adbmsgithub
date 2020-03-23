@@ -98,20 +98,20 @@ if($_SESSION['access']=="teacher"){
                                 if(@$_SESSION['success_upload_pdf'])
                                     {
                                         //echo "Success";
-                                        echo "<div class='alert alert-success' role='alert'> Successfully upload PDF File :) </div>";
+                                        echo "<div class='alert alert-success' role='alert'> File uploaded :) </div>";
                                         unset($_SESSION['success_upload_pdf']);
                                     }
                                     if(@$_SESSION['failed_upload_pdf'])
                                     {
                                         
-                                        echo "<div class='alert alert-success' role='alert'> Sorry can't upload PDF File :( </div>";
+                                        echo "<div class='alert alert-success' role='alert'> File cannot be uploaded :( </div>";
                                         unset($_SESSION['failed_upload_pdf']);
                                     }
 
                                     if(@$_SESSION['exist_upload_pdf'])
                                     {
                                         
-                                        echo "<div class='alert alert-warning' role='alert'> Already file exists </div>";
+                                        echo "<div class='alert alert-warning' role='alert'> File already exists </div>";
                                         unset($_SESSION['exist_upload_pdf']);
                                     }
 
@@ -137,6 +137,18 @@ if($_SESSION['access']=="teacher"){
                                 if($editlessonresult=="failed"){
                                 //echo "<div class='alert alert-danger' role='alert'>  Profile: ".$_GET['lname'] .", " .$_GET['fname'] ." cannot be updated :( </div>";
                                 echo "<div class='alert alert-primary' role='alert'> Lesson cannot be updated :( </div>";
+                                } 
+                            }
+
+                            if(isset($_GET['addsubresult'])){
+                                $editlessonresult=$_GET['addsubresult'];
+                                if($addsubresult=="success"){
+                               // echo "<div class='alert alert-primary' role='alert'> Profile: ".$_GET['lname'] .", " .$_GET['fname'] ." has been updated :) </div>";
+                               echo "<div class='alert alert-primary' role='alert'> Lesson has been added :) </div>";
+                                }
+                                if($addsubresult=="failed"){
+                                //echo "<div class='alert alert-danger' role='alert'>  Profile: ".$_GET['lname'] .", " .$_GET['fname'] ." cannot be updated :( </div>";
+                                echo "<div class='alert alert-primary' role='alert'> Lesson cannot be added :( </div>";
                                 } 
                             }
                             ?>
