@@ -49,18 +49,18 @@ if(isset($_POST['addstudentsubmit'])){
 		{
 					$image = $_FILES['image']['name'];
 					$img_temp= $_FILES['image']['tmp_name'];
-
-			$sql = "INSERT INTO userstbl(email,password,fname,lname,mname,image,sectionid) VALUES ('$email','$pword','$fname','$lname','$mname','$image','$sectionid')";
+					$new_name = rand()." ".$image;
+			$sql = "INSERT INTO userstbl(email,password,fname,lname,mname,image,sectionid) VALUES ('$email','$pword','$fname','$lname','$mname','$new_name','$sectionid')";
 			//add image
-
-					if(file_exists("images/profile_picture/$image"))
+					/*
+					if(file_exists("images/profile_picture/$new_name"))
 					{
 						if($_SESSION['access']=="user"){
 							header("Location: index.php?login=access"); //user cant access this
 						}else if($_SESSION['access']=="teacher"){
 							header("location: teacherstudents.php?exist=image");
 						}else if($_SESSION['access']=="admin"){
-							header("location: adminstudents.php?exist=image");
+							header("location: adminstudents.php?exist=renameimage");
 						}else{
 							header("Location: index.php?login=access");
 						}
@@ -68,23 +68,24 @@ if(isset($_POST['addstudentsubmit'])){
 					}
 					else
 					{
-						$_SESSION['upload_student']=$image;
+					*/
+						$_SESSION['upload_student']=$new_name;
 						if($_SESSION['upload_student'])
 						{
-							move_uploaded_file($img_temp,"images/profile_picture/".$image);
+							move_uploaded_file($img_temp,"images/profile_picture/".$new_name);
 							mysqli_query($con,$sql);
 							if($_SESSION['access']=="user"){
 								header("Location: index.php?login=access"); //user cant access this
 							}else if($_SESSION['access']=="teacher"){
-								header("location: teacherstudents.php?new=student");
+								header("location: teacherstudents.php?edit=student");
 							}else if($_SESSION['access']=="admin"){
-								header("location: adminstudents.php?new=student");
+								header("location: adminstudents.php?edit=student");
 							}else{
 								header("Location: index.php?login=access");
 							}
 							
 						}
-					}
+					//}
 		 			//header("location: adminstudents.php?new=student");
 		}
 	/*
@@ -147,26 +148,29 @@ if(isset($_POST['editstudentsubmit'])){
 			{
 				$image = $_FILES['image']['name'];
 				$img_temp= $_FILES['image']['tmp_name'];
+				$new_name = rand()." ".$image; //
 				$select_img=mysqli_query($con,"SELECT image FROM userstbl WHERE userid='".$id."'");
 				$fetch_img=mysqli_fetch_array($select_img);
+				/*
 				if(file_exists("images/profile_picture/$image"))
 				{
 					header("location: adminstudents.php?exist=image");	
 					//echo "<script>alert('already exist')</script>";
 				}
 				else
-				{	
+				{
+				*/	
 					$_SESSION['upload_student_new_image']=$image;
 					if($_SESSION['upload_student_new_image'])
 					{
 					unlink("images/profile_picture/".$fetch_img['image']); //delete na luma image
-					move_uploaded_file($img_temp,"images/profile_picture/".$image);
-					$sql = "UPDATE userstbl SET email='$email' ,password='$pword', fname='$fname',lname='$lname',mname='$mname',image='$image',sectionid='$sectionid' WHERE userid='$id' ";
+					move_uploaded_file($img_temp,"images/profile_picture/".$new_name);
+					$sql = "UPDATE userstbl SET email='$email' ,password='$pword', fname='$fname',lname='$lname',mname='$mname',image='$new_name',sectionid='$sectionid' WHERE userid='$id' ";
 					mysqli_query($con,$sql);
 					 header("location: adminstudents.php?editstudentresult=success");
 					
 					}
-				}
+				//}
 
 			}
 		else

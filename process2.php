@@ -383,7 +383,8 @@ $("checkitem").change(function(){
 });
 </script>
 ';
-	} //end if palatandaan==searchstudent	
+	} //end if palatandaan==searchstudent
+		
 	
 	if ($palatandaan == "searchassignedstudent") {
 		$teachersid=$_GET['teachersid'];
@@ -431,12 +432,15 @@ $("checkitem").change(function(){
 								}
 						
 								echo"</td>";
-								echo'<td>
-									<img style="width: 30px; height: 30px; border-radius: 100px;"
-										onerror="this.src=images/defaultpic/defaultPIC.png"
-										src="images/profile_picture/'.$row['image'].'">
-								</td>';
-								echo "<td>
+								?>
+                                <td id='actionhide'>
+                                <img style="width: 30px; height: 30px; border-radius: 100px;"
+                                onerror="this.src='images/defaultpic/defaultPIC.png'"
+                                src="<?php echo "images/profile_picture/".$row['image']."";?>">
+                                </td>
+
+								<?php
+								echo "<td id='actionhide'>
 									<div class='table-data-feature'>
 										<button onclick='setmodalid(".$row['userid'].")'
 											class='item' data-toggle='modal' data-placement='top'

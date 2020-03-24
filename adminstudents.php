@@ -66,11 +66,12 @@ if($_SESSION['access']=="admin"){
                     var imgStud = document.getElementById("resultimage").value = buongObject
                     .resultimage; // result image
                     if (imgStud) {
-                        var imgStud = document.getElementById("resultimage").value = "Image Name: " + buongObject
-                            .resultimage;
+                        var imgStud = document.getElementById("resultimage").innerHTML = "Image Name: " + buongObject.resultimage;
+                       
                         //var resultimg = document.getElementById("displayimage").innerHTML = "Image Name: "+  imgStud ;
                     } else {
-                        var imgStud = document.getElementById("resultimage").value = "Image Name: None";
+                        var imgStud = document.getElementById("resultimage").innerHTML = "Image Name: None";
+                        
                         //var resultimg = document.getElementById("displayimage").innerHTML = "Image Name: None";
                     }
                     var seeimg = document.getElementById("showStudtimage").style.display = "inline";
@@ -335,12 +336,12 @@ if($_SESSION['access']=="admin"){
                     {
                       echo "<div class='alert alert-danger' role='alert'>Already Exist Email </div>";
                     }  
-
-                    if(isset($_GET['exist']) && $_GET['exist']=="image") 
+                    /*
+                    if(isset($_GET['exist']) && $_GET['exist']=="renameimageERROR") 
                     {
-                      echo "<div class='alert alert-primary' role='alert'>Already exist image</div>";
+                      echo "<div class='alert alert-primary' role='alert'>Error While add image</div>";
                     }  
-
+                    */
                     ?>
                             <!--adduser.php-->
                             <!--ajax multiple delete-->
@@ -628,7 +629,8 @@ if($_SESSION['access']=="admin"){
                                         <!--input type="text" id="hiddenuseridStudent">
                                 <input type="text" id="resultimage" value="test"-->
                                         <!--span id="displayimage"></span-->
-                                        <input type="test" id="resultimage" value="test" value="test" readonly>
+                                        <!--input id="resultimage" type="test" value="test" value="test" readonly-->
+                                        <div id="resultimage"></div>
                                         <!-- image view per student-->
 
                                     </div>
