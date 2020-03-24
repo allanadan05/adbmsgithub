@@ -77,9 +77,9 @@ if(isset($_POST['addstudentsubmit'])){
 							if($_SESSION['access']=="user"){
 								header("Location: index.php?login=access"); //user cant access this
 							}else if($_SESSION['access']=="teacher"){
-								header("location: teacherstudents.php?new=student");
+								header("location: teacherstudents.php?edit=student");
 							}else if($_SESSION['access']=="admin"){
-								header("location: adminstudents.php?new=student");
+								header("location: adminstudents.php?edit=student");
 							}else{
 								header("Location: index.php?login=access");
 							}

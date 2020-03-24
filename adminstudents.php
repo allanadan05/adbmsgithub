@@ -622,7 +622,7 @@ if($_SESSION['access']=="admin"){
 
                                     <tr>
                                         <td>Image:</td>
-                                        <td><input type="file" id="image" name="image" value="" accept="image/*"></td>
+                                        <td><input type="file" id="image" name="image" value=""></td>
                                     </tr>
                                     <div style="display:none;" id="showStudtimage">
                                         <!-- image view per student-->
