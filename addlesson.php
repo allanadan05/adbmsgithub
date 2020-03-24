@@ -110,7 +110,7 @@ if(isset($_POST['editnewlesson'])){
     $upload_file=$_FILES["lessonpdf"]["name"];
     $pdfOnly=pathinfo($upload_file, PATHINFO_EXTENSION);    
 
-    $fm = $_FILES["lessonpdf"]["name"];
+    $fm = rand()." ".$_FILES["lessonpdf"]["name"];
     $loc = "./uploads/".$fm;
     
     $subjectid=$_POST['subjectid'];
