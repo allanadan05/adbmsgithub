@@ -40,3 +40,46 @@ header("Location: index.php?login=access");
   teacherstudent sql filter: By Assigned Subjects
 ============================================
   select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, userstbl.sectionid, (select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname, (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore from userstbl where sectionid=(select sectionid from sectionsubjecttbl where subjectid=5)  order by userstbl.lname;
+
+
+<div class="card-footer">
+	<p>Lessons:</p><br>
+	<?php 
+	$s="SELECT subjecttbl.subjectname,lessontbl.lessonid,lessontbl.lessontitle,lessontbl.lessondetail,lessontbl.lessonpdf from lessontbl join subjecttbl on lessontbl.subjectid=subjecttbl.subjectid ";
+	$r=mysqli_query($con, $s);
+
+	if(mysqli_num_rows($r)){
+	while($lesson = mysqli_fetch_array($r))
+	{ ?>
+		
+		<div class="col-md-3">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title"><a href="<?php  echo $lesson['lessonpdf']; ?>">
+							<?php  echo "<td>".$lesson['subjectname']."</td>"; ?></a></h4>
+					<p> <?php  echo "<td>".$lesson['lessontitle']."</td>"; ?></p>
+					<p class="card-text">
+						<a style="color:maroon; font-size: 12px;"
+							href="<?php  echo $lesson['lessonpdf']; ?>"><i
+								class="fas fa-file-pdf-o"></i> Open </a>
+						&nbsp | &nbsp
+						<a style="color:maroon; font-size: 12px;"
+							href="<?php  echo $lesson['lessonpdf']; ?>" target="_blank"
+							type="application/octet-stream"
+							download="<?php echo $lesson['lessontitle']; ?>"><i
+								class="fas fa-download"></i>Download </a>
+					</p>
+				</div>
+				<div class="card-body">
+					<p class="card-text"> <?php  echo "<td>".$lesson['lessondetail']."</td>"; ?>
+					</p>
+				</div>
+			</div>
+			</div>
+
+		
+		<?php
+		}
+		?>
+	
+</div>

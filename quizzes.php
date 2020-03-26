@@ -79,12 +79,24 @@ $_SESSION['sidebar']="quizzes";
                                             </thead>
                                             <tbody id="response">
                                                 <?php
-                                                $sql="select quizid, quizname, (SELECT subjectname from subjecttbl WHERE subjectid=quiztbl.subjectid) AS subject, duration, status from quiztbl ORDER BY quizname";
+
+                                                $subjectsql="select subjectid from sectionsubjecttbl where sectionid=".$_SESSION['sectionid'];
+                                                $res=mysqli_query($con, $subjectsql);
+                                                while($subjects=mysqli_fetch_array($res)){
+
+                                                
+
+                                                $sql="select quizid, quizname, (SELECT subjectname from subjecttbl WHERE subjectid=quiztbl.subjectid) AS subject, subjectid, duration, status from quiztbl where subjectid=".$subjects['subjectid']." ORDER BY quizname";
                                                 $result=mysqli_query($con, $sql);
                                                 while($row=mysqli_fetch_array($result)){
+                                                    if($row['status']=="DEACTIVATED"){
+
+                                                    }else{
+
+                                                    
                                             ?>
                                                 <tr>
-                                                    <td><?php echo "<a href=exam.php?quizid=".$row['quizid']."> " .$row['quizname']."</a>"; ?>
+                                                    <td><?php echo "<a href=#>".$row['quizname']."</a>"; ?>
                                                     </td>
                                                     <td><?php echo $row['subject']; ?></td>
                                                     <td><?php echo $row['duration']; ?></td>
@@ -104,8 +116,9 @@ $_SESSION['sidebar']="quizzes";
                                                     ?><i class="fas fa-link"></i>
                                                     </td>
                                                 </tr>
-                                                <?php } ?>
+                                                <?php } } } ?>
                                             </tbody>
+                                            * deactivated quiz will not show up here
                                         </table>
                                     </div>
                                 </div>

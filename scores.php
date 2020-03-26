@@ -82,6 +82,7 @@ $_SESSION['sidebar']="scores";
                                                 <?php 
                                             $sql="select (SELECT quizname from quiztbl where quizid=scoretbl.quizid) as quizname, concat(totalscore, '/', totalitems) as score, averagescore, remarks from scoretbl where userid=".$profileid;
                                             $result=mysqli_query($con, $sql);
+                                            if(mysqli_num_rows($result)){
                                             while($row=mysqli_fetch_array($result)){
 
                                             ?>
@@ -100,7 +101,12 @@ $_SESSION['sidebar']="scores";
                                                   }
                                                 ?>><?php echo $row['remarks']; ?></td>
                                                 </tr>
-                                                <?php  } ?>
+                                                <?php  
+                                                }
+                                            }else{
+                                                echo"<tr><td></td><td>No scores yet.</td><td></td><td></td></tr>";
+                                            }
+                                             ?>
                                             </tbody>
                                         </table>
                                     </div>

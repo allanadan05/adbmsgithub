@@ -7,6 +7,13 @@ include('functions.php');
 $count=0;
 $rr="";
 
+if($_SESSION['access']=="user"){
+
+}else{
+    header("Location: index.php?login=access");
+    exit();
+}
+
 $profileid=$_SESSION['userid'];
 $quizid=$_GET['quizid'];
 
@@ -20,6 +27,7 @@ $quizid=$_GET['quizid'];
 <head>
 
     <script>
+
         function submitanswer(count, questid) {
             var useranswer = "";
             if (document.getElementById("radio1" + count).checked) {
@@ -55,7 +63,7 @@ $quizid=$_GET['quizid'];
                 document.getElementById("finish").style.display = "none";
                 document.getElementById("answer" + count).value = ans2;
             } else {
-                document.getElementById("message" + count).value = "Wrong! " + ", Correct answer is: " + ans;
+                document.getElementById("message" + count).value = "Wrong!"; // + ", Correct answer is: " + ans;
                 document.getElementById("submit" + count).style.display = "none";
                 document.getElementById("finish").style.display = "inline";
             }
@@ -63,13 +71,16 @@ $quizid=$_GET['quizid'];
 
         function qresult(id) {
             document.getElementById("quizresults").style.display = "inline";
+            document.getElementById("exitbtn").style.display = "inline";
+            document.getElementById("savequizbtn").style.display = "none";
             document.getElementById("quests").style.display = "none";
             document.getElementById("finish").style.display = "none";
             document.getElementById("startbtn").style.display = "none";
             document.getElementById("modalbtn2").click();
-            document.getElementById("timer").innerHTML = "00:00"
-            document.getElementById("exitbtn").style.display = "inline";
-            document.getElementById("savequizbtn").style.display = "inline";
+            document.getElementById("remtime").innerHTML="Remaining Time: 0 minute";
+            document.getElementById("quests").style.display = "none";
+            savequizforbackup();
+            
         }
 
         function savequiznow() {
@@ -77,19 +88,58 @@ $quizid=$_GET['quizid'];
             xhttp.onreadystatechange = function() {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
                     document.getElementById("resultsaved").innerHTML = this.responseText;
+                    document.getElementById("resultsfinished").innerHTML = this.responseText;
                     document.getElementById("savequizbtn").style.display = "none";
                 }
             };
+            
             var score = document.getElementById("score").innerHTML;
             var avgscore = document.getElementById("avgscore").innerHTML;
             var userid = document.getElementById("userprofile").value;
             var quizid = document.getElementById("quizquizid").value;
-            noofitems = document.getElementById("noOfQuestion").innerHTML;
+            var noofitems = document.getElementById("noOfQuestion").innerHTML;
             var palatandaan = "savequiznow";
-            xhttp.open("GET", "process2.php?score=" + score + "&avgscore=" + avgscore + "&userid=" + userid +
-                "&quizid=" +
-                quizid + "&noofitems=" + noofitems + "&palatandaan=" + palatandaan, true);
+            xhttp.open("GET", "process2.php?score=" + score + "&avgscore=" + avgscore + "&userid=" + userid +  "&quizid=" + quizid + "&noofitems=" + noofitems + "&palatandaan=" + palatandaan, true);
             xhttp.send();
+        }
+
+        function savequizforbackup() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    document.getElementById("resultsaved").innerHTML = this.responseText;
+                    document.getElementById("resultsfinished").innerHTML = this.responseText;
+                    document.getElementById("savequizbtn").style.display = "none";
+                }
+            };
+            
+            var score = document.getElementById("score").innerHTML;
+            var avgscore = document.getElementById("avgscore").innerHTML;
+            var userid = document.getElementById("userprofile").value;
+            var quizid = document.getElementById("quizquizid").value;
+            var noofitems = document.getElementById("noOfQuestion").innerHTML;
+            var palatandaan = "savequizforbackup";
+            xhttp.open("GET", "process2.php?score=" + score + "&avgscore=" + avgscore + "&userid=" + userid +  "&quizid=" + quizid + "&noofitems=" + noofitems + "&palatandaan=" + palatandaan, true);
+            xhttp.send();
+        }
+
+        var bol=0;
+        function startquiz(){
+            if (bol==0){
+                savequiznow();
+                bol=bol+1;
+            }
+
+            document.getElementById("reminder").style.display="none";
+            document.getElementById("reminder").innerHTML=document.getElementById("msg").innerHTML;
+            document.getElementById("msg").style.display="none";
+            if(document.getElementById("reminder").innerHTML=="1"){
+                document.getElementById("test").innerHTML="<div class='alert alert-success' role='alert'>Quiz has been initiated</div>";
+            }else{
+                document.getElementById("test").innerHTML="<div class='alert alert-success' role='alert'>Quiz has been saved</div>";
+                location.href="scores.php";
+            }
+            
         }
     </script>
     <!-- Required meta tags-->
@@ -122,7 +172,8 @@ $quizid=$_GET['quizid'];
 
 </head>
 
-<body class="animsition">
+<body class="animsition"> 
+<!-- onbeforeunload="return 'Are you sure you want to leave the page?' "  -->
     <div class="page-wrapper">
         <?php include("studentheaderandmobileview.php"); ?>
 
@@ -148,7 +199,7 @@ $quizid=$_GET['quizid'];
                             <h2><?php echo "Quiz: " .$rr['quizname'];  ?></h2>
                             <hr />
                             <p><?php echo "Subject: " .$rr['subjectname'];   ?></p>
-                            <p>
+                            <p  id="remtime">
                                 <label>Remaining Time : </label>
                                 <span id="timer">
                                     <?php echo $rr['duration'] .":00";  ?>
@@ -159,7 +210,10 @@ $quizid=$_GET['quizid'];
                         </div>
 
                     </div>
-                    <button id="startbtn" type="button" class="btn  btn-primary" onclick="startTimer()">START</button>
+                    <button id="startbtn" type="button" class="btn  btn-primary" onclick="startTimer()">START</button> 
+                    <br/>
+                    <p style="font-size: 15px;" id="reminder">  * Once you clicked Start Button, you can no longer retake the quiz. <br/> Refreshing and Closing the page will submit 0 score. </p>
+                    <div id="test"></div>
 
                     <!-- Button trigger modal for 5 mins warning -->
                     <button id="modalbtn" type="button" class="btn btn-primary" data-toggle="modal"
@@ -172,6 +226,8 @@ $quizid=$_GET['quizid'];
                         data-target="#exampleModal2" hidden>
                         Results
                     </button>
+                    
+                    <div id="resultsfinished"></div>
 
                     <div class="row" id="quests" style="display: none;">
                         <div class="col-md-12">
@@ -223,36 +279,38 @@ $quizid=$_GET['quizid'];
                                         </div>
 
                                         <div class="col col-md-8">
+                                            <form>
                                             <div class="form-check" id="<?php echo 'radio'.$count; ?>">
                                                 <div class="radio">
-                                                    <label for="radio1" class="form-check-label ">
+                                                    <label for="<?php echo 'radio1'.$count; ?>" class="form-check-label ">
                                                         <input type="radio" id="<?php echo 'radio1'.$count; ?>"
                                                             name="radios" value="A"
                                                             class="form-check-input"><?php echo "<strong> A. </strong> " .$pilian['optiona']; ?>
                                                     </label>
                                                 </div>
                                                 <div class="radio">
-                                                    <label for="radio2" class="form-check-label ">
+                                                    <label for="<?php echo 'radio2'.$count; ?>" class="form-check-label ">
                                                         <input type="radio" id="<?php echo 'radio2'.$count; ?>"
                                                             name="radios" value="B"
                                                             class="form-check-input"><?php echo "<strong> B. </strong> " .$pilian['optionb']; ?>
                                                     </label>
                                                 </div>
                                                 <div class="radio">
-                                                    <label for="radio3" class="form-check-label ">
+                                                    <label for="<?php echo 'radio3'.$count; ?>" class="form-check-label ">
                                                         <input type="radio" id="<?php echo 'radio3'.$count; ?>"
                                                             name="radios" value="C"
                                                             class="form-check-input"><?php echo "<strong> C. </strong> " .$pilian['optionc']; ?>
                                                     </label>
                                                 </div>
                                                 <div class="radio">
-                                                    <label for="radio4" class="form-check-label ">
+                                                    <label for="<?php echo 'radio4'.$count; ?>" class="form-check-label ">
                                                         <input type="radio" id="<?php echo 'radio4'.$count; ?>"
                                                             name="radios" value="D"
                                                             class="form-check-input"><?php echo "<strong> D. </strong> " .$pilian['optiond']; ?>
                                                     </label>
                                                 </div>
                                             </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -275,7 +333,7 @@ $quizid=$_GET['quizid'];
                     <button class="btn btn-success" type="button" id="savequizbtn" onclick="savequiznow()"
                         style="width: 100px; display:none">Save Quiz</button>
                     <a href="scores.php" id="exitbtn" style="width: 100%; display:none"><button class="btn btn-warning"
-                            type="button">Exit</button></a>
+                            type="button" onclick="savequiznow()">Exit</button></a>
                     <?php }//end isset quizid ?>
 
                 </div> <!-- section__content -->
@@ -293,16 +351,16 @@ $quizid=$_GET['quizid'];
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+                    <h5 class="modal-title" id="exampleModalWarning">Warning!</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="exampleModalBody">
                     5 minutes remaining!
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="submitmodal()">Submit</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -315,16 +373,17 @@ $quizid=$_GET['quizid'];
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Result</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Time's Up!</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="finishresults">
                     <input type="hidden" id="userprofile" value="<?php echo $profileid; ?>">
                     <input type="hidden" id="quizquizid" value="<?php echo $id; ?>">
 
                     <div id="quizresults" style="display: none;">
+                        <b>Results</b>
                         <hr>
                         <p>Score: <span id="score">0</span>/<span id="noOfItems">0</span></p>
                         <p>Average: <span id="avgscore">0</span></p>
@@ -332,12 +391,13 @@ $quizid=$_GET['quizid'];
                     </div>
                     <div id="resultsaved"></div>
                 </div>
+                <div id="resultsavedmodal"></div>
                 <div class="modal-footer">
 
                     <button class="btn btn-success" type="button" id="savequizbtn" onclick="savequiznow()"
-                        style="width: 100px; display:inline">Save Quiz</button>
+                        style="width: 100px; display:none">Save Quiz</button>
                     <a href="scores.php" id="exitbtn" style="width: 100%; display:inline"><button
-                            class="btn btn-warning" type="button">Exit</button></a>
+                            class="btn btn-warning" type="button" onclick="savequiznow()">Exit</button></a>
 
                     <!-- <button type="button" class="btn btn-primary">Submit</button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> -->
@@ -348,29 +408,58 @@ $quizid=$_GET['quizid'];
     </div>
 
     <script>
-        function startTimer() {
-            document.getElementById("quests").style.display = "inline";
-            document.getElementById("startbtn").style.display = "none";
-            var presentTime = document.getElementById('timer').innerHTML;
-            var timeArray = presentTime.split(/[:]+/);
-            var m = timeArray[0];
-            var s = checkSecond((timeArray[1] - 1));
-            if (s == 59) {
-                m = m - 1
+
+        document.onkeydown=function(event){
+            if(event.keyCode==116){
+                event.preventDefault();
+                //disable f5 key
             }
-            //if(m<0){alert('timer completed')}
-            document.getElementById('timer').innerHTML =
-                m + ":" + s;
-            console.log(m)
-            if (m == 5 && s == 0) {
-                // alert("WARNING:\n5 minutes remaining!");
-                document.getElementById("modalbtn").click();
-            }
-            if (m <= 0 && s <= 0) {
-                document.getElementById("finish").click();
-                window.alert("WARNING:\nTime's up!");
-            }
-            setTimeout(startTimer, 1000);
+        }
+
+        function startTimer() {      
+
+                
+
+                if(document.getElementById("remtime").innerHTML=="Remaining Time: 0 minute"){
+                    document.getElementById("quests").style.display = "none";
+                    // document.getElementById("resultsfinished").innerHTML="<br/>" + document.getElementById("finishresults").innerHTML;
+
+                }else{
+                    
+                    document.getElementById("quests").style.display = "inline";
+                    
+                    document.getElementById("startbtn").style.display = "none";
+                    var presentTime = document.getElementById("timer").innerHTML;
+                    var timeArray = presentTime.split(/[:]+/);
+                    var m = timeArray[0];
+                    var s = checkSecond((timeArray[1] - 1));
+                    if (s == 59) {
+                        m = m - 1
+                    }
+                    
+                    document.getElementById("timer").innerHTML = m + ":" + s;
+                    console.log(m)
+                    if (m == 5 && s == 0) {
+                        // alert("WARNING:\n5 minutes remaining!");
+                        document.getElementById("modalbtn").click();
+                    }
+
+                    if (m == 0 && s == 10) {
+                        // alert("WARNING:\n10 seconds remaining!");
+                        document.getElementById("exampleModalWarning").innerHTML="Hurry Up!"
+                        document.getElementById("exampleModalBody").innerHTML="10 seconds remaining!"
+                        document.getElementById("modalbtn").click();
+                    }
+
+                    if (m <= 0 && s <= 0) {
+                        document.getElementById("remtime").innerHTML="Remaining Time: 0 minute";
+                        document.getElementById("finish").click();
+                        
+                    }
+                    setTimeout(startTimer, 1000);
+                    
+                }
+                startquiz();   
         }
 
         function checkSecond(sec) {
@@ -381,6 +470,10 @@ $quizid=$_GET['quizid'];
                 sec = "59"
             };
             return sec;
+        }
+
+        function submitmodal(){
+            document.getElementById("finish").click();
         }
     </script>
 

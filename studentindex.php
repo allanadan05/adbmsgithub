@@ -11,6 +11,35 @@ if($_SESSION['access']=="user"){
     exit();
 }
 
+
+$quizsql="select count(quizid) as takenquiz from scoretbl where userid='$id'  ";
+$quizresult=mysqli_query($con, $quizsql);
+$takenquiz = mysqli_fetch_array($quizresult);
+
+$sectionsql="select sectionid, (select sectionname from sectiontbl where sectionid=userstbl.sectionid) as sectionname from userstbl where userid='$id'  ";
+$sectionsresult=mysqli_query($con, $sectionsql);
+$section = mysqli_fetch_array($sectionsresult);
+$_SESSION['sectionid']=$section['sectionid'];
+
+$subjectsql="select count(sectionid) as subjectcount from sectionsubjecttbl where sectionid=".$section['sectionid'];
+$subjectsresult=mysqli_query($con, $subjectsql);
+$subjects = mysqli_fetch_array($subjectsresult);
+
+
+$averagesql="select truncate(SUM(averagescore)/COUNT(averagescore),2) as average from scoretbl where userid='$id' ";
+$averageresult=mysqli_query($con, $averagesql);
+if(mysqli_num_rows($averageresult)){
+    $averagequiz = mysqli_fetch_array($averageresult);
+    if($averagequiz['average']>=75){
+        $remarks="PASSED";
+    }else{
+        $remarks="FAILED";
+    }
+}else{
+    $averagequiz = 0;
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -134,7 +163,7 @@ if($_SESSION['access']=="user"){
                                                         <i class="fas fa-file-alt"></i>
                                                     </div>
                                                     <div class="text">
-                                                        <h2>5</h2>
+                                                        <h2><?php echo $takenquiz['takenquiz']; ?></h2>
                                                         <span>Taken quiz</span>
                                                     </div>
                                                 </div>
@@ -149,7 +178,7 @@ if($_SESSION['access']=="user"){
                                                         <i class="fas fa-check-circle"></i>
                                                     </div>
                                                     <div class="text">
-                                                        <h2>95.9%</h2>
+                                                        <h2><?php echo $averagequiz['average'] ." %";?></h2>
                                                         <span>Average Score</span>
                                                     </div>
                                                 </div>
@@ -164,7 +193,7 @@ if($_SESSION['access']=="user"){
                                                         <i class="fas fa-book"></i>
                                                     </div>
                                                     <div class="text">
-                                                        <h2>15</h2>
+                                                        <h2><?php echo $subjects['subjectcount'];?></h2>
                                                         <span>Subjects <br /> Enrolled </span>
                                                     </div>
                                                 </div>
@@ -179,7 +208,7 @@ if($_SESSION['access']=="user"){
                                                         <i class="fas fa-certificate"></i>
                                                     </div>
                                                     <div class="text">
-                                                        <h2>PASSED</h2>
+                                                        <h2><?php echo $remarks; ?></h2>
                                                         <span>Results</span>
                                                     </div>
                                                 </div>
@@ -224,23 +253,10 @@ if($_SESSION['access']=="user"){
                                             <!-- New line code image-->
                                             <h5 class="text-sm-center mt-2 mb-1"><?php echo getname($id);?></h5>
                                             <div class="location text-sm-center">
-                                                <i class="fa fa-groups"></i>Section: BSIT-3B1</div>
+                                                <i class="fa fa-groups"></i>Section: <?php echo $section['sectionname'];?></div>
                                         </div>
                                         <hr>
-                                        <div class="card-text text-sm-center">
-                                            <a href="#">
-                                                <i class="fa fa-facebook pr-1"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="fa fa-twitter pr-1"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="fa fa-linkedin pr-1"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="fa fa-pinterest pr-1"></i>
-                                            </a>
-                                        </div>
+                                        
                                     </div>
                                 </div>
 
@@ -279,15 +295,7 @@ if($_SESSION['access']=="user"){
                                         </form>
                                     </div>
                                     <div class="card-footer">
-                                        <button type="edit" class="btn btn-secondary btn-sm">
-                                            <i class="fa fa-pencil-square-o"></i> Edit
-                                        </button>
-                                        <button type="reset" class="btn btn-danger btn-sm">
-                                            <i class="fa fa-ban"></i> Reset
-                                        </button>
-                                        <button type="submit" class="btn btn-primary btn-sm">
-                                            <i class="fa fa-dot-circle-o"></i> Submit
-                                        </button>
+                                       
                                     </div>
                                 </div>
                             </div>

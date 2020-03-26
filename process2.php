@@ -1,5 +1,9 @@
 <?php
 include('connection.php');
+include('teachersession.php');
+include('functions.php');
+
+
 // adminstudents.php multiple delete ajax
 @$actionStudents = $_GET['mul_delStudents'];
 if ($actionStudents == "ajaxMulitpleDeleteStudents") {
@@ -553,7 +557,7 @@ $("checkitem").change(function(){
 			if (mysqli_query($con, $query)) {
 				//echo "DEACTIVATED!";
 
-				$sql = "select quizid, quizname, (SELECT subjectname from subjecttbl WHERE subjectid=quiztbl.subjectid) AS subject, duration, status from quiztbl";
+				$sql = "select quizid, quizname, (SELECT subjectname from subjecttbl WHERE subjectid=quiztbl.subjectid) AS subject, duration, status from quiztbl order by quizname";
 				$result = mysqli_query($con, $sql);
 				while ($row = mysqli_fetch_array($result)) {
 					echo "<tr>
@@ -593,7 +597,7 @@ $("checkitem").change(function(){
 			if (mysqli_query($con, $query)) {
 				//echo "ACTIVATED!";
 				$sql = "select quizid, quizname, (SELECT subjectname from subjecttbl WHERE subjectid=quiztbl.subjectid) AS subject,
-duration, status from quiztbl";
+duration, status from quiztbl order by quizname";
 				$result = mysqli_query($con, $sql);
 				while ($row = mysqli_fetch_array($result)) {
 					echo "<tr>
@@ -614,15 +618,15 @@ duration, status from quiztbl";
 						. "</td>
 <td>
 	<div class='table-data-feature'>
-		<button onclick='stat(" . $row[' quizid'] . ")' class='item' data-toggle='modal' data-placement='top'
+		<button onclick='stat(" . $row['quizid'] . ")' class='item' data-toggle='modal' data-placement='top'
 			title='$stat' type='button'>
 			<i class='zmdi zmdi-power'></i>
 		</button>
-		<button type='button' onclick='editstudent(" . $row[' quizid'] . ")' class='item' data-placement='top'
+		<button type='button' onclick='editstudent(" . $row['quizid'] . ")' class='item' data-placement='top'
 			title='Edit' data-toggle='modal' data-target='#modalbox'>
 			<i class='zmdi zmdi-edit'></i>
 		</button>
-		<a href='process2.php?deletestudent=1&id=" . $row[' quizid'] . "?>' >
+		<a href='process2.php?deletestudent=1&id=" . $row['quizid'] . "?>' >
 			<button class='item' data-toggle='tooltip' data-placement='top' title='Delete'>
 				<i class='zmdi zmdi-delete'></i>
 			</button></a>
@@ -666,15 +670,76 @@ duration, status from quiztbl";
 		$quizid = $_GET['quizid'];
 		$noofitems = $_GET['noofitems'];
 
-		$querySaDatabase = "INSERT INTO scoretbl(totalscore,totalitems, averagescore, quizid, remarks, userid) values ('$score',
-'$noofitems', '$avgscore', '$quizid','$remarks', '$userid')";
-		$executeQuery = mysqli_query($con, $querySaDatabase);
-		if ($executeQuery) {
-			echo "<div class='alert alert-success' role='alert'> Quiz results has been saved. :) </div>";
-		} else {
-			echo "<div class='alert alert-danger' role='alert'> Quiz results cannot be saved. :) </div>";
+		$sql="SELECT * from scoretbl where userid='$userid' AND quizid='$quizid' ";
+		$result=mysqli_query($con, $sql);
+		if(mysqli_num_rows($result)){
+			$found=mysqli_fetch_array($result);
+
+			
+			
+				$sql1 = "UPDATE scoretbl SET totalscore='$score',totalitems='$noofitems', averagescore='$avgscore', quizid='$quizid', remarks='$remarks', userid='$userid' where scoreid=".$found['scoreid'];
+				$query = mysqli_query($con, $sql1);
+				if ($query) {
+					echo "<div id='msg' class='alert alert-success' role='alert'> Quiz results has been saved. :) </div>";
+				}else{
+					echo "<div id='msg' class='alert alert-danger' role='alert'> Quiz results cannot be saved :( </div>";
+				}
+			
+		}else{
+
+			$querySaDatabase = "INSERT INTO scoretbl(totalscore,totalitems, averagescore, quizid, remarks, userid) values ('$score', '$noofitems', '$avgscore', '$quizid','$remarks', '$userid')";
+			$executeQuery = mysqli_query($con, $querySaDatabase);
+			if ($executeQuery) {
+				echo "<div id='msg' class='alert alert-success' role='alert'>1</div>";
+			} else {
+				echo "<div  id='msg' class='alert alert-danger' role='alert'>0</div>";
+			}
+
 		}
 	}
+
+	if ($palatandaan == "savequizforbackup") {
+		$score = $_GET['score'];
+		$avgscore = $_GET['avgscore'];
+		if ($avgscore >= 75) {
+			$remarks = "PASSED";
+		} else {
+			$remarks = "FAILED";
+		}
+		$userid = $_GET['userid'];
+		$quizid = $_GET['quizid'];
+		$noofitems = $_GET['noofitems'];
+
+		$sql="SELECT * from scoretbl where userid='$userid' AND quizid='$quizid' ";
+		$result=mysqli_query($con, $sql);
+		if(mysqli_num_rows($result)){
+			$found=mysqli_fetch_array($result);
+
+			
+			
+				$sql1 = "UPDATE scoretbl SET totalscore='$score',totalitems='$noofitems', averagescore='$avgscore', quizid='$quizid', remarks='$remarks', userid='$userid' where scoreid=".$found['scoreid'];
+				$query = mysqli_query($con, $sql1);
+				if ($query) {
+					echo "<div id='res' class='alert alert-success' role='alert'> Quiz results has been saved. :) </div>";
+				}else{
+					echo "<div id='res' class='alert alert-danger' role='alert'> Quiz results cannot be saved :( </div>";
+				}
+			
+		}else{
+
+			$querySaDatabase = "INSERT INTO scoretbl(totalscore,totalitems, averagescore, quizid, remarks, userid) values ('$score', '$noofitems', '$avgscore', '$quizid','$remarks', '$userid')";
+			$executeQuery = mysqli_query($con, $querySaDatabase);
+			if ($executeQuery) {
+				echo "<div id='res' class='alert alert-success' role='alert'>Quiz has been initiated</div>";
+			} else {
+				echo "<div  id='res' class='alert alert-danger' role='alert'>Quiz cannot be initiated</div>";
+			}
+
+		}
+	}
+
+	
+
 } //end if isset palatandaan
 
 if (isset($_POST['addsection'])) {
@@ -746,9 +811,27 @@ if (isset($_POST['updatequiz'])) {
 ";
 	$check = mysqli_query($con, $query) or die('Query error');
 	if ($check) {
-		header("location: adminquizzes.php?editquizresult=success");
+		if($_SESSION['access']=="user"){
+		header("Location: index.php?login=access"); //user cant access this
+		}else if($_SESSION['access']=="teacher"){
+			header("location: teacherquizzes.php?editquizresult=success");
+		}else if($_SESSION['access']=="admin"){
+			header("location: adminquizzes.php?editquizresult=success");
+		}else{
+		header("Location: index.php?login=access");
+		}
+		
 	} else {
-		header("location: adminquizzes.php?editquizresult=failed");
+		if($_SESSION['access']=="user"){
+		header("Location: index.php?login=access"); //user cant access this
+		}else if($_SESSION['access']=="teacher"){
+			header("location: teacherquizzes.php?editquizresult=failed");
+		}else if($_SESSION['access']=="admin"){
+			header("location: adminquizzes.php?editquizresult=failed");
+		}else{
+		header("Location: index.php?login=access");
+		}
+		
 	}
 }
 
@@ -800,9 +883,27 @@ if (isset($_GET['deletequiz'])) {
 	$query = "DELETE FROM quiztbl WHERE quizid='$id' ";
 	$check = mysqli_query($con, $query) or die('Query error');
 	if ($check) {
-		header("location: adminquizzes.php?deletequizresult=success");
+		if($_SESSION['access']=="user"){
+		header("Location: index.php?login=access"); //user cant access this
+		}else if($_SESSION['access']=="teacher"){
+			header("location: teacherquizzes.php?deletequizresult=success");
+		}else if($_SESSION['access']=="admin"){
+			header("location: adminquizzes.php?deletequizresult=success");
+		}else{
+		header("Location: index.php?login=access");
+		}
+		
 	} else {
-		header("location: adminquizzes.php?deletequizresult=failed");
+		if($_SESSION['access']=="user"){
+		header("Location: index.php?login=access"); //user cant access this
+		}else if($_SESSION['access']=="teacher"){
+			header("location: teacherquizzes.php?deletequizresult=failed");
+		}else if($_SESSION['access']=="admin"){
+			header("location: adminquizzes.php?deletequizresult=failed");
+		}else{
+		header("Location: index.php?login=access");
+		}
+		
 	}
 }
 
@@ -825,11 +926,29 @@ if (isset($_POST['submitquiz'])) {
 			$optionid = mysqli_insert_id($con);
 			$sql = "INSERT INTO answertbl(questionid,optionid, answer) VALUES ('$questionid','$optionid', '$answer')";
 			if (mysqli_query($con, $sql)) {
-				header("location: adminquizzes.php?addquestionresult=success");
+				if($_SESSION['access']=="user"){
+				header("Location: index.php?login=access"); //user cant access this
+				}else if($_SESSION['access']=="teacher"){
+					header("location: teacherquizzes.php?addquestionresult=success");
+				}else if($_SESSION['access']=="admin"){
+					header("location: adminquizzes.php?addquestionresult=success");
+				}else{
+				header("Location: index.php?login=access");
+				}
+				
 			}
 		}
 	} else {
-		header("location: adminquizzes.php?addquestionresult=failed");
+		if($_SESSION['access']=="user"){
+		header("Location: index.php?login=access"); //user cant access this
+		}else if($_SESSION['access']=="teacher"){
+			header("location: teacherquizzes.php?addquestionresult=failed");
+		}else if($_SESSION['access']=="admin"){
+			header("location: adminquizzes.php?addquestionresult=failed");
+		}else{
+		header("Location: index.php?login=access");
+		}
+		
 	}
 }
 
@@ -842,9 +961,25 @@ if (isset($_POST['submitnewquiz'])) {
 	$sql = "INSERT INTO quiztbl(quizname, subjectid, duration, status) VALUES ('$qtitle','$chosensubject', '$dur',
 'DEACTIVATED')";
 	if (mysqli_query($con, $sql)) {
-		header("location: adminquizzes.php?addquizresult=success");
+			if($_SESSION['access']=="teacher"){
+				header("location: teacherquizzes.php?addquizresult=success");
+			}else if($_SESSION['access']=="admin"){
+				header("location: adminquizzes.php?addquizresult=success");
+			}else{
+			header("Location: index.php?login=access");
+			// header("location: teacherquizzes.php?addquizresult=success");
+			}
+		
 	} else {
-		header("location: adminquizzes.php?addquizresult=failed");
+
+		if($_SESSION['access']=="teacher"){
+			header("location: teacherquizzes.php?addquizresult=failed");
+		}else if($_SESSION['access']=="admin"){
+			header("location: adminquizzes.php?addquizresult=failed");
+		}else{
+		header("Location: index.php?login=access");
+		}
+		
 	}
 }
 
