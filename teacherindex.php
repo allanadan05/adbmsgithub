@@ -13,6 +13,13 @@ if($_SESSION['access']=="teacher"){
 
 $teacher=teachersgetname($teachersid);
 $teacherdeptid=teachergetdeptid($teachersid);
+
+// image view
+$teacherimg="SELECT image FROM teacherstbl WHERE teachersid='".$_SESSION['teachersid']."' ";
+$teacherimg_query=mysqli_query($con,$teacherimg);
+$teacherimg_fetch=mysqli_fetch_array($teacherimg_query);
+// image view
+
 ?>
 
 <!DOCTYPE html>
@@ -161,8 +168,11 @@ $teacherdeptid=teachergetdeptid($teachersid);
                                         </div>
                                         <div class="card-body">
                                             <div class="mx-auto d-block">
-                                                <img class="rounded-circle mx-auto d-block" style="width:50%;"
-                                                    src="images/icon/avatar-dan.jpg" alt="Card image cap">
+                                                <!--img class="rounded-circle mx-auto d-block" style="width:50%;"
+                                                    src="images/icon/avatar-dan.jpg" alt="Card image cap"-->
+                                        <img class="rounded-circle mx-auto d-block" style="width:50%;" alt="Card image cap"
+                                         onerror="this.src='images/defaultpic/defaultPIC.png'"
+                                        src="<?php echo "images/teacher_picture/".$teacherimg_fetch['image']."";?>">
                                                 <h5 class="text-sm-center mt-2 mb-1">
                                                     <?php echo teachersgetname($teachersid);?></h5>
 

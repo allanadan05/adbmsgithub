@@ -157,10 +157,10 @@ if (isset($_GET['palatandaan'])) {
 	if ($palatandaan == "changeddepartment") {
 		$secid = $_GET['secid'];
 
-		$sql = "select deptid, teachersid, concat(lname, ', ', fname , ' ', mname) AS name, email, 
+		$sql = "select deptid, teachersid, concat(lname, ', ', fname , ' ', mname) AS name, email, image, 
 		(SELECT departmentname from departmenttbl WHERE deptid=teacherstbl.deptid) AS departmentname, 
 		(SELECT count(subjectid) from teachersubjecttbl where teachersid=teacherstbl.teachersid) AS NoOfSubject 
-		FROM teacherstbl WHERE deptid=" . $secid . " order by teacherstbl.lname limit $start_from,$num_of_page";
+		FROM teacherstbl WHERE deptid=" . $secid . " order by teacherstbl.lname";
 		// echo $sql;
 		$result = mysqli_query($con, $sql);
 		if (mysqli_num_rows($result)) {
@@ -177,6 +177,13 @@ if (isset($_GET['palatandaan'])) {
 				echo "<td>" . $row['email'] . "</td>";
 				echo "<td>" . $row['departmentname'] . "</td>";
 				echo "<td>" . $row['NoOfSubject'] . "</td>";
+				?>
+            	<td>
+                    <img style="width: 30px; height: 30px; border-radius: 100px;"
+                	onerror="this.src='images/defaultpic/defaultPIC.png'"
+                	src="<?php echo "images/teacher_picture/".$row['image']."";?>">
+                    </td>                                                				
+				<?php
 				echo '<td>
 					<div class="table-data-feature">
 						<button onclick="showassignedsubjects(' . $row['teachersid'] . ')" class="item" data-toggle="modal" data-placement="top" title="Assigned Subject/s" type="button" data-target="#sendnotif">
@@ -468,7 +475,7 @@ $("checkitem").change(function(){
 
 	if ($palatandaan == "searchteachers") {
 		$tosearch = $_GET['tosearch'];
-		$sql = "select teachersid,deptid, concat(lname, ', ', fname , ' ', mname) AS name, email, 
+		$sql = "select teachersid,deptid, concat(lname, ', ', fname , ' ', mname) AS name, email, image, 
 	(SELECT departmentname from departmenttbl WHERE deptid=teacherstbl.deptid) AS departmentname, 
 	(SELECT count(subjectid) from teachersubjecttbl where teachersid=teacherstbl.teachersid) AS NoOfSubject FROM teacherstbl
 	 WHERE lname LIKE '%$tosearch%' OR fname LIKE '%$tosearch%' OR email LIKE '%$tosearch%' order by teacherstbl.lname limit $start_from,$num_of_page";
@@ -488,6 +495,13 @@ $("checkitem").change(function(){
 				echo "<td>" . $row['email'] . "</td>";
 				echo "<td>" . $row['departmentname'] . "</td>";
 				echo "<td>" . $row['NoOfSubject'] . "</td>";
+				?>
+                <td>
+                 <img style="width: 30px; height: 30px; border-radius: 100px;"
+                 onerror="this.src='images/defaultpic/defaultPIC.png'"
+                 src="<?php echo "images/teacher_picture/".$row['image']."";?>">
+                </td>                                                
+				<?php
 				echo '<td>
 					<div class="table-data-feature">
 						<button onclick="showassignedsubjects(' . $row['teachersid'] . ')" class="item" data-toggle="modal" data-placement="top" title="Assigned Subject/s" type="button" data-target="#sendnotif">

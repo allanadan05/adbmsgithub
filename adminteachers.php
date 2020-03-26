@@ -62,6 +62,18 @@ if($_SESSION['access']=="admin"){
                     document.getElementById("lname").value = buongObject.lname;
                     document.getElementById("fname").value = buongObject.fname;
                     document.getElementById("mname").value = buongObject.mname;
+                    var imgStud = document.getElementById("resultimage").value = buongObject
+                    .resultimage; // result image
+                    if (imgStud) {
+                        var imgStud = document.getElementById("resultimage").innerHTML = "Image Name: " + buongObject.resultimage;
+                        //var resultimg = document.getElementById("displayimage").innerHTML = "Image Name: "+  imgStud ;
+                    } else {
+                        var imgStud = document.getElementById("resultimage").innerHTML = "Image Name: None";
+                        
+                        //var resultimg = document.getElementById("displayimage").innerHTML = "Image Name: None";
+                    }
+                    var seeimg = document.getElementById("showStudtimage").style.display = "inline";
+                    
                     // section id
                     var getDeptId = document.getElementById("SearchteachersdeptId").value = buongObject
                         .SearchteachersdeptId;
@@ -120,7 +132,145 @@ if($_SESSION['access']=="admin"){
 
     <!-- new line code-->
     <script>
+        //validation for teachers
 
+        function validEmail()
+        {
+            
+            var myEmail = document.getElementById("email").value;
+            var checkEmail = document.getElementById("chkEmail");
+
+            if(myEmail!="")
+            {
+                checkEmail.innerHTML = "Checking...";
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("POST","process3.php",true);
+                xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xmlhttp.onreadystatechange = function(){
+                    if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                    {
+                        checkEmail.innerHTML = xmlhttp.responseText;
+                    }
+                }
+                var postEmail = "chkEmail=" +myEmail;
+                xmlhttp.send(postEmail);
+            }
+            else {
+                checkEmail.innerHTML = "";
+            }
+        }
+
+        function tooShortPassword() {
+            var tooShortPwd = document.getElementById("chkpwd");
+            var pwd = document.getElementById("password").value;
+            if (pwd != "") {
+                tooShortPwd.innerHTML = "Checking...";
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("POST", "process3.php", true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState == 4 && xhttp.status == 200) {
+                        tooShortPwd.innerHTML = xhttp.responseText;
+                    }
+                }
+                var postPwd = "chpwdTeacher=" + pwd;
+                xhttp.send(postPwd);
+            } else {
+                tooShortPwd.innerHTML = "";
+            }
+        }
+
+           // firstname validation
+           function fnameValid() 
+        {
+          var sFname = document.getElementById("checkfname");
+          var rfname = document.getElementById("fname").value;
+              if(rfname != "")
+                  {
+
+                    sFname.innerHTML="Checking...";
+                    var xhttpF = new XMLHttpRequest();
+                    xhttpF.open("POST","process3.php",true);
+                    xhttpF.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                    xhttpF.onreadystatechange = function()
+                    {
+                        if(xhttpF.readyState == 4 && xhttpF.status == 200)
+                        {
+                          sFname.innerHTML=xhttpF.responseText;
+                        }
+    
+                    }
+                        var f = "checkFn="+rfname;
+                        xhttpF.send(f);
+                  }
+              else{
+                sFname.innerHTML="";
+              }
+
+        }
+            // firstname validation
+
+            // lastname validation
+            function lnameValid() 
+        {
+          var sLname = document.getElementById("checklname");
+          var rlname = document.getElementById("lname").value;
+              if(rlname != "")
+                  {
+
+                    sLname.innerHTML="Checking...";
+                    var xhttpL = new XMLHttpRequest();
+                    xhttpL.open("POST","process3.php",true);
+                    xhttpL.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                    xhttpL.onreadystatechange = function()
+                    {
+                        if(xhttpL.readyState == 4 && xhttpL.status == 200)
+                        {
+                          sLname.innerHTML=xhttpL.responseText;
+                        }
+    
+                    }
+                        var l = "checkLn="+rlname;
+                        xhttpL.send(l);
+                  }
+              else{
+                sLname.innerHTML="";
+              }
+
+        }
+            // last name validation
+
+            // mname validation
+            function mnameValid() 
+        {
+          var sMname = document.getElementById("checkmname");
+          var rmname = document.getElementById("mname").value;
+              if(rmname != "")
+                  {
+
+                    sMname.innerHTML="Checking...";
+                    var xhttpM = new XMLHttpRequest();
+                    xhttpM.open("POST","process3.php",true);
+                    xhttpM.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                    xhttpM.onreadystatechange = function()
+                    {
+                        if(xhttpM.readyState == 4 && xhttpM.status == 200)
+                        {
+                          sMname.innerHTML=xhttpM.responseText;
+                        }
+    
+                    }
+                        var m = "checkMn="+rmname;
+                        xhttpM.send(m);
+                  }
+              else{
+                sMname.innerHTML="";
+              }
+        }
+        //mname validation
+
+
+        // validation for teachers
         //click all checkboxes
         function checkboxes_deleted() {
             document.getElementById("showBtn").style.display = "inline";
@@ -214,12 +364,13 @@ if($_SESSION['access']=="admin"){
                             <?php
                              if(isset($_GET['editstudentresult'])){
                                 $editstudentresult=$_GET['editstudentresult'];
-
                                 if($editstudentresult=="success"){
-                                echo "<div class='alert alert-primary' role='alert'> Profile: ".$_GET['lname'] .", " .$_GET['fname'] ." has been updated :) </div>";
+                                //echo "<div class='alert alert-primary' role='alert'> Profile: ".$_GET['lname'] .", " .$_GET['fname'] ." has been updated :) </div>";
+                                echo "<div class='alert alert-primary' role='alert'> Profile has been updated :) </div>";
                                 }
                                 if($editstudentresult=="failed"){
-                                echo "<div class='alert alert-danger' role='alert'>  Profile: ".$_GET['lname'] .", " .$_GET['fname'] ." cannot be updated :( </div>";
+                                //echo "<div class='alert alert-danger' role='alert'>  Profile: ".$_GET['lname'] .", " .$_GET['fname'] ." cannot be updated :( </div>";
+                                echo "<div class='alert alert-primary' role='alert'> Profile cannot be updated :( </div>";
                                 } 
                             }
                             
@@ -242,6 +393,65 @@ if($_SESSION['access']=="admin"){
                                 echo "<div class='alert alert-danger' role='alert'>  Notification cannot be sent! :( </div>";
                                 } 
                             }
+
+                            // addteachers.php
+                            if(isset($_GET['password']) && $_GET['password']=="tooShort")
+                            {
+                                echo "<div class='alert alert-danger' role='alert'>Password must be more than 4 characters </div>";
+                            }
+                             if(isset($_GET['exist']) && $_GET['exist']=="email") 
+                            {
+                              echo "<div class='alert alert-danger' role='alert'>Email already exist </div>";
+                            }
+                            if(isset($_GET['new']) && $_GET['new']=="teacher")
+                            {
+                                echo "<div class='alert alert-success' role='alert'>Add Record Successfully</div>";
+                            }
+
+                            //edit
+        
+                            if(isset($_GET['password']) && $_GET['password']=="tooShortEdit")
+                            {
+                                echo "<div class='alert alert-danger' role='alert'>Password must be more than 4 characters </div>";
+        
+                            }
+                             if(isset($_GET['exist']) && $_GET['exist']=="emailEdit") 
+                            {
+                              echo "<div class='alert alert-danger' role='alert'>Already Exist Email </div>";
+                            }  
+
+                            // full name validation
+                            if(isset($_GET['fname']) && $_GET['fname']=="numberCannotAccept") 
+                            {
+                            echo "<div class='alert alert-danger' role='alert'>Firstname character must be a letter </div>";
+                            }
+                            if(isset($_GET['lname']) && $_GET['lname']=="numberCannotAccept") 
+                            {
+                            echo "<div class='alert alert-danger' role='alert'>Lastname character must be a letter </div>";
+                            } 
+                            if(isset($_GET['mname']) && $_GET['mname']=="numberCannotAccept") 
+                            {
+                            echo "<div class='alert alert-danger' role='alert'>Middlename character must be a letter </div>";
+                            }
+                            
+                            // limit 2 characters
+                            if(isset($_GET['fname']) && $_GET['fname']=="tooShort")
+                            {
+                                echo "<div class='alert alert-danger' role='alert'>Firstname must be more than 2 characters </div>";
+                            }
+                            if(isset($_GET['lname']) && $_GET['lname']=="tooShort")
+                            {
+                                echo "<div class='alert alert-danger' role='alert'>lastname must be more than 2 characters </div>";
+                            }
+                            if(isset($_GET['mname']) && $_GET['mname']=="tooShort")
+                            {
+                                echo "<div class='alert alert-danger' role='alert'>Middlename must be more than 2 characters </div>";
+                            }
+                            // limit 2 characters
+
+                            // full name validation
+
+                            //addteachers.php
                             ?>
                         </div>
                         <div class="row">
@@ -318,6 +528,7 @@ if($_SESSION['access']=="admin"){
                                                 <th>email</th>
                                                 <th>department</th>
                                                 <th>#subjects enrolled</th>
+                                                <th>Image</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -347,7 +558,7 @@ if($_SESSION['access']=="admin"){
                                             <!--pagination-->
 
                                             <?php
-                                        $sql="select teachersid,deptid, concat(lname, ', ', fname , ' ', mname) AS name, email, 
+                                        $sql="select teachersid,deptid, concat(lname, ', ', fname , ' ', mname) AS name, email, image, 
                                         (SELECT departmentname from departmenttbl WHERE deptid=teacherstbl.deptid) AS departmentname, 
                                         (SELECT count(subjectid) from teachersubjecttbl where teachersid=teacherstbl.teachersid) AS NoOfSubject 
                                         FROM teacherstbl order by teacherstbl.lname limit $start_from,$num_of_page";
@@ -369,6 +580,11 @@ if($_SESSION['access']=="admin"){
                                                 <?php echo "<td>".$row['email']."</td>";?>
                                                 <?php echo "<td>".$row['departmentname']."</td>";?>
                                                 <?php echo "<td>".$row['NoOfSubject']."</td>";?>
+                                                <td>
+                                                        <img style="width: 30px; height: 30px; border-radius: 100px;"
+                                                            onerror="this.src='images/defaultpic/defaultPIC.png'"
+                                                            src="<?php echo "images/teacher_picture/".$row['image']."";?>">
+                                                    </td>                                                
                                                 <td>
                                                     <div class="table-data-feature">
                                                         <button
@@ -473,36 +689,47 @@ if($_SESSION['access']=="admin"){
                     <!-- Modal body -->
                     <div class="modal-body">
 
-                        <form action="addteachers.php" method="POST">
+                        <form action="addteachers.php" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="hiddenuserid" id="hiddenuserid">
                             <!--dept id for teachers-->
                             <!--input type="hidden" name="teachersdeptId" id="teachersdeptId"-->
                             <!--dept id for teachers-->
                             <table border="0" style="border-collapse: collapse;">
-
+                            <div style="display:none;" id="showStudtimage">
+                            <div id="resultimage"></div>
+                            </div>
+                                <tr>
+                                  <td>Image:</td>
+                                  <td><input type="file" name="image" id="image" accept="image/*">      
+                                </tr>
                                 <tr>
                                     <td>Email:</td>
-                                    <td><input type="email" name="email" id="email" placeholder="Enter Email" required>
+                                    <td><input type="email" name="email" id="email" placeholder="Enter Email" maxlength="30" onkeyup="validEmail()"
+                                     required>
                                     </td>
+                                    <span id="chkEmail"></span>
                                 </tr>
                                 <tr>
                                     <td>Password:</td>
                                     <td><input type="password" name="password" id="password"
-                                            placeholder="Enter Password " required></td>
+                                            placeholder="Enter Password " maxlength="30" onkeyup="tooShortPassword()" required>
+                                            <span id="chkpwd"></span></td>
                                 </tr>
+                                
                                 <tr>
                                     <td>Firstname:</td>
-                                    <td><input type="text" name="fname" id="fname" placeholder="Enter Firstname"
-                                            required></td>
+                                    <td><input type="text" name="fname" id="fname" placeholder="Enter Firstname" maxlength="30" onkeyup="fnameValid()"
+                                            required><span id="checkfname"></span></td>
                                 </tr>
                                 <tr>
                                     <td>Lastname:</td>
-                                    <td><input type="text" name="lname" id="lname" placeholder="Enter Lastname"
-                                            required></td>
+                                    <td><input type="text" name="lname" id="lname" placeholder="Enter Lastname" maxlength="30" onkeyup="lnameValid()"
+                                            required><span id="checklname"></span></td>
                                 </tr>
                                 <tr>
                                     <td>Middlename: &nbsp&nbsp&nbsp</td>
-                                    <td><input type="text" name="mname" id="mname" placeholder="Enter Middlename"></td>
+                                    <td><input type="text" name="mname" id="mname" placeholder="Enter Middlename" maxlength="30" onkeyup="mnameValid()">
+                                    <span id="checkmname"></span></td>
                                 </tr>
                                 <tr>
                                     <td>Department: &nbsp&nbsp&nbsp</td>

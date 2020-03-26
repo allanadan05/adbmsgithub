@@ -93,7 +93,7 @@ if($_SESSION['access']=="teacher"){
                         echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
                     } ?>>
                     <a href="teachersubjects.php">
-                        <i class="fas fa-book"></i>Subjects <span class="badge badge-success float-right mt-1"><?php $sql = "SELECT count(subjectid) as bilang from subjecttbl";
+                        <i class="fas fa-book"></i>Subjects <span class="badge badge-success float-right mt-1"><?php $sql = "SELECT count(teachersid) as bilang from teachersubjecttbl where teachersid='".$_SESSION['tearcherid']."'";
                                                                                                                 $executeQuery = mysqli_query($con, $sql);
                                                                                                                 $result = mysqli_fetch_array($executeQuery);
                                                                                                                 echo $ibalik = $result['bilang']; ?></span></a>
