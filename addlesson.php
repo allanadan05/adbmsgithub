@@ -79,6 +79,7 @@ if(isset($_POST["addlesson"])){
 
 if(isset($_POST['editnewlesson'])){
 
+    /*
     //this function can accept only in PDF po hihi
     $allow=array("pdf"); // this use diffrent file format niya po
     //$temp=explode(".",$_FILES["lessonpdf"]["name"]);
@@ -86,7 +87,7 @@ if(isset($_POST['editnewlesson'])){
     $extension=end($temp); // find pdf file only .. from $array('pdf');
     $upload_file=$_FILES["lessonpdf"]["name"];
     $pdfOnly=pathinfo($upload_file, PATHINFO_EXTENSION);    
-
+    */
     $fm = "(".rand().") ".$_FILES["lessonpdf"]["name"];
     $loc = "./uploads/".$fm;
     
@@ -97,7 +98,7 @@ if(isset($_POST['editnewlesson'])){
 
     $select_pdf=mysqli_query($con,"SELECT lessonpdf FROM lessontbl WHERE lessonid='".$id."'");
     $fetch_pdf=mysqli_fetch_array($select_pdf);
-
+    /*
     if(!in_array($pdfOnly,$allow))
     {
                 //echo "<script>alert('File is allow only in PDF')</script>";
@@ -113,12 +114,14 @@ if(isset($_POST['editnewlesson'])){
                 }
     }
     else
-    {         
-                    
-                    unlink($fetch_pdf['lessonpdf']);
+    { 
+    */        
+                    //unlink($fetch_pdf['lessonpdf']);
+                    $replacePDF=$fetch_pdf['lessonpdf'];
+                    $lloc = $replacePDF;
                     move_uploaded_file($_FILES["lessonpdf"]["tmp_name"],$loc);
                     
-                    $q = "UPDATE lessontbl SET lessontitle='$lessontitle', lessondetail='$lessondetail', subjectid='$subjectid', lessonpdf='$loc' WHERE lessonid='$id' ";
+                    $q = "UPDATE lessontbl SET lessontitle='$lessontitle', lessondetail='$lessondetail', subjectid='$subjectid', lessonpdf='$lloc' WHERE lessonid='$id' ";
                     $u = mysqli_query($con , $q);
                     if($u)
                         {
@@ -146,7 +149,7 @@ if(isset($_POST['editnewlesson'])){
                             }
                         }
                 
-    }
+    //}
 }
 
 if(isset($_GET['deletelesson']))
