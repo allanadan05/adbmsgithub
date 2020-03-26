@@ -391,7 +391,11 @@ $("checkitem").change(function(){
 		$tosearch = $_GET['tosearch'];
 		
 		
-		$sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, userstbl.sectionid, (select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname, (select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore from userstbl where (lname LIKE '%$tosearch%' OR fname LIKE '%$tosearch%' OR email LIKE '%$tosearch%') AND (sectionid=(select sectionid from teachersectiontbl where teachersid='$teachersid')) order by userstbl.lname";
+		$sql="select userstbl.userid, userstbl.sectionid, userstbl.lname, userstbl.fname, userstbl.email, userstbl.image, userstbl.sectionid, 
+		(select sectionname from sectiontbl where userstbl.sectionid=sectiontbl.sectionid) AS sectionname, 
+		(select sum(averagescore)/count(averagescore) from scoretbl where userstbl.userid=scoretbl.userid) AS averagescore 
+		from userstbl where (lname LIKE '%$tosearch%' OR fname LIKE '%$tosearch%' OR email LIKE '%$tosearch%') AND
+		 (sectionid=(select sectionid from teachersectiontbl where teachersid='$teachersid')) order by userstbl.lname";
 				$result=mysqli_query($con, $sql);
 				if(mysqli_num_rows($result)){
 					while($row = mysqli_fetch_array($result))

@@ -185,31 +185,11 @@ if($_SESSION['access']=="admin"){
                     document.getElementById('response').innerHTML = this.responseText; // refresh table purpose niya
                 }
             }
-            // document.getElementById("delSuccess").style.display="inline"; // print delete successfully
-            //document.getElementById("showDeleted").style.display="inline";
             var mul_del = "ajaxMulitpleDeleteStudents";
             xmlhttp.open("GET", "process2.php?id=" + eachCheckBoxes + "&mul_delStudents=" + mul_del, true);
             xmlhttp.send();
             window.location.reload();
             // process2.php
-            /*
-            setTimeout(function(){
-                window.location.reload(); 
-            },1000); // 2 seconds
-            */
-            /*
-             var timeleft = 3 ;
-             var downloadTimer  =  setInterval(function(){
-                 timeleft--;
-                 document.getElementById('delSuccess').textContent = timeleft;
-                 if(timeleft <=0)
-                     clearInterval(downloadTimer);
-                     // setTimeout para refresh page
-                     setTimeout(function(){
-                      window.location.reload(); 
-                      },3000); // 3 seconds 
-             },1000);
-             */
         }
         // this code work deleted multiple
         // for modal button close
@@ -463,6 +443,7 @@ if($_SESSION['access']=="admin"){
                                                 <tr class="tr-shadow">
                                                     <div id="showDel">
                                                         <td>
+                                                        
                                                             <label class="au-checkbox">
                                                                 <input onclick="oneCheckBoxes();" id="oneButtonDel"
                                                                     name="num[]" class="checkitem" type="checkbox"

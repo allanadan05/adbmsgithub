@@ -1,4 +1,9 @@
 <?php
+// error reporting to bypass undefined varialble to force without permission siya still working in depends sa condition
+error_reporting(1);
+require 'fpdf182/fpdf.php';
+include 'connection.php';
+include 'adminsession.php';
 
 if($_SESSION['access']=="admin"){
 
@@ -7,13 +12,7 @@ if($_SESSION['access']=="admin"){
     exit();
 }
 
-// error reporting to bypass undefined varialble to force without permission siya still working in depends sa condition
-error_reporting(1);
-require 'fpdf182/fpdf.php';
-include 'connection.php';
-include 'adminsession.php';
 $pdf = new FPDF();
-
 $pdf->AddPage();
 $pdf->SetFont('Arial','U',15);
 $pdf->Cell(180,5,'Student Records',0,1,'C');
@@ -56,24 +55,6 @@ while($result=mysqli_fetch_array($query))
 		 }
 	}
 	$pdf->Cell(32,5,$result['averagescore'].$remarks,1,0); 
-	/*
-	//section id
-	$foundSection=$result['sectionid'];
-	$section="SELECT * FROM sectiontbl WHERE sectionid=$foundSection";
-	$querySection=mysqli_query($con,$section);
-	$compareSection=mysqli_fetch_array($querySection);
-	if($compareSection['sectionname']==$foundSection);
-	$pdf->Cell(15,5,$compareSection['sectionname'],1,0);
-	//quiz id
-	$foundQuiz=$result['quizid'];
-	$quiz="SELECT * FROM quiztbl WHERE quizid=$foundQuiz";
-	$queryQuiz=mysqli_query($con,$quiz);
-	$compareQuiz=mysqli_fetch_array($queryQuiz);
-	if($compareQuiz['quizid']==$foundQuiz);
-	$pdf->Cell(48,5,$compareQuiz['quizname'],1,0);
-	
-	$pdf->Cell(27,5,$result['averagescore']."%".$result['remarks'],1,0); 
-	*/
 	$pdf->Ln();
 }
 $pdf->Output();

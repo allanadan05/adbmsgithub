@@ -120,6 +120,7 @@ if($_SESSION['access']=="admin"){
 
     <!-- new line code-->
     <script>
+
         //click all checkboxes
         function checkboxes_deleted() {
             document.getElementById("showBtn").style.display = "inline";
@@ -158,12 +159,6 @@ if($_SESSION['access']=="admin"){
             xmlhttp.send();
             window.location.reload();
         }
-        /*
-        function addteachersBtn(){
-        document.getElementById("submitbtn").style.display="inline";
-        document.getElementById("savebtn").style.display="none";
-        }
-        */
     </script>
     <!-- new line code-->
 
@@ -553,7 +548,7 @@ if($_SESSION['access']=="admin"){
                             name="addteachersubmit">Submit</button> &nbsp
                         <button type="submit" id="savebtn" class="btn btn-warning" style="display: none;"
                             name="editteachersubmit">Save</button>
-                        <a class="btn btn-danger" data-dismiss="modal" href="#  ">Close</a>
+                        <a class="btn btn-danger" data-dismiss="modal" href="adminteachers.php">Close</a>
                         <!--button onclick="addteachersBtn();" type="button" id="close-tbn" class="btn btn-danger" data-dismiss="modal">Close</button-->
                         </form>
 

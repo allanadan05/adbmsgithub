@@ -1,4 +1,10 @@
 <?php
+// error reporting to bypass undefined varialble to force without permission siya still working in depends sa condition
+error_reporting(1);
+require 'fpdf182/fpdf.php';
+include 'connection.php';
+include 'adminsession.php';
+$pdf = new FPDF();
 
 if($_SESSION['access']=="admin"){
 
@@ -7,12 +13,7 @@ if($_SESSION['access']=="admin"){
     exit();
 }
 
-// error reporting to bypass undefined varialble to force without permission siya still working in depends sa condition
-error_reporting(1);
-require 'fpdf182/fpdf.php';
-include 'connection.php';
-include 'adminsession.php';
-$pdf = new FPDF();
+
 
 $pdf->AddPage();
 $pdf->SetFont('Arial','U',15);

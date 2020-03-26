@@ -105,6 +105,7 @@ if($_SESSION['access']=="admin"){
                                     echo "<input type='hidden' name='adminid' id='adminid' value='$sqlAdminFetch_personalInfo[adminid]' readonly>";
                                     echo "<input type='hidden' name='personalInfo' id='personalInfo' value='personalInfo' readonly>";
                                     //var_dump($sqlAdminFetch);
+                                    
                                     ?>            
                                     <div class="col-md-12">
                                         <div class="card">

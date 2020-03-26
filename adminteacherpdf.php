@@ -1,5 +1,9 @@
 <?php
-
+// error reporting to bypass undefined varialble to force without permission siya still working in depends sa condition
+error_reporting(1);
+require 'fpdf182/fpdf.php';
+include 'connection.php';
+include 'adminsession.php';
 if($_SESSION['access']=="admin"){
 
 }else{
@@ -7,11 +11,6 @@ if($_SESSION['access']=="admin"){
     exit();
 }
 
-// error reporting to bypass undefined varialble to force without permission siya still working in depends sa condition
-error_reporting(1);
-require 'fpdf182/fpdf.php';
-include 'connection.php';
-include 'adminsession.php';
 $pdf = new FPDF();
 
 $pdf->AddPage();

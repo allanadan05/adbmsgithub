@@ -49,26 +49,11 @@ if(isset($_POST['addstudentsubmit'])){
 		{
 					$image = $_FILES['image']['name'];
 					$img_temp= $_FILES['image']['tmp_name'];
-					$new_name = rand()." ".$image;
+					$new_name = "(".rand().") ".$image;
+					
 			$sql = "INSERT INTO userstbl(email,password,fname,lname,mname,image,sectionid) VALUES ('$email','$pword','$fname','$lname','$mname','$new_name','$sectionid')";
 			//add image
-					/*
-					if(file_exists("images/profile_picture/$new_name"))
-					{
-						if($_SESSION['access']=="user"){
-							header("Location: index.php?login=access"); //user cant access this
-						}else if($_SESSION['access']=="teacher"){
-							header("location: teacherstudents.php?exist=image");
-						}else if($_SESSION['access']=="admin"){
-							header("location: adminstudents.php?exist=renameimage");
-						}else{
-							header("Location: index.php?login=access");
-						}
-									
-					}
-					else
-					{
-					*/
+
 						$_SESSION['upload_student']=$new_name;
 						if($_SESSION['upload_student'])
 						{
@@ -85,7 +70,7 @@ if(isset($_POST['addstudentsubmit'])){
 							}
 							
 						}
-					//}
+					
 		 			//header("location: adminstudents.php?new=student");
 		}
 	/*
@@ -148,18 +133,10 @@ if(isset($_POST['editstudentsubmit'])){
 			{
 				$image = $_FILES['image']['name'];
 				$img_temp= $_FILES['image']['tmp_name'];
-				$new_name = rand()." ".$image; //
+				$new_name = "(".rand().") ".$image; //
 				$select_img=mysqli_query($con,"SELECT image FROM userstbl WHERE userid='".$id."'");
 				$fetch_img=mysqli_fetch_array($select_img);
-				/*
-				if(file_exists("images/profile_picture/$image"))
-				{
-					header("location: adminstudents.php?exist=image");	
-					//echo "<script>alert('already exist')</script>";
-				}
-				else
-				{
-				*/	
+	
 					$_SESSION['upload_student_new_image']=$image;
 					if($_SESSION['upload_student_new_image'])
 					{
@@ -170,18 +147,10 @@ if(isset($_POST['editstudentsubmit'])){
 					 header("location: adminstudents.php?editstudentresult=success");
 					
 					}
-				//}
 
 			}
 		else
 			{
-							//$image = $_FILES['image']['name'];
-							//$img_temp= $_FILES['image']['tmp_name'];
-							//$image="defaultPIC.png";
-				//$select_img=mysqli_query($con,"SELECT image FROM userstbl WHERE userid='".$id."'");
-				//$fetch_img=mysqli_fetch_array($select_img);
-				//unlink("images/profile_picture/".$fetch_img['image']); //delete na luma image
-				//move_uploaded_file($img_temp,"images/defaultpic/".$image);
 			$sql = "UPDATE userstbl SET email='$email' ,password='$pword', fname='$fname',lname='$lname',mname='$mname',sectionid='$sectionid' WHERE userid='$id' ";
 				mysqli_query($con,$sql);
 				  $_SESSION["lname"]=$lname;

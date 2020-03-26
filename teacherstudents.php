@@ -80,7 +80,7 @@ function printnow()
         var response = document.getElementById("response");
         
 		var print_area = window.open();
-        print_area.document.write('<center><b>Student Record<b></center><br><br>');
+        print_area.document.write('<center><b><h1>Student Record</h1><b></center><br><br>');
         print_area.document.write('<center>');
 
 		print_area.document.write('<table border="1">');
@@ -95,7 +95,7 @@ function printnow()
         print_area.document.write('</tr>');
 
         print_area.document.write(response.innerHTML);
-        print_area.document.write('<style> #actionhide{display:none;}</style>')
+        print_area.document.write('<style> #actionhide{display:none;}</style>');
 
         print_area.document.write('</table>');
 
