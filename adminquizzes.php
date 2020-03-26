@@ -101,6 +101,7 @@ if($_SESSION['access']=="admin"){
                             <div>
                                 <h2>Quizzes</h2>
                                 <hr />
+                                <!-- <?php echo $_SESSION['access']; ?> -->
                                 <?php 
                                    if(isset($_GET['addquizresult'])){
                                     $addquizresult=$_GET['addquizresult'];

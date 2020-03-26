@@ -7,7 +7,7 @@ $teacher=teachersgetname($teachersid);
 
 
 if($_SESSION['access']=="teacher"){
-
+    
 }else{
     header("Location: index.php?login=access");
     exit();
@@ -94,6 +94,7 @@ if($_SESSION['access']=="teacher"){
                 <!-- HEADER DESKTOP-->
                 <?php include("teacherheader.php"); ?>
                 <!-- HEADER DESKTOP-->
+
                 <!-- MAIN CONTENT-->
                 <div class="main-content">
                     <div class="section__content section__content--p30">
@@ -101,6 +102,7 @@ if($_SESSION['access']=="teacher"){
                             <div>
                                 <h2>Quizzes</h2>
                                 <hr />
+                                <!-- <?php echo $_SESSION['access']; ?> -->
                                 <?php 
                                    if(isset($_GET['addquizresult'])){
                                     $addquizresult=$_GET['addquizresult'];
@@ -172,9 +174,11 @@ if($_SESSION['access']=="teacher"){
                                                 <strong>New Quiz Title: &nbsp</strong><br>
 
                                                 <input type="text" name="qtitle" placeholder="Type title here" required>
-                                                <br>
-                                                <strong>Duration:</strong> &nbsp &nbsp <input type="time" name="dur"
-                                                    required>
+                                            </div>
+
+                                            <div class="row">
+                                                <strong>Duration (in Minutes):</strong> &nbsp &nbsp <input type="number"
+                                                    name="dur" placeholder="0 minute" required>
                                             </div>
 
                                         </div>
@@ -189,100 +193,101 @@ if($_SESSION['access']=="teacher"){
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="row">
+                            <div class="row">
 
-                                    <div class="col-md-12">
-                                        <div class="card border border-primary">
-                                            <div class="card-header">
-                                                <form method="POST" action="process2.php">
-                                                    <div class="row">
-                                                        <strong class="card-title">Add Question </strong> &nbsp &nbsp
-                                                        <div class="dropDownSelect2"></div>
-                                                    </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <strong>Quiz Title </strong> &nbsp &nbsp
-                                                <select class="js-select3" name="chosenquiztitle" required>
-                                                    <option selected="selected" disabled>Choose Quiz</option>
-                                                    <?php 
+                                <div class="col-md-12">
+                                    <div class="card border border-primary">
+                                        <div class="card-header">
+                                            <form method="POST" action="process2.php">
+                                                <div class="row">
+                                                    <strong class="card-title">Add Question </strong> &nbsp &nbsp
+                                                    <div class="dropDownSelect2"></div>
+                                                </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <strong>Quiz Title </strong> &nbsp &nbsp
+                                            <select class="js-select3" name="chosenquiztitle" required>
+                                                <option selected="selected" disabled>Choose Quiz</option>
+                                                <?php 
                                                    $sqlstring="SELECT * FROM quiztbl ORDER BY quizname ASC";
                                                    $querystring=mysqli_query($con, $sqlstring);
                                                    while($row=mysqli_fetch_array($querystring)){
                                                 ?>
-                                                    <option value="<?php echo $row['quizid']; ?>">
-                                                        <?php echo $row['quizname']; ?></option>
-                                                    <?php } ?>
-                                                </select><br>
-                                                <strong>Question: &nbsp</strong>
-                                                <input type="text" name="question" placeholder="Write question here..."
-                                                    style="width:70%" required>
+                                                <option value="<?php echo $row['quizid']; ?>">
+                                                    <?php echo $row['quizname']; ?></option>
+                                                <?php } ?>
+                                            </select><br>
+                                            <strong>Question: &nbsp</strong>
+                                            <input type="text" name="question" placeholder="Write question here..."
+                                                style="width:70%" required>
 
-                                                <br />
-                                                <div class="row form-group">
-                                                    <div class="col col-md-2">
+                                            <br />
+                                            <div class="row form-group">
+                                                <div class="col col-md-2">
 
+                                                </div>
+                                                <div class="col col-md-8">
+                                                    <div class="form-check">
+                                                        <strong>A. &nbsp</strong>
+                                                        <input type="text" name="optiona" placeholder="Choice A"
+                                                            style="width:50%" required>
+                                                        <br><strong>B. &nbsp</strong>
+                                                        <input type="text" name="optionb" placeholder="Choice B"
+                                                            style="width:50%" required>
+                                                        <br><strong>C. &nbsp</strong>
+                                                        <input type="text" name="optionc" placeholder="Choice C"
+                                                            style="width:50%" required>
+                                                        <br><strong>D. &nbsp</strong>
+                                                        <input type="text" name="optiond" placeholder="Choice D"
+                                                            style="width:50%" required>
                                                     </div>
-                                                    <div class="col col-md-8">
-                                                        <div class="form-check">
-                                                            <strong>A. &nbsp</strong>
-                                                            <input type="text" name="optiona" placeholder="Choice A"
-                                                                style="width:50%" required>
-                                                            <br><strong>B. &nbsp</strong>
-                                                            <input type="text" name="optionb" placeholder="Choice B"
-                                                                style="width:50%" required>
-                                                            <br><strong>C. &nbsp</strong>
-                                                            <input type="text" name="optionc" placeholder="Choice C"
-                                                                style="width:50%" required>
-                                                            <br><strong>D. &nbsp</strong>
-                                                            <input type="text" name="optiond" placeholder="Choice D"
-                                                                style="width:50%" required>
-                                                        </div>
-                                                        <br>
-                                                        Answer: <input type="text" name="answer" maxlength="1"
-                                                            pattern="[ABCD]" style="width: 100%"
-                                                            placeholder="Type the letter of the correct answer here... "
-                                                            required>
-                                                    </div>
+                                                    <br>
+                                                    Answer: <input type="text" name="answer" maxlength="1"
+                                                        pattern="[ABCD]" style="width: 100%"
+                                                        placeholder="Type the letter of the correct answer here... "
+                                                        required>
                                                 </div>
                                             </div>
-                                            <div class="card-footer">
-                                                <!-- <button type="edit" class="btn btn-secondary btn-sm">
+                                        </div>
+                                        <div class="card-footer">
+                                            <!-- <button type="edit" class="btn btn-secondary btn-sm">
                                             <i class="fa fa-pencil-square-o"></i> Edit
                                         </button> -->
 
-                                                <button type="submit" class="btn btn-primary btn-sm" name="submitquiz">
-                                                    <i class="fa fa-dot-circle-o"></i> Submit
-                                                </button>
-                                                </form>
-                                            </div>
+                                            <button type="submit" class="btn btn-primary btn-sm" name="submitquiz">
+                                                <i class="fa fa-dot-circle-o"></i> Submit
+                                            </button>
+                                            </form>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="col-md-12">
-                                        <div class="table-responsive table--no-card m-b-30">
-                                            <table class="table table-borderless table-striped table-earning">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Quiz Title</th>
-                                                        <th>Subject</th>
-                                                        <th>Time</th>
-                                                        <th>Status</th>
-                                                        <th>ACTIONS</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="response">
-                                                    <?php
+                                <div class="col-md-12">
+                                    <div class="table-responsive table--no-card m-b-30">
+                                        <table class="table table-borderless table-striped table-earning">
+                                            <thead>
+                                                <tr>
+                                                    <th>Quiz Title</th>
+                                                    <th>Subject</th>
+                                                    <th>Time</th>
+                                                    <th>Status</th>
+                                                    <th>ACTIONS</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="response">
+                                                <?php
                                                 $sql="select quizid, quizname, (SELECT subjectname from subjecttbl WHERE subjectid=quiztbl.subjectid) AS subject, duration, status from quiztbl ORDER BY quizname";
                                                 $result=mysqli_query($con, $sql);
                                                 while($row=mysqli_fetch_array($result)){
                                             ?>
-                                                    <tr>
-                                                        <td><?php echo "<a href=adminexam.php?quizid=".$row['quizid']."> " .$row['quizname']."</a>"; ?>
-                                                        </td></a>
-                                                        <td><?php echo $row['subject']; ?></td>
-                                                        <td><?php echo $row['duration']; ?></td>
-                                                        <?php 
+                                                <tr>
+                                                    <td><?php echo "<a href=teacherexam.php?quizid=".$row['quizid']."> " .$row['quizname']."</a>"; ?>
+                                                    </td></a>
+                                                    <td><?php echo $row['subject']; ?></td>
+                                                    <td><?php echo $row['duration']; ?></td>
+                                                    <?php 
                                                 $stat="";
                                                 if($row['status']=="ACTIVATED"){
                                                     echo '<td style="color: green;">';
@@ -292,123 +297,118 @@ if($_SESSION['access']=="teacher"){
                                                     $stat="Activate";
                                                 }
                                                 ?>
-                                                        <?php echo $row['status']; ?>
-                                                        <!--                                                     <label class="switch switch-3d switch-success mr-3">
+                                                    <?php echo $row['status']; ?>
+                                                    <!--                                                     <label class="switch switch-3d switch-success mr-3">
                                                       <input type="checkbox" class="switch-input" checked="true">
                                                       <span class="switch-label"></span>
                                                       <span class="switch-handle"></span>
                                                     </label> -->
-                                                        </td>
-                                                        <td>
-                                                            <div class="table-data-feature">
-                                                                <button onclick="stat(<?php echo $row['quizid']; ?>)"
-                                                                    class="item" data-toggle="modal"
-                                                                    data-placement="top" title="<?php echo $stat; ?>"
-                                                                    type="button">
-                                                                    <i class="zmdi zmdi-power"></i>
-                                                                </button>
-                                                                <button type="button"
-                                                                    onclick="editquiz(<?php echo $row['quizid']; ?>)"
-                                                                    class="item" data-placement="top" title="Edit"
-                                                                    data-toggle="modal" data-target="#modalbox">
-                                                                    <i class="zmdi zmdi-edit"></i>
-                                                                </button>
-                                                                <a
-                                                                    href="<?php echo "process2.php?deletequiz=1&id=".$row['quizid'] ?>">
-                                                                    <button class="item" data-toggle="tooltip"
-                                                                        data-placement="top" title="Delete">
-                                                                        <i class="zmdi zmdi-delete"></i>
-                                                                    </button></a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <?php } ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="table-data-feature">
+                                                            <button onclick="stat(<?php echo $row['quizid']; ?>)"
+                                                                class="item" data-toggle="modal" data-placement="top"
+                                                                title="<?php echo $stat; ?>" type="button">
+                                                                <i class="zmdi zmdi-power"></i>
+                                                            </button>
+                                                            <button type="button"
+                                                                onclick="editquiz(<?php echo $row['quizid']; ?>)"
+                                                                class="item" data-placement="top" title="Edit"
+                                                                data-toggle="modal" data-target="#modalbox">
+                                                                <i class="zmdi zmdi-edit"></i>
+                                                            </button>
+                                                            <a
+                                                                href="<?php echo "process2.php?deletequiz=1&id=".$row['quizid'] ?>">
+                                                                <button class="item" data-toggle="tooltip"
+                                                                    data-placement="top" title="Delete">
+                                                                    <i class="zmdi zmdi-delete"></i>
+                                                                </button></a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <?php } ?>
+                                            </tbody>
+                                        </table>
                                     </div>
+                                </div>
 
-                                </div> <!-- row -->
-                            </div> <!-- section__content -->
-                        </div><!-- container Fluid -->
-                    </div><!-- main content -->
-                    <!-- END MAIN CONTENT-->
-                    <!-- END PAGE CONTAINER-->
-                </div>
-
+                            </div> <!-- row -->
+                        </div> <!-- section__content -->
+                    </div><!-- container Fluid -->
+                </div><!-- main content -->
+                <!-- END MAIN CONTENT-->
+                <!-- END PAGE CONTAINER-->
             </div>
 
-            <!-- modal medium -->
-            <div class="modal fade" id="modalbox" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <form action="process2.php" method="POST">
-                                <strong>Edit Quiz: </strong>
-                        </div>
-                        <div class="modal-body">
+        </div>
 
-                            <div class="row">
-                                <strong class="card-title" id="sectionselected1">Subject </strong> &nbsp &nbsp
-                                <select class="select" name="chosensubject" required>
-                                    <option id="sectionselected" selected readonly>Choose Subject</option>
-                                    <?php 
+        <!-- modal medium -->
+        <div class="modal fade" id="modalbox" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <form action="process2.php" method="POST">
+                            <strong>Edit Quiz: </strong>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <strong class="card-title" id="sectionselected1">Subject </strong> &nbsp &nbsp
+                            <select class="select" name="chosensubject" required>
+                                <option id="sectionselected" selected readonly>Choose Subject</option>
+                                <?php 
                                $sqlstring="SELECT * FROM subjecttbl ORDER BY subjectname ASC ";
                                $querystring=mysqli_query($con, $sqlstring);
                                while($row=mysqli_fetch_array($querystring)){
                             ?>
-                                    <option value="<?php echo $row['subjectid']; ?>"><?php echo $row['subjectname']; ?>
-                                    </option>
-                                    <?php } ?>
-                                </select>
-                                <div class="dropDownSelect2"></div>
-                            </div>
-                            <div class="row">
-                                <strong>New Quiz Title: &nbsp</strong><br>
+                                <option value="<?php echo $row['subjectid']; ?>"><?php echo $row['subjectname']; ?>
+                                </option>
+                                <?php } ?>
+                            </select>
+                            <div class="dropDownSelect2"></div>
+                        </div>
+                        <div class="row">
+                            <strong>New Quiz Title: &nbsp</strong>
+                            <input type="text" name="qtitle" id="replaceqtitle" placeholder="Type title here" required>
+                        </div>
+                        <strong>Duration (in minutes):</strong>
+                        <input type="number" name="dur" id="replacedduration" placeholder="0 minute" required>
+                        <input type="hidden" id="hiddenquizid" name="hiddenquizid">
 
-                                <input type="text" name="qtitle" id="replaceqtitle" placeholder="Type title here"
-                                    required>
-                                <br>
-                                <strong>Duration:</strong> &nbsp &nbsp <input type="time" name="dur"
-                                    id="replacedduration" required>
-                                <input type="hidden" id="hiddenquizid" name="hiddenquizid">
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button type="submit" name="updatequiz" class="btn btn-primary"
-                                    id="sendbtn">Save</button>
-                                </form>
-                            </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" name="updatequiz" class="btn btn-primary" id="sendbtn">Save</button>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <!-- end modal medium -->
+            </div>
+            <!-- end modal medium -->
 
-                <!-- Jquery JS-->
-                <script src="vendor/jquery-3.2.1.min.js"></script>
-                <!-- Bootstrap JS-->
-                <script src="vendor/bootstrap-4.1/popper.min.js"></script>
-                <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
-                <!-- Vendor JS       -->
-                <script src="vendor/slick/slick.min.js">
-                </script>
-                <script src="vendor/wow/wow.min.js"></script>
-                <script src="vendor/animsition/animsition.min.js"></script>
-                <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-                </script>
-                <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
-                <script src="vendor/counter-up/jquery.counterup.min.js">
-                </script>
-                <script src="vendor/circle-progress/circle-progress.min.js"></script>
-                <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-                <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-                <script src="vendor/select2/select2.min.js">
-                </script>
+            <!-- Jquery JS-->
+            <script src="vendor/jquery-3.2.1.min.js"></script>
+            <!-- Bootstrap JS-->
+            <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+            <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+            <!-- Vendor JS       -->
+            <script src="vendor/slick/slick.min.js">
+            </script>
+            <script src="vendor/wow/wow.min.js"></script>
+            <script src="vendor/animsition/animsition.min.js"></script>
+            <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+            </script>
+            <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+            <script src="vendor/counter-up/jquery.counterup.min.js">
+            </script>
+            <script src="vendor/circle-progress/circle-progress.min.js"></script>
+            <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+            <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+            <script src="vendor/select2/select2.min.js">
+            </script>
 
-                <!-- Main JS-->
-                <script src="js/main.js"></script>
+            <!-- Main JS-->
+            <script src="js/main.js"></script>
 
     </body>
 

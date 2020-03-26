@@ -10,6 +10,8 @@ if($_SESSION['access']=="user"){
     header("Location: index.php?login=access");
     exit();
 }
+
+$id=$_SESSION['userid'];
 ?>
 <!DOCTYPE html>
 <php lang="en">
@@ -62,42 +64,80 @@ if($_SESSION['access']=="user"){
                                 <hr /><br />
                             </div>
                             <div class="row">
-                                <?php 
-                            $sql="SELECT  subjectid  from userstbl join sectionsubjecttbl on userstbl.sectionid=sectionsubjecttbl.sectionid where userstbl.userid='$id'";
+                            <?php 
+                             $count=0;
+                            $sql="select *, (select subjectid from subjecttbl where subjectid=sectionsubjecttbl.subjectid) as subjectid, (select subjectname from subjecttbl where subjectid=sectionsubjecttbl.subjectid) as subjectname, (select subjectdesc from subjecttbl where subjectid=sectionsubjecttbl.subjectid) as subjectdesc from sectionsubjecttbl where sectionid=(select sectionid from userstbl where userid='$id')";
                             $result=mysqli_query($con, $sql);
-                            While($row=mysqli_fetch_array($result)){
-                            {   
-                                $sql="SELECT subjectname,subjectdesc from subjecttbl where subjectid=$row[subjectid]";
-                                $result=mysqli_query($con, $sql);
-                                    if(mysqli_num_rows($result)){
-                                    while($row = mysqli_fetch_array($result))
-                                    {
-                            
-    
-                            
-                            
+                            while($row=mysqli_fetch_array($result)){
+                            $count=$count+1;
                             ?>
-                                <div class="col-md-4">
-                                    <div class="card">
+                                <div class="col-md-6">
+                                    <div class="card border border-primary">
                                         <div class="card-header">
                                             <strong class="card-title"><a href="#"><?php echo $row['subjectname']?></a>
-                                                <small>
-                                                    <span class="badge badge-success float-right mt-1">3</span>
-                                                </small>
+                                                
                                             </strong>
                                         </div>
                                         <div class="card-body">
                                             <p class="card-text"><?php echo $row['subjectdesc']?>
                                             </p>
                                         </div>
+                                        <div class="card-footer">
+                                            <p style="color:maroon; font-weight:bold; font-size:20px;"><button id="showbtn<?php echo $count; ?>" onclick="showhide(<?php echo $count; ?>)" class="btn btn-outline-primary"><i class="fa fa-caret-down"></i> Show </button> &nbsp Lessons:</p><br>
+                                            
+                                            <div style="display:none;" id="lessonsdiv<?php echo $count;?>">
+                                            <?php 
+                                            $s="select * from lessontbl where subjectid=".$row['subjectid']." order by lessontitle";
+                                            $r=mysqli_query($con, $s);
+
+                                            if(mysqli_num_rows($r)){
+                                            while($lesson = mysqli_fetch_array($r))
+                                            { ?>
+                                                
+                                                    <div  class="card card border border-default">
+                                                        <div class="card-header" style="background:white; color:black;">
+                                                            <p> <b> <?php  echo "<td>".$lesson['lessontitle']."</td>"; ?> </b></p>
+                                                            
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <p class="card-text"> <?php  echo "<td>".$lesson['lessondetail']."</td>"; ?>
+                                                            </p>
+
+                                                            <a style="color:maroon; font-size: 12px;"
+                                                                    href="<?php  echo $lesson['lessonpdf']; ?>"><i
+                                                                        class="fas fa-file-pdf-o"></i> Open </a>
+                                                                &nbsp | &nbsp
+                                                                <a style="color:maroon; font-size: 12px;"
+                                                                    href="<?php  echo $lesson['lessonpdf']; ?>" target="_blank"
+                                                                    type="application/octet-stream"
+                                                                    download="<?php echo $lesson['lessontitle']; ?>"><i
+                                                                        class="fas fa-download"></i>Download </a>
+                                                            
+                                                        </div>
+                                                        
+                                                    </div>
+                                                
+                                                    
+
+                                                
+                                                <?php
+                                                }
+                                                }else{
+                                                    echo '<p style="background:white; color:grey;">
+                                                    No lesson yet
+                                                    </p>';
+                                                }
+                                                ?>
+                                                </div>
+                                            
+                                        </div>
+                                        
                                     </div>
                                 </div>
 
-                                <?php }
-                            }
-                        }
-
-                    }?>
+                                <?php 
+                            
+                             }?>
 
                             </div> <!-- row -->
                         </div> <!-- section__content -->
@@ -108,6 +148,22 @@ if($_SESSION['access']=="user"){
             </div>
 
         </div>
+
+        <script>
+
+        function showhide(count){
+            var x=document.getElementById("lessonsdiv"+count);
+            var y=document.getElementById("showbtn"+count);
+            if(x.style.display==="none"){
+                x.style.display="block";
+                y.innerHTML='<i class="fa fa-caret-up"></i> Hide';
+            }else{
+                x.style.display="none";
+                y.innerHTML='<i class="fa fa-caret-down"></i> Show';
+            }
+        }
+
+        </script>
 
         <!-- Jquery JS-->
         <script src="vendor/jquery-3.2.1.min.js"></script>
