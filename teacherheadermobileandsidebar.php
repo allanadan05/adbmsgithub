@@ -118,19 +118,13 @@ if($_SESSION['access']=="teacher"){
                         echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
                     } ?>>
                     <a href="teacherquizzes.php">
-                        <i class="fas fa-file-text"></i>Quizzes <span class="badge badge-success float-right mt-1"><?php $sql = "SELECT count(quizid) as bilang from quiztbl";
-                                                                                                                    $executeQuery = mysqli_query($con, $sql);
-                                                                                                                    $result = mysqli_fetch_array($executeQuery);
-                                                                                                                    echo $ibalik = $result['bilang']; ?></span></a>
+                        <i class="fas fa-file-text"></i>Quizzes </a>
                 </li>
                 <li <?php if ($_SESSION['sidebar'] == "scores") {
                         echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
                     } ?>>
                     <a href="teacherscores.php">
-                        <i class="far fa-check-square"></i>Scores <span class="badge badge-success float-right mt-1"><?php $sql = "SELECT count(scoreid) as bilang from scoretbl";
-                                                                                                                        $executeQuery = mysqli_query($con, $sql);
-                                                                                                                        $result = mysqli_fetch_array($executeQuery);
-                                                                                                                        echo $ibalik = $result['bilang']; ?></span></a>
+                        <i class="far fa-check-square"></i>Scores </a>
                 </li>
                 <li <?php if ($_SESSION['sidebar'] == "settings") {
                         echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";

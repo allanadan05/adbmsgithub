@@ -81,7 +81,16 @@ if($_SESSION['access']=="user"){
                         echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
                     } ?>>
                     <a href="subjects.php">
-                        <i class="fas fa-book"></i>Subjects</a>
+                        <i class="fas fa-book"></i>Subjects <?php $sql = "SELECT count(subjectid) as announcebilang FROM sectionsubjecttbl where sectionid=".$secid;
+                                                                        $executeQuery = mysqli_query($con, $sql);
+                                                                        $result = mysqli_fetch_array($executeQuery);
+                                                                         $ibalik = $result['announcebilang']; 
+                                                                         if($ibalik>0){
+                                                                            echo $ibalik = $result['announcebilang'];
+                                                                            echo "<span class='badge badge-success float-right mt-1' >
+                                                                            <strong class='card-title mb-3'></strong>".$ibalik = $result['announcebilang']."</span>";
+                                                                            
+                                                                         }?></a>
                 </li>
                 <li <?php if ($_SESSION['sidebar'] == "quizzes") {
                         echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
