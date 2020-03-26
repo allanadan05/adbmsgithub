@@ -87,11 +87,16 @@ if($_SESSION['access']=="user"){
                         echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
                     } ?>>
                     <a href="quizzes.php">
-                        <i class="fas fa-file-text"></i>Quizzes <span class="badge badge-success float-right mt-1">
-                            <strong class="card-title mb-3"></strong> <?php $sql = "SELECT count(quizid) as announcebilang FROM quiztbl ";
+                        <i class="fas fa-file-text"></i>Quizzes<?php $sql = "SELECT count(quizid) as announcebilang FROM quiztbl where status='ACTIVATED'";
                                                                         $executeQuery = mysqli_query($con, $sql);
                                                                         $result = mysqli_fetch_array($executeQuery);
-                                                                        echo $ibalik = $result['announcebilang']; ?></span></a>
+                                                                         $ibalik = $result['announcebilang']; 
+                                                                         if($ibalik>0){
+                                                                            echo $ibalik = $result['announcebilang'];
+                                                                            echo "<span class='badge badge-success float-right mt-1' >
+                                                                            <strong class='card-title mb-3'></strong>".$ibalik = $result['announcebilang']."</span>";
+                                                                            
+                                                                         }?></a>
                 </li>
                 <li <?php if ($_SESSION['sidebar'] == "scores") {
                         echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
