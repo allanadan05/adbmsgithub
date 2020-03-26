@@ -88,7 +88,7 @@ if($_SESSION['access']=="admin"){
                                                 <strong>Username:</strong>&nbsp;
                                                 <input type="email" name="email" id="email" value="<?php echo $sqlAdminFetch_accSetting['email']; ?>"><br>
                                                 <strong>Password:</strong>&nbsp;
-                                                <input type="text" name="password" id="password" value="<?php echo $sqlAdminFetch_accSetting['password']; ?>"><br><br>                                 
+                                                <input type="password" name="password" id="password" value="<?php echo $sqlAdminFetch_accSetting['password']; ?>"><br><br>                                 
                                                 </div>
                                            
                                                 <div class="card-footer">

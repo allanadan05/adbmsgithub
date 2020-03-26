@@ -3,7 +3,7 @@
 include('connection.php');
 $logacc="Log In";
 $_SESSION['read']="not";
-     $userprofile=$_SESSION['email'];
+     @$userprofile=$_SESSION['email'];
      
 
      $ASK=" SELECT * FROM `teacherstbl` WHERE email='$userprofile' ";

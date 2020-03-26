@@ -9,6 +9,12 @@ if($_SESSION['access']=="teacher"){
     exit();
 }
 
+// image view
+$teacherimg="SELECT image FROM teacherstbl WHERE teachersid='".$_SESSION['teachersid']."' ";
+$teacherimg_query=mysqli_query($con,$teacherimg);
+$teacherimg_fetch=mysqli_fetch_array($teacherimg_query);
+// image view
+
 ?>
 
 <!-- HEADER DESKTOP-->
@@ -24,12 +30,13 @@ if($_SESSION['access']=="teacher"){
 
             </div>
             <div class="header-wrap float-right">
-
                 <div class="header-button">
                     <div class="account-wrap">
                         <div class="account-item clearfix js-item-menu">
                             <div class="image">
-                                <img src="images/icon/avatar-dan.jpg" alt="profile" />
+                                <!--img src="images/icon/avatar-dan.jpg" alt="profile" /-->
+                                <img onerror="this.src='images/defaultpic/defaultPIC.png'"
+                                        src="<?php echo "images/teacher_picture/".$teacherimg_fetch['image']."";?>">
                             </div>
                             <div class="content">
                                 <a class="js-acc-btn"
@@ -39,7 +46,9 @@ if($_SESSION['access']=="teacher"){
                                 <div class="info clearfix">
                                     <div class="image">
                                         <a href="#">
-                                            <img src="images/icon/avatar-dan.jpg" alt="avatar" />
+                                            <!--img src="images/icon/avatar-dan.jpg" alt="avatar" /-->
+                                            <img onerror="this.src='images/defaultpic/defaultPIC.png'"
+                                        src="<?php echo "images/teacher_picture/".$teacherimg_fetch['image']."";?>">
                                         </a>
                                     </div>
                                     <div class="content">

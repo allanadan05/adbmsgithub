@@ -33,7 +33,73 @@ if(isset($_POST['addstudentsubmit'])){
 			}else{
 				header("Location: index.php?login=access");
 			}
-	    }
+		}
+	    elseif(strlen($fname)<2){
+			if($_SESSION['access']=="user"){
+				header("Location: index.php?login=access"); //user cant access this
+			}else if($_SESSION['access']=="teacher"){
+				header("location: teacherstudents.php?fname=tooShort");
+			}else if($_SESSION['access']=="admin"){
+				header("location: adminstudents.php?fname=tooShort");
+			}else{
+				header("Location: index.php?login=access");
+			}
+		}
+	    elseif(strlen($lname)<2){
+			if($_SESSION['access']=="user"){
+				header("Location: index.php?login=access"); //user cant access this
+			}else if($_SESSION['access']=="teacher"){
+				header("location: teacherstudents.php?lname=tooShort");
+			}else if($_SESSION['access']=="admin"){
+				header("location: adminstudents.php?lname=tooShort");
+			}else{
+				header("Location: index.php?login=access");
+			}
+		}
+	    elseif(strlen($mname)<2){
+			if($_SESSION['access']=="user"){
+				header("Location: index.php?login=access"); //user cant access this
+			}else if($_SESSION['access']=="teacher"){
+				header("location: teacherstudents.php?mname=tooShort");
+			}else if($_SESSION['access']=="admin"){
+				header("location: adminstudents.php?mname=tooShort");
+			}else{
+				header("Location: index.php?login=access");
+			}
+		}
+	    elseif(is_numeric($fname[0])){
+			if($_SESSION['access']=="user"){
+				header("Location: index.php?login=access"); //user cant access this
+			}else if($_SESSION['access']=="teacher"){
+				header("location: teacherstudents.php?fname=numberCannotAccept");
+			}else if($_SESSION['access']=="admin"){
+				header("location: adminstudents.php?fname=numberCannotAccept");
+			}else{
+				header("Location: index.php?login=access");
+			}
+		}
+	    elseif(is_numeric($lname[0])){
+			if($_SESSION['access']=="user"){
+				header("Location: index.php?login=access"); //user cant access this
+			}else if($_SESSION['access']=="teacher"){
+				header("location: teacherstudents.php?lname=numberCannotAccept");
+			}else if($_SESSION['access']=="admin"){
+				header("location: adminstudents.php?lname=numberCannotAccept");
+			}else{
+				header("Location: index.php?login=access");
+			}
+		}
+	    elseif(is_numeric($mname[0])){
+			if($_SESSION['access']=="user"){
+				header("Location: index.php?login=access"); //user cant access this
+			}else if($_SESSION['access']=="teacher"){
+				header("location: teacherstudents.php?mname=numberCannotAccept");
+			}else if($_SESSION['access']=="admin"){
+				header("location: adminstudents.php?mname=numberCannotAccept");
+			}else{
+				header("Location: index.php?login=access");
+			}
+		}		
 	    elseif(mysqli_num_rows($rowEmail)>0){
 			if($_SESSION['access']=="user"){
 				header("Location: index.php?login=access"); //user cant access this
@@ -62,7 +128,7 @@ if(isset($_POST['addstudentsubmit'])){
 							if($_SESSION['access']=="user"){
 								header("Location: index.php?login=access"); //user cant access this
 							}else if($_SESSION['access']=="teacher"){
-								header("location: teacherstudents.php?new=student");
+								header("location: teacherstudents.php?new=teacher");
 							}else if($_SESSION['access']=="admin"){
 								header("location: adminstudents.php?new=student");
 							}else{

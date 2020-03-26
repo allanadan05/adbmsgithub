@@ -1,6 +1,7 @@
 <?php 
+@session_start();
 include('connection.php');
-include('teachersession.php');
+include('session.php');
 
 if($_SESSION['access']=="user"){
 
@@ -62,7 +63,75 @@ $_SESSION['sidebar']="settings";
                                 <h2>Settings</h2>
                                 <hr />
                             </div>
+                            <?php
+                            if(isset($_GET['password']) && $_GET['password']=="tooShort")
+                            {
+                                echo "<div class='alert alert-danger' role='alert'>Password must be more than 4 characters </div>";
+                            }                                       
+                            ?>
                             <div class="row">
+                            <form action="process3.php" method="POST" enctype="multipart/form-data">
+                            <?php                          
+                                    $sqlUserId_accSetting="SELECT * FROM userstbl WHERE userid='".$_SESSION['id']."'";
+                                    $sqlUserQuery_accSetting=mysqli_query($con,$sqlUserId_accSetting);
+                                    $sqlUserFetch_accSetting=mysqli_fetch_array($sqlUserQuery_accSetting);
+                                    echo "<input type='hidden' name='userid' id='userid' value='$sqlUserFetch_accSetting[userid]' readonly>";
+                                    echo "<input type='hidden' name='accuserSetting' id='accuserSetting' value='accSetting' readonly>";
+                                    //echo "<pre>";
+                                    //print_r($sqlUserFetch_accSetting);
+                                    
+                            ?> 
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <strong class="card-title"><a href=""> Account Setting</a></strong>
+                                            </div>
+                                                <div class="card-body">
+                                                
+                                                <input type="file" id="myfileUser" name="myfileUser" accept="image/*"><br>
+                                                <strong>Username:</strong>&nbsp;
+                                                <input type="email" name="email_user" id="email_user" value="<?php echo $sqlUserFetch_accSetting["email"]?>"><br>
+                                                <strong>Password:</strong>&nbsp;
+                                                <input type="text" name="password_user" id="password_user" value="<?php echo $sqlUserFetch_accSetting["password"]?>"><br><br>                                 
+                                                </div>
+                                                <div class="card-footer">
+                                                <button name="accSetting_user" class="btn btn-warning" type="submit">SAVE</button><br> 
+                                                </div>
+                                        </div>
+                                    </div>
+                            </form>
+                            <form action="process3.php" method="POST">
+                                    <?php
+                                    $sqlUserId_personalInfo="SELECT * FROM userstbl WHERE userid='".$_SESSION['id']."'";
+                                    $sqlUserQuery_personalInfo=mysqli_query($con,$sqlUserId_personalInfo);
+                                    $sqlUserFetch_personalInfo=mysqli_fetch_array($sqlUserQuery_personalInfo);
+                                    echo "<input type='hidden' name='useridInfo' id='useridInfo' value='$sqlUserFetch_personalInfo[userid]' readonly>";
+                                    echo "<input type='hidden' name='personalInfouser' id='personalInfo' value='personalInfo' readonly>";
+                                    //echo "<pre>";
+                                    //print_r($sqlUserFetch_personalInfo);
+                                    ?>            
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <strong class="card-title"><a href=""> Personal Information</a></strong>
+                                            </div>
+                                                <div class="card-body"> 
+                                                <strong>Lastname:</strong>&nbsp;
+                                                <input type="text" name="lname_user" id="lname_user" value="<?php echo $sqlUserFetch_personalInfo['lname'];?>"><br>
+                                                <strong>Firstname:</strong>&nbsp;
+                                                <input type="text" name="fname_user" id="fname_user" value="<?php echo $sqlUserFetch_personalInfo['fname']; ?>"><br>
+                                                <strong>Middlename:</strong>&nbsp; 
+                                                <input type="text" name="mname_user" id="mname_user" value="<?php echo $sqlUserFetch_personalInfo['mname']; ?>"><br><br>                                          
+                                                </div>
+                                                <div class="card-footer">
+                                                <button name="personalInfo_user" class="btn btn-warning" type="submit">SAVE</button><br>
+                                                
+                                                </div>
+                                        </div>
+                                    </div>
+                            </form>
+
+
 
                             </div> <!-- row -->
                         </div> <!-- section__content -->

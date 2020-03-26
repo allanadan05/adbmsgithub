@@ -67,7 +67,6 @@ if($_SESSION['access']=="admin"){
                     .resultimage; // result image
                     if (imgStud) {
                         var imgStud = document.getElementById("resultimage").innerHTML = "Image Name: " + buongObject.resultimage;
-                       
                         //var resultimg = document.getElementById("displayimage").innerHTML = "Image Name: "+  imgStud ;
                     } else {
                         var imgStud = document.getElementById("resultimage").innerHTML = "Image Name: None";
@@ -149,6 +148,97 @@ if($_SESSION['access']=="admin"){
                 tooShortPwd.innerHTML = "";
             }
         }
+
+           // firstname validation
+           function fnameValid() 
+        {
+          var sFname = document.getElementById("checkfname");
+          var rfname = document.getElementById("fname").value;
+              if(rfname != "")
+                  {
+
+                    sFname.innerHTML="Checking...";
+                    var xhttpF = new XMLHttpRequest();
+                    xhttpF.open("POST","process3.php",true);
+                    xhttpF.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                    xhttpF.onreadystatechange = function()
+                    {
+                        if(xhttpF.readyState == 4 && xhttpF.status == 200)
+                        {
+                          sFname.innerHTML=xhttpF.responseText;
+                        }
+    
+                    }
+                        var f = "checkFn="+rfname;
+                        xhttpF.send(f);
+                  }
+              else{
+                sFname.innerHTML="";
+              }
+
+        }
+            // firstname validation
+
+            // lastname validation
+            function lnameValid() 
+        {
+          var sLname = document.getElementById("checklname");
+          var rlname = document.getElementById("lname").value;
+              if(rlname != "")
+                  {
+
+                    sLname.innerHTML="Checking...";
+                    var xhttpL = new XMLHttpRequest();
+                    xhttpL.open("POST","process3.php",true);
+                    xhttpL.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                    xhttpL.onreadystatechange = function()
+                    {
+                        if(xhttpL.readyState == 4 && xhttpL.status == 200)
+                        {
+                          sLname.innerHTML=xhttpL.responseText;
+                        }
+    
+                    }
+                        var l = "checkLn="+rlname;
+                        xhttpL.send(l);
+                  }
+              else{
+                sLname.innerHTML="";
+              }
+
+        }
+            // last name validation
+
+            // mname validation
+            function mnameValid() 
+        {
+          var sMname = document.getElementById("checkmname");
+          var rmname = document.getElementById("mname").value;
+              if(rmname != "")
+                  {
+
+                    sMname.innerHTML="Checking...";
+                    var xhttpM = new XMLHttpRequest();
+                    xhttpM.open("POST","process3.php",true);
+                    xhttpM.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                    xhttpM.onreadystatechange = function()
+                    {
+                        if(xhttpM.readyState == 4 && xhttpM.status == 200)
+                        {
+                          sMname.innerHTML=xhttpM.responseText;
+                        }
+    
+                    }
+                        var m = "checkMn="+rmname;
+                        xhttpM.send(m);
+                  }
+              else{
+                sMname.innerHTML="";
+              }
+        }
+        //mname validation
+
+
         // this code work deleted multiple
         //click all checkboxes
         function checkboxes_deleted() {
@@ -290,7 +380,7 @@ if($_SESSION['access']=="admin"){
                             ?>
 
                             <!--newline code-->
-                            <!--adduser.php-->
+                    <!--adduser.php-->
                             <?php
                     //save
                     if(isset($_GET['password']) && $_GET['password']=="tooShort")
@@ -315,7 +405,38 @@ if($_SESSION['access']=="admin"){
                      if(isset($_GET['exist']) && $_GET['exist']=="emailEdit") 
                     {
                       echo "<div class='alert alert-danger' role='alert'>Already Exist Email </div>";
-                    }  
+                    } 
+                    
+                    // full name validation
+                    if(isset($_GET['fname']) && $_GET['fname']=="numberCannotAccept") 
+                    {
+                      echo "<div class='alert alert-danger' role='alert'>Firstname character must be a letter </div>";
+                    }
+                    if(isset($_GET['lname']) && $_GET['lname']=="numberCannotAccept") 
+                    {
+                      echo "<div class='alert alert-danger' role='alert'>Lastname character must be a letter </div>";
+                    } 
+                    if(isset($_GET['mname']) && $_GET['mname']=="numberCannotAccept") 
+                    {
+                      echo "<div class='alert alert-danger' role='alert'>Middlename character must be a letter </div>";
+                    }
+                    
+                    // limit 2 characters
+                    if(isset($_GET['fname']) && $_GET['fname']=="tooShort")
+                    {
+                        echo "<div class='alert alert-danger' role='alert'>Firstname must be more than 2 characters </div>";
+                    }
+                    if(isset($_GET['lname']) && $_GET['lname']=="tooShort")
+                    {
+                        echo "<div class='alert alert-danger' role='alert'>lastname must be more than 2 characters </div>";
+                    }
+                    if(isset($_GET['mname']) && $_GET['mname']=="tooShort")
+                    {
+                        echo "<div class='alert alert-danger' role='alert'>Middlename must be more than 2 characters </div>";
+                    }
+                    // limit 2 characters
+
+                    // full name validation
                     /*
                     if(isset($_GET['exist']) && $_GET['exist']=="renameimageERROR") 
                     {
@@ -323,7 +444,8 @@ if($_SESSION['access']=="admin"){
                     }  
                     */
                     ?>
-                            <!--adduser.php-->
+                    <!--adduser.php-->
+
                             <!--ajax multiple delete-->
                             <!--div id="showDeleted" style="display:none;" class='alert alert-danger' role='alert'>Delete Successfully.. Please wait in <span id="delSuccess" style="display:none;">3</span> seconds</div-->
                             <!--ajax multiple delete-->
@@ -600,28 +722,21 @@ if($_SESSION['access']=="admin"){
                             <form action="adduser.php" method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="hiddenuserid" id="hiddenuserid">
                                 <table border="0" style="border-collapse: collapse;">
-
+                                   <!-- image view per student-->
+                                    <div style="display:none;" id="showStudtimage">
+                                        <div id="resultimage"></div>
+                                    </div>
+                                    <!-- image view per student-->
                                     <tr>
                                         <td>Image:</td>
                                         <td><input type="file" id="image" name="image" value="" accept="image/*"></td>
                                     </tr>
-                                    <div style="display:none;" id="showStudtimage">
-                                        <!-- image view per student-->
-                                        <!--input type="text" id="hiddenuseridStudent">
-                                <input type="text" id="resultimage" value="test"-->
-                                        <!--span id="displayimage"></span-->
-                                        <!--input id="resultimage" type="test" value="test" value="test" readonly-->
-                                        <div id="resultimage"></div>
-                                        <!-- image view per student-->
-
-                                    </div>
                                     <tr>
                                         <td>Email:</td>
                                         <td><input type="email" name="email" id="email" placeholder="Enter Email"
                                                 onkeyup="validEmail();" maxlength="30" required></td>
-                                        <br>
                                     </tr>
-                                    <span style=" margin: 40px 0 0 20px;" id="chkEmail"></span>
+                                    <span id="chkEmail"></span>
                                     <tr>
                                         <td>Password:</td>
                                         <td><input type="password" name="password" id="password"
@@ -630,17 +745,18 @@ if($_SESSION['access']=="admin"){
                                     </tr>
                                     <tr>
                                         <td>Firstname:</td>
-                                        <td><input type="text" name="fname" id="fname" placeholder="Enter Firstname"
-                                                required></td>
+                                        <td><input type="text" name="fname" id="fname" placeholder="Enter Firstname" onkeyup="fnameValid()"
+                                                required><span id="checkfname"></span></td>
                                     </tr>
                                     <tr>
                                         <td>Lastname:</td>
-                                        <td><input type="text" name="lname" id="lname" placeholder="Enter Lastname"
-                                                required></td>
+                                        <td><input type="text" name="lname" id="lname" placeholder="Enter Lastname" onkeyup="lnameValid()"
+                                        maxlength="30" required><span id="checklname"></td>
                                     </tr>
                                     <tr>
                                         <td>Middlename: &nbsp&nbsp&nbsp</td>
-                                        <td><input type="text" name="mname" id="mname" placeholder="Enter Middlename">
+                                        <td><input type="text" name="mname" id="mname" placeholder="Enter Middlename" maxlength="30" onkeyup="mnameValid()">
+                                        <span id="checkmname"></span></td>
                                         </td>
                                     </tr>
                                     <tr>

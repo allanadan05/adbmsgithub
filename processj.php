@@ -53,7 +53,7 @@ if($palatandaan =="editsteacher"){
 			$pambato['fname'] = $row['fname'];
 			$pambato['lname'] = $row['lname'];
 			$pambato['mname'] = $row['mname'];
-
+			$pambato['resultimage']=$row['image'];
 			$pambato['SearchteachersdeptId'] = $row['deptid']; // find section by teacher compare to (department id for teacher)
 			$findDeptId = $pambato['SearchteachersdeptId']; // hold value dept id niya
 
