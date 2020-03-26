@@ -109,7 +109,7 @@ if($_SESSION['access']=="teacher"){
                         echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
                     } ?>>
                     <a href="teacherlessons.php">
-                        <i class="fas fa-link"></i>Lessons <span class="badge badge-success float-right mt-1"><?php $sql = "SELECT count(lessonid) as bilang from lessontbl";
+                        <i class="fas fa-link"></i>Lessons <span class="badge badge-success float-right mt-1"><?php $sql = "SELECT count(lessonid) as bilang from lessontbl group by subjectid";
                                                                                                                 $executeQuery = mysqli_query($con, $sql);
                                                                                                                 $result = mysqli_fetch_array($executeQuery);
                                                                                                                 echo $ibalik = $result['bilang']; ?></span></a>
