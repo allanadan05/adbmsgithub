@@ -7,7 +7,7 @@ if(isset($_POST["addlesson"])){
     
     $fm = "(".rand().") ".$_FILES["lessonpdf"]["name"];
     $loc = "./uploads/".$fm;
-
+    /*
     //this function can accept only in PDF po hihi
     $allow=array("pdf"); // this use diffrent file format niya po
     //$temp=explode(".",$_FILES["lessonpdf"]["name"]);
@@ -30,7 +30,8 @@ if(isset($_POST["addlesson"])){
                 }
     }
     else
-    {     
+    { 
+     */ 
                 move_uploaded_file($_FILES["lessonpdf"]["tmp_name"],$loc);
                 //move_uploaded_file($_FILES["lessonpdf"]["tmp_name"],"..uploads/".$_FILES["lessonpdf"]["name"]); 
                 $lessontitle=$_POST['lessontitle'];
@@ -73,7 +74,7 @@ if(isset($_POST["addlesson"])){
                         }
                         //header("location: adminlessons.php?addsubresult=failed");   
                     }
-    }
+    //  }
 }
 
 
@@ -119,7 +120,9 @@ if(isset($_POST['editnewlesson'])){
                     //unlink($fetch_pdf['lessonpdf']);
                     $replacePDF=$fetch_pdf['lessonpdf'];
                     $lloc = $replacePDF;
-                    move_uploaded_file($_FILES["lessonpdf"]["tmp_name"],$loc);
+                    if($lloc == $_FILES["lessonpdf"]["name"])
+                    {
+                    move_uploaded_file($_FILES["lessonpdf"]["tmp_name"],$lloc);
                     
                     $q = "UPDATE lessontbl SET lessontitle='$lessontitle', lessondetail='$lessondetail', subjectid='$subjectid', lessonpdf='$lloc' WHERE lessonid='$id' ";
                     $u = mysqli_query($con , $q);
@@ -148,7 +151,39 @@ if(isset($_POST['editnewlesson'])){
                                 header("Location: index.php?login=access");
                             }
                         }
-                
+                    }
+                    else
+                    {
+                        move_uploaded_file($_FILES["lessonpdf"]["tmp_name"],$loc);
+                    
+                        $q = "UPDATE lessontbl SET lessontitle='$lessontitle', lessondetail='$lessondetail', subjectid='$subjectid', lessonpdf='$loc' WHERE lessonid='$id' ";
+                        $u = mysqli_query($con , $q);
+                        if($u)
+                            {
+                                if($_SESSION['access']=="user"){
+                                    header("Location: index.php?login=access"); //user cant access this
+                                }else if($_SESSION['access']=="teacher"){
+                                    header("location: teacherlessons.php?editlessonresult=success&lessontitle=".$lessontitle);
+                                }else if($_SESSION['access']=="admin"){
+                                    header("location: adminlessons.php?editlessonresult=success&lessontitle=".$lessontitle);
+                                }else{
+                                    header("Location: index.php?login=access");
+                                }
+                                
+                            }
+                            else
+                            {
+                                if($_SESSION['access']=="user"){
+                                    header("Location: index.php?login=access"); //user cant access this
+                                }else if($_SESSION['access']=="teacher"){
+                                    header("location: teacherlessons.php?editlessonresult=failed&lessontitle=".$lessontitle);
+                                }else if($_SESSION['access']=="admin"){
+                                    header("location: adminlessons.php?editlessonresult=failed&lessontitle=".$lessontitle);
+                                }else{
+                                    header("Location: index.php?login=access");
+                                }
+                            }
+                    }
     //}
 }
 

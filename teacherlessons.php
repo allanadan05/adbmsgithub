@@ -114,6 +114,7 @@ if($_SESSION['access']=="teacher"){
                                         echo "<div class='alert alert-warning' role='alert'> File already exists </div>";
                                         unset($_SESSION['exist_upload_pdf']);
                                     }
+                                    /*
 
                                     if(@$_SESSION['only_upload_pdf'])
                                     {
@@ -121,6 +122,7 @@ if($_SESSION['access']=="teacher"){
                                         echo "<div class='alert alert-warning' role='alert'> Only pdf is allowed </div>";
                                         unset($_SESSION['only_upload_pdf']);
                                     }
+                                    */
                             ?>
 
                                 <h2>Lessons</h2>
@@ -160,9 +162,9 @@ if($_SESSION['access']=="teacher"){
                                             <div class="row">
                                                 <form action="addlesson.php" method="POST"
                                                     enctype="multipart/form-data">
-                                                    <select name="subjectid">
+                                                    <select name="subjectid" required>
 
-                                                        <option id="selectsubject" selected readonly>Select Subject
+                                                        <option value="" id="selectsubject" selected readonly>Select Subject
                                                         </option>
                                                         <?php 
                                             $sql="SELECT * from subjecttbl";

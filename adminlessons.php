@@ -145,9 +145,8 @@ if($_SESSION['access']=="admin"){
                                             <div class="row">
                                                 <form action="addlesson.php" method="POST"
                                                     enctype="multipart/form-data">
-                                                    <select name="subjectid">
-
-                                                        <option id="selectsubject" selected readonly>Select Subject
+                                                    <select name="subjectid" required>
+                                                        <option id="selectsubject" value="" selected readonly>Select Subject
                                                         </option>
                                                         <?php 
                                             $sql="SELECT * from subjecttbl";

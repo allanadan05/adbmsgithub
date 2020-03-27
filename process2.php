@@ -750,9 +750,7 @@ duration, status from quiztbl order by quizname";
 			}
 
 		}
-	}
-
-	
+	}	
 
 } //end if isset palatandaan
 

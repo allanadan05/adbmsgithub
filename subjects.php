@@ -111,15 +111,10 @@ $id=$_SESSION['userid'];
                                                                     href="<?php  echo $lesson['lessonpdf']; ?>" target="_blank"
                                                                     type="application/octet-stream"
                                                                     download="<?php echo $lesson['lessontitle']; ?>"><i
-                                                                        class="fas fa-download"></i>Download </a>
-                                                            
+                                                                        class="fas fa-download"></i>Download </a>  
                                                         </div>
                                                         
                                                     </div>
-                                                
-                                                    
-
-                                                
                                                 <?php
                                                 }
                                                 }else{
@@ -129,7 +124,6 @@ $id=$_SESSION['userid'];
                                                 }
                                                 ?>
                                                 </div>
-                                            
                                         </div>
                                         
                                     </div>
