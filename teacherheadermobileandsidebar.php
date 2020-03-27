@@ -83,20 +83,31 @@ if($_SESSION['access']=="teacher"){
                                             } ?>>
 
                     <a class="js-arrow" href="teacherindex.php">
-                        <i class="fas fa-tachometer-alt"></i>Dashboard <span class="badge badge-success float-right mt-1">
-                            <strong class="card-title mb-3"></strong> <?php $sql = "SELECT count(antitle) as announcebilang FROM announcementtbl WHERE userid='$teacher'";
+                        <i class="fas fa-tachometer-alt"></i>Dashboard<?php $sql = "SELECT count(antitle) as announcebilang FROM announcementtbl WHERE userid='$teacher'";
                                                                         $executeQuery = mysqli_query($con, $sql);
                                                                         $result = mysqli_fetch_array($executeQuery);
-                                                                        echo $ibalik = $result['announcebilang']; ?></span></a>
+                                                                         $ibalik = $result['announcebilang']; 
+                                                                         if($ibalik>0){
+                                                                            echo $ibalik = $result['announcebilang'];
+                                                                            echo "<span class='badge badge-success float-right mt-1' >
+                                                                            <strong class='card-title mb-3'></strong>".$ibalik = $result['announcebilang']."</span>";
+                                                                            
+                                                                         }?></a>
                 </li>
                 <li <?php if ($_SESSION['sidebar'] == "subjects") {
                         echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
                     } ?>>
                     <a href="teachersubjects.php">
-                        <i class="fas fa-book"></i>Subjects <span class="badge badge-success float-right mt-1"><?php $sql = "SELECT count(teachersid) as bilang from teachersubjecttbl where teachersid='".$_SESSION['tearcherid']."'";
-                                                                                                                $executeQuery = mysqli_query($con, $sql);
-                                                                                                                $result = mysqli_fetch_array($executeQuery);
-                                                                                                                echo $ibalik = $result['bilang']; ?></span></a>
+                        <i class="fas fa-book"></i>Subjects<?php $sql = "SELECT count(teachersid) as announcebilang from teachersubjecttbl where teachersid='".$_SESSION['tearcherid']."'";
+                                                                        $executeQuery = mysqli_query($con, $sql);
+                                                                        $result = mysqli_fetch_array($executeQuery);
+                                                                         $ibalik = $result['announcebilang']; 
+                                                                         if($ibalik>0){
+                                                                            echo $ibalik = $result['announcebilang'];
+                                                                            echo "<span class='badge badge-success float-right mt-1' >
+                                                                            <strong class='card-title mb-3'></strong>".$ibalik = $result['announcebilang']."</span>";
+                                                                            
+                                                                         }?></a>
                 </li>
                 <li <?php if ($_SESSION['sidebar'] == "students") {
                         echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
@@ -109,10 +120,16 @@ if($_SESSION['access']=="teacher"){
                         echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
                     } ?>>
                     <a href="teacherlessons.php">
-                        <i class="fas fa-link"></i>Lessons <span class="badge badge-success float-right mt-1"><?php $sql = "SELECT count(lessonid) as bilang from lessontbl group by subjectid";
-                                                                                                                $executeQuery = mysqli_query($con, $sql);
-                                                                                                                $result = mysqli_fetch_array($executeQuery);
-                                                                                                                echo $ibalik = $result['bilang']; ?></span></a>
+                        <i class="fas fa-link"></i>Lessons<?php $sql = "SELECT count(lessonid) as announcebilang from lessontbl group by subjectid";
+                                                                        $executeQuery = mysqli_query($con, $sql);
+                                                                        $result = mysqli_fetch_array($executeQuery);
+                                                                         $ibalik = $result['announcebilang']; 
+                                                                         if($ibalik>0){
+                                                                            echo $ibalik = $result['announcebilang'];
+                                                                            echo "<span class='badge badge-success float-right mt-1' >
+                                                                            <strong class='card-title mb-3'></strong>".$ibalik = $result['announcebilang']."</span>";
+                                                                            
+                                                                         }?></a>
                 </li>
                 <li <?php if ($_SESSION['sidebar'] == "quizzes") {
                         echo "style='background:#abbaab;background:-webkit-linear-gradient(to right, #ffffff, #abbaab);background:linear-gradient(to right, #ffffff, #abbaab);max-width: 200%;border-radius: 20px 20px 20px 20px;box-sizing: border-box;'";
